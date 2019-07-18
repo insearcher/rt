@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "libjtoc.h"
-#include <stdio.h>
 
 static size_t	get_tree_size(t_jnode *n)
 {
@@ -40,23 +39,6 @@ static size_t	get_tree_size(t_jnode *n)
 	return (res);
 }
 
-void	print(char *t, int c)
-{
-	printf("res: \n");
-	for (int i = 0; i < c; i++)
-		printf("%d%d%d%d%d%d%d%d ",
-			   (t[i] >> 7) & 1,
-			   (t[i] >> 6) & 1,
-			   (t[i] >> 5) & 1,
-			   (t[i] >> 4) & 1,
-			   (t[i] >> 3) & 1,
-			   (t[i] >> 2) & 1,
-			   (t[i] >> 1) & 1,
-			   (t[i] >> 0) & 1
-		);
-	printf("\n\n");
-}
-
 static void		*get_string(t_jnode *n)
 {
 	size_t	len;
@@ -80,7 +62,7 @@ void			*jtoc_get_raw_data(t_jnode *n)
 	void		*tmp;
 
 	size = get_tree_size(n);
-	if (!(res = (char *)ft_memalloc(size)))
+	if (!(res = (char *)malloc(size)))
 		return (NULL);
 	i = 0;
 	cur = n->down;
@@ -90,17 +72,14 @@ void			*jtoc_get_raw_data(t_jnode *n)
 			i += 4;
 		if (cur->type == integer || cur->type == fractional)
 			ft_memcpy(res + i, cur->data, 4);
-		else if (cur->type == string)
-		{
-			if (!(tmp = get_string(cur)))
-				return (NULL);
-			ft_memcpy(res + i, &tmp, 8);
-			i += 4;
-		}
 		else
 		{
-			if (!(tmp = jtoc_get_raw_data(cur)))
+			if ((cur->type == string && !(tmp = get_string(cur))) ||
+				(cur->type != string && !(tmp = jtoc_get_raw_data(cur))))
+			{
+				free(res);
 				return (NULL);
+			}
 			ft_memcpy(res + i, &tmp, 8);
 			i += 4;
 		}
