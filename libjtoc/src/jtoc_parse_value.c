@@ -60,7 +60,8 @@ int	jtoc_parse_array(t_jnode *p, const char *str, int b, int e)
 			c = e;
 		if (!(tmp = ft_itoa(i)))
 			return (FUNCTION_FAILURE);
-		child = jtoc_node_create(jtoc_get_field_type(str[b]), tmp, NULL);
+		child = jtoc_node_create(jtoc_get_field_type((char *)str + b), tmp,
+				NULL);
 		free(tmp);
 		if (!child)
 			return (FUNCTION_FAILURE);
@@ -80,7 +81,7 @@ int	jtoc_parse_field(t_jnode *p, const char *str, int b, int e)
 	c = jtoc_find(str, ':', b, F_RIGHT);
 	if (!(name = ft_strsub(str, b + 1, c - b - 2)))
 		return (FUNCTION_FAILURE);
-	child = jtoc_node_create(jtoc_get_field_type(str[c + 1]), name, NULL);
+	child = jtoc_node_create(jtoc_get_field_type((char *)str + c + 1), name, NULL);
 	free(name);
 	if (!child)
 		return (FUNCTION_FAILURE);

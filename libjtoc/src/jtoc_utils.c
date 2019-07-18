@@ -92,15 +92,21 @@ int			jtoc_remove_spaces(char **str)
 	return (FUNCTION_SUCCESS);
 }
 
-enum e_type	jtoc_get_field_type(const char f)
+enum e_type	jtoc_get_field_type(char *f)
 {
-	if (f == '[')
+	if (*f == '[')
 		return (array);
-	if (f == '{')
+	if (*f == '{')
 		return (object);
-	if (f == '"')
+	if (*f == '"')
 		return (string);
-	if (f == '-' || (f >= '0' && f <= '9'))
-		return (number);
+	if (*f == '-'|| (*f >= '0' && *f <= '9'))
+	{
+		if (*f == '-')
+			++f;
+		while (ft_isdigit(*f))
+			++f;
+		return (*f == '.' ? fractional : integer);
+	}
 	return (none);
 }

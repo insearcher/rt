@@ -24,7 +24,7 @@ static int	get_win_params(t_ui_win *w, t_jnode *n)
 		type = ft_strcmp(jtoc_get_string(tmp), "OK_CANCEL") ? type : 2;
 	}
 	if ((tmp = jtoc_node_get_by_path(n, "modal_win.win_id"))
-			&& tmp->type == number)
+			&& ui_jtoc_isnum(tmp->type))
 		w->id = jtoc_get_int(tmp);
 	else
 		return (0);

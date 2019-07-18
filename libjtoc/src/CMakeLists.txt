@@ -8,8 +8,10 @@ target_sources(jtoc PUBLIC
         jtoc_validate_value.c
         jtoc_parse.c
         jtoc_parse_value.c
+        jtoc_parse_number.c
         jtoc_utils.c
         jtoc_node.c
         jtoc_read.c
         jtoc_get.c
+        jtoc_get_raw_data.c
         )

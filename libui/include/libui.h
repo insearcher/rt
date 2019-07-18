@@ -664,4 +664,6 @@ void						ui_surface_set_pixel(t_sur *surface, int x, int y,
 		Uint32 pixel);
 Uint32						ui_surface_get_pixel(t_sur *surface, int x, int y);
 
+int							ui_jtoc_isnum(enum e_type type);
+
 #endif

@@ -43,7 +43,7 @@ static int	get_modal_text_params(t_ui_text *ui_text, t_jnode *n)
 	t_jnode *tmp;
 
 	if ((tmp = jtoc_node_get_by_path(n, "text_area.string_len"))
-			&& tmp->type == number)
+			&& ui_jtoc_isnum(tmp->type))
 		ui_text->string_len = jtoc_get_int(tmp);
 	if ((tmp = jtoc_node_get_by_path(n, "text_area.render_param"))
 			&& tmp->type == string)

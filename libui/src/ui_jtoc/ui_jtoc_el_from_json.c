@@ -20,10 +20,10 @@ static int	ui_el_from_json_pos(t_ui_main *m, t_ui_el *e,
 	int		p;
 	t_jnode	*tmp;
 
-	if (!(tmp = jtoc_node_get_by_path(n, "pos.x")) || tmp->type != number)
+	if (!(tmp = jtoc_node_get_by_path(n, "pos.x")) || !ui_jtoc_isnum(tmp->type))
 		return (ui_jtoc_sdl_log_error("NODE EL (POS.X)", e->id));
 	x = jtoc_get_float(tmp);
-	if (!(tmp = jtoc_node_get_by_path(n, "pos.y")) || tmp->type != number)
+	if (!(tmp = jtoc_node_get_by_path(n, "pos.y")) || !ui_jtoc_isnum(tmp->type))
 		return (ui_jtoc_sdl_log_error("NODE EL (POS.Y)", e->id));
 	y = jtoc_get_float(tmp);
 	p = 0;
@@ -74,7 +74,7 @@ int			ui_jtoc_el_from_json(t_ui_main *m, t_ui_win *w, t_jnode *n)
 	t_ui_el	*e;
 	t_jnode	*tmp;
 
-	if (!(tmp = jtoc_node_get_by_path(n, "id")) || tmp->type != number)
+	if (!(tmp = jtoc_node_get_by_path(n, "id")) || !ui_jtoc_isnum(tmp->type))
 		return (ui_jtoc_sdl_log_error("NODE EL (ID)", -1));
 	if (jtoc_get_int(tmp) == 0)
 		ui_parse_canvas(m, w->canvas, n);
@@ -83,7 +83,7 @@ int			ui_jtoc_el_from_json(t_ui_main *m, t_ui_win *w, t_jnode *n)
 		if (!(e = ui_el_init()) ||
 			((e->id = jtoc_get_int(tmp)) == 0) ||
 			!(tmp = jtoc_node_get_by_path(n, "parent")) ||
-			tmp->type != number ||
+			!ui_jtoc_isnum(tmp->type) ||
 			!(p = ui_win_find_el_by_id(w, jtoc_get_int(tmp))))
 			return (ui_jtoc_sdl_log_error("NODE EL (INIT/NO PARENT)", e->id));
 		ui_el_add_child(p, e);

@@ -18,19 +18,19 @@ static int	ui_win_from_json_events(t_ui_main *m, t_ui_win *w, t_jnode *n)
 	char				*func_name;
 	t_ui_event			*e;
 	t_pred_ptr_event	f;
-	t_jnode				*tmp;
+	t_jnode				*t;
 
 	n = n->down;
 	while (n)
 	{
 		if (n->type != object ||
-			!(tmp = jtoc_node_get_by_path(n, "event_name")) ||
-			tmp->type != string ||
-			!(event_name = jtoc_get_string(tmp)) ||
+			!(t = jtoc_node_get_by_path(n, "event_name")) ||
+			t->type != string ||
+			!(event_name = jtoc_get_string(t)) ||
 			!(e = ui_jtoc_win_from_json_get_event_by_name(w, event_name)) ||
-			!(tmp = jtoc_node_get_by_path(n, "func_name")) ||
-			tmp->type != string ||
-			!(func_name = jtoc_get_string(tmp)) ||
+			!(t = jtoc_node_get_by_path(n, "func_name")) ||
+			t->type != string ||
+			!(func_name = jtoc_get_string(t)) ||
 			!(f = ui_main_get_function_by_id(m, func_name)))
 			return (ui_jtoc_sdl_log_error("NODE WINDOW (EVENTS)", -1));
 		ui_event_add_listener(e, f);
@@ -41,27 +41,27 @@ static int	ui_win_from_json_events(t_ui_main *m, t_ui_win *w, t_jnode *n)
 
 static int	ui_win_from_json_size(t_ui_main *m, t_ui_win *w, t_jnode *n)
 {
-	t_jnode	*tmp;
+	t_jnode	*t;
 
-	if (!(tmp = jtoc_node_get_by_path(n, "size.x")) || tmp->type != number)
+	if (!(t = jtoc_node_get_by_path(n, "size.x")) || !ui_jtoc_isnum(t->type))
 		return (ui_jtoc_sdl_log_error("NODE WINDOW (SIZE.X)", -1));
-	w->size.x = jtoc_get_int(tmp);
-	if (!(tmp = jtoc_node_get_by_path(n, "size.y")) || tmp->type != number)
+	w->size.x = jtoc_get_int(t);
+	if (!(t = jtoc_node_get_by_path(n, "size.y")) || !ui_jtoc_isnum(t->type))
 		return (ui_jtoc_sdl_log_error("NODE WINDOW (SIZE.Y)", -1));
-	w->size.y = jtoc_get_int(tmp);
+	w->size.y = jtoc_get_int(t);
 	ui_win_setup_default(w);
 	ui_win_create(w, SDL_WINDOW_SHOWN);
-	if (!(tmp = jtoc_node_get_by_path(n, "elements")))
+	if (!(t = jtoc_node_get_by_path(n, "elements")))
 		return (ui_jtoc_sdl_log_error("NODE WINDOW (NO ELEMENTS)", -1));
-	tmp = tmp->down;
-	while (tmp)
+	t = t->down;
+	while (t)
 	{
-		if (ui_jtoc_el_from_json(m, w, tmp))
+		if (ui_jtoc_el_from_json(m, w, t))
 			ui_sdl_deinit(228);
-		tmp = tmp->right;
+		t = t->right;
 	}
-	if ((tmp = jtoc_node_get_by_path(n, "events")))
-		if (tmp->type != array || ui_win_from_json_events(m, w, tmp))
+	if ((t = jtoc_node_get_by_path(n, "events")))
+		if (t->type != array || ui_win_from_json_events(m, w, t))
 			ui_sdl_deinit(228);
 	free(w->events->on_key_down[SDL_SCANCODE_ESCAPE]);
 	w->events->on_key_down[SDL_SCANCODE_ESCAPE] = w->events->on_close;
@@ -70,18 +70,18 @@ static int	ui_win_from_json_size(t_ui_main *m, t_ui_win *w, t_jnode *n)
 
 static int	ui_win_from_json_pos(t_ui_main *m, t_ui_win *w, t_jnode *n)
 {
-	t_jnode	*tmp;
+	t_jnode	*t;
 
-	if (!(tmp = jtoc_node_get_by_path(n, "pos.x")) || tmp->type != number)
+	if (!(t = jtoc_node_get_by_path(n, "pos.x")) || !ui_jtoc_isnum(t->type))
 		return (ui_jtoc_sdl_log_error("NODE WINDOW (POS.X)", -1));
-	w->pos.x = jtoc_get_int(tmp);
-	if (!(tmp = jtoc_node_get_by_path(n, "pos.y")))
+	w->pos.x = jtoc_get_int(t);
+	if (!(t = jtoc_node_get_by_path(n, "pos.y")))
 		w->pos.y = SDL_WINDOWPOS_CENTERED;
 	else
 	{
-		if (tmp->type != number)
+		if (!ui_jtoc_isnum(t->type))
 			return (ui_jtoc_sdl_log_error("NODE WINDOW (POS.Y/TYPE)", -1));
-		w->pos.y = jtoc_get_int(tmp);
+		w->pos.y = jtoc_get_int(t);
 	}
 	return (ui_win_from_json_size(m, w, n));
 }
@@ -89,25 +89,25 @@ static int	ui_win_from_json_pos(t_ui_main *m, t_ui_win *w, t_jnode *n)
 int			ui_jtoc_win_from_json(t_ui_main *m, t_jnode *n)
 {
 	t_ui_win	*w;
-	t_jnode		*tmp;
+	t_jnode		*t;
 
 	if (!(w = ui_win_init()))
 		return (ui_jtoc_sdl_log_error("NODE WINDOW (INIT/ID)", -1));
-	if (!(tmp = jtoc_node_get_by_path(n, "id")) || tmp->type != number)
+	if (!(t = jtoc_node_get_by_path(n, "id")) || !ui_jtoc_isnum(t->type))
 		return (ui_jtoc_sdl_log_error("NODE WINDOW (INIT/ID)", -1));
-	w->id = jtoc_get_int(tmp);
-	if (!(tmp = jtoc_node_get_by_path(n, "title")) || tmp->type != string ||
-		!(w->title = ft_strdup(jtoc_get_string(tmp))))
+	w->id = jtoc_get_int(t);
+	if (!(t = jtoc_node_get_by_path(n, "title")) || t->type != string ||
+		!(w->title = ft_strdup(jtoc_get_string(t))))
 		return (ui_jtoc_sdl_log_error("NODE WINDOW (TITLE/TYPE)", -1));
-	if ((tmp = jtoc_node_get_by_path(n, "params")) &&
-		(tmp = tmp->down))
-		while (tmp)
+	if ((t = jtoc_node_get_by_path(n, "params")) &&
+		(t = t->down))
+		while (t)
 		{
-			if (tmp->type != string)
+			if (t->type != string)
 				return (ui_jtoc_sdl_log_error("NODE WINDOW (PARAMS)", -1));
 			w->params |=
-				ui_jtoc_get_win_param_from_string(jtoc_get_string(tmp));
-			tmp = tmp->right;
+				ui_jtoc_get_win_param_from_string(jtoc_get_string(t));
+			t = t->right;
 		}
 	if (ui_win_from_json_pos(m, w, n))
 		ui_sdl_deinit(228);

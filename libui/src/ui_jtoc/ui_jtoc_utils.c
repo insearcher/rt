@@ -23,3 +23,8 @@ int	ui_jtoc_sdl_log_error(const char *p, const int id)
 		KNRM);
 	return (FUNCTION_FAILURE);
 }
+
+int	ui_jtoc_isnum(enum e_type type)
+{
+	return (type == fractional || type == integer);
+}

@@ -65,7 +65,7 @@ static int	get_text_params(t_ui_el *e, t_jnode *n)
 	t_jnode	*t;
 
 	if ((t = jtoc_node_get_by_path(n, "text_area.string_len")) &&
-		t->type == number)
+		ui_jtoc_isnum(t->type))
 		e->text_area->string_len = jtoc_get_int(t);
 	if ((t = jtoc_node_get_by_path(n, "text_area.render_param")) &&
 		t->type == string)

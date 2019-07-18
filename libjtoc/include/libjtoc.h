@@ -30,7 +30,8 @@
 enum						e_type
 {
 	none,
-	number,
+	integer,
+	fractional,
 	string,
 	object,
 	array
@@ -84,7 +85,7 @@ int e);
 
 t_jnode						*jtoc_parse(const char *str);
 
-enum e_type					jtoc_get_field_type(const char f);
+enum e_type					jtoc_get_field_type(char *f);
 
 int							jtoc_parse_field(t_jnode *p, const char *str,
 int b, int e);
@@ -92,7 +93,9 @@ int b, int e);
 int							jtoc_parse_value(t_jnode *p, const char *str,
 int b, int e);
 
-int							jtoc_parse_number(t_jnode *p, const char *str,
+int							jtoc_parse_integer(t_jnode *p, const char *str,
+int b, int e);
+int							jtoc_parse_fractional(t_jnode *p, const char *str,
 int b, int e);
 int							jtoc_parse_string(t_jnode *p, const char *str,
 int b, int e);
@@ -106,5 +109,7 @@ t_jnode						*jtoc_read(const char *str);
 int							jtoc_get_int(t_jnode *n);
 float						jtoc_get_float(t_jnode *n);
 char						*jtoc_get_string(t_jnode *n);
+
+void						*jtoc_get_raw_data(t_jnode *n);
 
 #endif
