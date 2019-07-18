@@ -28,7 +28,7 @@ endif()
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
 find_package(SDL2_ttf REQUIRED)
-
+find_package(OpenCL REQUIRED)
 set(GCC_COMPILE_FLAGS "-Wall -Werror -Wextra")
 add_definitions(${GCC_COMPILE_FLAGS})
 

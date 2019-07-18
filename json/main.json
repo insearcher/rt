@@ -1,0 +1,49 @@
+{
+  "windows":
+  [
+      {
+          "id": 0,
+          "title": "RAY MARCHING",
+          "size":
+          {
+              "x": 1920,
+              "y": 1080
+          },
+          "pos":
+          {
+              "x": 400
+          },
+          "elements":
+          [
+              {
+                  "id": 0,
+                  "params":
+                  [
+                      "EL_IGNOR_RAYCAST"
+                  ]
+              },
+              {
+                  "id": 1,
+                  "parent": 0,
+                  "pos":
+                  {
+                      "x": 0.0,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 1.0,
+                      "y": 1.0
+                  },
+                  "events":
+                  [
+                      {
+                          "event_name": "onRender",
+                          "func_name": "ray_marching"
+                      }
+                  ]
+              }
+          ]
+      }
+  ]
+}

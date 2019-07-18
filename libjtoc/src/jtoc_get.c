@@ -14,7 +14,7 @@
 
 int		jtoc_get_int(t_jnode *n)
 {
-	return (roundf((int)(*((float *)n->data))));
+	return (*((int *)n->data));
 }
 
 float	jtoc_get_float(t_jnode *n)

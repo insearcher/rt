@@ -1,16 +1,22 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   rt.h                                               :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: sbednar <sbednar@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/18 22:44:00 by sbednar           #+#    #+#             */
-/*   Updated: 2019/07/18 22:44:00 by sbednar          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#ifndef RM_H
+# define RM_H
 
-#ifndef RT_H
-# define RT_H
+#include "libui.h"
+
+typedef struct	s_object3d
+{
+	int			type;
+	t_vector3d	center;
+	float		radius;
+}				t_object3d;
+
+typedef struct          s_canvas
+{
+	float               width;
+	float               height;
+	float               min_distance;
+	float               max_distance;
+	t_vector3d          camera;
+}               t_canvas;
 
 #endif
