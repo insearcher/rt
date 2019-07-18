@@ -12,7 +12,8 @@
 
 #include "libui.h"
 
-void	ui_prefab_get_relative_size(t_ui_el *p, t_ui_el *canvas, int type, t_fvec2 *size)
+void	ui_prefab_get_relative_size(t_ui_el *p, t_ui_el *canvas, int type,
+		t_fvec2 *size)
 {
 	if (type == 0)
 		return ;

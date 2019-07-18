@@ -94,7 +94,9 @@ SRC		= 	ft_memset.c \
 			ft_fvec2_round.c \
 			get_next_line.c \
 			ft_atoi_base.c \
-			ft_minmax.c
+			ft_minmax.c \
+			get_strs.c \
+			cut_str_by_num_words.c
 
 OBJ		=	$(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 

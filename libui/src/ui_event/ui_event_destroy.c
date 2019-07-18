@@ -6,7 +6,7 @@
 /*   By: sbecker <sbecker@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 21:27:39 by sbednar           #+#    #+#             */
-/*   Updated: 2019/07/12 07:32:06 by sbecker          ###   ########.fr       */
+/*   Updated: 2019/07/15 15:02:19 by sbecker          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,45 +34,45 @@ void	ui_event_win_events_destroy(t_ui_win_events *we)
 {
 	int i;
 
-	ui_event_destroy(we->onPointerMoved);
-	ui_event_destroy(we->onPointerEnter);
-	ui_event_destroy(we->onPointerExit);
-	ui_event_destroy(we->onPointerLeftButtonPressed);
-	ui_event_destroy(we->onPointerLeftButtonReleased);
-	ui_event_destroy(we->onPointerRightButtonPressed);
-	ui_event_destroy(we->onPointerRightButtonReleased);
-	ui_event_destroy(we->onScrollUp);
-	ui_event_destroy(we->onScrollDown);
-	ui_event_destroy(we->onFocusGained);
-	ui_event_destroy(we->onFocusLost);
-	ui_event_destroy(we->onResize);
-	ui_event_destroy(we->onClose);
-	ui_event_destroy(we->onMoved);
+	ui_event_destroy(we->on_pointer_moved);
+	ui_event_destroy(we->on_pointer_enter);
+	ui_event_destroy(we->on_pointer_exit);
+	ui_event_destroy(we->on_pointer_left_button_pressed);
+	ui_event_destroy(we->on_pointer_left_button_released);
+	ui_event_destroy(we->on_pointer_right_button_pressed);
+	ui_event_destroy(we->on_pointer_right_button_released);
+	ui_event_destroy(we->on_scroll_up);
+	ui_event_destroy(we->on_scroll_down);
+	ui_event_destroy(we->on_focus_gained);
+	ui_event_destroy(we->on_focus_lost);
+	ui_event_destroy(we->on_resize);
+	ui_event_destroy(we->on_close);
+	ui_event_destroy(we->on_moved);
 	i = KEYS_COUNT;
 	while (--i >= 0)
 	{
-		ui_event_destroy(we->onKeyDown[i]);
-		ui_event_destroy(we->onKeyUp[i]);
+		ui_event_destroy(we->on_key_down[i]);
+		ui_event_destroy(we->on_key_up[i]);
 	}
-	free(we->onKeyDown);
-	free(we->onKeyUp);
+	free(we->on_key_down);
+	free(we->on_key_up);
 	free(we);
 }
 
 void	ui_event_el_events_destroy(t_ui_el_events *ee)
 {
-	ui_event_destroy(ee->onPointerEnter);
-	ui_event_destroy(ee->onPointerStay);
-	ui_event_destroy(ee->onPointerExit);
-	ui_event_destroy(ee->onPointerLeftButtonPressed);
-	ui_event_destroy(ee->onPointerLeftButtonHold);
-	ui_event_destroy(ee->onPointerLeftButtonReleased);
-	ui_event_destroy(ee->onPointerRightButtonPressed);
-	ui_event_destroy(ee->onPointerRightButtonHold);
-	ui_event_destroy(ee->onPointerRightButtonReleased);
-	ui_event_destroy(ee->onScrollUp);
-	ui_event_destroy(ee->onScrollDown);
-	ui_event_destroy(ee->onRender);
-	ui_event_destroy(ee->onResize);
+	ui_event_destroy(ee->on_pointer_enter);
+	ui_event_destroy(ee->on_pointer_stay);
+	ui_event_destroy(ee->on_pointer_exit);
+	ui_event_destroy(ee->on_pointer_left_button_pressed);
+	ui_event_destroy(ee->on_pointer_left_button_hold);
+	ui_event_destroy(ee->on_pointer_left_button_released);
+	ui_event_destroy(ee->on_pointer_right_button_pressed);
+	ui_event_destroy(ee->on_pointer_right_button_hold);
+	ui_event_destroy(ee->on_pointer_right_button_released);
+	ui_event_destroy(ee->on_scroll_up);
+	ui_event_destroy(ee->on_scroll_down);
+	ui_event_destroy(ee->on_render);
+	ui_event_destroy(ee->on_resize);
 	free(ee);
 }

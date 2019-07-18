@@ -18,10 +18,10 @@ void	ui_el_set_rel_size(t_ui_el *el, float w, float h)
 
 	if (!el || !(p = el->parent) || w == 0.0 || h == 0.0)
 		return ;
-	el->relative_rect.w = w;
-	el->relative_rect.h = h;
+	el->rrect.w = w;
+	el->rrect.h = h;
 	el->rect.w = (int)((float)p->rect.w * w);
 	el->rect.h = (int)((float)p->rect.h * h);
-	el->cut_rect.w = el->rect.w;
-	el->cut_rect.h = el->rect.h;
+	el->crect.w = el->rect.w;
+	el->crect.h = el->rect.h;
 }

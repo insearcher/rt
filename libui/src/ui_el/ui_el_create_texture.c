@@ -12,26 +12,22 @@
 
 #include "libui.h"
 
-/*
-** OBSOLETE
-*/
-
 SDL_Texture	*ui_el_create_empty_texture(t_ui_el *el)
 {
-	SDL_Texture	*tmp_texture;
+	SDL_Texture	*tmp;
 
-	if ((tmp_texture = SDL_CreateTexture(el->sdl_renderer, SDL_PIXELFORMAT_RGBA8888,
-					SDL_TEXTUREACCESS_TARGET, el->rect.w, el->rect.h)) == NULL)
+	if (!(tmp = SDL_CreateTexture(el->sdl_renderer, SDL_PIXELFORMAT_RGBA8888,
+			SDL_TEXTUREACCESS_TARGET, el->rect.w, el->rect.h)))
 		return (NULL);
-	SDL_SetRenderTarget(el->sdl_renderer, tmp_texture);
+	SDL_SetRenderTarget(el->sdl_renderer, tmp);
 	SDL_SetRenderDrawBlendMode(el->sdl_renderer, SDL_BLENDMODE_NONE);
 	SDL_SetRenderDrawColor(el->sdl_renderer, 255, 255, 255, 0);
-	SDL_SetTextureBlendMode(tmp_texture, SDL_BLENDMODE_BLEND);
+	SDL_SetTextureBlendMode(tmp, SDL_BLENDMODE_BLEND);
 	SDL_RenderFillRect(el->sdl_renderer, NULL);
 	SDL_SetRenderDrawBlendMode(el->sdl_renderer, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderTarget(el->sdl_renderer, NULL);
 	SDL_SetRenderDrawColor(el->sdl_renderer, 0, 0, 0, 255);
-	return (tmp_texture);
+	return (tmp);
 }
 
 SDL_Texture	*ui_el_create_texture(t_ui_el *el)
@@ -44,7 +40,8 @@ SDL_Texture	*ui_el_create_texture(t_ui_el *el)
 	SDL_GetClipRect(el->sdl_surface, &rect);
 	if (rect.w > 16384 || rect.h > 4000)
 		return (ui_el_create_empty_texture(el));
-	if (!(tmp = SDL_CreateTextureFromSurface(el->sdl_renderer, el->sdl_surface)))
+	if (!(tmp = SDL_CreateTextureFromSurface(el->sdl_renderer,
+			el->sdl_surface)))
 		ui_sdl_deinit(EXIT_FAILURE);
 	return (tmp);
 }

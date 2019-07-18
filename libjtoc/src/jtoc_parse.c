@@ -12,7 +12,7 @@
 
 #include "libjtoc.h"
 
-static void	jtoc_atof_fraction(const char *str, int i, int s, float *res)
+static void		jtoc_atof_fraction(const char *str, int i, int s, float *res)
 {
 	float	b;
 
@@ -24,7 +24,7 @@ static void	jtoc_atof_fraction(const char *str, int i, int s, float *res)
 	}
 }
 
-static void	jtoc_atof(const char *str, float *res)
+static void		jtoc_atof(const char *str, float *res)
 {
 	int		sign;
 	int		i;

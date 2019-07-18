@@ -24,8 +24,7 @@ int	ui_log_window_focus_gained(t_ui_main *m, void *a)
 			KYEL,
 			"WIN FOCUSED",
 			KNRM,
-			w->id
-		);
+			w->id);
 	}
 	return (1);
 }

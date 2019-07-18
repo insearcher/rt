@@ -21,15 +21,17 @@ static void	ui_el_change_pos_in_tree(void *a1, void *a2)
 	dist = (t_vec2 *)a2;
 	el->rect.x += dist->x;
 	el->rect.y += dist->y;
-	el->relative_rect.x = (float)(el->rect.x - el->parent->rect.x) / (float)el->parent->rect.w;
-	el->relative_rect.y = (float)(el->rect.y - el->parent->rect.y) / (float)el->parent->rect.h;
-	el->cut_rect.x = el->rect.x;
-	el->cut_rect.y = el->rect.y;
+	el->rrect.x = (float)(el->rect.x -
+			el->parent->rect.x) / (float)el->parent->rect.w;
+	el->rrect.y = (float)(el->rect.y -
+			el->parent->rect.y) / (float)el->parent->rect.h;
+	el->crect.x = el->rect.x;
+	el->crect.y = el->rect.y;
 }
 
-void    ui_el_change_pos(t_ui_el *el, t_ui_el *canvas, int type, t_fvec2 v)
+void		ui_el_change_pos(t_ui_el *el, t_ui_el *canvas, int type, t_fvec2 v)
 {
-	t_vec2  dist;
+	t_vec2	dist;
 
 	if (type & PIXEL)
 	{

@@ -88,7 +88,8 @@ char				*ft_strsub(char const *s, unsigned int start, size_t len);
 char				*ft_strjoin(char const *s1, char const *s2);
 char				*ft_strtrim(char const *s);
 char				**ft_strsplit(char const *s, char c);
-char				**ft_strsplit_on_size(char const *s, size_t size, size_t *num_strs);
+char				**ft_strsplit_on_size(char const *s, size_t size,
+		size_t *num_strs);
 char				*ft_itoa(int n);
 void				ft_putchar(char c);
 void				ft_putstr(char const *s);
@@ -130,5 +131,9 @@ t_fvec2				ft_fvec2_round(t_fvec2 v);
 int					ft_strhash(const char *str);
 
 int					get_next_line(int const fd, char **line);
+
+char				*cut_str_by_num_words(const char *s, size_t num_words);
+char				**get_strs(const char *s, size_t *nss,
+		size_t *num_words_in_strs);
 
 #endif

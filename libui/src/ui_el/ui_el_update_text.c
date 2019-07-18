@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ui_el_update_text.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbecker <sbecker@student.42.fr>            +#+  +:+       +#+        */
+/*   By: edraugr- <edraugr-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/23 05:38:20 by sbednar           #+#    #+#             */
-/*   Updated: 2019/07/10 04:46:35 by sbecker          ###   ########.fr       */
+/*   Updated: 2019/07/15 08:16:24 by sbecker          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,17 @@ static int	get_surface_from_text(t_ui_el *el)
 						el->text_area->text, el->text_area->text_color)))
 			return (FUNCTION_FAILURE);
 	}
-	else if ((el->text_area->render_param & TEXT_IS_BLENDED) || el->text_area->render_param == 0)
+	else if ((el->text_area->render_param & TEXT_IS_BLENDED)
+		|| el->text_area->render_param == 0)
 	{
 		if (!(el->sdl_surface = TTF_RenderText_Blended(el->text_area->font,
 						el->text_area->text, el->text_area->text_color)))
 			return (FUNCTION_FAILURE);
 	}
-	else
-	{
-		if (!(el->sdl_surface = TTF_RenderText_Shaded(el->text_area->font,
-			el->text_area->text, el->text_area->text_color, el->text_area->bg_color)))
-			return (FUNCTION_FAILURE);
-	}
+	else if (!(el->sdl_surface = TTF_RenderText_Shaded(el->text_area->font,
+		el->text_area->text, el->text_area->text_color,
+		el->text_area->bg_color)))
+		return (FUNCTION_FAILURE);
 	return (FUNCTION_SUCCESS);
 }
 
@@ -47,19 +46,29 @@ static void	clear_el_text(t_ui_el *el)
 	el->text_area->text = NULL;
 }
 
-void	free_sdl_texture(void *v_texture, size_t hash)
+static void	get_texture(t_ui_el *el)
 {
-	SDL_Texture *texture;
+	SDL_Rect	rect;
+	t_list		*n;
 
-	texture = (SDL_Texture *)v_texture;
-	hash = 0;
-	if (texture)
-		SDL_DestroyTexture(texture);
+	ui_el_remove_texture_by_id(el, "default");
+	if (get_surface_from_text(el))
+		ui_el_add_empty_texture(el, el->rect.w, el->rect.h, "default");
+	else
+	{
+		SDL_GetClipRect(el->sdl_surface, &rect);
+		if (rect.w > 16384 || rect.h > 4000)
+			return ;
+		if (!(n = ft_lstnew(NULL, 0)))
+			ui_sdl_deinit(228);
+		n->content = ui_el_create_texture(el);
+		n->content_size = ft_strhash("default");
+		ft_lstadd(&(el->sdl_textures), n);
+	}
 }
 
-int	ui_el_update_text(t_ui_el *el, const char *text)
+int			ui_el_update_text(t_ui_el *el, const char *text)
 {
-	t_list		*n;
 	size_t		len;
 
 	if (text == NULL)
@@ -80,23 +89,6 @@ int	ui_el_update_text(t_ui_el *el, const char *text)
 			el->text_area->text = ft_strsub(text, 0, el->text_area->string_len);
 		}
 	}
-	//	ft_lstdel(&el->sdl_textures, &free_sdl_texture);
-	//	el->sdl_textures = NULL;
-	if (get_surface_from_text(el))
-		ui_el_add_empty_texture(el, el->rect.w, el->rect.h, "default");
-	else
-	{
-		SDL_Rect	rect;
-
-		SDL_GetClipRect(el->sdl_surface, &rect);
-//		SDL_Log("rect: (%d, %d)\n", rect->w, rect->h);
-		if (rect.w > 16384 || rect.h > 4000)
-			return (FUNCTION_SUCCESS);
-		if (!(n = ft_lstnew(NULL, 0)))
-			ui_sdl_deinit(228);
-		n->content = ui_el_create_texture(el);
-		n->content_size = ft_strhash("default");
-		ft_lstadd(&(el->sdl_textures), n);
-	}
+	get_texture(el);
 	return (FUNCTION_SUCCESS);
 }

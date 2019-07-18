@@ -20,6 +20,6 @@ void	ui_cursor_from(t_cursor *c)
 	if ((current_cursor = SDL_GetCursor()))
 		SDL_FreeCursor(current_cursor);
 	if (!(new_cursor = SDL_CreateColorCursor(c->s, c->hot_x, c->hot_y)))
-		return ; // ПОШЛО ВСЕ НАХУЙ
+		return ;
 	SDL_SetCursor(new_cursor);
 }

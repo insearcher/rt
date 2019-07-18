@@ -17,7 +17,8 @@ int	ui_log_el_left_button_hold(t_ui_main *m, void *a)
 	t_ui_el		*el;
 
 	el = (t_ui_el *)a;
-	SDL_Log("%s%-15s%sglobal = %3d;%-3d   local = %3d;%-3d   elementID = %-3d\n",   //windowID = %-3d\n",
+	SDL_Log(
+		"%s%-15s%sglobal = %3d;%-3d   local = %3d;%-3d   elementID = %-3d\n",
 		KMAG,
 		"LMB HOLD",
 		KNRM,
@@ -25,8 +26,6 @@ int	ui_log_el_left_button_hold(t_ui_main *m, void *a)
 		m->ptr_pos.y,
 		el->ptr_rel_pos.x,
 		el->ptr_rel_pos.y,
-		el->id
-//		m->raycaster->focused_win->id
-	);
+		el->id);
 	return (1);
 }

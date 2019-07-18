@@ -12,7 +12,8 @@
 
 #include "libui.h"
 
-void    ui_prefab_get_pixel_pos(t_ui_el *p, t_ui_el *canvas, int type, t_fvec2 *v)
+void	ui_prefab_get_pixel_pos(t_ui_el *p, t_ui_el *canvas, int type,
+		t_fvec2 *v)
 {
 	if ((type & ABS) && (type & PIXEL))
 	{

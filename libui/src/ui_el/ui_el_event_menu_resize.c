@@ -16,16 +16,16 @@ static void	ui_el_set_new_pos_for_resize(t_ui_el *el, t_fvec2 v)
 {
 	el->rect.x = roundf(v.x + (float)el->parent->rect.x);
 	el->rect.y = roundf(v.y + (float)el->parent->rect.y);
-	el->cut_rect.x = el->rect.x;
-	el->cut_rect.y = el->rect.y;
+	el->crect.x = el->rect.x;
+	el->crect.y = el->rect.y;
 }
 
 static void	ui_el_set_new_size_for_resize(t_ui_el *el, t_fvec2 v)
 {
 	el->rect.w = roundf(v.x);
 	el->rect.h = roundf(v.y);
-	el->cut_rect.w = el->rect.w;
-	el->cut_rect.h = el->rect.h;
+	el->crect.w = el->rect.w;
+	el->crect.h = el->rect.h;
 }
 
 static void	get_new_pos_size_indent(t_ui_el *el, t_resize_data *data)
@@ -36,15 +36,15 @@ static void	get_new_pos_size_indent(t_ui_el *el, t_resize_data *data)
 	t_ui_el	*child;
 
 	child = (t_ui_el *)el->children->content;
-	new_size.x = (float)el->rect.w * child->relative_rect.w;
-	new_size.y = (float)el->rect.h * child->relative_rect.h;
-	new_pos1.x = (float)el->rect.x + (float)el->rect.w * child->relative_rect.x;
-	new_pos1.y = (float)el->rect.y + (float)el->rect.h * child->relative_rect.y;
+	new_size.x = (float)el->rect.w * child->rrect.w;
+	new_size.y = (float)el->rect.h * child->rrect.h;
+	new_pos1.x = (float)el->rect.x + (float)el->rect.w * child->rrect.x;
+	new_pos1.y = (float)el->rect.y + (float)el->rect.h * child->rrect.y;
 	if ((t_ui_el *)el->children->next)
 	{
 		child = (t_ui_el *)el->children->next->content;
-		new_pos2.x = (float)el->rect.x + (float)el->rect.w * child->relative_rect.x;
-		new_pos2.y = (float)el->rect.y + (float)el->rect.h * child->relative_rect.y;
+		new_pos2.x = (float)el->rect.x + (float)el->rect.w * child->rrect.x;
+		new_pos2.y = (float)el->rect.y + (float)el->rect.h * child->rrect.y;
 		data->indent.x = roundf(new_pos2.x - new_pos1.x - new_size.x);
 		data->indent.y = roundf(new_pos2.y - new_pos1.y - new_size.y);
 	}

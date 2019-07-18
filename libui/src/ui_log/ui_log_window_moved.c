@@ -14,7 +14,7 @@
 
 int	ui_log_window_moved(t_ui_main *m, void *a)
 {
-	t_ui_win    *w;
+	t_ui_win	*w;
 
 	(void)m;
 	w = (t_ui_win *)a;
@@ -24,8 +24,7 @@ int	ui_log_window_moved(t_ui_main *m, void *a)
 				KYEL,
 				"WIN MOVED",
 				KNRM,
-				w->id
-			   );
+				w->id);
 	}
 	return (1);
 }

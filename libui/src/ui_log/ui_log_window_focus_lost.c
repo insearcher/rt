@@ -15,7 +15,7 @@
 int	ui_log_window_focus_lost(t_ui_main *m, void *a)
 {
 	t_ui_win	*w;
-	
+
 	(void)m;
 	w = (t_ui_win *)a;
 	if (w != NULL)
@@ -24,8 +24,7 @@ int	ui_log_window_focus_lost(t_ui_main *m, void *a)
 			KYEL,
 			"WIN DEFOCUSED",
 			KNRM,
-			w->id
-		);
+			w->id);
 	}
 	return (1);
 }

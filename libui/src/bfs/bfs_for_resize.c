@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bfs_for_resize.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbecker <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: sbecker <sbecker@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/13 02:49:00 by sbecker           #+#    #+#             */
-/*   Updated: 2019/07/13 05:40:06 by sbecker          ###   ########.fr       */
+/*   Updated: 2019/07/15 14:46:29 by sbecker          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static void	bfs_resize_iter(const t_list *root, t_ui_main *m)
 {
-	QUEUE   *q;
-	void    *tmp;
+	t_queue	*q;
+	void	*tmp;
 
 	q = NULL;
 	q_push(&q, (t_list *)root);
@@ -23,13 +23,13 @@ static void	bfs_resize_iter(const t_list *root, t_ui_main *m)
 	{
 		tmp = q_pop(&q);
 		q_push(&q, CAST_X_TO_Y(tmp, t_ui_el *)->children);
-		ui_event_invoke(((t_ui_el *)tmp)->events->onResize, m, tmp);
+		ui_event_invoke(((t_ui_el *)tmp)->events->on_resize, m, tmp);
 	}
 }
 
 void		bfs_for_resize(const t_ui_el *root, t_ui_main *m)
 {
-	t_list *lst;
+	t_list	*lst;
 
 	lst = ft_lstnew(NULL, 0);
 	lst->content = CAST_X_TO_Y(root, void *);

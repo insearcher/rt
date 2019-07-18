@@ -6,7 +6,7 @@
 /*   By: sbednar <sbednar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 20:13:13 by sbednar           #+#    #+#             */
-/*   Updated: 2019/05/24 19:29:49 by sbednar          ###   ########.fr       */
+/*   Updated: 2019/07/15 11:53:32 by sbecker          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,3 @@ SDL_Surface	*ui_main_get_surface_by_id(t_ui_main *m, const char *sur_id)
 	}
 	return (res);
 }
-

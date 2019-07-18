@@ -12,7 +12,7 @@
 
 #include "libui.h"
 
-static int  ui_win_check_el_by_id(void *el_v, Uint32 id)
+static int	ui_win_check_el_by_id(void *el_v, Uint32 id)
 {
 	t_ui_el *el;
 
@@ -24,9 +24,9 @@ static int  ui_win_check_el_by_id(void *el_v, Uint32 id)
 
 static void	*bfs_find_el_by_id(const t_list *root, Uint32 id)
 {
-	QUEUE   *q;
-	void    *tmp;
-	void    *res;
+	t_queue	*q;
+	void	*tmp;
+	void	*res;
 
 	q = NULL;
 	res = NULL;
@@ -47,8 +47,8 @@ static void	*bfs_find_el_by_id(const t_list *root, Uint32 id)
 
 t_ui_el		*bfs_for_find_el_by_id(const t_ui_el *root, Uint32 id)
 {
-	t_list  *lst;
-	t_ui_el *res;
+	t_list	*lst;
+	t_ui_el	*res;
 
 	lst = ft_lstnew(NULL, 0);
 	lst->content = CAST_X_TO_Y(root, void *);

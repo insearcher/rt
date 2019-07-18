@@ -25,7 +25,7 @@ int	ui_cursor_from_el_data(t_ui_main *m, void *a)
 		SDL_FreeCursor(current_cursor);
 	if (!(rc = (t_cursor *)el->data) ||
 		!(new_cursor = SDL_CreateColorCursor(rc->s, rc->hot_x, rc->hot_y)))
-		return (1); // ПОШЛО ВСЕ НАХУЙ
+		return (1);
 	SDL_SetCursor(new_cursor);
 	return (1);
 }

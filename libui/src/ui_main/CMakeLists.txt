@@ -7,7 +7,7 @@ target_sources(ui PUBLIC
         ui_main_add_function_by_id.c
         ui_main_add_surface_by_path.c
         ui_main_add_window.c
-        ui_main_event_closing_windows.c
+        ui_main_event_close_window.c
         ui_main_event_lmb_pressed.c
         ui_main_event_lmb_released.c
         ui_main_event_pointer_moved.c
@@ -33,4 +33,6 @@ target_sources(ui PUBLIC
         ui_main_open_texture.c
         ui_main_save_texture.c
         ui_main_set_font_params.c
+        ui_main_run_program.c
+        ui_main_try_invoke_modal_windows.c
         )

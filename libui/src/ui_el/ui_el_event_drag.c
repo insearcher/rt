@@ -36,7 +36,6 @@ int	ui_el_event_hor_slider_drag(t_ui_main *m, void *a)
 	int			y;
 
 	el = (t_ui_el *)a;
-	printf("1: (%d, %d)\n", el->rect.x, el->rect.y);
 	x = m->ptr_pos.x - el->ptr_rel_pos.x;
 	y = el->rect.y;
 	if (x < el->parent->rect.x ||

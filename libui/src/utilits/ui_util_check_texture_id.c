@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ui_save_surface.c                                  :+:      :+:    :+:   */
+/*   ui_util_check_texture_id.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbednar <sbednar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbecker <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/09 23:29:01 by sbednar           #+#    #+#             */
-/*   Updated: 2019/07/08 23:15:17 by sbednar          ###   ########.fr       */
+/*   Created: 2019/07/15 11:23:11 by sbecker           #+#    #+#             */
+/*   Updated: 2019/07/15 11:23:29 by sbecker          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libui.h"
 
-int	ui_save_surface(SDL_Surface *sur)
+int	ctid(t_list_texture *lst, int tid)
 {
-	char	*path;
-
-	path = NULL;
-	if (ui_open_file_dialog(&path) < 0)
-		ui_sdl_deinit(228);
-	IMG_SaveJPG(sur, path, 0);
-	free(path);
+	while (lst)
+	{
+		if (lst->content_size == (size_t)tid)
+			ui_sdl_deinit(228);
+		lst = lst->next;
+	}
 	return (FUNCTION_SUCCESS);
 }

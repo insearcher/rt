@@ -6,7 +6,7 @@
 /*   By: sbecker <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/12 05:55:32 by sbecker           #+#    #+#             */
-/*   Updated: 2019/07/13 09:35:37 by sbecker          ###   ########.fr       */
+/*   Updated: 2019/07/15 10:51:26 by sbecker          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ui_win_event_focus_lost(t_ui_main *m, void *a)
 
 int	ui_win_event_focus_gained(t_ui_main *m, void *a)
 {
-	t_ui_win    *w;
+	t_ui_win	*w;
 
 	w = (t_ui_win *)a;
 	m->raycaster->focused_win = w;

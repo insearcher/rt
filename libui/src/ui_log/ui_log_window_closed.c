@@ -24,8 +24,7 @@ int	ui_log_window_closed(t_ui_main *m, void *a)
 			KYEL,
 			"WIN CLOSED",
 			KNRM,
-			w->id
-		);
+			w->id);
 	}
 	return (1);
 }

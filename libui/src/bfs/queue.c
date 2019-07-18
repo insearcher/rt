@@ -12,7 +12,7 @@
 
 #include "libui.h"
 
-void	q_push(QUEUE **q, t_list *el)
+void	q_push(t_queue **q, t_list *el)
 {
 	t_list	*tmp;
 
@@ -37,10 +37,10 @@ void	q_push(QUEUE **q, t_list *el)
 	}
 }
 
-void	*q_pop(QUEUE **q)
+void	*q_pop(t_queue **q)
 {
 	void	*res;
-	QUEUE	*tmp;
+	t_queue	*tmp;
 
 	if (!q || !*q)
 		return (NULL);

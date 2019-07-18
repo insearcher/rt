@@ -14,35 +14,48 @@ set_target_properties(rt
         )
 
 if (NOT SDL2_FOUND)
-    set(SDL2_PATH /Users/sbednar/.brew/Cellar/sdl2/2.0.9_1)
+    set(SDL2_PATH /Users/$ENV{USER}/.brew/Cellar/sdl2/2.0.9_1)
 endif()
 
 if (NOT SDL2_IMAGE_FOUND)
-    set(SDL2_IMAGE_PATH /Users/sbednar/.brew/Cellar/sdl2_image/2.0.4)
+    set(SDL2_IMAGE_PATH /Users/$ENV{USER}/.brew/Cellar/sdl2_image/2.0.4)
 endif()
 
 if (NOT SDL2_TTF_FOUND)
-    set(SDL2_TTF_PATH /Users/sbednar/.brew/Cellar/sdl2_ttf/2.0.15)
+    set(SDL2_TTF_PATH /Users/$ENV{USER}/.brew/Cellar/sdl2_ttf/2.0.15)
 endif()
+
 find_package(SDL2 REQUIRED)
+find_package(SDL2_image REQUIRED)
+find_package(SDL2_ttf REQUIRED)
+
+set(GCC_COMPILE_FLAGS "-Wall -Werror -Wextra")
+add_definitions(${GCC_COMPILE_FLAGS})
 
 add_subdirectory(libft)
 add_subdirectory(libjtoc)
 add_subdirectory(libui)
 
 set(${PROJECT_NAME}_INCLUDE_DIRS
-        ${PROJECT_SOURCE_DIR}/include)
+        ${PROJECT_SOURCE_DIR}/include
+        ${LIBFT_INCLUDE_DIRS}
+        ${LIBJTOC_INCLUDE_DIRS}
+        ${LIBUI_INCLUDE_DIRS})
+message(${RT_INCLUDE_DIRS})
+
 include_directories(
         ${RT_INCLUDE_DIRS}
 )
-
-add_subdirectory(src)
 
 target_link_libraries(rt
         ft
         jtoc
         ui
         SDL2::Core
-        SDL2::Main)
+        SDL2::Main
+        SDL2::Image
+        SDL2::TTF)
+
+add_subdirectory(src)
 
 install(TARGETS rt DESTINATION .)

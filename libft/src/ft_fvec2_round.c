@@ -12,9 +12,9 @@
 
 #include "libft.h"
 
-t_fvec2  ft_fvec2_round(t_fvec2 v)
+t_fvec2	ft_fvec2_round(t_fvec2 v)
 {
-	t_fvec2 ronded_v;
+	t_fvec2	ronded_v;
 
 	ronded_v.x = roundf(v.x);
 	ronded_v.y = roundf(v.y);

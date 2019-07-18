@@ -12,15 +12,6 @@
 
 #include "libui.h"
 
-/*void	ui_set_pixel_color_to_texture(SDL_Renderer *renderer, // doesn't exist in header, not used.
-		SDL_Texture *texture, t_vec2 coord, SDL_Color color)
-{
-	SDL_SetRenderTarget(renderer, texture);
-	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
-	SDL_RenderDrawPoint(renderer, coord.x, coord.y);
-	SDL_SetRenderTarget(renderer, NULL);
-}*/
-
 void	ui_util_set_pixel_color_to_texture_replace(SDL_Renderer *renderer,
 		SDL_Texture *texture, t_vec2 coord, SDL_Color color)
 {

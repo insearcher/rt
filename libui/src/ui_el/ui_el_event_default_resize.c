@@ -14,14 +14,16 @@
 
 int	ui_el_event_default_resize(t_ui_main *m, void *a)
 {
-	t_ui_el *el;
+	t_ui_el	*el;
 
 	el = (t_ui_el *)a;
 	(void)m;
-	el->rect.x = roundf(el->parent->rect.x + (float)el->parent->rect.w * el->relative_rect.x);
-	el->rect.y = roundf(el->parent->rect.y + (float)el->parent->rect.h * el->relative_rect.y);
-	el->rect.w = roundf((float)el->parent->rect.w * el->relative_rect.w);
-	el->rect.h = roundf((float)el->parent->rect.h * el->relative_rect.h);
-	el->cut_rect = el->rect;
+	el->rect.x = roundf(el->parent->rect.x + (float)el->parent->rect.w *
+			el->rrect.x);
+	el->rect.y = roundf(el->parent->rect.y + (float)el->parent->rect.h *
+			el->rrect.y);
+	el->rect.w = roundf((float)el->parent->rect.w * el->rrect.w);
+	el->rect.h = roundf((float)el->parent->rect.h * el->rrect.h);
+	el->crect = el->rect;
 	return (1);
 }

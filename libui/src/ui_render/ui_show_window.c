@@ -6,17 +6,17 @@
 /*   By: sbecker <sbecker@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 06:18:39 by edraugr-          #+#    #+#             */
-/*   Updated: 2019/07/06 19:22:38 by sbecker          ###   ########.fr       */
+/*   Updated: 2019/07/14 03:12:38 by sbecker          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libui.h"
 
-void ui_show_window(t_ui_win *w)
+void	ui_show_window(t_ui_win *w)
 {
-	int check;
-	SDL_RendererInfo *info;
-	
+	int					check;
+	SDL_RendererInfo	*info;
+
 	info = (SDL_RendererInfo *)malloc(sizeof(SDL_RendererInfo));
 	check = SDL_GetRendererInfo(w->sdl_renderer, info);
 	free(info);

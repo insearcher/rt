@@ -34,8 +34,8 @@ void	ui_el_set_size(t_ui_el *el, int type, t_fvec2 v)
 		el->rect.w = roundf((float)el->parent->rect.w * v.x);
 		el->rect.h = roundf((float)el->parent->rect.h * v.y);
 	}
-	el->relative_rect.w = (float)el->rect.w / (float)el->parent->rect.w;
-	el->relative_rect.h = (float)el->rect.h / (float)el->parent->rect.h;
-	el->cut_rect.w = el->rect.w;
-	el->cut_rect.h = el->rect.h;
+	el->rrect.w = (float)el->rect.w / (float)el->parent->rect.w;
+	el->rrect.h = (float)el->rect.h / (float)el->parent->rect.h;
+	el->crect.w = el->rect.w;
+	el->crect.h = el->rect.h;
 }

@@ -18,32 +18,32 @@ void	ui_el_set_new_size_for_children(void *a1, void *a2)
 
 	el = (t_ui_el *)a1;
 	(void)a2;
-	el->rect.w = (float)el->parent->rect.w * el->relative_rect.w;
-	el->rect.h = (float)el->parent->rect.h * el->relative_rect.h;
-	el->cut_rect.w = el->rect.w;
-	el->cut_rect.h = el->rect.h;
+	el->rect.w = (int)((float)el->parent->rect.w * el->rrect.w);
+	el->rect.h = (int)((float)el->parent->rect.h * el->rrect.h);
+	el->crect.w = el->rect.w;
+	el->crect.h = el->rect.h;
 }
 
 void	ui_el_set_new_size(t_ui_el *el, t_ui_el *canvas, int type, t_fvec2 v)
 {
 	if ((type & PIXEL))
 	{
-		el->rect.w = roundf(v.x);
-		el->rect.h = roundf(v.y);
+		el->rect.w = (int)roundf(v.x);
+		el->rect.h = (int)roundf(v.y);
 	}
 	else if ((type & ABS))
 	{
-		el->rect.w = roundf((float)canvas->rect.w * v.x);
-		el->rect.h = roundf((float)canvas->rect.h * v.y);
+		el->rect.w = (int)roundf((float)canvas->rect.w * v.x);
+		el->rect.h = (int)roundf((float)canvas->rect.h * v.y);
 	}
 	else
 	{
-		el->rect.w = roundf((float)el->parent->rect.w * v.x);
-		el->rect.h = roundf((float)el->parent->rect.h * v.y);
+		el->rect.w = (int)roundf((float)el->parent->rect.w * v.x);
+		el->rect.h = (int)roundf((float)el->parent->rect.h * v.y);
 	}
-	el->relative_rect.w = (float)el->rect.w / (float)el->parent->rect.w;
-	el->relative_rect.h = (float)el->rect.h / (float)el->parent->rect.h;
-	el->cut_rect.w = el->rect.w;
-	el->cut_rect.h = el->rect.h;
+	el->rrect.w = (float)el->rect.w / (float)el->parent->rect.w;
+	el->rrect.h = (float)el->rect.h / (float)el->parent->rect.h;
+	el->crect.w = el->rect.w;
+	el->crect.h = el->rect.h;
 	bfs_iter(el->children, ui_el_set_new_size_for_children, 0);
 }

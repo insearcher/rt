@@ -12,10 +12,10 @@
 
 #include "libui.h"
 
-void			bfs_iter(const t_list *root, const func_ptr f,
+void			bfs_iter(const t_list *root, const t_func_ptr f,
 		const void *arg)
 {
-	QUEUE	*q;
+	t_queue	*q;
 	void	*tmp;
 
 	q = NULL;
@@ -28,10 +28,10 @@ void			bfs_iter(const t_list *root, const func_ptr f,
 	}
 }
 
-void			bfs_iter_root(const t_ui_el *root, const func_ptr f,
+void			bfs_iter_root(const t_ui_el *root, const t_func_ptr f,
 		const void *arg)
 {
-	t_list *lst;
+	t_list	*lst;
 
 	lst = ft_lstnew(NULL, 0);
 	lst->content = CAST_X_TO_Y(root, void *);

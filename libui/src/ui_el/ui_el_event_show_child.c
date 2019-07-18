@@ -12,16 +12,6 @@
 
 #include "libui.h"
 
-// static void	ui_el_show_child2(t_ui_el **cur, t_ui_el *new)
-// {
-// 	if (*cur)
-// 		(*cur)->params |= EL_IS_HIDDEN;
-
-// 	SDL_Log("KEEEEEEEEEK %d", new->id);
-// 	*cur = (t_ui_el *)new->children->content;
-// 	(*cur)->params &= ~EL_IS_HIDDEN;
-// }
-
 static void	ui_el_hide_element(t_ui_el *el)
 {
 	t_list	*node;

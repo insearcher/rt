@@ -12,10 +12,6 @@
 
 #include "libui.h"
 
-/*
-** OBSOLETE
-*/
-
 SDL_Texture	*ui_el_create_texture_from_surface(t_ui_el *el, SDL_Surface *s)
 {
 	el->sdl_surface = s;

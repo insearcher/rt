@@ -79,4 +79,7 @@ target_sources(ft PUBLIC
         get_next_line.c
         ft_atoi_base.c
         ft_strsplit_on_size.c
-        ft_minmax.c)
+        ft_minmax.c
+        get_strs.c
+        cut_str_by_num_words.c
+        )

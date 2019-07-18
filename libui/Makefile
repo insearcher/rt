@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sbecker <sbecker@student.42.fr>            +#+  +:+       +#+         #
+#    By: edraugr- <edraugr-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/07 16:14:32 by sbednar           #+#    #+#              #
-#    Updated: 2019/07/13 14:07:36 by sbecker          ###   ########.fr        #
+#    Updated: 2019/07/15 13:16:18 by sbecker          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,11 +39,11 @@ SRC_UI_EL		=	ui_el_add_child.c \
 					ui_el_load_surface_from.c \
 					ui_el_set_current_texture_by_id.c \
 					ui_el_add_texture.c \
+					ui_el_add_texture_from_file.c \
 					ui_el_create_texture.c \
 					ui_el_create_texture_from_surface.c \
 					ui_el_get_current_texture.c \
 					ui_el_get_texture_by_id.c \
-					ui_el_event_set_texture.c \
 					ui_el_set_text.c \
 					ui_el_update_text.c \
 					ui_el_change_pos.c \
@@ -53,7 +53,6 @@ SRC_UI_EL		=	ui_el_add_child.c \
 					ui_el_set_size.c \
 					ui_el_set_new_pos.c \
 					ui_el_set_new_size.c \
-					ui_el_add_texture_from_file_dialog.c \
 					ui_el_setup_default_draggable.c \
 					ui_el_setup_default_resizable.c \
 					ui_el_setup_default_scroll_menu_elem.c \
@@ -62,19 +61,23 @@ SRC_UI_EL		=	ui_el_add_child.c \
 					ui_el_setup_horizontal_draggable.c \
 					ui_el_setup_menu_resizable.c \
 					ui_el_setup_radio.c \
-					ui_el_create_modal_ok.c \
 					ui_el_destroy.c \
 					ui_el_destroy_children.c \
+					ui_el_event_set_texture.c \
 					ui_el_event_children_set_default.c \
 					ui_el_event_show_child.c \
 					ui_el_event_switch_radio.c \
 					ui_el_event_default_draw.c \
+					ui_el_utils_from_default_draw.c \
 					ui_el_event_default_resize.c \
 					ui_el_event_menu_resize.c \
 					ui_el_event_scroll_menu.c \
 					ui_el_event_default_pointer_enter.c \
 					ui_el_event_default_pointer_exit.c \
-					ui_el_event_drag.c 
+					ui_el_event_close_window.c \
+					ui_el_event_show_window.c \
+					ui_el_event_drag.c \
+					ui_el_remove_texture_by_id.c
 
 SRC_UI_DRAW		=	ui_draw.c \
 					ui_draw_windows.c \
@@ -111,7 +114,8 @@ SRC_UI_LOG		=	ui_log_mouse_motion.c \
 					ui_log_el_right_button_pressed.c \
 					ui_log_el_right_button_released.c
 
-SRC_UI_MAIN		=	ui_main_loop.c \
+SRC_UI_MAIN		=	ui_main_run_program.c \
+					ui_main_loop.c \
 					ui_main_init.c \
 					ui_main_add_window.c \
 					ui_main_handle_event.c \
@@ -133,6 +137,7 @@ SRC_UI_MAIN		=	ui_main_loop.c \
 					ui_main_merge_layers.c \
 					ui_main_save_texture.c \
 					ui_main_open_texture.c \
+					ui_main_try_invoke_modal_windows.c \
 					ui_main_event_lmb_pressed.c \
 					ui_main_event_lmb_released.c \
 					ui_main_event_rmb_pressed.c \
@@ -140,15 +145,21 @@ SRC_UI_MAIN		=	ui_main_loop.c \
 					ui_main_event_scroll_up.c \
 					ui_main_event_scroll_down.c \
 					ui_main_event_pointer_moved.c \
-					ui_main_event_closing_windows.c
+					ui_main_event_close_window.c
 
-SRC_UI_SDL		=	ui_sdl_init.c \
-					ui_sdl_deinit.c
+SRC_UI_SDL		=	ui_sdl_deinit.c \
+					ui_sdl_init.c \
+					ui_sdl_render.c \
+					ui_sdl_render_draw.c \
+					ui_sdl_set_render.c \
+					ui_sdl_set_texture_mode.c \
+					ui_sdl_surface.c \
+					ui_sdl_texture.c \
+					ui_sdl_win_position.c \
 
 SRC_UI_WIN		=	ui_win_init.c \
 					ui_win_setup_default.c \
 					ui_win_create.c \
-					ui_win_create_modal_win.c \
 					ui_win_find_el_by_id.c \
 					ui_win_destroy.c \
 					ui_win_event_update_size.c \
@@ -164,7 +175,10 @@ SRC_UI_PREFAB	=	ui_prefab_scroll_menu.c \
 SRC_UTILITS		=	ui_util_get_rect_from_frect.c \
 					ui_util_get_pixel_color_from_texture.c \
 					ui_util_get_pixel_color_from_el.c \
-					ui_util_set_pixel_color_to_texture.c
+					ui_util_set_pixel_color_to_texture.c \
+					ui_util_get_sdl_color.c \
+					ui_util_check_texture_id.c \
+					ui_surface_pixel.c
 
 SRC_UI_JTOC		=	ui_jtoc_main_from_json.c \
 					ui_jtoc_win_from_json.c \
@@ -172,12 +186,13 @@ SRC_UI_JTOC		=	ui_jtoc_main_from_json.c \
 					ui_jtoc_el_get_and_setup_json.c \
 					ui_jtoc_el_pref_text.c \
 					ui_jtoc_el_pref_modal_win.c \
-					ui_jtoc_utils.c
-
-SRC_UI_FILE		=	ui_file_open_file_dialog.c \
-					ui_file_save_file_dialog.c \
-					ui_file_parse_path.c \
-					ui_file_find_last_slash.c
+					ui_jtoc_pref_text_modal_win.c \
+					ui_jtoc_create_modal_ok.c \
+					ui_jtoc_create_modal_ok_cancel.c \
+					ui_jtoc_utils.c \
+					ui_jtoc_efj_helper3.c \
+					ui_jtoc_efj_helper2.c \
+					ui_jtoc_efj_helper1.c
 
 OBJ				=	$(addprefix $(OBJ_DIR)/,$(SRC_BFS:.c=.o)) \
 					$(addprefix $(OBJ_DIR)/,$(SRC_UI_CURSOR:.c=.o)) \

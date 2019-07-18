@@ -105,6 +105,6 @@ t_jnode						*jtoc_read(const char *str);
 
 int							jtoc_get_int(t_jnode *n);
 float						jtoc_get_float(t_jnode *n);
-char 						*jtoc_get_string(t_jnode *n);
+char						*jtoc_get_string(t_jnode *n);
 
 #endif

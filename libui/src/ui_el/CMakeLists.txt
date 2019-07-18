@@ -5,12 +5,9 @@ cmake_policy(SET CMP0076 NEW)
 target_sources(ui PUBLIC
         ui_el_add_child.c
         ui_el_add_texture.c
-        ui_el_add_texture_from_file_dialog.c
         ui_el_add_texture_from_main_by_id.c
         ui_el_change_pos.c
         ui_el_change_size.c
-        ui_el_create_modal_ok.c
-        ui_el_create_modal_ok_cancel.c
         ui_el_create_texture.c
         ui_el_create_texture_from_surface.c
         ui_el_destroy.c
@@ -47,5 +44,8 @@ target_sources(ui PUBLIC
         ui_el_setup_menu_resizable.c
         ui_el_setup_radio.c
         ui_el_update_text.c
-
+        ui_el_event_close_window.c
+        ui_el_event_show_window.c
+        ui_el_remove_texture_by_id.c
+        ui_el_utils_from_default_draw.c
         )

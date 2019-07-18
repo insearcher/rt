@@ -26,10 +26,10 @@ int	ui_el_set_current_texture_by_id(t_ui_el *el, const char *texture_id)
 		if (tmp->content_size == (size_t)hash)
 		{
 			el->current_texture = hash;
-			return(FUNCTION_SUCCESS);
+			return (FUNCTION_SUCCESS);
 		}
 		tmp = tmp->next;
 	}
 	ui_sdl_deinit(228);
-	return(FUNCTION_FAILURE);
+	return (FUNCTION_FAILURE);
 }

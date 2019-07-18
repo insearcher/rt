@@ -6,13 +6,14 @@
 /*   By: sbecker <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 05:01:47 by sbecker           #+#    #+#             */
-/*   Updated: 2019/07/08 23:15:16 by sbednar          ###   ########.fr       */
+/*   Updated: 2019/07/15 11:26:35 by sbecker          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libui.h"
 
-int	ui_main_set_font_params(t_ui_main *m, const char *font_id, t_font_params params)
+int	ui_main_set_font_params(t_ui_main *m, const char *font_id,
+		t_font_params params)
 {
 	TTF_Font	*font;
 

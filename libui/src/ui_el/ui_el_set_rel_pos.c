@@ -18,10 +18,10 @@ void	ui_el_set_rel_pos(t_ui_el *el, float x, float y)
 
 	if (!el || !(p = el->parent))
 		return ;
-	el->relative_rect.x = x;
-	el->relative_rect.y = y;
+	el->rrect.x = x;
+	el->rrect.y = y;
 	el->rect.x = (int)((float)p->rect.w * x);
 	el->rect.y = (int)((float)p->rect.h * y);
-	el->cut_rect.x = el->rect.x;
-	el->cut_rect.y = el->rect.y;
+	el->crect.x = el->rect.x;
+	el->crect.y = el->rect.y;
 }

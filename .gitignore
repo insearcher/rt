@@ -57,3 +57,6 @@ cmake-build-debug
 
 # Executable
 rt
+
+# Mac trash
+.DS_Store
