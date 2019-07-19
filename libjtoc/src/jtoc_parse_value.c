@@ -16,6 +16,12 @@ int	jtoc_parse_object(t_jnode *p, const char *str, int b, int e)
 {
 	int	c;
 
+	if (e - b == 3 && !ft_strncmp(str + b, "NULL", 4))
+	{
+		p->type = none;
+		p->data = NULL;
+		return (FUNCTION_SUCCESS);
+	}
 	if (str[e] == '\n')
 		--e;
 	++b;
@@ -35,6 +41,12 @@ int	jtoc_parse_string(t_jnode *p, const char *str, int b, int e)
 {
 	char	*sub;
 
+	if (e - b == 3 && !ft_strncmp(str + b, "NULL", 4))
+	{
+		p->type = none;
+		p->data = NULL;
+		return (FUNCTION_SUCCESS);
+	}
 	++b;
 	--e;
 	if (!(sub = ft_strsub(str, b, e - b + 1)))
@@ -50,6 +62,12 @@ int	jtoc_parse_array(t_jnode *p, const char *str, int b, int e)
 	int		c;
 	int		i;
 
+	if (e - b == 3 && !ft_strncmp(str + b, "NULL", 4))
+	{
+		p->type = none;
+		p->data = NULL;
+		return (FUNCTION_SUCCESS);
+	}
 	++b;
 	--e;
 	i = -1;

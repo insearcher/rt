@@ -10,6 +10,7 @@ target_sources(jtoc PUBLIC
         jtoc_parse_value.c
         jtoc_parse_number.c
         jtoc_utils.c
+        jtoc_utils2.c
         jtoc_node.c
         jtoc_read.c
         jtoc_get.c

@@ -110,6 +110,8 @@ int							jtoc_get_int(t_jnode *n);
 float						jtoc_get_float(t_jnode *n);
 char						*jtoc_get_string(t_jnode *n);
 
+size_t						jtoc_get_child_count(t_jnode *n);
+
 void						*jtoc_get_raw_data(t_jnode *n);
 
 #endif

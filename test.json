@@ -1,11 +1,22 @@
 {
-  "a": 123,
-  "b": 3,
-  "c": "ttt",
-  "d": 1.33,
-  "inside":
+  "title": "proverka",
+  "vector":
   {
-    "e": 1,
-    "f": 2
+    "x": 100,
+    "y": 101
+  },
+  "text": NULL,
+  "fvector":
+  {
+    "x": 0.1234,
+    "y": 0.4321
+  },
+  "list":
+  {
+    "content": {
+      "test": 14
+    },
+    "content_size": 228,
+    "next": NULL
   }
 }

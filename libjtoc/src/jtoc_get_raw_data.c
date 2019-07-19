@@ -53,6 +53,57 @@ static void		*get_string(t_jnode *n)
 	return (res);
 }
 
+static int		get_array_size(t_jnode *n)
+{
+	int		act;
+	int		tmp;
+	t_jnode	*cur;
+
+	act = -1;
+	cur = n->down;
+	if (!cur)
+		return (-1);
+	while (cur)
+	{
+		tmp = get_tree_size(cur);
+		if (act < 0)
+			act = tmp;
+		else if (act != tmp)
+			return (-1);
+		cur = cur->right;
+	}
+	return (act * jtoc_get_child_count(n));
+}
+
+static void		*get_array(t_jnode *n)
+{
+	char	*res;
+	void	*vres;
+	void	*tmp;
+	int		size;
+	int		ssize;
+
+	if ((size = get_array_size(n)) < 0 ||
+		!(res = malloc(size)))
+		return (NULL);
+	ssize = get_tree_size(n->down);
+	vres = (void *)res;
+	n = n->down;
+	while (n)
+	{
+		if (!(tmp = jtoc_get_raw_data(n)))
+		{
+			free(res);
+			return (NULL);
+		}
+		ft_memcpy(res, &tmp, ssize);
+		n = n->right;
+		res += ssize;
+	}
+	return (vres);
+}
+
+// TODO FULL OF LEAKS
 void			*jtoc_get_raw_data(t_jnode *n)
 {
 	size_t		size;
@@ -75,11 +126,14 @@ void			*jtoc_get_raw_data(t_jnode *n)
 		else
 		{
 			if ((cur->type == string && !(tmp = get_string(cur))) ||
-				(cur->type != string && !(tmp = jtoc_get_raw_data(cur))))
+				(cur->type == array && !(tmp = get_array(cur))) ||
+				(cur->type == object && !(tmp = jtoc_get_raw_data(cur))))
 			{
 				free(res);
 				return (NULL);
 			}
+			else if (cur->type == none)
+				tmp = NULL;
 			ft_memcpy(res + i, &tmp, 8);
 			i += 4;
 		}

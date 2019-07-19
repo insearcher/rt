@@ -4,20 +4,15 @@
 #include <string.h>
 #include <libjtoc.h>
 
-typedef struct s_test2
-{
-	int e;
-	int f;
-} t_test2;
 
-typedef struct s_test
+typedef struct s_hard
 {
-	int a;
-	int b;
-	char *c;
-	float d;
-	t_test2	*inside;
-} t_test;
+	char *title;
+	t_vec2 *vector;
+	char *text;
+	t_fvec2 *fvector;
+	t_list *list;
+} t_hard;
 
 //static void	print(char *t, int c)
 //{
@@ -44,22 +39,35 @@ int main(void) {
 //	for (int i = 0; i < 24; ++i)
 //		printf("%d ", cp[i]);
 //	printf("\n");
+//	t_jnode *root = jtoc_read("./test.json");
+//	t_test *t = jtoc_get_raw_data(root);
+//	(void)t;
+//	if (!t)
+//		return 1;
+////	printf("%d %d %d", t->a, t->b, t->c);
+//	int a = 5;
+//	char *ac = (char *)&a;
+//	(void)ac;
+//	printf("%zu\n", sizeof(t_test));
+////	t_test *test = &(t_test){123, 3, "ttt", 1.33, &(t_test2){1, 2}};
+////	printf((char *)t, sizeof(t_test));
+////	print((char *)test, sizeof(t_test));
+////	printf("target:\t%d\t%d\t%s\t%f\t%d\t%d\n", test->a, test->b,
+////			test->c, test->d, test->inside->e, test->inside->f);
+//	printf("%zu\n", sizeof(t_test2));
+//	printf("my:\t\t%d\t%d\t%s\t%f\t%d\t%d\t%d\t%d\n", t->a, t->b, t->c, t->d,
+//			t->inside[0]->e, t->inside[0]->f, t->inside[1]->e,
+//			t->inside[1]->f);
+//	printf("%zu", sizeof(size_t));
 	t_jnode *root = jtoc_read("./test.json");
-	t_test *t = jtoc_get_raw_data(root);
+	t_hard *t = jtoc_get_raw_data(root);
 	(void)t;
 	if (!t)
 		return 1;
-//	printf("%d %d %d", t->a, t->b, t->c);
-	int a = 5;
-	char *ac = (char *)&a;
-	(void)ac;
-	printf("%zu\n", sizeof(t_test));
-	t_test *test = &(t_test){123, 3, "ttt", 1.33, &(t_test2){1, 2}};
-//	printf((char *)t, sizeof(t_test));
-//	print((char *)test, sizeof(t_test));
-	printf("target:\t%d\t%d\t%s\t%f\t%d\t%d\n", test->a, test->b,
-			test->c, test->d, test->inside->e, test->inside->f);
-	printf("my:\t\t%d\t%d\t%s\t%f\t%d\t%d\n", t->a, t->b, t->c, t->d,
-			t->inside->e, t->inside->f);
+	printf("%d\n", (int)jtoc_node_get_by_path(root, "list.next")->data);
+	printf("hard done: \n%s\n%d\n%d\n%s\n%f\n%f\n", t->title, t->vector->x,
+			t->vector->y, t->text, t->fvector->x, t->fvector->y);
+	printf("add: %d %zu %s", (*(int *)t->list->content),
+			t->list->content_size, (char *)t->list->next);
 	return 0;
 }
