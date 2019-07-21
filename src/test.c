@@ -60,14 +60,16 @@ int main(void) {
 //			t->inside[1]->f);
 //	printf("%zu", sizeof(size_t));
 	t_jnode *root = jtoc_read("./test.json");
-	t_hard *t = jtoc_get_raw_data(root);
-	(void)t;
-	if (!t)
-		return 1;
-	printf("%d\n", (int)jtoc_node_get_by_path(root, "list.next")->data);
-	printf("hard done: \n%s\n%d\n%d\n%s\n%f\n%f\n", t->title, t->vector->x,
-			t->vector->y, t->text, t->fvector->x, t->fvector->y);
-	printf("add: %d %zu %s", (*(int *)t->list->content),
-			t->list->content_size, (char *)t->list->next);
+	if (jtoc_write(root, "./test2.json"))
+		return (-1);
+//	t_hard *t = jtoc_get_raw_data(root);
+//	(void)t;
+//	if (!t)
+//		return 1;
+//	printf("%d\n", (int)jtoc_node_get_by_path(root, "list.next")->data);
+//	printf("hard done: \n%s\n%d\n%d\n%s\n%f\n%f\n", t->title, t->vector->x,
+//			t->vector->y, t->text, t->fvector->x, t->fvector->y);
+//	printf("add: %d %zu %s", (*(int *)t->list->content),
+//			t->list->content_size, (char *)t->list->next);
 	return 0;
 }

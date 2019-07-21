@@ -5,18 +5,13 @@
     "x": 100,
     "y": 101
   },
-  "text": NULL,
   "fvector":
   {
     "x": 0.1234,
-    "y": 0.4321
-  },
-  "list":
-  {
-    "content": {
-      "test": 14
-    },
-    "content_size": 228,
-    "next": NULL
+    "y": {
+      "some": 13,
+      "complex": 1414.42,
+      "value": "kek"
+    }
   }
 }

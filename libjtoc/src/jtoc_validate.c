@@ -34,8 +34,3 @@ int	jtoc_validate_field(const char *str, int b, int e)
 		return (FUNCTION_FAILURE);
 	return (FUNCTION_SUCCESS);
 }
-
-int	jtoc_validate(const char *str)
-{
-	return (jtoc_validate_object(str, 0, ft_strlen(str) - 1));
-}

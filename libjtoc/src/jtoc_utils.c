@@ -100,7 +100,7 @@ enum e_type	jtoc_get_field_type(char *f)
 		return (object);
 	if (*f == '"')
 		return (string);
-	if (*f == '-'|| (*f >= '0' && *f <= '9'))
+	if (*f == '-' || (*f >= '0' && *f <= '9'))
 	{
 		if (*f == '-')
 			++f;

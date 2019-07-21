@@ -66,8 +66,6 @@ int							jtoc_find_comma(const char *str, int i);
 
 int							jtoc_read_file(const char *path, char **res);
 
-int							jtoc_validate(const char *str);
-
 int							jtoc_validate_field(const char *str, int b,
 int e);
 
@@ -113,5 +111,10 @@ char						*jtoc_get_string(t_jnode *n);
 size_t						jtoc_get_child_count(t_jnode *n);
 
 void						*jtoc_get_raw_data(t_jnode *n);
+
+int							jtoc_write_children(t_jnode *n, const int fd);
+
+char						*jtoc_ftoa(float n, int afterpoint);
+int							jtoc_write(t_jnode *n, const char *str);
 
 #endif

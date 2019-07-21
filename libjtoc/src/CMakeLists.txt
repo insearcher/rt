@@ -15,4 +15,5 @@ target_sources(jtoc PUBLIC
         jtoc_read.c
         jtoc_get.c
         jtoc_get_raw_data.c
+        jtoc_write.c
         )
