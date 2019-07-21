@@ -112,7 +112,8 @@ size_t						jtoc_get_child_count(t_jnode *n);
 
 void						*jtoc_get_raw_data(t_jnode *n);
 
-int							jtoc_write_children(t_jnode *n, const int fd);
+int							jtoc_write_children(t_jnode *n, const int fd,
+		const char arr);
 
 char						*jtoc_ftoa(float n, int afterpoint);
 int							jtoc_write(t_jnode *n, const char *str);

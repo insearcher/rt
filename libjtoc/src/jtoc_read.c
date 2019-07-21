@@ -17,7 +17,6 @@ t_jnode	*jtoc_read(const char *str)
 	t_jnode	*json_tree;
 	char	*json_str;
 
-	json_tree = NULL;
 	json_str = NULL;
 	if (jtoc_read_file(str, &json_str) < 0)
 		return (NULL);
