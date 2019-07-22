@@ -71,5 +71,9 @@ int main(void) {
 //			t->vector->y, t->text, t->fvector->x, t->fvector->y);
 //	printf("add: %d %zu %s", (*(int *)t->list->content),
 //			t->list->content_size, (char *)t->list->next);
+//	int decimal, sign;
+//	char buffer[20];
+//	gcvt(-33123332131231231.1415926535, 11, &buffer[0]);
+//	printf("pi = %s\n", &buffer[0]);
 	return 0;
 }

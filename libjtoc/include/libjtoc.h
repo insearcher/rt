@@ -23,6 +23,7 @@
 # define FUNCTION_FAILURE	-1
 
 # define BUF_SIZE			(1 << 18)
+# define FLOAT_BUF_SIZE		12
 
 # define F_RIGHT			(1 << 0)
 # define F_ONLY_SPACES		(1 << 1)
@@ -112,10 +113,10 @@ size_t						jtoc_get_child_count(t_jnode *n);
 
 void						*jtoc_get_raw_data(t_jnode *n);
 
-int							jtoc_write_children(t_jnode *n, const int fd,
-		const char arr);
+int							jtoc_write_children(t_jnode *n, int fd,
+		char arr);
 
-char						*jtoc_ftoa(float n, int afterpoint);
+char						*jtoc_ftoa(float n, int flen);
 int							jtoc_write(t_jnode *n, const char *str);
 
 #endif

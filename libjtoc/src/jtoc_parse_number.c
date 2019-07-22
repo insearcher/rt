@@ -58,6 +58,7 @@ int				jtoc_parse_fractional(t_jnode *p, const char *str, int b, int e)
 	}
 	jtoc_atof(sub, data);
 	p->data = (void *)data;
+	printf("p: %f\n", *data);
 	free(sub);
 	return (FUNCTION_SUCCESS);
 }
