@@ -12,36 +12,12 @@
 
 #include "libjtoc.h"
 
-static void		jtoc_atof_fraction(const char *str, int i, int s, float *res)
-{
-	float	b;
-
-	b = 0.1;
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		*res += (str[i++] - '0') * b * s;
-		b /= 10;
-	}
-}
-
 static void		jtoc_atof(const char *str, float *res)
 {
-	int		sign;
-	int		i;
+	float	pr;
 
-	sign = 1;
-	i = 0;
-	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
-		++i;
-	if (str[i] == '-')
-	{
-		sign = -1;
-		++i;
-	}
-	while (str[i] >= '0' && str[i] <= '9')
-		*res = (*res * 10) + (str[i++] - '0') * sign;
-	if (str[i] == '.')
-		jtoc_atof_fraction(str, ++i, sign, res);
+	pr = (float)atof(str);
+	*res = pr;
 }
 
 int				jtoc_parse_fractional(t_jnode *p, const char *str, int b, int e)
@@ -58,7 +34,6 @@ int				jtoc_parse_fractional(t_jnode *p, const char *str, int b, int e)
 	}
 	jtoc_atof(sub, data);
 	p->data = (void *)data;
-	printf("p: %f\n", *data);
 	free(sub);
 	return (FUNCTION_SUCCESS);
 }
