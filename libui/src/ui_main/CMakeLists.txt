@@ -17,6 +17,7 @@ target_sources(ui PUBLIC
         ui_main_event_scroll_up.c
         ui_main_fill_default_fonts.c
         ui_main_fill_default_surfaces.c
+        ui_main_fill_default_functions.c
         ui_main_find_window_by_id.c
         ui_main_get_font_by_id.c
         ui_main_get_function_by_id.c

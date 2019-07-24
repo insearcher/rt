@@ -13,6 +13,13 @@
           {
               "x": 400
           },
+          "events":
+          [
+              {
+                  "event_name": "onClose",
+                  "func_name": "ui_main_event_close_program"
+              }
+          ],
           "elements":
           [
               {

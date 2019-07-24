@@ -17,6 +17,7 @@ int	ui_jtoc_main_from_json(t_ui_main *m, const char *p)
 	t_jnode	*root;
 	t_jnode	*win;
 
+	ui_main_fill_default_functions(m);
 	if (!(root = jtoc_read(p)))
 		return (ui_jtoc_sdl_log_error("JSON", -1));
 	if (!(win = jtoc_node_get_by_path(root, "windows")) || win->type != array)

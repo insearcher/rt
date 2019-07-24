@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sbecker <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/07/24 22:28:53 by sbecker           #+#    #+#             */
+/*   Updated: 2019/07/24 22:28:56 by sbecker          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -6,9 +16,6 @@
 #include <string.h>
 #include "rt.h"
 #include "config.h"
-
-//TODO ПЕРЕНЕСТИ ui_main_fill_default_functions в libui из сурсов гуимпа.
-
 
 void	setup_scene(t_conf *conf)
 {

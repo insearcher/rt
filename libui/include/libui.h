@@ -339,6 +339,7 @@ t_pred_ptr_event			ui_main_get_function_by_id(t_ui_main *m,
 
 void						ui_main_fill_default_surfaces(t_ui_main *m);
 void						ui_main_fill_default_fonts(t_ui_main *m);
+void						ui_main_fill_default_functions(t_ui_main *m);
 
 void						ui_main_save_texture(t_ui_win *win, SDL_Texture *t,
 		const char *path, int type);
@@ -609,7 +610,7 @@ int							ui_file_open_file_dialog(char **res);
 int							ui_file_save_file_dialog(char **res);
 
 /*
-** IT'S PUITA, BUT NOT DEL, COULD BE USEFUL FOR CREATE JSON PREFAB
+** IT'S HUITA, BUT NOT DEL, COULD BE USEFUL FOR CREATE JSON PREFAB
 */
 void						ui_prefab_scroll_menu(t_ui_main *m, t_ui_el *canvas,
 		t_ui_el *scroll_menu, t_scroll_m_pref *scroll_data);
