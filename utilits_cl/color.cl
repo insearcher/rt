@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utilits.h"
+#include "../utilits/utilits.h"
 
 t_color     get_rgb(int r, int g, int b)
 {

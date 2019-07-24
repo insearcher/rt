@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "math_vec.h"
+#include "../include/math_vec.h"
 #include <math.h>
 
 t_vector3d	mv_minus(const t_vector3d a, const t_vector3d b)

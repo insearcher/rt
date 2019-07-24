@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "math_vec.h"
+#include "../include/math_vec.h"
 #include <math.h>
 
 t_vector3d	mv_get_vector3d(float x, float y, float z)

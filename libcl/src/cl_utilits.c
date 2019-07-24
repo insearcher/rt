@@ -10,24 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "config.h"
+#include "libcl.h"
 
-cl_device_id	get_device_id(void)
+size_t	cl_get_files_num(char **files)
 {
-	cl_platform_id	platform;
-	cl_device_id	device;
-	int				err;
+	size_t i;
 
-	err = clGetPlatformIDs(1, &platform, NULL);
-	if (err != 0)
-		ft_printf("Get platform - error\n");
-	err = clGetDeviceIDs(platform, CL_DEVICE_TYPE_GPU, 1, &device, NULL);
-	if (err != 0)
-		ft_printf("Get device id - error\n");
-	return (device);
+	i = 0;
+	while (files[i])
+		i++;
+	return (i);
 }
 
-char			*get_program_buf(const char *name, size_t *program_size)
+char	*cl_get_file_buf(const char *name, size_t *program_size)
 {
 	size_t	file_size;
 	FILE	*fd;
@@ -35,7 +30,7 @@ char			*get_program_buf(const char *name, size_t *program_size)
 
 	fd = fopen(name, "r");
 	if (!fd)
-		ft_printf("Open kernel file '%s' - error\n", name);
+		SDL_Log("Open kernel file '%s' - ERROR\n", name);
 	fseek(fd, 0, SEEK_END);
 	file_size = ftell(fd);
 	rewind(fd);

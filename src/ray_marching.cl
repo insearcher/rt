@@ -17,7 +17,7 @@ static void	objSDF(t_vector3d O, t_object3d *obj, float *dist_to_obj)
 
 static float	sceneSDF(t_vector3d O, t_scene *scene)
 {
-	float		dist_to_obj = 0;
+	float		dist_to_obj = 0.f;
 	t_object3d	object;
 
 	for (int i = 0; i < scene->objects_num; i++)
@@ -30,7 +30,7 @@ static float	sceneSDF(t_vector3d O, t_scene *scene)
 
 static float	find_intersect(t_vector3d start_ray, t_vector3d dir_ray, t_scene *scene)
 {
-	float	intersect_dist = 0;
+	float	intersect_dist = 0.f;
 	float	dist_to_obj;
 	int		max_steps = 200;
 	float	epsilon = 0.001;
@@ -42,9 +42,9 @@ static float	find_intersect(t_vector3d start_ray, t_vector3d dir_ray, t_scene *s
 			return (dist_to_obj);
 		intersect_dist += dist_to_obj;
 		if (intersect_dist > scene->max_distance)
-			return (0);
+			return (-1);
 	}
-	return (0);
+	return (-1);
 }
 
 t_color	ray_marching(t_vector3d start_ray, t_vector3d dir_ray, t_scene *scene)
@@ -52,7 +52,7 @@ t_color	ray_marching(t_vector3d start_ray, t_vector3d dir_ray, t_scene *scene)
 	t_color	color;
 	float	intersect_dist = 0;
 
-	if ((intersect_dist = find_intersect(start_ray, dir_ray, scene)))
+	if ((intersect_dist = find_intersect(start_ray, dir_ray, scene)) >= 0)
 		color = (t_color){255, 20, 20};
 	else
 		color = (t_color){255, 255, 255};

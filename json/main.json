@@ -39,7 +39,7 @@
                   [
                       {
                           "event_name": "onRender",
-                          "func_name": "ray_marching"
+                          "func_name": "ray_marching_render"
                       }
                   ]
               }

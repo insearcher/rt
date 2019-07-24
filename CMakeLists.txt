@@ -35,22 +35,28 @@ add_definitions(${GCC_COMPILE_FLAGS})
 add_subdirectory(libft)
 add_subdirectory(libjtoc)
 add_subdirectory(libui)
+add_subdirectory(libcl)
 
 set(${PROJECT_NAME}_INCLUDE_DIRS
         ${PROJECT_SOURCE_DIR}/include
         ${LIBFT_INCLUDE_DIRS}
         ${LIBJTOC_INCLUDE_DIRS}
+        ${LIBCL_INCLUDE_DIRS}
         ${LIBUI_INCLUDE_DIRS})
 message(${RT_INCLUDE_DIRS})
 
 include_directories(
         ${RT_INCLUDE_DIRS}
+        ${OpenCL_INCLUDE_DIRS}
 )
+link_directories(${OpenCL_LIBRARY})
 
 target_link_libraries(rt
         ft
         jtoc
+        cl
         ui
+        ${OpenCL_LIBRARY}
         SDL2::Core
         SDL2::Main
         SDL2::Image

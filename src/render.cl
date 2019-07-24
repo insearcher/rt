@@ -16,7 +16,7 @@ void        put_pixel(int x, int y, t_color color, __global char* img, int width
 }
 
 __kernel void render(__global char* img, int width, int height, int objects_num,
-		t_canvas canvas, __global t_object3d* objects)
+		t_camera camera, __global t_object3d* objects)
 {
 	int			gid;
 	t_scene		scene;
@@ -26,9 +26,9 @@ __kernel void render(__global char* img, int width, int height, int objects_num,
 	gid = get_global_id(0);
 	scene.objects_num = objects_num;
 	scene.objects = objects;
-	scene.min_distance = canvas.min_distance;
-	scene.max_distance = canvas.max_distance;
-	cam_ray = get_cam_ray(gid % width, gid / width, canvas, width, height);
-	color = ray_marching(canvas.camera, cam_ray, &scene);
-	put_pixel(gid % width, gid / width, color, img, width, height);
+	scene.min_distance = camera.min_distance;
+	scene.max_distance = camera.max_distance;
+	cam_ray = get_cam_ray(gid % width, gid / width, camera, width, height);
+	color = ray_marching(camera.pos, cam_ray, &scene);
+	put_pixel(gid % width, gid / width + 1, color, img, width, height);
 }
