@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ui_win_event_change_text_in_focused_el.c           :+:      :+:    :+:   */
+/*   ui_el_event_change_text.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbecker <sbecker@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbednar <sbednar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/19 19:18:31 by sbecker           #+#    #+#             */
-/*   Updated: 2019/07/15 11:21:25 by sbecker          ###   ########.fr       */
+/*   Created: 2019/07/24 22:47:00 by sbednar           #+#    #+#             */
+/*   Updated: 2019/07/24 22:47:00 by sbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	circumcision(t_ui_el *el)
 		str = ft_strnew(1);
 	else
 		str = ft_strsub(el->text_area->text, 0,
-				ft_strlen(el->text_area->text) - 1);
+						ft_strlen(el->text_area->text) - 1);
 	ui_el_update_text(el, str);
 	if (str != NULL)
 		free(str);
@@ -88,26 +88,24 @@ static void	join_with_other(t_ui_el *el, unsigned int keycode)
 	free(str_letter);
 }
 
-int			ui_win_event_change_text_in_focused_el(t_ui_main *m, void *a)
+int			ui_el_event_change_text(t_ui_main *m, void *a)
 {
-	t_ui_win	*w;
 	t_ui_el		*el;
 
-	w = (t_ui_win *)a;
-	el = m->focused_el;
+	el = (t_ui_el *)a;
 	if (!el || !(el->params & EL_IS_TEXT)
-			|| !(el->text_area->params & TEXT_IS_INPUTTING))
+		|| !(el->text_area->params & TEXT_IS_INPUTTING))
 		return (1);
 	if (m->cur_keycode >= SDL_SCANCODE_A && m->cur_keycode <= SDL_SCANCODE_Z)
 		join_with_letter(el, m->cur_keycode, m->is_upper);
 	else if (m->cur_keycode >= SDL_SCANCODE_1
-			&& m->cur_keycode <= SDL_SCANCODE_9)
+			 && m->cur_keycode <= SDL_SCANCODE_9)
 		join_with_number(el, m->cur_keycode);
 	else if (m->cur_keycode == SDL_SCANCODE_BACKSPACE)
 		circumcision(el);
 	else if (m->cur_keycode == 55 || m->cur_keycode == 56 ||
-			m->cur_keycode == SDL_SCANCODE_0 ||
-			m->cur_keycode == SDL_SCANCODE_SPACE || m->cur_keycode == 45)
+			 m->cur_keycode == SDL_SCANCODE_0 ||
+			 m->cur_keycode == SDL_SCANCODE_SPACE || m->cur_keycode == 45)
 		join_with_other(el, m->cur_keycode);
 	return (1);
 }

@@ -12,6 +12,21 @@
 
 #include "libui.h"
 
+static int	ui_win_invoke_key_down_on_focused_el(t_ui_main *m, void *a)
+{
+	t_ui_el	*el;
+
+	(void)a;
+	el = m->focused_el;
+	if (!el)
+		return (1);
+	if (m->cur_keycode == SDL_SCANCODE_ESCAPE)
+		m->focused_el = NULL;
+	else
+		ui_event_invoke(el->events->on_key_down[m->cur_keycode], m, el);
+	return (1);
+}
+
 static void	ui_win_setup_default_logs(t_ui_win *w)
 {
 	ui_event_add_listener(w->events->on_focus_lost, ui_log_window_focus_lost);
@@ -28,9 +43,8 @@ static void	ui_win_setup_default_keyboard_events(t_ui_win *w)
 
 	i = -1;
 	while (++i < KEYS_COUNT)
-		if (i != SDL_SCANCODE_ESCAPE)
-			ui_event_add_listener(w->events->on_key_down[i],
-					ui_win_event_change_text_in_focused_el);
+		ui_event_add_listener(w->events->on_key_down[i],
+				ui_win_invoke_key_down_on_focused_el);
 }
 
 void		ui_win_setup_default(t_ui_win *w)

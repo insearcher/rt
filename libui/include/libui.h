@@ -162,6 +162,8 @@ typedef struct				s_ui_el_events
 	t_ui_event				*on_scroll_down;
 	t_ui_event				*on_render;
 	t_ui_event				*on_resize;
+	t_ui_event				**on_key_down;
+	t_ui_event				**on_key_up;
 }							t_ui_el_events;
 
 struct s_ui_win;
@@ -495,6 +497,9 @@ int							ui_el_event_set_focused_texture(t_ui_main *m,
 		void *a);
 int							ui_el_event_set_active_texture(t_ui_main *m,
 		void *a);
+
+int							ui_el_event_change_text(t_ui_main *m, void *a);
+
 void						ui_el_texture_x_w(t_ui_el *e, t_rect *srect,
 		t_rect *tmp_rect, int w);
 void						ui_el_texture_y_h(t_ui_el *e, t_rect *srect,
@@ -508,13 +513,12 @@ void						ui_win_destroy(t_ui_win *w);
 t_ui_el						*ui_win_find_el_by_id(t_ui_win *w, Uint32 id);
 
 int							ui_win_event_update_size(t_ui_main *m, void *a);
-int							ui_win_event_change_text_in_focused_el(t_ui_main *m,
-		void *a);
 int							ui_win_event_focus_lost(t_ui_main *m, void *a);
 int							ui_win_event_focus_gained(t_ui_main *m, void *a);
 
 int							ui_sdl_init(void);
 void						ui_sdl_deinit(int exit_status);
+
 
 int							ui_jtoc_main_from_json(t_ui_main *m, const char *p);
 

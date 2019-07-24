@@ -22,6 +22,24 @@ t_ui_event		*ui_event_init(void)
 	return (e);
 }
 
+static inline void		init_el_keyboard_events(t_ui_el_events *e)
+{
+	int	i;
+
+	i = KEYS_COUNT;
+	if (!(e->on_key_up = (t_ui_event **)malloc(KEYS_COUNT *
+			sizeof(t_ui_event *))) ||
+		!(e->on_key_down = (t_ui_event **)malloc(KEYS_COUNT *
+			sizeof(t_ui_event *))))
+		ui_sdl_deinit(228);
+	while (--i >= 0)
+	{
+		if (!(e->on_key_down[i] = ui_event_init()) ||
+			!(e->on_key_up[i] = ui_event_init()))
+			ui_sdl_deinit(228);
+	}
+}
+
 t_ui_el_events	*ui_event_el_events_init(void)
 {
 	t_ui_el_events *e;
@@ -43,10 +61,11 @@ t_ui_el_events	*ui_event_el_events_init(void)
 		!(e->on_render = ui_event_init()) ||
 		!(e->on_resize = ui_event_init()))
 		ui_sdl_deinit(228);
+	init_el_keyboard_events(e);
 	return (e);
 }
 
-static void		init_keyboard_events(t_ui_win_events *w)
+static inline void		init_win_keyboard_events(t_ui_win_events *w)
 {
 	int	i;
 
@@ -86,6 +105,6 @@ t_ui_win_events	*ui_event_win_events_init(void)
 		!(w->on_close = ui_event_init()) ||
 		!(w->on_moved = ui_event_init()))
 		ui_sdl_deinit(228);
-	init_keyboard_events(w);
+	init_win_keyboard_events(w);
 	return (w);
 }

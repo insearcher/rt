@@ -48,4 +48,5 @@ target_sources(ui PUBLIC
         ui_el_event_show_window.c
         ui_el_remove_texture_by_id.c
         ui_el_utils_from_default_draw.c
+        ui_el_event_change_text.c
         )

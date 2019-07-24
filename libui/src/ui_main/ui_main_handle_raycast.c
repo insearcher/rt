@@ -43,9 +43,7 @@ static void	invoke_button_events(t_ui_main *m, t_ui_el *cur)
 {
 	if (m->params & MAIN_LMB_PRESSED)
 	{
-		if ((cur->params & EL_IS_TEXT) &&
-				(cur->text_area->params & TEXT_IS_INPUTTING))
-			m->focused_el = cur;
+		m->focused_el = cur;
 		ui_event_invoke(cur->events->on_pointer_left_button_pressed, m, cur);
 		m->params &= ~MAIN_LMB_PRESSED;
 	}

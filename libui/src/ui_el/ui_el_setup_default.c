@@ -12,6 +12,16 @@
 
 #include "libui.h"
 
+static void	ui_el_setup_change_text(t_ui_el *el)
+{
+	int	i;
+
+	i = -1;
+	while (++i < KEYS_COUNT)
+		ui_event_add_listener(el->events->on_key_down[i],
+				ui_el_event_change_text);
+}
+
 static void	ui_el_setup_default_logs(t_ui_el *el)
 {
 	ui_event_add_listener(el->events->on_pointer_enter,
@@ -40,6 +50,7 @@ void		ui_el_setup_default(t_ui_el *el)
 			ui_el_event_default_pointer_enter);
 	ui_event_add_listener(el->events->on_pointer_exit,
 			ui_el_event_default_pointer_exit);
+	ui_el_setup_change_text(el);
 	if (DEBUG_STATUS == 1)
 		ui_el_setup_default_logs(el);
 }

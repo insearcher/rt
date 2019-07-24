@@ -12,6 +12,16 @@
 
 #include "libui.h"
 
+static void	add_change_text_events(t_ui_el *el)
+{
+	int	i;
+
+	i = -1;
+	while (++i < KEYS_COUNT)
+		ui_event_add_listener(el->events->on_key_down[i],
+							ui_el_event_change_text);
+}
+
 int	ui_el_set_text(t_ui_el *el, TTF_Font *font, t_text_params text_params)
 {
 	el->text_area = (t_ui_text *)ft_memalloc(sizeof(t_ui_text));
@@ -22,6 +32,7 @@ int	ui_el_set_text(t_ui_el *el, TTF_Font *font, t_text_params text_params)
 	el->text_area->params = text_params.params;
 	el->text_area->bg_color = text_params.bg_color;
 	el->params |= EL_IS_TEXT;
+	add_change_text_events(el);
 	ui_el_update_text(el, "");
 	return (FUNCTION_SUCCESS);
 }
