@@ -32,6 +32,7 @@ target_sources(ft PUBLIC
         ft_toupper.c
         ft_tolower.c
         ft_memalloc.c
+        ft_x_memalloc.c
         ft_memdel.c
         ft_strnew.c
         ft_strdel.c

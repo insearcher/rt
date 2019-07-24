@@ -2,14 +2,16 @@ cmake_minimum_required(VERSION 3.0)
 
 cmake_policy(SET CMP0076 NEW)
 
-project(LIBFT VERSION 1.0.0 LANGUAGES C)
+project(LIBCL VERSION 1.0.0 LANGUAGES C)
 
-add_library(ft STATIC src/ft_x_memalloc.c)
+add_library(cl STATIC src/cl_create_program.c src/cl_init.c src/cl_kernels.c)
 
 set(${PROJECT_NAME}_INCLUDE_DIRS
         ${PROJECT_SOURCE_DIR}/include
+        ${LIBFT_INCLUDE_DIRS}
+        ${LIBUI_INCLUDE_DIRS}
         CACHE INTERNAL "${PROJECT_NAME}: Include Directories" FORCE)
 
-include_directories(${LIBFT_INCLUDE_DIRS})
+include_directories(${LIBCL_INCLUDE_DIRS})
 
 add_subdirectory(src)
