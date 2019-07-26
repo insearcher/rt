@@ -2,7 +2,7 @@
 # define CONFIG_CL_H
 
 # include "../include/math_vec.h"
-# include "../utilits/utilits.h"
+# include "utilits.h"
 # include "rt.h"
 
 typedef struct	s_scene
@@ -15,6 +15,6 @@ typedef struct	s_scene
 
 t_vector3d	get_cam_ray(int x, int y, t_camera camera, int width, int height);
 void		put_pixel(int x, int y, t_color color, __global char* img, int width, int height);
-t_color		ray_marching(t_vector3d start_ray, t_vector3d dir_ray, t_scene *scene);
+t_vector3d	ray_marching(t_vector3d start_ray, t_vector3d dir_ray, t_scene *scene);
 
 #endif

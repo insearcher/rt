@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../utilits/utilits.h"
+#include "utilits.h"
 
 t_color     get_rgb(int r, int g, int b)
 {
@@ -42,4 +42,24 @@ t_color     rgb_plus(t_color rgb1, t_color rgb2)
     new_rgb.g = rgb1.g + rgb2.g;
     new_rgb.b = rgb1.b + rgb2.b;
     return (new_rgb);
+}
+
+t_color     rgb_minus(t_color rgb1, t_color rgb2)
+{
+	t_color new_rgb;
+
+	new_rgb.r = rgb1.r - rgb2.r;
+	new_rgb.g = rgb1.g - rgb2.g;
+	new_rgb.b = rgb1.b - rgb2.b;
+	return (new_rgb);
+}
+
+t_color     rgb_minus_num(t_color rgb1, int num)
+{
+	t_color new_rgb;
+
+	new_rgb.r = rgb1.r - num;
+	new_rgb.g = rgb1.g - num;
+	new_rgb.b = rgb1.b - num;
+	return (new_rgb);
 }

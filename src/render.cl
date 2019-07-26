@@ -20,7 +20,7 @@ __kernel void render(__global char* img, int width, int height, int objects_num,
 {
 	int			gid;
 	t_scene		scene;
-	t_color		color;
+	t_vector3d	color;
 	t_vector3d	cam_ray;
 
 	gid = get_global_id(0);
@@ -30,5 +30,5 @@ __kernel void render(__global char* img, int width, int height, int objects_num,
 	scene.max_distance = camera.max_distance;
 	cam_ray = get_cam_ray(gid % width, gid / width, camera, width, height);
 	color = ray_marching(camera.pos, cam_ray, &scene);
-	put_pixel(gid % width, gid / width + 1, color, img, width, height);
+	put_pixel(gid % width, gid / width + 1, (t_color){color.x * 255, color.y * 255, color.z * 255}, img, width, height);
 }

@@ -25,7 +25,7 @@ void	setup_scene(t_conf *conf)
 	objects = (t_object3d *)malloc(sizeof(t_object3d) * conf->objects_num);
 	objects[0].type = 1;
 	objects[0].radius = 2;
-	objects[0].center = (t_vector3d){0, 0, 4};
+	objects[0].center = (t_vector3d){0, 0, 30};
 	conf->objects = objects;
 }
 
