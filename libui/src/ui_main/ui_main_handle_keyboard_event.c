@@ -23,14 +23,20 @@ void	ui_main_handle_keyboard_event(t_ui_main *m)
 	event = NULL;
 	if (m->sdl_event->window.type == SDL_KEYDOWN)
 	{
+		if (win->events->on_key_down[0])
+			ui_event_invoke(win->events->on_key_down[0], m, win);
 		m->cur_keycode = m->sdl_event->key.keysym.scancode;
 		if (m->cur_keycode == 225)
 			m->is_upper = 1;
 		event = win->events->on_key_down[m->sdl_event->key.keysym.scancode];
 	}
-	else if (m->sdl_event->window.type == SDL_KEYUP
-			&& m->sdl_event->key.keysym.scancode == 225)
-		m->is_upper = 0;
+	else if (m->sdl_event->window.type == SDL_KEYUP)
+	{
+		if (win->events->on_key_up[0])
+			ui_event_invoke(win->events->on_key_up[0], m, win);
+		if (m->sdl_event->key.keysym.scancode == 225)
+			m->is_upper = 0;
+	}
 	if (event != NULL)
 	{
 		SDL_LockMutex(m->mutex);

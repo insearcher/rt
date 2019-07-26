@@ -83,4 +83,5 @@ target_sources(ft PUBLIC
         ft_minmax.c
         get_strs.c
         cut_str_by_num_words.c
+        ft_lerp.c
         )

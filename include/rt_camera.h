@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   initialization.c                                   :+:      :+:    :+:   */
+/*   rt_camera.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbosmer <sbosmer@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbecker <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/10 04:47:49 by sbecker           #+#    #+#             */
-/*   Updated: 2019/07/18 22:25:19 by sbecker          ###   ########.fr       */
+/*   Created: 2019/04/10 05:13:21 by sbecker           #+#    #+#             */
+/*   Updated: 2019/07/03 20:16:18 by sbecker          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "config.h"
+#ifndef RT_CAMERA_H
+# define RT_CAMERA_H
 
-void	setup_camera(t_camera *camera)
-{
-	camera->aspect_ratio = 16.f / 9.f;
-	camera->min_distance = 1;
-	camera->max_distance = 100;
-	camera->pos = (t_vector3d){50, 50, 50};
-}
+# include "libui.h"
+# include "config.h"
+# include "rt.h"
+
+void	move_camera(t_ui_main *m);
+
+#endif

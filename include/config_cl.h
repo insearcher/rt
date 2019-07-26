@@ -1,6 +1,8 @@
 #ifndef CONFIG_CL_H
 # define CONFIG_CL_H
 
+# define CL_SILENCE_DEPRECATION
+
 # include "../include/math_vec.h"
 # include "utilits.h"
 # include "rt.h"

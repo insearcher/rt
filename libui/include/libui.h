@@ -251,6 +251,7 @@ typedef struct				s_ui_main
 	void					*data;
 	Uint32					params;
 	t_vec2					ptr_pos;
+	const Uint8				*state;
 }							t_ui_main;
 
 typedef struct				s_scroll_m_pref

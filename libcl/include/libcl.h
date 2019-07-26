@@ -13,6 +13,8 @@
 #ifndef LIBCL_H
 # define LIBCL_H
 
+# define CL_SILENCE_DEPRECATION
+
 # include "OpenCL/opencl.h"
 # include "libft.h"
 # include "libui.h"

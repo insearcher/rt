@@ -6,4 +6,5 @@ target_sources(rt PUBLIC
         main.c
         initialization.c
         ray_marching_render.c
+        move_camera_by_key.c
         )

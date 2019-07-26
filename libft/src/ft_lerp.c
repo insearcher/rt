@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   initialization.c                                   :+:      :+:    :+:   */
+/*   ft_lerp.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbosmer <sbosmer@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbednar <sbednar@student.fr.42>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/10 04:47:49 by sbecker           #+#    #+#             */
-/*   Updated: 2019/07/18 22:25:19 by sbecker          ###   ########.fr       */
+/*   Created: 2018/11/27 21:49:43 by sbednar           #+#    #+#             */
+/*   Updated: 2018/11/27 21:50:10 by sbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "config.h"
+#include "libft.h"
 
-void	setup_camera(t_camera *camera)
+float	ft_lerp(float from, float to, float t)
 {
-	camera->aspect_ratio = 16.f / 9.f;
-	camera->min_distance = 1;
-	camera->max_distance = 100;
-	camera->pos = (t_vector3d){50, 50, 50};
+	return (from + (to - from) * t);
 }

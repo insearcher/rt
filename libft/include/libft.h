@@ -137,4 +137,6 @@ char				*cut_str_by_num_words(const char *s, size_t num_words);
 char				**get_strs(const char *s, size_t *nss,
 		size_t *num_words_in_strs);
 
+float				ft_lerp(float from, float to, float t);
+
 #endif

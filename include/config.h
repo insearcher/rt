@@ -13,6 +13,8 @@
 #ifndef CONFIG_H
 # define CONFIG_H
 
+# define CL_SILENCE_DEPRECATION
+
 # include <OpenCL/opencl.h>
 # include <math.h>
 # include "libft.h"

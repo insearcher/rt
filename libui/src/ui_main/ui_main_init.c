@@ -25,5 +25,6 @@ t_ui_main	*ui_main_init(void)
 	if (!(m->sdl_event = (SDL_Event *)malloc(sizeof(SDL_Event))))
 		ui_sdl_deinit(228);
 	ft_bzero(m->sdl_event, sizeof(SDL_Event));
+	m->state = SDL_GetKeyboardState(NULL);
 	return (m);
 }

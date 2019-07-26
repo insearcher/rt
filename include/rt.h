@@ -13,9 +13,11 @@ typedef struct			s_object3d
 typedef struct          s_camera
 {
 	float 				aspect_ratio;
-	float               min_distance;
-	float               max_distance;
-	t_vector3d          pos;
+	float				min_distance;
+	float				max_distance;
+	t_vector3d			pos;
+	t_vector3d			velocity;
+	float				speed;
 }						t_camera;
 
 /*typedef struct			s_camera

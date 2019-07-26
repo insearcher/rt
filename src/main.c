@@ -15,7 +15,20 @@
 #include <unistd.h>
 #include <string.h>
 #include "rt.h"
+#include "rt_camera.h"
 #include "config.h"
+
+static int	physics(void *a)
+{
+	t_ui_main	*m;
+
+	m = (t_ui_main *)a;
+	while (1)
+	{
+		move_camera(m);
+		SDL_Delay(5);
+	}
+}
 
 void	setup_scene(t_conf *conf)
 {
@@ -49,8 +62,16 @@ int main(void)
     ui_main_add_function_by_id(m, ray_marching_render, "ray_marching_render");
     ui_jtoc_main_from_json(m, "json/main.json");
     t_ui_win *w = ui_main_find_window_by_id(m, 0);
+	conf.camera.speed = .025f;
     t_ui_el *el = ui_win_find_el_by_id(w, 1);
 	initialization_surface(el, w);
+
+	/// !!!
+	SDL_Thread	*thread;
+	thread = SDL_CreateThread(physics, "physics", (void *)m);
+	SDL_DetachThread(thread);
+	/// !!!
+
     ui_main_run_program(m);
 	return 0;
 }

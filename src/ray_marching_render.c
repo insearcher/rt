@@ -76,8 +76,8 @@ int		ray_marching_render(t_ui_main *m, void *a)
 	SDL_DestroyTexture(t);
 	clReleaseMemObject(mem_img);
 	clReleaseMemObject(mem_objects);
-	conf->camera.pos.x += 0.05f;
-	conf->camera.pos.y += .02f;
-	conf->camera.pos.z += sin(conf->camera.pos.x) * 0.2f;
+//	conf->camera.pos.x += 0.05f;
+//	conf->camera.pos.y += .02f;
+//	conf->camera.pos.z += sin(conf->camera.pos.x) * 0.2f;
 	return (1);
 }
