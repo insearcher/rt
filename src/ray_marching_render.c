@@ -71,6 +71,13 @@ int		ray_marching_render(t_ui_main *m, void *a)
 	cl_mem		mem_objects;
 	get_mem_for_render(conf, el, &mem_img, &mem_objects);
 	run_render(conf, el, &mem_img, &mem_objects);
-	SDL_RenderCopy(el->sdl_renderer, ui_el_create_texture(el), 0, 0);
+	SDL_Texture *t =  ui_el_create_texture(el);
+	SDL_RenderCopy(el->sdl_renderer, t, 0, 0);
+	SDL_DestroyTexture(t);
+	clReleaseMemObject(mem_img);
+	clReleaseMemObject(mem_objects);
+	conf->camera.pos.x += 0.05f;
+	conf->camera.pos.y += .02f;
+	conf->camera.pos.z += sin(conf->camera.pos.x) * 0.2f;
 	return (1);
 }

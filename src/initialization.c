@@ -16,7 +16,6 @@ void	setup_camera(t_camera *camera)
 {
 	camera->aspect_ratio = 16.f / 9.f;
 	camera->min_distance = 1;
-	camera->max_distance = 1000;
-	camera->pos = (t_vector3d){0, 0, -2};
+	camera->max_distance = 100000;
+	camera->pos = (t_vector3d){50, 50, 50};
 }
-
