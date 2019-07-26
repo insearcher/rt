@@ -18,5 +18,6 @@
 # include "rt.h"
 
 void	move_camera(t_ui_main *m);
+void	rotate_camera(t_ui_main *m);
 
 #endif
