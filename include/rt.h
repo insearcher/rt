@@ -17,13 +17,16 @@ typedef struct          s_camera
 	float				min_distance;
 	float				max_distance;
 	/// Physics
-	float				acc_time;
+	float				pos_acc;
 	float				speed;
 	t_vector3d			pos;
+	t_vector3d			velocity;
+	t_vector3d			rot_velocity;
+	float				rot_speed;
+	float				rot_acc;
 	t_vector3d			local_x;
 	t_vector3d			local_y;
 	t_vector3d			local_z;
-	t_vector3d			velocity;
 }						t_camera;
 
 /*typedef struct			s_camera

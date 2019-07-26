@@ -67,13 +67,16 @@ int main(void)
 	initialization_surface(el, w);
 
 	/// !!!
+	conf.camera.rot_velocity = (t_vector3d){0, 0, 0};
+	conf.camera.rot_speed = 1;
+	conf.camera.rot_acc = .04f;
 	conf.camera.local_x = (t_vector3d){1, 0, 0};
 	conf.camera.local_y = (t_vector3d){0, 1, 0};
 	conf.camera.local_z = (t_vector3d){0, 0, 1};
 
 	conf.camera.velocity = (t_vector3d){0, 0, 0};
 	conf.camera.speed = .025f;
-	conf.camera.acc_time = .04f;
+	conf.camera.pos_acc = .04f;
 
 	SDL_Thread	*thread;
 	thread = SDL_CreateThread(physics, "physics", (void *)m);

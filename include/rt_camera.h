@@ -14,6 +14,7 @@
 # define RT_CAMERA_H
 
 # include "libui.h"
+# include "math_vec.h"
 # include "config.h"
 # include "rt.h"
 
