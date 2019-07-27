@@ -61,6 +61,7 @@ void	rotate_camera(t_ui_main *m)
 
 	cam = &((t_conf *)m->data)->camera;
 
+	/// Arrows mode
 	if (m->state[SDL_SCANCODE_DOWN])
 		raw_rot_velocity.x = 1;
 	else if (m->state[SDL_SCANCODE_UP])
@@ -74,6 +75,16 @@ void	rotate_camera(t_ui_main *m)
 		raw_rot_velocity.y = 1;
 	else if (!m->state[SDL_SCANCODE_LEFT] && !m->state[SDL_SCANCODE_RIGHT])
 		raw_rot_velocity.y = 0;
+	/// End of arrows mode
+
+	/// Mouse mode
+	int x, y;
+	SDL_GetMouseState(&x, &y);
+	if (!raw_rot_velocity.y)
+		raw_rot_velocity.y = (x - cam->mx) / 1440.f * 300;
+	if (!raw_rot_velocity.x)
+		raw_rot_velocity.x = (y - cam->my) / 810.f * 300;
+	/// End of mouse mode
 
 	cam->rot_velocity.x = ft_lerp(cam->rot_velocity.x, raw_rot_velocity.x,
 			ft_fmin(1, cam->rot_acc / fabs(cam->rot_velocity.x -
@@ -92,6 +103,9 @@ void	rotate_camera(t_ui_main *m)
 	mult_matrix_to_vec(&rot_matrix[0], &cam->local_x);
 	mult_matrix_to_vec(&rot_matrix[0], &cam->local_y);
 	mult_matrix_to_vec(&rot_matrix[0], &cam->local_z);
+
+	cam->mx = x;
+	cam->my = y;
 }
 
 void	move_camera(t_ui_main *m)

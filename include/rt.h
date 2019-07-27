@@ -27,6 +27,9 @@ typedef struct          s_camera
 	t_vector3d			local_x;
 	t_vector3d			local_y;
 	t_vector3d			local_z;
+	/// Temp
+	int					mx;
+	int					my;
 }						t_camera;
 
 /*typedef struct			s_camera
