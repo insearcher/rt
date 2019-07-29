@@ -7,6 +7,5 @@ target_sources(rt PUBLIC
         initialization.c
         ray_marching_render.c
         move_camera_by_key.c
-        ../utilits/math_vec1.c
-        ../utilits/math_vec2.c
+        ../utilits_cl/math_vec.c
         )

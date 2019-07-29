@@ -12,6 +12,12 @@
 
 #include "config.h"
 
+//TODO creating and deleting a texture, using a surface is probably a bad idea, maybe need reworking.
+//https://wiki.libsdl.org/SDL_UpdateTexture
+//https://lazyfoo.net/tutorials/SDL/42_texture_streaming/index.php
+
+//TODO create fps checker
+
 void	run_render(t_conf *conf, t_ui_el *el, cl_mem *mem_img,
 		cl_mem *mem_objects)
 {

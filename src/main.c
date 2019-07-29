@@ -39,7 +39,7 @@ void	setup_scene(t_conf *conf)
 	objects = (t_object3d *)malloc(sizeof(t_object3d) * conf->objects_num);
 	objects[0].type = 1;
 	objects[0].radius = .5f;
-	objects[0].center = (t_vector3d){4.f, 4.f, 4.f};
+	objects[0].center = (cl_float3){{4.f, 4.f, 4.f}};
 	conf->objects = objects;
 }
 
@@ -55,7 +55,7 @@ int main(void)
     ui_sdl_init();
     t_ui_main *m = ui_main_init();
     conf.cl = cl_setup((char *[]){"src/render.cl", "src/ray_marching.cl",
-					"src/get_cam_ray.cl", "utilits_cl/math_vec.cl",
+					"src/get_cam_ray.cl", "utilits_cl/math_vec.c",
 					"utilits_cl/color.cl", NULL}, (char *[]){"render", NULL});
 	setup_scene(&conf);
 	setup_camera(&conf.camera);
@@ -67,14 +67,14 @@ int main(void)
 	initialization_surface(el, w);
 
 	/// !!!
-	conf.camera.rot_velocity = (t_vector3d){0, 0, 0};
+	conf.camera.rot_velocity = (cl_float3){{0, 0, 0}};
 	conf.camera.rot_speed = 1;
 	conf.camera.rot_acc = .04f;
-	conf.camera.local_x = (t_vector3d){1, 0, 0};
-	conf.camera.local_y = (t_vector3d){0, 1, 0};
-	conf.camera.local_z = (t_vector3d){0, 0, 1};
+	conf.camera.local_x = (cl_float3){{1, 0, 0}};
+	conf.camera.local_y = (cl_float3){{0, 1, 0}};
+	conf.camera.local_z = (cl_float3){{0, 0, 1}};
 
-	conf.camera.velocity = (t_vector3d){0, 0, 0};
+	conf.camera.velocity = (cl_float3){{0, 0, 0}};
 	conf.camera.speed = .025f;
 	conf.camera.pos_acc = .04f;
 

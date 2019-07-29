@@ -20,8 +20,8 @@ __kernel void render(__global char* img, int width, int height, int objects_num,
 {
 	int			gid;
 	t_scene		scene;
-	t_vector3d	color;
-	t_vector3d	cam_ray;
+	float3	color;
+	float3	cam_ray;
 
 	gid = get_global_id(0);
 	scene.objects_num = objects_num;

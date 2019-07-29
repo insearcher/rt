@@ -12,7 +12,7 @@
 
 #include "rt_camera.h"
 
-static void	get_x_rot_matrix(float *m, t_vector3d *v, float a)
+static void	get_x_rot_matrix(float *m, cl_float3 *v, float a)
 {
 	float rads = a / 180 * M_PI;
 	float c = cosf(rads);
@@ -44,9 +44,9 @@ static void	get_y_rot_matrix(float *m, float a)
 	m[8] = cosf(rads);
 }
 
-static void	mult_matrix_to_vec(float *m, t_vector3d *v)
+static void	mult_matrix_to_vec(float *m, cl_float3 *v)
 {
-	t_vector3d temp = *v;
+	cl_float3 temp = *v;
 
 	temp.x = m[0] * v->x + m[1] * v->y + m[2] * v->z;
 	temp.y = m[3] * v->x + m[4] * v->y + m[5] * v->z;
@@ -57,7 +57,7 @@ static void	mult_matrix_to_vec(float *m, t_vector3d *v)
 void	rotate_camera(t_ui_main *m)
 {
 	t_camera	*cam;
-	t_vector3d	raw_rot_velocity;
+	cl_float3	raw_rot_velocity;
 
 	cam = &((t_conf *)m->data)->camera;
 
@@ -111,7 +111,7 @@ void	rotate_camera(t_ui_main *m)
 void	move_camera(t_ui_main *m)
 {
 	t_camera	*cam;
-	t_vector3d	raw_velocity;
+	cl_float3	raw_velocity;
 
 	cam = &((t_conf *)m->data)->camera;
 

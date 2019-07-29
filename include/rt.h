@@ -1,12 +1,22 @@
 #ifndef RT_H
 # define RT_H
 
-#include "math_vec.h"
+# include "math_vec.h"
+# ifndef C_OPENCL__
+# include <OpenCL/opencl.h>
+# endif
 
 typedef struct			s_object3d
 {
 	int					type;
-	t_vector3d			center;
+# ifndef C_OPENCL__
+
+	cl_float3			center;
+# else
+
+	float3			center;
+
+# endif
 	float				radius;
 }						t_object3d;
 
@@ -19,22 +29,32 @@ typedef struct          s_camera
 	/// Physics
 	float				pos_acc;
 	float				speed;
-	t_vector3d			pos;
-	t_vector3d			velocity;
-	t_vector3d			rot_velocity;
 	float				rot_speed;
 	float				rot_acc;
-	t_vector3d			local_x;
-	t_vector3d			local_y;
-	t_vector3d			local_z;
+
+# ifndef C_OPENCL__
+
+	cl_float3			pos;
+	cl_float3			velocity;
+	cl_float3			rot_velocity;
+	cl_float3			local_x;
+	cl_float3			local_y;
+	cl_float3			local_z;
+
+# else
+
+	float3			pos;
+	float3			velocity;
+	float3			rot_velocity;
+	float3			local_x;
+	float3			local_y;
+	float3			local_z;
+
+# endif
+
 	/// Temp
 	int					mx;
 	int					my;
 }						t_camera;
-
-/*typedef struct			s_camera
-{
-	float
-};*/
 
 #endif

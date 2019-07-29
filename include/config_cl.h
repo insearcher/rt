@@ -15,8 +15,8 @@ typedef struct	s_scene
 	__global t_object3d*	objects;
 }				t_scene;
 
-t_vector3d	get_cam_ray(int x, int y, t_camera camera, int width, int height);
+float3	get_cam_ray(int x, int y, t_camera camera, int width, int height);
 void		put_pixel(int x, int y, t_color color, __global char* img, int width, int height);
-t_vector3d	ray_marching(t_vector3d start_ray, t_vector3d dir_ray, t_scene *scene);
+float3	ray_marching(float3 start_ray, float3 dir_ray, t_scene *scene);
 
 #endif
