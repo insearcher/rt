@@ -1,23 +1,31 @@
 #include "config_cl.h"
 
 
-static float sphereSDF(float3 pos, float3 c, float radius)
+static float3 repeatSDF(float3 pos, float3 cen, float rx, float ry, float rz)
 {
-	float3 in;
-	in = ft_mod(pos, c);
-//	in = mv_minus(in, mv_mult_num(c, 0.5f));
-	in = in - c * 0.5f;
-	return (mv_length(in) - radius);
-
-//	return (mv_length(mv_minus(pos, c)) - radius);
+    float3 in;
+    float3 dv = cen + (float3){rx, ry, rz};
+    in = ft_mod(pos, dv);
+    in -= dv * 0.5f;
+    return (in);
 }
 
-static float	SDF(float3 O, t_object3d *obj)
+
+static float sphereSDF(float3 posc, float radius)
+{
+    return (mv_length(posc) - radius);
+}
+
+static float	SDF(float3 ray_point, t_object3d *obj)
 {
 	float dist_to_obj;
+	float3 posc;
 
+    posc = ray_point - obj->center;
+    if (666) // if obj->isRepeating or anything like this
+        posc = repeatSDF(ray_point, obj->center, 0, 0, 0);
 	if (obj->type == 1)
-		dist_to_obj = sphereSDF(O, obj->center, obj->radius);
+		dist_to_obj = sphereSDF(posc, obj->radius);
 	return (dist_to_obj);
 }
 
