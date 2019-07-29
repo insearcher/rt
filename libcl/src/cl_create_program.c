@@ -63,7 +63,7 @@ cl_program	*cl_create_program(cl_context context, char **files,
 	size_t		files_num;
 	cl_int		err;
 
-	program = (cl_program *)ft_memalloc(sizeof(cl_program));
+	program = (cl_program *)ft_x_memalloc(sizeof(cl_program));
 	files_num = cl_get_files_num(files);
 	program_buf = (char**)malloc(sizeof(char*) * files_num);
 	program_size = (size_t*)malloc(sizeof(size_t) * files_num);
