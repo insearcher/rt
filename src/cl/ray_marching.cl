@@ -9,8 +9,8 @@ static float	SDF(float3 ray_point, t_object3d *obj)
     if (1) // if obj->isRepeating or anything like this
         posc = repeatSDF(ray_point, obj->center, 0, 0, 0);
 	if (obj->type == 1)
-	//	dist_to_obj = sphereSDF(posc, obj->radius);
-			dist_to_obj = boxSDF(posc, obj->radius);
+		dist_to_obj = sphereSDF(posc, obj->radius);
+	//		dist_to_obj = boxSDF(posc, obj->radius);
 	return (dist_to_obj);
 }
 
