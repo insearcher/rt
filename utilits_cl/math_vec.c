@@ -1,6 +1,6 @@
 #include "math_vec.h"
 
-# ifndef C_OPENCL__
+# ifndef OPENCL___
 
 cl_float3	mv_minus(const cl_float3 a, const cl_float3 b)
 {

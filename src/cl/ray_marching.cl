@@ -1,31 +1,16 @@
 #include "config_cl.h"
 
-
-static float3 repeatSDF(float3 pos, float3 cen, float rx, float ry, float rz)
-{
-    float3 in;
-    float3 dv = cen + (float3){rx, ry, rz};
-    in = ft_mod(pos, dv);
-    in -= dv * 0.5f;
-    return (in);
-}
-
-
-static float sphereSDF(float3 posc, float radius)
-{
-    return (mv_length(posc) - radius);
-}
-
 static float	SDF(float3 ray_point, t_object3d *obj)
 {
 	float dist_to_obj;
 	float3 posc;
 
     posc = ray_point - obj->center;
-    if (666) // if obj->isRepeating or anything like this
+    if (1) // if obj->isRepeating or anything like this
         posc = repeatSDF(ray_point, obj->center, 0, 0, 0);
 	if (obj->type == 1)
-		dist_to_obj = sphereSDF(posc, obj->radius);
+	//	dist_to_obj = sphereSDF(posc, obj->radius);
+			dist_to_obj = boxSDF(posc, obj->radius);
 	return (dist_to_obj);
 }
 
@@ -63,7 +48,7 @@ static float	find_intersect_and_normal(float3 start_ray, float3 dir_ray,
 {
 	float		intersect_dist = 0.f;
 	float		dist_to_obj;
-	int			max_steps = 200;
+	int			max_steps = 100;
 	float		epsilon = 0.001;
 	float3	cur_ray_point;
 
@@ -91,7 +76,10 @@ float3	ray_marching(float3 start_ray, float3 dir_ray, t_scene *scene)
 	float3	normal;
 
 	if ((intersect_dist = find_intersect_and_normal(start_ray, dir_ray, scene, &closest_obj, &normal)) >= 0)
-		color = mv_plus(mv_mult_num(normal, 0.5), (float3){0.5, 0.5, 0.5});
+	{
+//		cl_get_light_intensity();
+		color = mv_plus(mv_mult_num(normal, 0.5), (float3) {0.5, 0.5, 0.5});
+	}
 	else
 		color = mv_minus((float3){0.36, 0.36, 0.6}, (float3){dir_ray.y * 0.6, -dir_ray.y * 0.6, dir_ray.y * 0.6});
 	return (color);

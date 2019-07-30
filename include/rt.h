@@ -2,14 +2,14 @@
 # define RT_H
 
 # include "math_vec.h"
-# ifndef C_OPENCL__
+# ifndef OPENCL___
 # include <OpenCL/opencl.h>
 # endif
 
 typedef struct			s_object3d
 {
 	int					type;
-# ifndef C_OPENCL__
+# ifndef OPENCL___
 
 	cl_float3			center;
 # else
@@ -32,7 +32,7 @@ typedef struct          s_camera
 	float				rot_speed;
 	float				rot_acc;
 
-# ifndef C_OPENCL__
+# ifndef OPENCL___
 
 	cl_float3			pos;
 	cl_float3			velocity;

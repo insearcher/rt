@@ -18,6 +18,8 @@
 #include "rt_camera.h"
 #include "config.h"
 
+//TODO create full box primitive
+
 static int	physics(void *a)
 {
 	t_ui_main	*m;
@@ -54,8 +56,8 @@ int main(void)
 
     ui_sdl_init();
     t_ui_main *m = ui_main_init();
-    conf.cl = cl_setup((char *[]){"src/render.cl", "src/ray_marching.cl",
-					"src/get_cam_ray.cl", "utilits_cl/math_vec.c",
+    conf.cl = cl_setup((char *[]){"src/cl/render.cl", "src/cl/ray_marching.cl",
+					"src/cl/get_cam_ray.cl", "src/cl/primitives_sdf.cl", "utilits_cl/math_vec.c",
 					"utilits_cl/color.cl", NULL}, (char *[]){"render", NULL});
 	setup_scene(&conf);
 	setup_camera(&conf.camera);

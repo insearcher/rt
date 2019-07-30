@@ -13,7 +13,7 @@
 #ifndef MATH_VEC_H
 # define MATH_VEC_H
 
-# ifndef C_OPENCL__
+# ifndef OPENCL___
 # include <OpenCL/opencl.h>
 # include <math.h>
 float			mv_scalar_mult(const cl_float3 a, const cl_float3 b);

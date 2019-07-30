@@ -5,8 +5,9 @@ float3  get_cam_ray(int x, int y, t_camera camera, int width, int height)
 	float3  canvas_cell;
     float3  cam_ray;
 
-    float cell_x = x * camera.aspect_ratio / width;
-    float cell_y = y / (float)height;
+    //TODO it's not used
+    //float cell_x = x * camera.aspect_ratio / width;
+    //float cell_y = y / (float)height;
 	x -= width / 2;
     y -= height / 2;
     canvas_cell = (float3){

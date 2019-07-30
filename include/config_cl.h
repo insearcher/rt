@@ -18,5 +18,7 @@ typedef struct	s_scene
 float3	get_cam_ray(int x, int y, t_camera camera, int width, int height);
 void		put_pixel(int x, int y, t_color color, __global char* img, int width, int height);
 float3	ray_marching(float3 start_ray, float3 dir_ray, t_scene *scene);
-
+float3 repeatSDF(float3 pos, float3 cen, float rx, float ry, float rz);
+float sphereSDF(float3 posc, float radius);
+float boxSDF(float3 posc, float radius);
 #endif

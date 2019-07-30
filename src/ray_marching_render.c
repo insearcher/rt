@@ -12,10 +12,6 @@
 
 #include "config.h"
 
-//TODO creating and deleting a texture, using a surface is probably a bad idea, maybe need reworking.
-//https://wiki.libsdl.org/SDL_UpdateTexture
-//https://lazyfoo.net/tutorials/SDL/42_texture_streaming/index.php
-
 //TODO create fps checker
 
 void	run_render(t_conf *conf, t_ui_el *el, cl_mem *mem_img,
@@ -23,27 +19,38 @@ void	run_render(t_conf *conf, t_ui_el *el, cl_mem *mem_img,
 {
 	int		err;
 	size_t	global_size;
+	cl_kernel *kernel;
 
-	err = clSetKernelArg(*cl_get_kernel_by_name(conf->cl, "render"), 0, sizeof(cl_mem), mem_img);
-	err |= clSetKernelArg(*cl_get_kernel_by_name(conf->cl, "render"), 1, sizeof(int), &el->sdl_surface->w);
-	err |= clSetKernelArg(*cl_get_kernel_by_name(conf->cl, "render"), 2, sizeof(int), &el->sdl_surface->h);
-	err |= clSetKernelArg(*cl_get_kernel_by_name(conf->cl, "render"), 3, sizeof(int), &conf->objects_num);
-	err |= clSetKernelArg(*cl_get_kernel_by_name(conf->cl, "render"), 4, sizeof(t_camera), &conf->camera);
-	err |= clSetKernelArg(*cl_get_kernel_by_name(conf->cl, "render"), 5, sizeof(cl_mem), mem_objects);
+	kernel = cl_get_kernel_by_name(conf->cl, "render");
+	err = clSetKernelArg(*kernel, 0, sizeof(cl_mem), mem_img);
+	err |= clSetKernelArg(*kernel, 1, sizeof(int), &el->sdl_surface->w);
+	err |= clSetKernelArg(*kernel, 2, sizeof(int), &el->sdl_surface->h);
+	err |= clSetKernelArg(*kernel, 3, sizeof(int), &conf->objects_num);
+	err |= clSetKernelArg(*kernel, 4, sizeof(t_camera), &conf->camera);
+	err |= clSetKernelArg(*kernel, 5, sizeof(cl_mem), mem_objects);
 	if (err != 0)
 		SDL_Log("set kernel arg - error\n");
 	global_size = el->sdl_surface->w * el->sdl_surface->h;
-	err = clEnqueueNDRangeKernel(*conf->cl->queue, *cl_get_kernel_by_name(conf->cl, "render"), 1, NULL,
+	err = clEnqueueNDRangeKernel(*conf->cl->queue, *kernel, 1, NULL,
 			&global_size, NULL, 0, NULL, NULL);
 	if (err != 0)
 		SDL_Log("NDR - error\n");
-	SDL_LockSurface(el->sdl_surface);
+
+/////////////////////////////TODO put texture in element or make it static, not create/del any draw.
+	void	*pixels;
+	int		pitch = 0;
+	//TODO maybe del surf, and get w and h with in other ways.
+	SDL_Texture *t = SDL_CreateTexture(el->sdl_renderer, SDL_PIXELFORMAT_RGB888,
+			SDL_TEXTUREACCESS_STREAMING, el->sdl_surface->w, el->sdl_surface->h);
+	SDL_LockTexture(t, NULL, &pixels, &pitch);
 	err = clEnqueueReadBuffer(*conf->cl->queue, *mem_img, CL_TRUE, 0,
-			el->sdl_surface->pitch * el->sdl_surface->h,
-			el->sdl_surface->pixels, 0, NULL, NULL);
-	SDL_UnlockSurface(el->sdl_surface);
+			pitch * el->sdl_surface->h, pixels, 0, NULL, NULL);
 	if (err != 0)
 		SDL_Log("read buffer - error\n");
+	SDL_UnlockTexture(t);
+	SDL_RenderCopy(el->sdl_renderer, t, 0, 0);
+	SDL_DestroyTexture(t);
+////////////////////////////////////////////////////////////////////////////////////////////////
 }
 
 void	get_mem_for_render(t_conf *conf, t_ui_el *el, cl_mem *mem_img,
@@ -77,13 +84,7 @@ int		ray_marching_render(t_ui_main *m, void *a)
 	cl_mem		mem_objects;
 	get_mem_for_render(conf, el, &mem_img, &mem_objects);
 	run_render(conf, el, &mem_img, &mem_objects);
-	SDL_Texture *t =  ui_el_create_texture(el);
-	SDL_RenderCopy(el->sdl_renderer, t, 0, 0);
-	SDL_DestroyTexture(t);
 	clReleaseMemObject(mem_img);
 	clReleaseMemObject(mem_objects);
-//	conf->camera.pos.x += 0.05f;
-//	conf->camera.pos.y += .02f;
-//	conf->camera.pos.z += sin(conf->camera.pos.x) * 0.2f;
 	return (1);
 }
