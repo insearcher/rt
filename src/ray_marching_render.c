@@ -23,8 +23,8 @@ void	run_render(t_conf *conf, t_ui_el *el, cl_mem *mem_img,
 
 	kernel = cl_get_kernel_by_name(conf->cl, "render");
 	err = clSetKernelArg(*kernel, 0, sizeof(cl_mem), mem_img);
-	err |= clSetKernelArg(*kernel, 1, sizeof(int), &el->sdl_surface->w);
-	err |= clSetKernelArg(*kernel, 2, sizeof(int), &el->sdl_surface->h);
+	err |= clSetKernelArg(*kernel, 1, sizeof(int), &el->rect.w);
+	err |= clSetKernelArg(*kernel, 2, sizeof(int), &el->rect.h);
 	err |= clSetKernelArg(*kernel, 3, sizeof(int), &conf->objects_num);
 	err |= clSetKernelArg(*kernel, 4, sizeof(cl_mem), mem_objects);
 	err |= clSetKernelArg(*kernel, 5, sizeof(cl_float3), &conf->camera.transform.pos);
@@ -36,7 +36,7 @@ void	run_render(t_conf *conf, t_ui_el *el, cl_mem *mem_img,
 	err |= clSetKernelArg(*kernel, 11, sizeof(float), &conf->camera.fov);
 	if (err != 0)
 		SDL_Log("set kernel arg - error\n");
-	global_size = el->sdl_surface->w * el->sdl_surface->h;
+	global_size = el->rect.w * el->rect.h;
 	err = clEnqueueNDRangeKernel(*conf->cl->queue, *kernel, 1, NULL,
 			&global_size, NULL, 0, NULL, NULL);
 	if (err != 0)
@@ -46,16 +46,13 @@ void	run_render(t_conf *conf, t_ui_el *el, cl_mem *mem_img,
 	void	*pixels;
 	int		pitch = 0;
 	//TODO maybe del surf, and get w and h with in other ways.
-	SDL_Texture *t = SDL_CreateTexture(el->sdl_renderer, SDL_PIXELFORMAT_RGB888,
-			SDL_TEXTUREACCESS_STREAMING, el->sdl_surface->w, el->sdl_surface->h);
-	SDL_LockTexture(t, NULL, &pixels, &pitch);
+	SDL_LockTexture(conf->texture, NULL, &pixels, &pitch);
 	err = clEnqueueReadBuffer(*conf->cl->queue, *mem_img, CL_TRUE, 0,
-			pitch * el->sdl_surface->h, pixels, 0, NULL, NULL);
+			pitch * el->rect.h, pixels, 0, NULL, NULL);
 	if (err != 0)
 		SDL_Log("read buffer - error\n");
-	SDL_UnlockTexture(t);
-	SDL_RenderCopy(el->sdl_renderer, t, 0, 0);
-	SDL_DestroyTexture(t);
+	SDL_UnlockTexture(conf->texture);
+	SDL_RenderCopy(el->sdl_renderer, conf->texture, 0, 0);
 ////////////////////////////////////////////////////////////////////////////////////////////////
 }
 
@@ -65,7 +62,7 @@ void	get_mem_for_render(t_conf *conf, t_ui_el *el, cl_mem *mem_img,
 	int	err;
 
 	*mem_img = clCreateBuffer(*conf->cl->context, CL_MEM_READ_WRITE,
-			el->sdl_surface->pitch * el->sdl_surface->h, NULL, &err);
+			el->rect.w * el->rect.h * sizeof(int), NULL, &err);
 	if (err != 0)
 		SDL_Log("create buffer - error\n");
 	*mem_objects = clCreateBuffer(*conf->cl->context, CL_MEM_READ_ONLY,

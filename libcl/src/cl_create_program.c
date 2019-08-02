@@ -18,7 +18,7 @@ static void	cl_build_program(cl_device_id device, cl_program *program)
 	char	*log;
 	size_t	log_size;
 
-	err = clBuildProgram(*program, 1, &device, "-DOPENCL___  -I include/", NULL, NULL);
+	err = clBuildProgram(*program, 1, &device, "-DOPENCL___ -I include/", NULL, NULL);
 	if (err != 0)
 	{
 		clGetProgramBuildInfo(*program, device, CL_PROGRAM_BUILD_LOG,

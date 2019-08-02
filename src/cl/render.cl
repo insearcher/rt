@@ -1,6 +1,6 @@
 #include "config_cl.h"
 
-void        put_pixel(int x, int y, t_color color, __global char* img, int width, int height)
+void        put_pixel(int x, int y, int color, __global char* img, int width, int height)
 {
     int a;
 
@@ -8,9 +8,9 @@ void        put_pixel(int x, int y, t_color color, __global char* img, int width
     if (x >= 0 && x < width && y >= 0 && y < height)
     {
         a = x * 4 + y * width * 4;
-        img[a] = color.b;
-        img[a + 1] = color.g;
-        img[a + 2] = color.r;
+//        img[a] = ((color >> 16) & 0xFF);
+//        img[a + 1] = ((color >> 8) & 0xFF);
+//        img[a + 2] = color & 0xFF;
         img[a + 3] = 0;
     }
 }
@@ -29,6 +29,6 @@ __kernel void render(__global char* img, int width, int height, int objects_num,
 	scene.min_distance = camera_min_distance;
 	scene.max_distance = camera_max_distance;
 	cam_ray = get_cam_ray(gid % width, gid / width, width, height, camera_pos, camera_local_x, camera_local_y, camera_local_z, camera_min_distance, camera_max_distance, fov);
-	color = ray_marching(camera_pos, cam_ray, &scene);
-	put_pixel(gid % width, gid / width + 1, (t_color){color.x * 255, color.y * 255, color.z * 255}, img, width, height);
+	color = ray_marching(camera_pos, cam_ray, &scene) * 255.0f;
+//	put_pixel(gid % width, gid / width + 1, 0, img, width, height);
 }

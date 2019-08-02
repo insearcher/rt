@@ -2,7 +2,7 @@
 # define RT_H
 
 # ifndef OPENCL___
-# include <OpenCL/opencl.h>
+#  include <OpenCL/opencl.h>
 # endif
 
 typedef struct			s_object3d

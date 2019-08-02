@@ -16,8 +16,6 @@ float3  get_cam_ray(int x, int y, int width, int height, float3 camera_pos, floa
 	float fovy = 2 * atan(height / 2.0f / focus);
 	float kx = x * 2.0f / width;
 	float ky = y * 2.0f / height;
-	if (!x && !y)
-	printf("%f %f %f\n", fovx, tan(fovx), focus * tan(fovx));
 	canvas_cell = camera_local_z * focus + camera_local_x * kx * focus * tan(fovx) + camera_local_y * ky * focus * tan(fovy);
 	return (normalize(canvas_cell));
 }

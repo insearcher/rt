@@ -1,5 +1,7 @@
 #include "config_cl.h"
 
+float3
+
 //TODO try to make a restriction on repeat, or del rx/ry/rz
 float3	repeatSDF(float3 pos, float3 c, float rx, float ry, float rz)
 {
