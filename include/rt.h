@@ -9,9 +9,9 @@ typedef struct			s_object3d
 {
 # ifndef OPENCL___
 
-	cl_int					type;
+	cl_int				type;
 	cl_float3			center;
-	cl_float				radius;
+	cl_float			radius;
 # else
 
 	int					type;

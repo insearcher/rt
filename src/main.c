@@ -43,7 +43,7 @@ void	setup_scene(t_conf *conf)
 	objects[0].type = 1;
 	objects[0].radius = 1;
 	objects[0].center = (cl_float3){{4.f, 4.f, 4.f}};
-	objects[1].type = 1;
+	objects[1].type = 2;
 	objects[1].radius = 2;
 	objects[1].center = (cl_float3){{10.f, 4.f, 4.f}};
 	conf->objects = objects;
