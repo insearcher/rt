@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   move_camera_by_key.c                               :+:      :+:    :+:   */
+/*   rt_physics_system.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbecker <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: sbednar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/10 05:13:21 by sbecker           #+#    #+#             */
-/*   Updated: 2019/07/03 20:16:18 by sbecker          ###   ########.fr       */
+/*   Created: 2019/04/11 03:01:47 by sbecker           #+#    #+#             */
+/*   Updated: 2019/07/03 19:48:39 by sbecker          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <config.h>
-#include "rt_camera.h"
+#include "rt_input.h"
 
 static void	get_x_rot_matrix(float *m, cl_float3 *v, float a)
 {
@@ -88,15 +87,15 @@ void	rotate_camera(t_ui_main *m)
 //	/// End of mouse mode
 
 	cam->rb.rot.vel.x = ft_lerp(cam->rb.rot.vel.x, raw_rot_velocity.x,
-			ft_fmin(1, cam->rb.rot.acc / fabs(cam->rb.rot.vel.x -
-			raw_rot_velocity.x)));
+								ft_fmin(1, cam->rb.rot.acc / fabs(cam->rb.rot.vel.x -
+																  raw_rot_velocity.x)));
 	cam->rb.rot.vel.y = ft_lerp(cam->rb.rot.vel.y, raw_rot_velocity.y,
-			ft_fmin(1, cam->rb.rot.acc / fabs(cam->rb.rot.vel.y -
-			raw_rot_velocity.y)));
+								ft_fmin(1, cam->rb.rot.acc / fabs(cam->rb.rot.vel.y -
+																  raw_rot_velocity.y)));
 
 	float rot_matrix[9];
 	get_x_rot_matrix(&rot_matrix[0], &cam->transform.local.right, cam->rb.rot.vel.x *
-	cam->rb.rot.speed);
+																  cam->rb.rot.speed);
 	mult_matrix_to_vec(&rot_matrix[0], &cam->transform.local.right);
 	mult_matrix_to_vec(&rot_matrix[0], &cam->transform.local.up);
 	mult_matrix_to_vec(&rot_matrix[0], &cam->transform.local.forward);
@@ -139,11 +138,11 @@ void	move_camera(t_ui_main *m)
 
 	float mult = (m->state[225] ? 2 : 1);
 	cam->rb.move.vel.x = ft_lerp(cam->rb.move.vel.x, raw_velocity.x * mult,
-			ft_fmin(1, cam->rb.move.acc / fabs(cam->rb.move.vel.x - raw_velocity.x)));
+								 ft_fmin(1, cam->rb.move.acc / fabs(cam->rb.move.vel.x - raw_velocity.x)));
 	cam->rb.move.vel.y = ft_lerp(cam->rb.move.vel.y, raw_velocity.y * mult,
-			ft_fmin(1, cam->rb.move.acc / fabs(cam->rb.move.vel.y - raw_velocity.y)));
+								 ft_fmin(1, cam->rb.move.acc / fabs(cam->rb.move.vel.y - raw_velocity.y)));
 	cam->rb.move.vel.z = ft_lerp(cam->rb.move.vel.z, raw_velocity.z * mult,
-			ft_fmin(1, cam->rb.move.acc / fabs(cam->rb.move.vel.z - raw_velocity.z)));
+								 ft_fmin(1, cam->rb.move.acc / fabs(cam->rb.move.vel.z - raw_velocity.z)));
 
 	cam->transform.pos.v4 += cam->transform.local.right.v4 * cam->rb.move.vel.x * cam->rb.move.speed;
 	cam->transform.pos.v4 += cam->transform.local.up.v4 * cam->rb.move.vel.y * cam->rb.move.speed;

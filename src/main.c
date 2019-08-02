@@ -15,6 +15,7 @@
 #include <unistd.h>
 #include <string.h>
 #include "rt.h"
+#include "rt_input.h"
 #include "rt_camera.h"
 #include "config.h"
 

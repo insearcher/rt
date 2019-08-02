@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rt_camera.c                                        :+:      :+:    :+:   */
+/*   rt_input.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sbecker <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,46 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RT_CAMERA_H
-# define RT_CAMERA_H
+#ifndef RT_INPUT_H
+# define RT_INPUT_H
 
-# include "libui.h"
-# include "rt_physics.h"
-# include <OpenCL/opencl.h>
+#include <config.h>
+#include "rt_camera.h"
 
-typedef	struct			s_clipping
-{
-# ifndef OPENCL___
-	cl_float			near;
-	cl_float			far;
-#elif
-	float				near;
-	float				far;
-#endif
-}						t_clipping;
-
-typedef struct			s_camera
-{
-	t_transform			transform;
-	t_rb				rb;
-	t_clipping			clipping_planes;
-
-# ifndef OPENCL___
-
-	/// Temp
-	cl_float				fov;
-	cl_int					mx;
-	cl_int					my;
-
-# else
-
-	/// Temp
-	float				fov;
-	int					mx;
-	int					my;
-
-# endif
-
-}						t_camera;
+void	move_camera(t_ui_main *m);
+void	rotate_camera(t_ui_main *m);
 
 #endif

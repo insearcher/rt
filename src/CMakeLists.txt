@@ -4,7 +4,7 @@ cmake_policy(SET CMP0076 NEW)
 
 target_sources(rt PUBLIC
         main.c
-        move_camera_by_key.c
         rt_render.c
+        rt_input_system.c
         rt_physics_system.c
         )
