@@ -8,9 +8,9 @@ void        put_pixel(int x, int y, int color, __global char* img, int width, in
     if (x >= 0 && x < width && y >= 0 && y < height)
     {
         a = x * 4 + y * width * 4;
-//        img[a] = ((color >> 16) & 0xFF);
-//        img[a + 1] = ((color >> 8) & 0xFF);
-//        img[a + 2] = color & 0xFF;
+        img[a] = RED(color);
+        img[a + 1] = GREEN(color);
+        img[a + 2] = BLUE(color);
         img[a + 3] = 0;
     }
 }
@@ -20,8 +20,8 @@ __kernel void render(__global char* img, int width, int height, int objects_num,
 {
 	int			gid;
 	t_scene		scene;
-	float3	color;
-	float3	cam_ray;
+	float3		color;
+	float3		cam_ray;
 
 	gid = get_global_id(0);
 	scene.objects_num = objects_num;
@@ -30,5 +30,5 @@ __kernel void render(__global char* img, int width, int height, int objects_num,
 	scene.max_distance = camera_max_distance;
 	cam_ray = get_cam_ray(gid % width, gid / width, width, height, camera_pos, camera_local_x, camera_local_y, camera_local_z, camera_min_distance, camera_max_distance, fov);
 	color = ray_marching(camera_pos, cam_ray, &scene) * 255.0f;
-//	put_pixel(gid % width, gid / width + 1, 0, img, width, height);
+	put_pixel(gid % width, gid / width + 1, COLOR(color.x, color.y, color.z), img, width, height);
 }

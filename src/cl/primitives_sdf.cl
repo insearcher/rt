@@ -1,6 +1,16 @@
 #include "config_cl.h"
 
-float3
+float ft_mod2(float a, float b)
+{
+	if (b == 0)
+		b = 0.001;
+	return (a - ((int)(a / b)) * b);
+}
+
+float3 ft_mod(float3 a, float3 b)
+{
+	return ((float3){ft_mod2(a.x, b.x), ft_mod2(a.y, b.y), ft_mod2(a.z, b.z)});
+}
 
 //TODO try to make a restriction on repeat, or del rx/ry/rz
 float3	repeatSDF(float3 pos, float3 c, float rx, float ry, float rz)

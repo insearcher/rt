@@ -4,6 +4,7 @@
 # define CL_SILENCE_DEPRECATION
 
 # include "rt.h"
+# include "color.h"
 
 typedef struct	s_scene
 {

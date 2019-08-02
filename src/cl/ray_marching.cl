@@ -5,33 +5,32 @@ static float	SDF(float3 ray_point, t_object3d *obj)
 	float dist_to_obj = 0;
 	float3 posc;
 
-//    posc = ray_point - obj->center;
-//    if (1) // if obj->isRepeating or anything like this
-//        posc = repeatSDF(ray_point, obj->center, 0, 0, 0);
-//	if (obj->type == 1)
-//		dist_to_obj = sphereSDF(posc, obj->radius);
-//	//		dist_to_obj = boxSDF(posc, obj->radius);
+    posc = ray_point - obj->center;
+    if (1) // if obj->isRepeating or anything like this
+        posc = repeatSDF(ray_point, obj->center, 0, 0, 0);
+	if (obj->type == 1)
+		dist_to_obj = sphereSDF(posc, obj->radius);
+	//		dist_to_obj = boxSDF(posc, obj->radius);
 	return (dist_to_obj);
 }
 
 static float	sceneSDF(float3 O, t_scene *scene, t_object3d *closest_obj)
 {
-	return (0);
-//	float		dist_to_obj = 1000000.f;
-//	t_object3d	object;
-//	float		tmp_dist_to_obj;
-//
-//	for (int i = 0; i < scene->objects_num; i++)
-//	{
-//		object = scene->objects[i];
-//		tmp_dist_to_obj = SDF(O, &object);
-//		if (tmp_dist_to_obj < dist_to_obj && tmp_dist_to_obj > -0.01f)
-//		{
-//			dist_to_obj = tmp_dist_to_obj;
-//			*closest_obj = object;
-//		}
-//	}
-//	return (dist_to_obj);
+	float		dist_to_obj = 1000000.f;
+	t_object3d	object;
+	float		tmp_dist_to_obj;
+
+	for (int i = 0; i < scene->objects_num; i++)
+	{
+		object = scene->objects[i];
+		tmp_dist_to_obj = SDF(O, &object);
+		if (tmp_dist_to_obj < dist_to_obj && tmp_dist_to_obj > -0.01f)
+		{
+			dist_to_obj = tmp_dist_to_obj;
+			*closest_obj = object;
+		}
+	}
+	return (dist_to_obj);
 }
 
 static void		get_normal(float3 pos, float basic_dist, float3 *normal, t_object3d *obj)
