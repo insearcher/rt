@@ -46,9 +46,9 @@ static void		get_normal(float3 pos, float basic_dist, float3 *normal, t_object3d
 static float	find_intersect_and_normal(float3 start_ray, float3 dir_ray,
 		t_scene *scene, t_object3d *closest_obj, float3 *normal)
 {
-	float		intersect_dist = 0.f;
+	float		intersect_dist = 0;
 	float		dist_to_obj;
-	int			max_steps = 100;
+	int			max_steps = 50;
 	float		epsilon = 0.001;
 	float3	cur_ray_point;
 

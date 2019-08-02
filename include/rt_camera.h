@@ -17,28 +17,34 @@
 # include "rt_physics.h"
 # include <OpenCL/opencl.h>
 
+typedef	struct			s_clipping
+{
+# ifndef OPENCL___
+	cl_float			near;
+	cl_float			far;
+#elif
+	float				near;
+	float				far;
+#endif
+}						t_clipping;
+
 typedef struct			s_camera
 {
 	t_transform			transform;
 	t_rb				rb;
+	t_clipping			clipping_planes;
 
 # ifndef OPENCL___
 
-	/// Rendering
-	cl_float 				aspect_ratio;
-	cl_float				min_distance;
-	cl_float				max_distance;
 	/// Temp
+	cl_float				fov;
 	cl_int					mx;
 	cl_int					my;
 
 # else
 
-	/// Rendering
-	float 				aspect_ratio;
-	float				min_distance;
-	float				max_distance;
 	/// Temp
+	float				fov;
 	int					mx;
 	int					my;
 

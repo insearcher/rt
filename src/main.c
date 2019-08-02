@@ -70,11 +70,10 @@ int main(void)
 
 	/// !!!
 	ft_bzero(&conf.camera, sizeof(t_camera));
-	conf.camera.aspect_ratio = 16.f / 9.f;
-	conf.camera.min_distance = 1000;
-	conf.camera.max_distance = 1000;
+	conf.camera.clipping_planes = (t_clipping){0.5f, 1000};
+	conf.camera.fov = 56;
 
-	conf.camera.transform.pos = (cl_float3){{1, 1, 1}};
+	conf.camera.transform.pos = (cl_float3){{0, 0, 0}};
 	conf.camera.transform.local.right = (cl_float3){{1, 0, 0}};
 	conf.camera.transform.local.up = (cl_float3){{0, 1, 0}};
 	conf.camera.transform.local.forward = (cl_float3){{0, 0, 1}};
@@ -99,7 +98,7 @@ int main(void)
 //	conf.camera.pos_acc = .04f;
 //
 	SDL_Thread	*thread;
-	thread = SDL_CreateThread(physics, "physics", (void *)m);
+	thread = SDL_CreateThread(physics, "input", (void *)m);
 	SDL_DetachThread(thread);
 	/// !!!
 

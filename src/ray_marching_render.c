@@ -31,8 +31,9 @@ void	run_render(t_conf *conf, t_ui_el *el, cl_mem *mem_img,
 	err |= clSetKernelArg(*kernel, 6, sizeof(cl_float3), &conf->camera.transform.local.right);
 	err |= clSetKernelArg(*kernel, 7, sizeof(cl_float3), &conf->camera.transform.local.up);
 	err |= clSetKernelArg(*kernel, 8, sizeof(cl_float3), &conf->camera.transform.local.forward);
-	err |= clSetKernelArg(*kernel, 9, sizeof(float), &conf->camera.min_distance);
-	err |= clSetKernelArg(*kernel, 10, sizeof(float), &conf->camera.max_distance);
+	err |= clSetKernelArg(*kernel, 9, sizeof(float), &conf->camera.clipping_planes.near);
+	err |= clSetKernelArg(*kernel, 10, sizeof(float), &conf->camera.clipping_planes.far);
+	err |= clSetKernelArg(*kernel, 11, sizeof(float), &conf->camera.fov);
 	if (err != 0)
 		SDL_Log("set kernel arg - error\n");
 	global_size = el->sdl_surface->w * el->sdl_surface->h;
