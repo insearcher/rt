@@ -144,10 +144,7 @@ void	move_camera(t_ui_main *m)
 	cam->velocity.z = ft_lerp(cam->velocity.z, raw_velocity.z * mult,
 			ft_fmin(1, cam->pos_acc / fabs(cam->velocity.z - raw_velocity.z)));
 
-	cam->pos = mv_plus(cam->pos, mv_mult_num(cam->local_x,
-			cam->velocity.x * cam->speed));
-	cam->pos = mv_plus(cam->pos, mv_mult_num(cam->local_y,
-			cam->velocity.y * cam->speed));
-	cam->pos = mv_plus(cam->pos, mv_mult_num(cam->local_z,
-			cam->velocity.z * cam->speed));
+	cam->pos.v4 = cam->pos.v4 + cam->local_x.v4 * cam->velocity.x * cam->speed;
+	cam->pos.v4 = cam->pos.v4 + cam->local_y.v4 * cam->velocity.y * cam->speed;
+	cam->pos.v4 = cam->pos.v4 + cam->local_z.v4 * cam->velocity.z * cam->speed;
 }

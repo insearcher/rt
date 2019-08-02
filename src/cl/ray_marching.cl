@@ -37,10 +37,10 @@ static void		get_normal(float3 pos, float basic_dist, float3 *normal, t_object3d
 {
 	float eps = 0.001;
 
-	*normal = mv_normalize(mv_minus((float3){SDF((float3){pos.x + eps, pos.y, pos.z}, obj),
+	*normal = normalize((float3){SDF((float3){pos.x + eps, pos.y, pos.z}, obj),
 							SDF((float3){pos.x, pos.y + eps, pos.z}, obj),
-							SDF((float3){pos.x, pos.y, pos.z + eps}, obj)},
-									(float3){basic_dist, basic_dist, basic_dist}));
+							SDF((float3){pos.x, pos.y, pos.z + eps}, obj)} -
+									(float3){basic_dist, basic_dist, basic_dist});
 }
 
 static float	find_intersect_and_normal(float3 start_ray, float3 dir_ray,
@@ -54,7 +54,7 @@ static float	find_intersect_and_normal(float3 start_ray, float3 dir_ray,
 
 	for (int i = 0; i < max_steps; i++)
 	{
-		cur_ray_point = mv_plus(start_ray, mv_mult_num(dir_ray, intersect_dist));
+		cur_ray_point = start_ray + dir_ray * intersect_dist;
 		dist_to_obj = sceneSDF(cur_ray_point, scene, closest_obj);
 		if (dist_to_obj < epsilon)
 		{
@@ -76,11 +76,8 @@ float3	ray_marching(float3 start_ray, float3 dir_ray, t_scene *scene)
 	float3	normal;
 
 	if ((intersect_dist = find_intersect_and_normal(start_ray, dir_ray, scene, &closest_obj, &normal)) >= 0)
-	{
-//		cl_get_light_intensity();
-		color = mv_plus(mv_mult_num(normal, 0.5), (float3) {0.5, 0.5, 0.5});
-	}
+		color = normal * 0.5f + (float3){0.5f, 0.5f, 0.5f};
 	else
-		color = mv_minus((float3){0.36, 0.36, 0.6}, (float3){dir_ray.y * 0.6, -dir_ray.y * 0.6, dir_ray.y * 0.6});
+		color = (float3){0.36 - dir_ray.y * 0.6, 0.36 + dir_ray.y * 0.6, 0.6 - dir_ray.y * 0.6};
 	return (color);
 }

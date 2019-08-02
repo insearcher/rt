@@ -16,7 +16,7 @@ float3	repeatSDF(float3 pos, float3 c, float rx, float ry, float rz)
 
 float	sphereSDF(float3 posc, float radius)
 {
-	return (mv_length(posc) - radius);
+	return (length(posc) - radius);
 }
 
 float	max_in_vec(float3 vec)
@@ -30,5 +30,5 @@ float	boxSDF(float3 posc, float radius)
 	float3 b = (float3){0.5f, 0.5f, 0.5f};
 	float3 di = fabs(posc) - b;
 	float mc = max_in_vec(di);
-	return (fmin(mc, mv_length(fmax(di, 0.0f))));
+	return (fmin(mc, length(fmax(di, 0.0f))));
 }
