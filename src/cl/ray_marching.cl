@@ -6,7 +6,7 @@ static float	SDF(float3 ray_point, t_object3d *obj)
 	float3 posc;
 
     posc = ray_point - obj->center;
-    if (1) // if obj->isRepeating or anything like this
+    if (0) // if obj->isRepeating or anything like this
         posc = repeatSDF(ray_point, obj->center, 0, 0, 0);
 	if (obj->type == 1)
 		dist_to_obj = sphereSDF(posc, obj->radius);
