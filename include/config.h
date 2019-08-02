@@ -18,8 +18,8 @@
 # include <OpenCL/opencl.h>
 # include <math.h>
 # include "libft.h"
-# include "math_vec.h"
 # include "rt.h"
+# include "rt_camera.h"
 # include <stdio.h>
 # include "libui.h"
 # include "libcl.h"

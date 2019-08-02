@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <config.h>
 #include "rt_camera.h"
 
 static void	get_x_rot_matrix(float *m, cl_float3 *v, float a)
@@ -77,35 +78,35 @@ void	rotate_camera(t_ui_main *m)
 		raw_rot_velocity.y = 0;
 	/// End of arrows mode
 
-	/// Mouse mode
-	int x, y;
-	SDL_GetMouseState(&x, &y);
-	if (!raw_rot_velocity.y)
-		raw_rot_velocity.y = (x - cam->mx) / 1440.f * 300;
-	if (!raw_rot_velocity.x)
-		raw_rot_velocity.x = (y - cam->my) / 810.f * 300;
-	/// End of mouse mode
+//	/// Mouse mode
+//	int x, y;
+//	SDL_GetMouseState(&x, &y);
+//	if (!raw_rot_velocity.y)
+//		raw_rot_velocity.y = (x - cam->mx) / 1440.f * 300;
+//	if (!raw_rot_velocity.x)
+//		raw_rot_velocity.x = (y - cam->my) / 810.f * 300;
+//	/// End of mouse mode
 
-	cam->rot_velocity.x = ft_lerp(cam->rot_velocity.x, raw_rot_velocity.x,
-			ft_fmin(1, cam->rot_acc / fabs(cam->rot_velocity.x -
+	cam->rb.rot.vel.x = ft_lerp(cam->rb.rot.vel.x, raw_rot_velocity.x,
+			ft_fmin(1, cam->rb.rot.acc / fabs(cam->rb.rot.vel.x -
 			raw_rot_velocity.x)));
-	cam->rot_velocity.y = ft_lerp(cam->rot_velocity.y, raw_rot_velocity.y,
-			ft_fmin(1, cam->rot_acc / fabs(cam->rot_velocity.y -
+	cam->rb.rot.vel.y = ft_lerp(cam->rb.rot.vel.y, raw_rot_velocity.y,
+			ft_fmin(1, cam->rb.rot.acc / fabs(cam->rb.rot.vel.y -
 			raw_rot_velocity.y)));
 
 	float rot_matrix[9];
-	get_x_rot_matrix(&rot_matrix[0], &cam->local_x, cam->rot_velocity.x *
-	cam->rot_speed);
-	mult_matrix_to_vec(&rot_matrix[0], &cam->local_x);
-	mult_matrix_to_vec(&rot_matrix[0], &cam->local_y);
-	mult_matrix_to_vec(&rot_matrix[0], &cam->local_z);
-	get_y_rot_matrix(&rot_matrix[0], cam->rot_velocity.y * cam->rot_speed);
-	mult_matrix_to_vec(&rot_matrix[0], &cam->local_x);
-	mult_matrix_to_vec(&rot_matrix[0], &cam->local_y);
-	mult_matrix_to_vec(&rot_matrix[0], &cam->local_z);
+	get_x_rot_matrix(&rot_matrix[0], &cam->transform.local.right, cam->rb.rot.vel.x *
+	cam->rb.rot.speed);
+	mult_matrix_to_vec(&rot_matrix[0], &cam->transform.local.right);
+	mult_matrix_to_vec(&rot_matrix[0], &cam->transform.local.up);
+	mult_matrix_to_vec(&rot_matrix[0], &cam->transform.local.forward);
+	get_y_rot_matrix(&rot_matrix[0], cam->rb.rot.vel.y * cam->rb.rot.speed);
+	mult_matrix_to_vec(&rot_matrix[0], &cam->transform.local.right);
+	mult_matrix_to_vec(&rot_matrix[0], &cam->transform.local.up);
+	mult_matrix_to_vec(&rot_matrix[0], &cam->transform.local.forward);
 
-	cam->mx = x;
-	cam->my = y;
+//	cam->mx = x;
+//	cam->my = y;
 }
 
 void	move_camera(t_ui_main *m)
@@ -137,14 +138,14 @@ void	move_camera(t_ui_main *m)
 		raw_velocity.z = 0;
 
 	float mult = (m->state[225] ? 2 : 1);
-	cam->velocity.x = ft_lerp(cam->velocity.x, raw_velocity.x * mult,
-			ft_fmin(1, cam->pos_acc / fabs(cam->velocity.x - raw_velocity.x)));
-	cam->velocity.y = ft_lerp(cam->velocity.y, raw_velocity.y * mult,
-			ft_fmin(1, cam->pos_acc / fabs(cam->velocity.y - raw_velocity.y)));
-	cam->velocity.z = ft_lerp(cam->velocity.z, raw_velocity.z * mult,
-			ft_fmin(1, cam->pos_acc / fabs(cam->velocity.z - raw_velocity.z)));
+	cam->rb.move.vel.x = ft_lerp(cam->rb.move.vel.x, raw_velocity.x * mult,
+			ft_fmin(1, cam->rb.move.acc / fabs(cam->rb.move.vel.x - raw_velocity.x)));
+	cam->rb.move.vel.y = ft_lerp(cam->rb.move.vel.y, raw_velocity.y * mult,
+			ft_fmin(1, cam->rb.move.acc / fabs(cam->rb.move.vel.y - raw_velocity.y)));
+	cam->rb.move.vel.z = ft_lerp(cam->rb.move.vel.z, raw_velocity.z * mult,
+			ft_fmin(1, cam->rb.move.acc / fabs(cam->rb.move.vel.z - raw_velocity.z)));
 
-	cam->pos.v4 = cam->pos.v4 + cam->local_x.v4 * cam->velocity.x * cam->speed;
-	cam->pos.v4 = cam->pos.v4 + cam->local_y.v4 * cam->velocity.y * cam->speed;
-	cam->pos.v4 = cam->pos.v4 + cam->local_z.v4 * cam->velocity.z * cam->speed;
+	cam->transform.pos.v4 += cam->transform.local.right.v4 * cam->rb.move.vel.x * cam->rb.move.speed;
+	cam->transform.pos.v4 += cam->transform.local.up.v4 * cam->rb.move.vel.y * cam->rb.move.speed;
+	cam->transform.pos.v4 += cam->transform.local.forward.v4 * cam->rb.move.vel.z * cam->rb.move.speed;
 }

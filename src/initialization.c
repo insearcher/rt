@@ -12,10 +12,9 @@
 
 #include "config.h"
 
-void	setup_camera(t_camera *camera)
-{
-	camera->aspect_ratio = 16.f / 9.f;
-	camera->min_distance = 990;
-	camera->max_distance = 10000;
-	camera->pos = (cl_float3){{1.f, 1.f, 1.f}};
-}
+//void	setup_camera(t_camera *camera)
+//{
+//	camera->aspect_ratio = 16.f / 9.f;
+//	camera->min_distance = 990;
+//	camera->max_distance = 10000;
+//}

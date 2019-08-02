@@ -60,7 +60,7 @@ int main(void)
 					"src/cl/get_cam_ray.cl", "src/cl/primitives_sdf.cl", "utilits_cl/math_vec.c",
 					"utilits_cl/color.cl", NULL}, (char *[]){"render", NULL});
 	setup_scene(&conf);
-	setup_camera(&conf.camera);
+//	setup_camera(&conf.camera);
 	m->data = &conf;
     ui_main_add_function_by_id(m, ray_marching_render, "ray_marching_render");
     ui_jtoc_main_from_json(m, "json/main.json");
@@ -69,21 +69,47 @@ int main(void)
 	initialization_surface(el, w);
 
 	/// !!!
-	conf.camera.rot_velocity = (cl_float3){{0, 0, 0}};
-	conf.camera.rot_speed = 1;
-	conf.camera.rot_acc = .04f;
-	conf.camera.local_x = (cl_float3){{1, 0, 0}};
-	conf.camera.local_y = (cl_float3){{0, 1, 0}};
-	conf.camera.local_z = (cl_float3){{0, 0, 1}};
+	ft_bzero(&conf.camera, sizeof(t_camera));
+	conf.camera.aspect_ratio = 16.f / 9.f;
+	conf.camera.min_distance = 1000;
+	conf.camera.max_distance = 1000;
 
-	conf.camera.velocity = (cl_float3){{0, 0, 0}};
-	conf.camera.speed = .025f;
-	conf.camera.pos_acc = .04f;
+	conf.camera.transform.pos = (cl_float3){{1, 1, 1}};
+	conf.camera.transform.local.right = (cl_float3){{1, 0, 0}};
+	conf.camera.transform.local.up = (cl_float3){{0, 1, 0}};
+	conf.camera.transform.local.forward = (cl_float3){{0, 0, 1}};
 
+	conf.camera.rb.move.speed = .025f;
+	conf.camera.rb.move.speed_mult = 4;
+	conf.camera.rb.move.acc = .04f;
+
+	conf.camera.rb.rot.speed = 1;
+	conf.camera.rb.rot.acc = .04f;
+
+	conf.camera.rb.transform = &conf.camera.transform;
+//	conf.camera.rot_velocity = (cl_float3){{0, 0, 0}};
+//	conf.camera.rot_speed = 1;
+//	conf.camera.rot_acc = .04f;
+//	conf.camera.local_x = (cl_float3){{1, 0, 0}};
+//	conf.camera.local_y = (cl_float3){{0, 1, 0}};
+//	conf.camera.local_z = (cl_float3){{0, 0, 1}};
+//
+//	conf.camera.velocity = (cl_float3){{0, 0, 0}};
+//	conf.camera.speed = .025f;
+//	conf.camera.pos_acc = .04f;
+//
 	SDL_Thread	*thread;
 	thread = SDL_CreateThread(physics, "physics", (void *)m);
 	SDL_DetachThread(thread);
 	/// !!!
+
+	t_physics_system *ps = ps_init(ps_func);
+
+	ps->rbs_count = 1;
+	ps->rbs = (t_rb **)malloc(sizeof(t_rb *) * ps->rbs_count);
+	ps->rbs[0] = &conf.camera.rb;
+
+	ps_start(ps);
 
     ui_main_run_program(m);
 	return 0;
