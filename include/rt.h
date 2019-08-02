@@ -8,20 +8,46 @@
 
 typedef struct			s_object3d
 {
-	int					type;
 # ifndef OPENCL___
 
+	cl_int					type;
 	cl_float3			center;
+	cl_float				radius;
 # else
 
+	int					type;
 	float3			center;
+	float				radius;
 
 # endif
-	float				radius;
 }						t_object3d;
 
 typedef struct          s_camera
 {
+
+# ifndef OPENCL___
+
+	/// Rendering
+	cl_float 				aspect_ratio;
+	cl_float				min_distance;
+	cl_float				max_distance;
+	/// Physics
+	cl_float				pos_acc;
+	cl_float				speed;
+	cl_float				rot_speed;
+	cl_float				rot_acc;
+	cl_float3			pos;
+	cl_float3			velocity;
+	cl_float3			rot_velocity;
+	cl_float3			local_x;
+	cl_float3			local_y;
+	cl_float3			local_z;
+	/// Temp
+	cl_int					mx;
+	cl_int					my;
+
+# else
+
 	/// Rendering
 	float 				aspect_ratio;
 	float				min_distance;
@@ -31,30 +57,18 @@ typedef struct          s_camera
 	float				speed;
 	float				rot_speed;
 	float				rot_acc;
-
-# ifndef OPENCL___
-
-	cl_float3			pos;
-	cl_float3			velocity;
-	cl_float3			rot_velocity;
-	cl_float3			local_x;
-	cl_float3			local_y;
-	cl_float3			local_z;
-
-# else
-
 	float3			pos;
 	float3			velocity;
 	float3			rot_velocity;
 	float3			local_x;
 	float3			local_y;
 	float3			local_z;
-
-# endif
-
 	/// Temp
 	int					mx;
 	int					my;
+
+# endif
+
 }						t_camera;
 
 #endif
