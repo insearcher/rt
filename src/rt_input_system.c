@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_input.h"
+#include "rt_input_system.h"
 
 static void	get_x_rot_matrix(float *m, cl_float3 *v, float a)
 {
@@ -54,27 +54,28 @@ static void	mult_matrix_to_vec(float *m, cl_float3 *v)
 	*v = temp;
 }
 
-void	rotate_camera(t_ui_main *m)
+static float	get_axis(const Uint8 *state, SDL_Scancode low, SDL_Scancode high)
 {
-	t_camera	*cam;
-	cl_float3	raw_rot_velocity;
+	if (!state || !(state[low] ^ state[high]))
+		return (0);
+	if (state[high])
+		return (1);
+	return (-1);
+}
 
-	cam = &((t_conf *)m->data)->camera;
+void	rotate_active(t_input_system *s)
+{
+	t_rb		*active;
+
+	active = s->active;
 
 	/// Arrows mode
-	if (m->state[SDL_SCANCODE_DOWN])
-		raw_rot_velocity.x = 1;
-	else if (m->state[SDL_SCANCODE_UP])
-		raw_rot_velocity.x = -1;
-	else if (!m->state[SDL_SCANCODE_DOWN] && !m->state[SDL_SCANCODE_UP])
-		raw_rot_velocity.x = 0;
 
-	if (m->state[SDL_SCANCODE_LEFT])
-		raw_rot_velocity.y = -1;
-	else if (m->state[SDL_SCANCODE_RIGHT])
-		raw_rot_velocity.y = 1;
-	else if (!m->state[SDL_SCANCODE_LEFT] && !m->state[SDL_SCANCODE_RIGHT])
-		raw_rot_velocity.y = 0;
+	active->rot.raw_vel = (cl_float3){{
+		get_axis(s->state, SDL_SCANCODE_DOWN, SDL_SCANCODE_UP),
+		get_axis(s->state, SDL_SCANCODE_LEFT, SDL_SCANCODE_RIGHT),
+		0
+	}};
 	/// End of arrows mode
 
 //	/// Mouse mode
@@ -86,65 +87,48 @@ void	rotate_camera(t_ui_main *m)
 //		raw_rot_velocity.x = (y - cam->my) / 810.f * 300;
 //	/// End of mouse mode
 
-	cam->rb.rot.vel.x = ft_lerp(cam->rb.rot.vel.x, raw_rot_velocity.x,
-								ft_fmin(1, cam->rb.rot.acc / fabs(cam->rb.rot.vel.x -
-																  raw_rot_velocity.x)));
-	cam->rb.rot.vel.y = ft_lerp(cam->rb.rot.vel.y, raw_rot_velocity.y,
-								ft_fmin(1, cam->rb.rot.acc / fabs(cam->rb.rot.vel.y -
-																  raw_rot_velocity.y)));
+	active->rot.vel.x = ft_lerp(active->rot.vel.x, active->rot.raw_vel.x,
+								ft_fmin(1, active->rot.acc / fabs(active->rot.vel.x -
+																		 active->rot.raw_vel.x)));
+	active->rot.vel.y = ft_lerp(active->rot.vel.y, active->rot.raw_vel.y,
+								ft_fmin(1, active->rot.acc / fabs(active->rot.vel.y -
+																		 active->rot.raw_vel.y)));
 
 	float rot_matrix[9];
-	get_x_rot_matrix(&rot_matrix[0], &cam->transform.local.right, cam->rb.rot.vel.x *
-																  cam->rb.rot.speed);
-	mult_matrix_to_vec(&rot_matrix[0], &cam->transform.local.right);
-	mult_matrix_to_vec(&rot_matrix[0], &cam->transform.local.up);
-	mult_matrix_to_vec(&rot_matrix[0], &cam->transform.local.forward);
-	get_y_rot_matrix(&rot_matrix[0], cam->rb.rot.vel.y * cam->rb.rot.speed);
-	mult_matrix_to_vec(&rot_matrix[0], &cam->transform.local.right);
-	mult_matrix_to_vec(&rot_matrix[0], &cam->transform.local.up);
-	mult_matrix_to_vec(&rot_matrix[0], &cam->transform.local.forward);
+	get_x_rot_matrix(&rot_matrix[0], &active->transform->local.right, active->rot.vel.x *
+																  active->rot.speed);
+	mult_matrix_to_vec(&rot_matrix[0], &active->transform->local.right);
+	mult_matrix_to_vec(&rot_matrix[0], &active->transform->local.up);
+	mult_matrix_to_vec(&rot_matrix[0], &active->transform->local.forward);
+	get_y_rot_matrix(&rot_matrix[0], active->rot.vel.y * active->rot.speed);
+	mult_matrix_to_vec(&rot_matrix[0], &active->transform->local.right);
+	mult_matrix_to_vec(&rot_matrix[0], &active->transform->local.up);
+	mult_matrix_to_vec(&rot_matrix[0], &active->transform->local.forward);
 
 //	cam->mx = x;
 //	cam->my = y;
 }
 
-void	move_camera(t_ui_main *m)
+void	move_active(t_input_system *s)
 {
-	t_camera	*cam;
-	cl_float3	raw_velocity;
+	(void)s->active->move.raw_vel.x;
+	s->active->move.raw_vel.x = get_axis(s->state, SDL_SCANCODE_A, SDL_SCANCODE_D);
+	s->active->move.raw_vel.y = get_axis(s->state, SDL_SCANCODE_Q, SDL_SCANCODE_E);
+	s->active->move.raw_vel.z = get_axis(s->state, SDL_SCANCODE_S, SDL_SCANCODE_W);
+	s->active->move.speed_mult = (s->state[225] ? 2 : 1);
+}
 
-	cam = &((t_conf *)m->data)->camera;
+int					is_func(void *isv)
+{
+	t_input_system	*is;
 
-	if (m->state[SDL_SCANCODE_A])
-		raw_velocity.x = -1;
-	else if (m->state[SDL_SCANCODE_D])
-		raw_velocity.x = 1;
-	else if (!m->state[SDL_SCANCODE_A] && !m->state[SDL_SCANCODE_D])
-		raw_velocity.x = 0;
-
-	if (m->state[SDL_SCANCODE_Q])
-		raw_velocity.y = -1;
-	else if (m->state[SDL_SCANCODE_E])
-		raw_velocity.y = 1;
-	else if (!m->state[SDL_SCANCODE_Q] && !m->state[SDL_SCANCODE_E])
-		raw_velocity.y = 0;
-
-	if (m->state[SDL_SCANCODE_S])
-		raw_velocity.z = -1;
-	else if (m->state[SDL_SCANCODE_W])
-		raw_velocity.z = 1;
-	else if (!m->state[SDL_SCANCODE_S] && !m->state[SDL_SCANCODE_W])
-		raw_velocity.z = 0;
-
-	float mult = (m->state[225] ? 2 : 1);
-	cam->rb.move.vel.x = ft_lerp(cam->rb.move.vel.x, raw_velocity.x * mult,
-								 ft_fmin(1, cam->rb.move.acc / fabs(cam->rb.move.vel.x - raw_velocity.x)));
-	cam->rb.move.vel.y = ft_lerp(cam->rb.move.vel.y, raw_velocity.y * mult,
-								 ft_fmin(1, cam->rb.move.acc / fabs(cam->rb.move.vel.y - raw_velocity.y)));
-	cam->rb.move.vel.z = ft_lerp(cam->rb.move.vel.z, raw_velocity.z * mult,
-								 ft_fmin(1, cam->rb.move.acc / fabs(cam->rb.move.vel.z - raw_velocity.z)));
-
-	cam->transform.pos.v4 += cam->transform.local.right.v4 * cam->rb.move.vel.x * cam->rb.move.speed;
-	cam->transform.pos.v4 += cam->transform.local.up.v4 * cam->rb.move.vel.y * cam->rb.move.speed;
-	cam->transform.pos.v4 += cam->transform.local.forward.v4 * cam->rb.move.vel.z * cam->rb.move.speed;
+	is = (t_input_system *)isv;
+	is->active->move.raw_vel.s0 = 1;
+	while (is)
+	{
+		move_active(is);
+		rotate_active(is);
+		SDL_Delay(is->system.delay);
+	}
+	return (0);
 }

@@ -16,7 +16,7 @@ void        put_pixel(int x, int y, int color, __global char* img, int width, in
 }
 
 __kernel void render(__global char* img, int width, int height, int objects_num,
-		__global t_object3d* objects, float3 camera_pos, float3 camera_local_x, float3 camera_local_y, float3 camera_local_z, float camera_min_distance, float camera_max_distance, float fov)
+		__global t_object* objects, float3 camera_pos, float3 camera_local_x, float3 camera_local_y, float3 camera_local_z, float camera_min_distance, float camera_max_distance, float fov)
 {
 	int			gid;
 	t_scene1	scene;

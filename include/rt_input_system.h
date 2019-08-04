@@ -13,10 +13,21 @@
 #ifndef RT_INPUT_H
 # define RT_INPUT_H
 
-#include <config.h>
-#include "rt_camera.h"
+# include "config.h"
+# include "rt_camera.h"
 
-void	move_camera(t_ui_main *m);
-void	rotate_camera(t_ui_main *m);
+# include "rt_system.h"
+
+typedef struct		s_input_system
+{
+	t_system		system;
+	const Uint8		*state;
+	t_rb			*active;
+}					t_input_system;
+
+void				move_active(t_input_system *s);
+void				rotate_active(t_input_system *s);
+
+int					is_func(void *isv);
 
 #endif

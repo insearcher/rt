@@ -3,7 +3,7 @@
 float3  get_cam_ray(int x, int y, int width, int height, float3 camera_pos, float3 camera_local_x, float3 camera_local_y, float3 camera_local_z, float camera_min_distance, float camera_max_distance, float fov, float *mult)
 {
 	float3  canvas_cell;
-    float3  cam_ray;
+//    float3  cam_ray;
 
     //TODO it's not used
     //float cell_x = x * camera_aspect_ratio / width;

@@ -19,22 +19,8 @@
 #  include <OpenCL/opencl.h>
 #  include <SDL.h>
 #  include "libft.h"
+#  include "transform.h"
 # endif
-
-typedef	int			(t_phys_func)(void *);
-
-typedef	struct		s_local
-{
-	cl_float3		right;
-	cl_float3		up;
-	cl_float3		forward;
-}					t_local;
-
-typedef struct		s_transform
-{
-	cl_float3		pos;
-	t_local			local;
-}					t_transform;
 
 typedef struct		s_move_params
 {
@@ -52,16 +38,14 @@ typedef struct		s_rb
 	t_transform		*transform;
 }					t_rb;
 
+# include "rt_system.h"
+
 typedef struct		s_physics_system
 {
-	SDL_Thread		*thread;
-	size_t			rbs_count;
+	t_system		system;
 	t_rb			**rbs;
-	size_t			delay;
+	size_t			rbs_count;
 }					t_physics_system;
-
-int					ps_start(t_physics_system *p);
-t_physics_system	*ps_init(t_phys_func *f);
 
 int					ps_func(void *psv);
 

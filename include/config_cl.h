@@ -11,7 +11,7 @@ typedef struct	s_scene1
 	int						objects_num;
 	float					min_distance;
 	float					max_distance;
-	__global t_object3d*	objects;
+	__global t_object*		objects;
 }				t_scene1;
 
 float3	get_cam_ray(int x, int y, int width, int height, float3 camera_pos, float3 camera_local_x, float3 camera_local_y, float3 camera_local_z, float camera_min_distance, float camera_max_distance, float fov, float *mult);

@@ -24,16 +24,4 @@
 # include "libui.h"
 # include "libcl.h"
 
-typedef struct			s_config
-{
-	int					objects_num;
-	t_object3d			*objects;
-	t_camera			camera;
-	SDL_Texture			*texture;
-	t_cl				*cl;
-}						t_conf;
-
-void					setup_camera(t_camera *camera);
-void					setup_scene(t_conf *conf);
-int						ray_marching_render(t_ui_main *m, void *a);
 #endif

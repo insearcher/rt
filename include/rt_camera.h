@@ -13,16 +13,20 @@
 #ifndef RT_CAMERA_H
 # define RT_CAMERA_H
 
-# include "libui.h"
-# include "rt_physics.h"
-# include <OpenCL/opencl.h>
+# ifndef OPENCL___
+#  include "libui.h"
+#  include "rt_physics_system.h"
+#  include <OpenCL/opencl.h>
+# endif
+
+# include "transform.h"
 
 typedef	struct			s_clipping
 {
 # ifndef OPENCL___
 	cl_float			near;
 	cl_float			far;
-#elif
+#else
 	float				near;
 	float				far;
 #endif
@@ -31,23 +35,20 @@ typedef	struct			s_clipping
 typedef struct			s_camera
 {
 	t_transform			transform;
-	t_rb				rb;
 	t_clipping			clipping_planes;
 
 # ifndef OPENCL___
-
 	/// Temp
-	cl_float				fov;
-	cl_int					mx;
-	cl_int					my;
-
+	cl_float			fov;
+	cl_int				mx;
+	cl_int				my;
+	t_rb				rb;
 # else
-
 	/// Temp
 	float				fov;
 	int					mx;
 	int					my;
-
+	char				trash[112];
 # endif
 
 }						t_camera;

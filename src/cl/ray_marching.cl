@@ -1,29 +1,29 @@
 #include "config_cl.h"
 
-static float	SDF(float3 ray_point, t_object3d *obj)
+static float	SDF(float3 ray_point, t_object *obj)
 {
 	float dist_to_obj = 0;
 	float3 posc;
 
-	posc = ray_point - obj->center;
+	posc = ray_point - obj->transform.pos;
 	if (0) // if obj->isRepeating or anything like this
-		posc = repeatSDF(ray_point, obj->center, 0, 0, 0);
+		posc = repeatSDF(ray_point, obj->transform.pos, 0, 0, 0);
 	switch (obj->type)
 	{
 		case 1:
-			dist_to_obj = sphereSDF(posc, obj->radius);
+			dist_to_obj = sphereSDF(posc, 1);
 			break;
 		case 2:
-			dist_to_obj = boxSDF(posc, obj->radius);
+			dist_to_obj = boxSDF(posc, 1);
 			break;
 	}
 	return (dist_to_obj);
 }
 
-static float	sceneSDF(float3 O, t_scene1 *scene, t_object3d *closest_obj)
+static float	sceneSDF(float3 O, t_scene1 *scene, t_object *closest_obj)
 {
 	float		dist_to_obj = 1000000.f;
-	t_object3d	object;
+	t_object	object;
 	float		tmp_dist_to_obj;
 
 	for (int i = 0; i < scene->objects_num; i++)
@@ -39,7 +39,7 @@ static float	sceneSDF(float3 O, t_scene1 *scene, t_object3d *closest_obj)
 	return (dist_to_obj);
 }
 
-static void		get_normal(float3 pos, float basic_dist, float3 *normal, t_object3d *obj)
+static void		get_normal(float3 pos, float basic_dist, float3 *normal, t_object *obj)
 {
 	float eps = 0.001f;
 
@@ -50,7 +50,7 @@ static void		get_normal(float3 pos, float basic_dist, float3 *normal, t_object3d
 }
 
 static float	find_intersect_and_normal(float3 start_ray, float3 dir_ray,
-		t_scene1 *scene, t_object3d *closest_obj, float3 *normal, float mult)
+		t_scene1 *scene, t_object *closest_obj, float3 *normal, float mult)
 {
 	float		intersect_dist = scene->min_distance * mult;
 	float		dist_to_obj;
@@ -80,7 +80,7 @@ float3	ray_marching(float3 start_ray, float3 dir_ray, t_scene1 *scene, float mul
 {
 	float3	color;
 	float		intersect_dist;
-	t_object3d	closest_obj;
+	t_object	closest_obj;
 	float3	normal;
 
 	if ((intersect_dist = find_intersect_and_normal(start_ray, dir_ray, scene, &closest_obj, &normal, mult)) >= 0)

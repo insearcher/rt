@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_physics.h"
+#include "rt_physics_system.h"
 
 int					ps_func(void *psv)
 {
@@ -49,27 +49,9 @@ int					ps_func(void *psv)
 			ps->rbs[i]->transform->pos.v4 += ps->rbs[i]->transform->local.up.v4 *
 										 ps->rbs[i]->move.speed;
 		}
-		SDL_Delay(ps->delay);
+		SDL_Delay(ps->system.delay);
 	}
 	return (0);
 }
 
 /// PHYSICS SYSTEM
-
-t_physics_system	*ps_init(t_phys_func *f)
-{
-	t_physics_system	*ps;
-
-	if (!(ps = ft_memalloc(sizeof(t_physics_system))) ||
-		!(ps->thread = SDL_CreateThread(f, "physics", ps)))
-		return (NULL);
-	return (ps);
-}
-
-int					ps_start(t_physics_system *p)
-{
-	if (!p)
-		return (-1);
-	SDL_DetachThread(p->thread);
-	return (0);
-}
