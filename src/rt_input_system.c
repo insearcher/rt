@@ -56,11 +56,13 @@ static void	mult_matrix_to_vec(float *m, cl_float3 *v)
 
 static float	get_axis(const Uint8 *state, SDL_Scancode low, SDL_Scancode high)
 {
-	if (!state || !(state[low] ^ state[high]))
+	if (!(state[low] ^ state[high]))
 		return (0);
 	if (state[high])
 		return (1);
-	return (-1);
+	if (state[low])
+		return (-1);
+	return (0);
 }
 
 void	rotate_active(t_input_system *s)
@@ -95,15 +97,19 @@ void	rotate_active(t_input_system *s)
 																		 active->rot.raw_vel.y)));
 
 	float rot_matrix[9];
-	get_x_rot_matrix(&rot_matrix[0], &active->transform->local.right, active->rot.vel.x *
-																  active->rot.speed);
+//	SDL_LockMutex(s->system.mutex);
+
+	get_x_rot_matrix(&rot_matrix[0], &active->transform->local.right, active->rot.vel.x * active->rot.speed * s->system.delta_time);
 	mult_matrix_to_vec(&rot_matrix[0], &active->transform->local.right);
 	mult_matrix_to_vec(&rot_matrix[0], &active->transform->local.up);
 	mult_matrix_to_vec(&rot_matrix[0], &active->transform->local.forward);
-	get_y_rot_matrix(&rot_matrix[0], active->rot.vel.y * active->rot.speed);
+
+	get_y_rot_matrix(&rot_matrix[0], active->rot.vel.y * active->rot.speed * s->system.delta_time);
 	mult_matrix_to_vec(&rot_matrix[0], &active->transform->local.right);
 	mult_matrix_to_vec(&rot_matrix[0], &active->transform->local.up);
 	mult_matrix_to_vec(&rot_matrix[0], &active->transform->local.forward);
+
+//	SDL_UnlockMutex(s->system.mutex);
 
 //	cam->mx = x;
 //	cam->my = y;
@@ -111,12 +117,14 @@ void	rotate_active(t_input_system *s)
 
 void	move_active(t_input_system *s)
 {
+//	SDL_LockMutex(s->system.mutex);
 	s->active->move.raw_vel = (cl_float3){{
 		get_axis(s->state, SDL_SCANCODE_A, SDL_SCANCODE_D),
 		get_axis(s->state, SDL_SCANCODE_Q, SDL_SCANCODE_E),
 		get_axis(s->state, SDL_SCANCODE_S, SDL_SCANCODE_W)
 	}};
 	s->active->move.speed_mult = (s->state[225] ? 2 : 1);
+//	SDL_UnlockMutex(s->system.mutex);
 }
 
 int					is_func(void *isv)
@@ -124,13 +132,16 @@ int					is_func(void *isv)
 	t_input_system	*is;
 
 	is = (t_input_system *)isv;
+	is->system.now = SDL_GetPerformanceCounter();
+	is->system.last = 0;
 	while (is)
 	{
-		SDL_LockMutex(is->system.mutex);
+		is->system.delta_time = (is->system.now - is->system.last) / (double)SDL_GetPerformanceFrequency();
 		move_active(is);
 		rotate_active(is);
-		SDL_UnlockMutex(is->system.mutex);
 		SDL_Delay(is->system.delay);
+		is->system.last = is->system.now;
+		is->system.now = SDL_GetPerformanceCounter();
 	}
 	return (0);
 }

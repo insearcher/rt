@@ -56,39 +56,41 @@ int main(void)
 	/// CAMERA SETUP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	ft_bzero(&rt->scenes[0].camera, sizeof(t_camera));
 	rt->scenes[0].camera.clipping_planes = (t_clipping){1, 50};
-	rt->scenes[0].camera.fov = 56;
+	rt->scenes[0].camera.fov = 45;
 
 	rt->scenes[0].camera.transform.pos = (cl_float3){{0, 0, 0}};
 	rt->scenes[0].camera.transform.local.right = (cl_float3){{1, 0, 0}};
 	rt->scenes[0].camera.transform.local.up = (cl_float3){{0, 1, 0}};
 	rt->scenes[0].camera.transform.local.forward = (cl_float3){{0, 0, 1}};
 
-	rt->scenes[0].camera.rb.move.speed = .025f;
+	rt->scenes[0].camera.rb.move.speed = 1000;
 	rt->scenes[0].camera.rb.move.speed_mult = 4;
 	rt->scenes[0].camera.rb.move.acc = .04f;
-	rt->scenes[0].camera.rb.move.vel = (cl_float3){{0, 0, 0}};
-	rt->scenes[0].camera.rb.move.raw_vel = (cl_float3){{0, 0, 0}};
+	rt->scenes[0].camera.rb.move.vel = (cl_float3){{1, 1, 0}};
+	rt->scenes[0].camera.rb.move.raw_vel = (cl_float3){{1, 1, 0}};
 
-	rt->scenes[0].camera.rb.rot.speed = 1;
+	rt->scenes[0].camera.rb.rot.speed = 100;
 	rt->scenes[0].camera.rb.rot.acc = .04f;
 
 	rt->scenes[0].camera.rb.transform = &rt->scenes[0].camera.transform;
 
 	/// INPUT SYSTEM START !!!!!!!!!!!!!!!!!!!!!!!!!
 	t_input_system		*is = ft_memalloc(sizeof(t_input_system));
-	system_setup(&is->system, "input", is_func, 0);
-	is->system.mutex = SDL_CreateMutex();
+	is->system.parent = is;
+//	is->system.mutex = SDL_CreateMutex();
 	is->state = ui->state;
 	is->active = &rt->scenes[0].camera.rb;
+	system_setup(&is->system, "input", is_func, 5);
 	system_start(&is->system);
 
 	/// PHYSICS SYSTEM START !!!!!!!!!!!!!!!!!!!!!!!!!
 	t_physics_system	*ps = ft_memalloc(sizeof(t_physics_system));
-	system_setup(&ps->system, "physics", ps_func, 3);
-	ps->system.mutex = is->system.mutex;
+//	ps->system.mutex = is->system.mutex;
+	ps->system.parent = ps;
 	ps->rbs_count = 1;
 	ps->rbs = (t_rb **)malloc(sizeof(t_rb *) * ps->rbs_count);
 	ps->rbs[0] = &rt->scenes[0].camera.rb;
+	system_setup(&ps->system, "physics", &ps_func, 8);
 	system_start(&ps->system);
 
     ui_main_run_program(ui);

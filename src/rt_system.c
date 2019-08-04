@@ -14,7 +14,7 @@
 
 int	system_setup(t_system *s, const char *n, t_system_func *f, const size_t d)
 {
-	if (!(s->thread = SDL_CreateThread(f, n, s)))
+	if (!(s->thread = SDL_CreateThread(f, n, s->parent)))
 		return (-1);
 	s->delay = d;
 	return (0);
