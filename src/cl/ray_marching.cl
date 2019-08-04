@@ -6,7 +6,7 @@ static float	SDF(float3 ray_point, t_object *obj)
 	float3 posc;
 
 	posc = ray_point - obj->transform.pos;
-	if (0) // if obj->isRepeating or anything like this
+	if (1) // if obj->isRepeating or anything like this
 		posc = repeatSDF(ray_point, obj->transform.pos, 0, 0, 0);
 	switch (obj->type)
 	{
