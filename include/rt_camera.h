@@ -42,12 +42,14 @@ typedef struct			s_camera
 	cl_float			fov;
 	cl_int				mx;
 	cl_int				my;
+	cl_int				quality;
 	t_rb				rb;
 # else
 	/// Temp
 	float				fov;
 	int					mx;
 	int					my;
+	int					quality;
 	char				trash[112];
 # endif
 

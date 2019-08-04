@@ -19,6 +19,6 @@ void		put_pixel(int x, int y, int color, __global char* img, int width, int heig
 float3	ray_marching(float3 start_ray, float3 dir_ray, t_scene1 *scene, float mult);
 float3 repeatSDF(float3 pos, float3 cen, float rx, float ry, float rz);
 float sphereSDF(float3 posc, float radius);
-float boxSDF(float3 posc, float radius);
+float boxSDF(float3 posc, float3 bounds);
 
 #endif

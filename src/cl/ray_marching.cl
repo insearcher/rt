@@ -6,15 +6,15 @@ static float	SDF(float3 ray_point, t_object *obj)
 	float3 posc;
 
 	posc = ray_point - obj->transform.pos;
-	if (1) // if obj->isRepeating or anything like this
+	if (0) // if obj->isRepeating or anything like this
 		posc = repeatSDF(ray_point, obj->transform.pos, 0, 0, 0);
 	switch (obj->type)
 	{
 		case 1:
-			dist_to_obj = sphereSDF(posc, 1);
+			dist_to_obj = sphereSDF(posc, obj->params.sphere.radius);
 			break;
 		case 2:
-			dist_to_obj = boxSDF(posc, 1);
+			dist_to_obj = boxSDF(posc, obj->params.box.bounds);
 			break;
 	}
 	return (dist_to_obj);
@@ -54,7 +54,7 @@ static float	find_intersect_and_normal(float3 start_ray, float3 dir_ray,
 {
 	float		intersect_dist = scene->min_distance * mult;
 	float		dist_to_obj;
-	int			max_steps = 1000;
+	int			max_steps = 200;
 	float		epsilon = 0.0001f;
 	float3	cur_ray_point;
 

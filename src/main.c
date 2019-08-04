@@ -37,8 +37,10 @@ int main(void)
 	rt->scenes[0].objects = ft_x_memalloc(sizeof(t_object) * rt->scenes[0].objects_count);
 	rt->scenes[0].objects[0].type = 1;
 	rt->scenes[0].objects[0].transform.pos = (cl_float3){{4.f, 4.f, 4.f}};
+	rt->scenes[0].objects[0].params.sphere.radius = 4;
 	rt->scenes[0].objects[1].type = 2;
 	rt->scenes[0].objects[1].transform.pos = (cl_float3){{10.f, 4.f, 4.f}};
+	rt->scenes[0].objects[1].params.box.bounds = (cl_float3){{10, 4, 2}};
 
 	ui->data = rt;
     ui_main_add_function_by_id(ui, rt_render, "rt_render");
@@ -55,8 +57,9 @@ int main(void)
 
 	/// CAMERA SETUP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	ft_bzero(&rt->scenes[0].camera, sizeof(t_camera));
-	rt->scenes[0].camera.clipping_planes = (t_clipping){1, 50};
+	rt->scenes[0].camera.clipping_planes = (t_clipping){1, 500};
 	rt->scenes[0].camera.fov = 45;
+	rt->scenes[0].camera.quality = 4;
 
 	rt->scenes[0].camera.transform.pos = (cl_float3){{0, 0, 0}};
 	rt->scenes[0].camera.transform.local.right = (cl_float3){{1, 0, 0}};
@@ -65,9 +68,9 @@ int main(void)
 
 	rt->scenes[0].camera.rb.move.speed = 1000;
 	rt->scenes[0].camera.rb.move.speed_mult = 4;
-	rt->scenes[0].camera.rb.move.acc = .04f;
-	rt->scenes[0].camera.rb.move.vel = (cl_float3){{1, 1, 0}};
-	rt->scenes[0].camera.rb.move.raw_vel = (cl_float3){{1, 1, 0}};
+	rt->scenes[0].camera.rb.move.acc = 0.025f;
+	rt->scenes[0].camera.rb.move.vel = (cl_float3){{0, 0, 0}};
+	rt->scenes[0].camera.rb.move.raw_vel = (cl_float3){{0, 0, 0}};
 
 	rt->scenes[0].camera.rb.rot.speed = 100;
 	rt->scenes[0].camera.rb.rot.acc = .04f;
@@ -80,7 +83,7 @@ int main(void)
 //	is->system.mutex = SDL_CreateMutex();
 	is->state = ui->state;
 	is->active = &rt->scenes[0].camera.rb;
-	system_setup(&is->system, "input", is_func, 5);
+	system_setup(&is->system, "input", is_func, 3);
 	system_start(&is->system);
 
 	/// PHYSICS SYSTEM START !!!!!!!!!!!!!!!!!!!!!!!!!
@@ -90,7 +93,7 @@ int main(void)
 	ps->rbs_count = 1;
 	ps->rbs = (t_rb **)malloc(sizeof(t_rb *) * ps->rbs_count);
 	ps->rbs[0] = &rt->scenes[0].camera.rb;
-	system_setup(&ps->system, "physics", &ps_func, 8);
+	system_setup(&ps->system, "physics", &ps_func, 5);
 	system_start(&ps->system);
 
     ui_main_run_program(ui);

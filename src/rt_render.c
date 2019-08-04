@@ -34,6 +34,7 @@ void	run_render(t_rt_main *rt, t_ui_el *el, cl_mem *mem_img,
 	err |= clSetKernelArg(*kernel, 9, sizeof(float), &rt->scenes[0].camera.clipping_planes.near);
 	err |= clSetKernelArg(*kernel, 10, sizeof(float), &rt->scenes[0].camera.clipping_planes.far);
 	err |= clSetKernelArg(*kernel, 11, sizeof(float), &rt->scenes[0].camera.fov);
+	err |= clSetKernelArg(*kernel, 12, sizeof(float), &rt->scenes[0].camera.quality);
 	if (err != 0)
 		SDL_Log("set kernel arg - error\n");
 	global_size = el->rect.w * el->rect.h;

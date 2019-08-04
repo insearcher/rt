@@ -28,6 +28,28 @@ float3	repeatSDF(float3 pos, float3 c, float rx, float ry, float rz)
 
 float	sphereSDF(float3 posc, float radius)
 {
+//	float3 z = posc;
+//	float dr = 1.0;
+//	float r = 0.0;
+//	for (int i = 0; i < 128 ; i++) {
+//		r = length(z);
+//		if (r > 4) break;
+//
+//		// convert to polar coordinates
+//		float theta = acos(z.z/r);
+//		float phi = atan(z.y / z.x);
+//		dr =  pow( r, 2)*2*dr + 1.0;
+//
+//		// scale and rotate the point
+//		float zr = pow( r,2);
+//		theta = theta*2;
+//		phi = phi*2;
+//
+//		// convert back to cartesian coordinates
+//		z = zr*(float3){sin(theta)*cos(phi), sin(phi)*sin(theta), cos(theta)};
+//		z+=posc;
+//	}
+//	return 0.5*log(r)*r/dr;
 	return (length(posc) - radius);
 }
 
@@ -41,10 +63,10 @@ static float	max_in_vec(float3 vec)
 //	return (fmin(vec.x, fmax(vec.y, vec.z)));
 //}
 
-float	boxSDF(float3 posc, float radius)
+float	boxSDF(float3 posc, float3 bounds)
 {
 	//TODO b - is outside figure.
-	float3 b = (float3){0.5f, 0.5f, 0.5f};
+	float3 b = bounds;
 	float3 di = fabs(posc) - b;
 	float mc = max_in_vec(di);
 	return (fmin(mc, length(fmax(di, 0.0f))));
