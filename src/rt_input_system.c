@@ -72,7 +72,7 @@ void	rotate_active(t_input_system *s)
 	/// Arrows mode
 
 	active->rot.raw_vel = (cl_float3){{
-		get_axis(s->state, SDL_SCANCODE_DOWN, SDL_SCANCODE_UP),
+		get_axis(s->state, SDL_SCANCODE_UP, SDL_SCANCODE_DOWN),
 		get_axis(s->state, SDL_SCANCODE_LEFT, SDL_SCANCODE_RIGHT),
 		0
 	}};
@@ -111,10 +111,11 @@ void	rotate_active(t_input_system *s)
 
 void	move_active(t_input_system *s)
 {
-	(void)s->active->move.raw_vel.x;
-	s->active->move.raw_vel.x = get_axis(s->state, SDL_SCANCODE_A, SDL_SCANCODE_D);
-	s->active->move.raw_vel.y = get_axis(s->state, SDL_SCANCODE_Q, SDL_SCANCODE_E);
-	s->active->move.raw_vel.z = get_axis(s->state, SDL_SCANCODE_S, SDL_SCANCODE_W);
+	s->active->move.raw_vel = (cl_float3){{
+		get_axis(s->state, SDL_SCANCODE_A, SDL_SCANCODE_D),
+		get_axis(s->state, SDL_SCANCODE_Q, SDL_SCANCODE_E),
+		get_axis(s->state, SDL_SCANCODE_S, SDL_SCANCODE_W)
+	}};
 	s->active->move.speed_mult = (s->state[225] ? 2 : 1);
 }
 
@@ -123,11 +124,12 @@ int					is_func(void *isv)
 	t_input_system	*is;
 
 	is = (t_input_system *)isv;
-	is->active->move.raw_vel.s0 = 1;
 	while (is)
 	{
+		SDL_LockMutex(is->system.mutex);
 		move_active(is);
 		rotate_active(is);
+		SDL_UnlockMutex(is->system.mutex);
 		SDL_Delay(is->system.delay);
 	}
 	return (0);

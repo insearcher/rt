@@ -14,5 +14,10 @@
 
 float	ft_lerp(float from, float to, float t)
 {
-	return (from + (to - from) * t);
+	float	res;
+
+	res = from + (to - from) * t;
+	res = fmaxf(res, from);
+	res = fminf(res, to);
+	return (res);
 }

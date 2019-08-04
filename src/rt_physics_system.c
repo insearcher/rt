@@ -16,39 +16,43 @@ int					ps_func(void *psv)
 {
 	t_physics_system	*ps;
 	size_t				i;
+	t_rb				*curps;
 
 	ps = (t_physics_system *)psv;
 	while (ps->rbs)
 	{
+		SDL_LockMutex(ps->system.mutex);
 		i = -1;
 		while (++i < ps->rbs_count)
 		{
-			if (ps->rbs[i]->move.vel.x != ps->rbs[i]->move.raw_vel.x)
-				ps->rbs[i]->move.vel.x = ft_lerp(
-						ps->rbs[i]->move.vel.x,
-						ps->rbs[i]->move.raw_vel.x * ps->rbs[i]->move.speed_mult,
-						ft_fmin(1, ps->rbs[i]->move.acc / fabs(ps->rbs[i]->move.vel.x -
-														   ps->rbs[i]->move.raw_vel.x)));
-			if (ps->rbs[i]->move.vel.y != ps->rbs[i]->move.raw_vel.y)
-				ps->rbs[i]->move.vel.y = ft_lerp(
-						ps->rbs[i]->move.vel.y,
-						ps->rbs[i]->move.raw_vel.y * ps->rbs[i]->move.speed_mult,
-						ft_fmin(1, ps->rbs[i]->move.acc / fabs(ps->rbs[i]->move.vel.y -
-														   ps->rbs[i]->move.raw_vel.y)));
-			if (ps->rbs[i]->move.vel.z != ps->rbs[i]->move.raw_vel.z)
-				ps->rbs[i]->move.vel.z = ft_lerp(
-						ps->rbs[i]->move.vel.z,
-						ps->rbs[i]->move.raw_vel.z * ps->rbs[i]->move.speed_mult,
-						ft_fmin(1, ps->rbs[i]->move.acc / fabs(ps->rbs[i]->move.vel.z -
-														   ps->rbs[i]->move.raw_vel.z)));
+			curps = ps->rbs[i];
+			if (fabs(curps->move.vel.x - curps->move.raw_vel.x) < CL_FLT_EPSILON)
+				curps->move.vel.x = ft_lerp(
+						curps->move.vel.x,
+						curps->move.raw_vel.x * curps->move.speed_mult,
+						ft_fmin(1, curps->move.acc / fabs(curps->move.vel.x -
+														   curps->move.raw_vel.x)));
+			if (fabs(curps->move.vel.y- curps->move.raw_vel.y) < CL_FLT_EPSILON)
+				curps->move.vel.y = ft_lerp(
+						curps->move.vel.y,
+						curps->move.raw_vel.y * curps->move.speed_mult,
+						ft_fmin(1, curps->move.acc / fabs(curps->move.vel.y -
+														   curps->move.raw_vel.y)));
+			if (fabs(curps->move.vel.z - curps->move.raw_vel.z) < CL_FLT_EPSILON)
+				curps->move.vel.z = ft_lerp(
+						curps->move.vel.z,
+						curps->move.raw_vel.z * curps->move.speed_mult,
+						ft_fmin(1, curps->move.acc / fabs(curps->move.vel.z -
+														   curps->move.raw_vel.z)));
 
-			ps->rbs[i]->transform->pos.v4 += ps->rbs[i]->transform->local.forward.v4 *
-										 ps->rbs[i]->move.speed;
-			ps->rbs[i]->transform->pos.v4 += ps->rbs[i]->transform->local.right.v4 *
-										 ps->rbs[i]->move.speed;
-			ps->rbs[i]->transform->pos.v4 += ps->rbs[i]->transform->local.up.v4 *
-										 ps->rbs[i]->move.speed;
+			curps->transform->pos.v4 += curps->transform->local.forward.v4 * curps->move.raw_vel.z *
+										 curps->move.speed;
+			curps->transform->pos.v4 += curps->transform->local.right.v4 * curps->move.raw_vel.x *
+										 curps->move.speed;
+			curps->transform->pos.v4 += curps->transform->local.up.v4 * curps->move.raw_vel.y *
+										 curps->move.speed;
 		}
+		SDL_UnlockMutex(ps->system.mutex);
 		SDL_Delay(ps->system.delay);
 	}
 	return (0);
