@@ -1,3 +1,4 @@
+
 #include "config_cl.h"
 
 static float	SDF(float3 ray_point, t_object *obj)
@@ -6,15 +7,18 @@ static float	SDF(float3 ray_point, t_object *obj)
 	float3 posc;
 
 	posc = ray_point - obj->transform.pos;
-	if (0) // if obj->isRepeating or anything like this
-		posc = repeatSDF(ray_point, obj->transform.pos, 0, 0, 0);
+//	if (1) // if obj->isRepeating or anything like this
+//		posc = repeatSDF(ray_point, obj->transform.pos, 0, 0, 0);
 	switch (obj->type)
 	{
-		case 1:
-			dist_to_obj = sphereSDF(posc, obj->params.sphere.radius);
+		case sphere:
+			dist_to_obj = sdf_sphere(posc, obj->params.sphere.radius);
 			break;
-		case 2:
-			dist_to_obj = boxSDF(posc, obj->params.box.bounds);
+		case box:
+			dist_to_obj = sdf_box(posc, obj->params.box.bounds);
+			break;
+		case round_box:
+			dist_to_obj = sdf_round_box(posc, obj->params.round_box.bounds);
 			break;
 	}
 	return (dist_to_obj);

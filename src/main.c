@@ -28,19 +28,16 @@ int main(void)
 	rt->cl = cl_setup((char *[]){
 							"src/cl/render.cl",
 							"src/cl/ray_marching.cl",
-							"src/cl/primitives_sdf.cl",
+							"src/cl/sdf.cl",
 							"src/cl/get_cam_ray.cl",
 							NULL},
 							(char *[]){"render", NULL});
 	rt->scenes = ft_x_memalloc(sizeof(t_scene));
-	rt->scenes[0].objects_count = 2;
+	rt->scenes[0].objects_count = 1;
 	rt->scenes[0].objects = ft_x_memalloc(sizeof(t_object) * rt->scenes[0].objects_count);
-	rt->scenes[0].objects[0].type = 1;
-	rt->scenes[0].objects[0].transform.pos = (cl_float3){{4.f, 4.f, 4.f}};
-	rt->scenes[0].objects[0].params.sphere.radius = 4;
-	rt->scenes[0].objects[1].type = 2;
-	rt->scenes[0].objects[1].transform.pos = (cl_float3){{10.f, 4.f, 4.f}};
-	rt->scenes[0].objects[1].params.box.bounds = (cl_float3){{10, 4, 2}};
+	rt->scenes[0].objects[0].type = round_box;
+	rt->scenes[0].objects[0].transform.pos = (cl_float3){{5, 5, 5}};
+	rt->scenes[0].objects[0].params.round_box.bounds = (cl_float3){{1,3,5, 2}};
 
 	ui->data = rt;
     ui_main_add_function_by_id(ui, rt_render, "rt_render");

@@ -1,3 +1,4 @@
+
 #include "config_cl.h"
 
 void        put_pixel(int x, int y, int color, __global char* img, int width, int height)

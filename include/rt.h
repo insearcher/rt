@@ -29,22 +29,38 @@ typedef struct			s_box
 # endif
 }						t_box;
 
-typedef union			__u_params
+typedef struct			s_round_box
+{
+# ifndef OPENCL___
+	cl_float4			bounds;
+# else
+	float4				bounds;
+# endif
+}						t_round_box;
+
+union					u_params
 {
 	t_sphere			sphere;
 	t_box				box;
-}						u_params;
+	t_round_box			round_box;
+};
+
+enum					e_object_type
+{
+	sphere,
+	box,
+	round_box
+};
 
 typedef struct			s_object
 {
 	t_transform			transform;
-	u_params			params;
+	union u_params		params;
+	enum e_object_type	type;
 
 # ifndef OPENCL___
-	cl_int				type;
 	t_rb				rb;
 # else
-	int					type;
 	char				trash[112];
 # endif
 }						t_object;
