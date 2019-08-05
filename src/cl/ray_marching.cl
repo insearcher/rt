@@ -97,6 +97,5 @@ mult, float3 *normal, float *intersect_dist)
 		color = *normal * 0.5f + (float3){0.5f, 0.5f, 0.5f};
 	else
 		color = (float3){0.36 - dir_ray.y * 0.6, 0.36 + dir_ray.y * 0.6, 0.6 - dir_ray.y * 0.6};
-	color = pow(color, float3(0.4545));
 	return (color);
 }

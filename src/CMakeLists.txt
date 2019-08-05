@@ -8,4 +8,5 @@ target_sources(rt PUBLIC
         rt_system.c
         rt_input_system.c
         rt_physics_system.c
+        rt_rotations.c
         )

@@ -12,48 +12,6 @@
 
 #include "rt_input_system.h"
 
-static void	get_x_rot_matrix(float *m, cl_float3 *v, float a)
-{
-	float rads = a / 180 * M_PI;
-	float c = cosf(rads);
-	float s = sinf(rads);
-
-	m[0] = c + v->x * v->x * (1 - c);
-	m[1] = v->x * v->y * (1 - c) - v->z * s;
-	m[2] = v->x * v->z * (1 - c) + v->y * s;
-	m[3] = v->x * v->y * (1 - c) + v->z * s;
-	m[4] = c + v->y * v->y * (1 - c);
-	m[5] = v->y * v->z * (1 - c) - v->x * s;
-	m[6] = v->x * v->z * (1 - c) - v->y * s;
-	m[7] = v->y * v->z * (1 - c) + v->x * s;
-	m[8] = c + v->z * v->z * (1 - c);
-}
-
-static void	get_y_rot_matrix(float *m, float a)
-{
-	float rads = a / 180 * M_PI;
-
-	m[0] = cosf(rads);
-	m[1] = 0;
-	m[2] = sinf(rads);
-	m[3] = 0;
-	m[4] = 1;
-	m[5] = 0;
-	m[6] = -sinf(rads);
-	m[7] = 0;
-	m[8] = cosf(rads);
-}
-
-static void	mult_matrix_to_vec(float *m, cl_float3 *v)
-{
-	cl_float3 temp = *v;
-
-	temp.x = m[0] * v->x + m[1] * v->y + m[2] * v->z;
-	temp.y = m[3] * v->x + m[4] * v->y + m[5] * v->z;
-	temp.z = m[6] * v->x + m[7] * v->y + m[8] * v->z;
-	*v = temp;
-}
-
 static float	get_axis(const Uint8 *state, SDL_Scancode low, SDL_Scancode high)
 {
 	if (!(state[low] ^ state[high]))
@@ -95,15 +53,16 @@ void	rotate_active(t_input_system *s)
 	float rot_matrix[9];
 //	SDL_LockMutex(s->system.mutex);
 
-	get_x_rot_matrix(&rot_matrix[0], &active->transform->local.right, active->rot.vel.x * active->rot.speed * s->system.delta_time);
-	mult_matrix_to_vec(&rot_matrix[0], &active->transform->local.right);
-	mult_matrix_to_vec(&rot_matrix[0], &active->transform->local.up);
-	mult_matrix_to_vec(&rot_matrix[0], &active->transform->local.forward);
+	fill_rotation_matrix(&rot_matrix[0], active->transform->local.right, active->rot.vel.x * active->rot.speed * s->system.delta_time);
+//	get_x_rot_matrix(&rot_matrix[0], &active->transform->local.right, active->rot.vel.x * active->rot.speed * s->system.delta_time);
+	mult(&rot_matrix[0], &active->transform->local.right);
+	mult(&rot_matrix[0], &active->transform->local.up);
+	mult(&rot_matrix[0], &active->transform->local.forward);
 
-	get_y_rot_matrix(&rot_matrix[0], active->rot.vel.y * active->rot.speed * s->system.delta_time);
-	mult_matrix_to_vec(&rot_matrix[0], &active->transform->local.right);
-	mult_matrix_to_vec(&rot_matrix[0], &active->transform->local.up);
-	mult_matrix_to_vec(&rot_matrix[0], &active->transform->local.forward);
+	fill_rotation_matrix(&rot_matrix[0], (cl_float3){{0, 1, 0}}, active->rot.vel.y * active->rot.speed * s->system.delta_time);
+	mult(&rot_matrix[0], &active->transform->local.right);
+	mult(&rot_matrix[0], &active->transform->local.up);
+	mult(&rot_matrix[0], &active->transform->local.forward);
 
 //	SDL_UnlockMutex(s->system.mutex);
 

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rt_input.h                                         :+:      :+:    :+:   */
+/*   rt_rotations.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sbecker <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,24 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RT_INPUT_H
-# define RT_INPUT_H
+#ifndef RT_ROTATIONS_H
+# define RT_ROTATIONS_H
 
-# include "config.h"
-# include "rt_camera.h"
-# include "rt_rotations.h"
-# include "rt_system.h"
+# ifndef OPENCL___
+#  include <OpenCL/opencl.h>
+#  include "math.h"
+# endif
 
-typedef struct		s_input_system
-{
-	t_system		system;
-	const Uint8		*state;
-	t_rb			*active;
-}					t_input_system;
-
-void				move_active(t_input_system *s);
-void				rotate_active(t_input_system *s);
-
-int					is_func(void *isv);
+void	fill_rotation_matrix(float *m, cl_float3 v, float a);
+void	mult(float *m, cl_float3 *v);
 
 #endif

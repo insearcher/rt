@@ -40,15 +40,15 @@ __kernel void render(__global char* img, int width, int height, int objects_num,
 	float mult, dist;
 	float3 normal;
 	direction = get_cam_ray(gid % width, gid / width, width, height, camera_pos, camera_local_x, camera_local_y, camera_local_z, camera_min_distance, camera_max_distance, fov, &mult);
-	color = ray_marching(camera_pos, direction, &scene, mult, &normal, &dist) * 255.0f;
-//	float3 diffuse = color * ambient;
+	color = ray_marching(camera_pos, direction, &scene, mult, &normal, &dist);
+	float3 diffuse = color * ambient;
 //	for (int i = 0; i < lights_num; ++i)
 //	{
 //		float NoL = max(dot(normal, normalize(camera_pos + direction * dist - lights[i].transform.pos)), 0.0);
-//		float3 LDirectional = lights[i].params.directional.intensity * NoL;
+//		float3 LDirectional = lights[i].transform.forward * NoL;
 //		diffuse += color * LDirectional;
 //	}
-//	color = pow(diffuse, float3(0.4545));
+	color = pow(diffuse, float3(0.4545)) * 255;
 //	put_pixel(gid % width, gid / width + 1, COLOR(color.x, color.y, color.z), img, width, height);
 	for (int i = 0; i < quality; ++i)
 	{

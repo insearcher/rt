@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rt_input.h                                         :+:      :+:    :+:   */
+/*   rt_rotations.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sbecker <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,24 +10,31 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RT_INPUT_H
-# define RT_INPUT_H
+#include "rt_rotations.h"
 
-# include "config.h"
-# include "rt_camera.h"
-# include "rt_rotations.h"
-# include "rt_system.h"
-
-typedef struct		s_input_system
+void	fill_rotation_matrix(float *m, cl_float3 v, float a)
 {
-	t_system		system;
-	const Uint8		*state;
-	t_rb			*active;
-}					t_input_system;
+	float rads = a / 180 * M_PI;
+	float c = cosf(rads);
+	float s = sinf(rads);
 
-void				move_active(t_input_system *s);
-void				rotate_active(t_input_system *s);
+	m[0] = c + v.x * v.x * (1 - c);
+	m[1] = v.x * v.y * (1 - c) - v.z * s;
+	m[2] = v.x * v.z * (1 - c) + v.y * s;
+	m[3] = v.x * v.y * (1 - c) + v.z * s;
+	m[4] = c + v.y * v.y * (1 - c);
+	m[5] = v.y * v.z * (1 - c) - v.x * s;
+	m[6] = v.x * v.z * (1 - c) - v.y * s;
+	m[7] = v.y * v.z * (1 - c) + v.x * s;
+	m[8] = c + v.z * v.z * (1 - c);
+}
 
-int					is_func(void *isv);
+void	mult(float *m, cl_float3 *v)
+{
+	cl_float3 temp = *v;
 
-#endif
+	temp.x = m[0] * v->x + m[1] * v->y + m[2] * v->z;
+	temp.y = m[3] * v->x + m[4] * v->y + m[5] * v->z;
+	temp.z = m[6] * v->x + m[7] * v->y + m[8] * v->z;
+	*v = temp;
+}
