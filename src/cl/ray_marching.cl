@@ -86,16 +86,14 @@ static float	find_intersect_and_normal(float3 start_ray, float3 dir_ray,
 	return (-1);
 }
 
-float3	ray_marching(float3 start_ray, float3 dir_ray, t_scene1 *scene, float
-mult, float3 *normal, float *intersect_dist)
+float3	ray_marching(float3 origin, float3 direction, t_scene1 *scene, float mult, float3 *normal, float *intersect_dist, t_object *intersected)
 {
 	float3	color;
-	t_object	closest_obj;
 
-	if ((*intersect_dist = find_intersect_and_normal(start_ray, dir_ray, scene,
-		&closest_obj, normal, mult)) >= 0)
+	if ((*intersect_dist = find_intersect_and_normal(origin, direction, scene,
+		intersected, normal, mult)) >= 0)
 		color = *normal * 0.5f + (float3){0.5f, 0.5f, 0.5f};
 	else
-		color = (float3){0.36 - dir_ray.y * 0.6, 0.36 + dir_ray.y * 0.6, 0.6 - dir_ray.y * 0.6};
+		color = (float3){0.6 - direction.y * 0.7, 0.36 - direction.y * 0.7, 0.3 - direction.y * 0.7};
 	return (color);
 }

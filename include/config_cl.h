@@ -17,8 +17,7 @@ typedef struct	s_scene1
 
 float3	get_cam_ray(int x, int y, int width, int height, float3 camera_pos, float3 camera_local_x, float3 camera_local_y, float3 camera_local_z, float camera_min_distance, float camera_max_distance, float fov, float *mult);
 void		put_pixel(int x, int y, int color, __global char* img, int width, int height);
-float3	ray_marching(float3 start_ray, float3 dir_ray, t_scene1 *scene, float
-	mult, float3 *normal, float *intersect_dist);
+float3	ray_marching(float3 origin, float3 direction, t_scene1 *scene, float mult, float3 *normal, float *intersect_dist, t_object *intersected);
 float3 repeatSDF(float3 pos, float3 cen, float rx, float ry, float rz);
 float sphereSDF(float3 posc, float radius);
 
