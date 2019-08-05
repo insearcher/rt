@@ -10,7 +10,7 @@ static float	SDF(float3 ray_point, t_object3d *obj)
         posc = repeatSDF(ray_point, obj->center, 0, 0, 0);
 	if (obj->type == 1)
 		dist_to_obj = sphereSDF(posc, obj->radius);
-	//		dist_to_obj = boxSDF(posc, obj->radius);
+//			dist_to_obj = boxSDF(posc, obj->radius);
 	return (dist_to_obj);
 }
 

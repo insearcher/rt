@@ -16,6 +16,7 @@ float3	repeatSDF(float3 pos, float3 c, float rx, float ry, float rz)
 
 float	sphereSDF(float3 posc, float radius)
 {
+//	return sin(pow(((mv_length(posc) - radius)), 2));
 	return (mv_length(posc) - radius);
 }
 

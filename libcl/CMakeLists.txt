@@ -4,7 +4,7 @@ cmake_policy(SET CMP0076 NEW)
 
 project(LIBCL VERSION 1.0.0 LANGUAGES C)
 
-add_library(cl STATIC src/cl_create_program.c src/cl_init.c src/cl_kernels.c)
+add_library(cl STATIC)
 
 set(${PROJECT_NAME}_INCLUDE_DIRS
         ${PROJECT_SOURCE_DIR}/include

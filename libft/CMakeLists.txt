@@ -4,7 +4,7 @@ cmake_policy(SET CMP0076 NEW)
 
 project(LIBFT VERSION 1.0.0 LANGUAGES C)
 
-add_library(ft STATIC src/ft_x_memalloc.c)
+add_library(ft STATIC)
 
 set(${PROJECT_NAME}_INCLUDE_DIRS
         ${PROJECT_SOURCE_DIR}/include
