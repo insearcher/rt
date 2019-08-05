@@ -85,6 +85,7 @@ int main(void)
 	rt->scenes[0].lights = ft_x_memalloc(sizeof(t_light) * rt->scenes[0].lights_count);
 	rt->scenes[0].lights[0].transform.pos = (cl_float3){{1, 1, 1}};
 	transform_setup_default(&rt->scenes[0].lights[0].transform);
+	rt->scenes[0].lights[0].transform.local.forward.z = -1;
 	rt->scenes[0].lights[0].type = directional;
 	rt->scenes[0].lights[0].params.directional.intensity = (cl_float3){{.3f, .3f, .3f}};
 
@@ -107,10 +108,10 @@ int main(void)
 	rt->scenes[0].camera.fov = 45;
 	rt->scenes[0].camera.quality = 4;
 
-	rt->scenes[0].camera.transform.pos = (cl_float3){{0, 0, 0}};
-	rt->scenes[0].camera.transform.local.right = (cl_float3){{1, 0, 0}};
+	rt->scenes[0].camera.transform.pos = (cl_float3){{0, 0, 20}};
+	rt->scenes[0].camera.transform.local.right = (cl_float3){{-1, 0, 0}};
 	rt->scenes[0].camera.transform.local.up = (cl_float3){{0, 1, 0}};
-	rt->scenes[0].camera.transform.local.forward = (cl_float3){{0, 0, 1}};
+	rt->scenes[0].camera.transform.local.forward = (cl_float3){{0, 0, -1}};
 
 	rt->scenes[0].camera.rb.move.speed = 1000;
 	rt->scenes[0].camera.rb.move.speed_mult = 4;

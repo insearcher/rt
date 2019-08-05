@@ -39,8 +39,9 @@ __kernel void render(__global char* img, int width, int height, int objects_num,
 	scene.ambient = ambient;
 	float mult, dist;
 	float3 normal = float3(0);
+	t_object intersected;
 	direction = get_cam_ray(gid % width, gid / width, width, height, camera_pos, camera_local_x, camera_local_y, camera_local_z, camera_min_distance, camera_max_distance, fov, &mult);
-	color = ray_marching(camera_pos, direction, &scene, mult, &normal, &dist);
+	color = ray_marching(camera_pos, direction, &scene, mult, &normal, &dist, &intersected);
 	if (!(normal.x == 0 && normal.y == 0 && normal.z == 0))
 	{
 		float3	diffuse = color * ambient;
