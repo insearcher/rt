@@ -36,20 +36,10 @@ static float	max_in_vec(float3 vec)
 //	return (fmin(vec.x, fmax(vec.y, vec.z)));
 //}
 
-float	sdf_sphere(float3 pos, float radius)
-{
-	return (length(pos) - radius);
-}
 
-float	sdf_box(float3 pos, float3 bounds)
-{
-	float3 d = fabs(pos) - bounds;
-	return length(fmax(d, float3(0))) + fmin(fmax(d.x, fmax(d.y, d.z)), 0);
-}
 
-float	sdf_round_box(float3 pos, float4 bounds)
-{
-	float3 d = fabs(pos) - bounds.xyz;
-	return length(fmax(d, float3(0))) - bounds.w + fmin(fmax(d.x, fmax(d.y, d.z)), 0);
-}
+
+
+
+
 

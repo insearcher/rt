@@ -1,27 +1,33 @@
 
 #include "config_cl.h"
 
-static float	SDF(float3 ray_point, t_object *obj)
+static float	sdf(float3 origin, t_object *obj)
 {
-	float dist_to_obj = 0;
-	float3 posc;
+	float	distance = 0;
+	float3	local_pos;
 
-	posc = ray_point - obj->transform.pos;
+	local_pos = origin - obj->transform.pos;
 //	if (1) // if obj->isRepeating or anything like this
-//		posc = repeatSDF(ray_point, obj->transform.pos, 0, 0, 0);
+//		local_pos = repeatSDF(ray_point, obj->transform.pos, 0, 0, 0);
 	switch (obj->type)
 	{
 		case sphere:
-			dist_to_obj = sdf_sphere(posc, obj->params.sphere.radius);
+			distance = sdf_sphere(local_pos, obj->params.sphere.radius);
 			break;
 		case box:
-			dist_to_obj = sdf_box(posc, obj->params.box.bounds);
+			distance = sdf_box(local_pos, obj->params.box.bounds);
 			break;
 		case round_box:
-			dist_to_obj = sdf_round_box(posc, obj->params.round_box.bounds);
+			distance = sdf_round_box(local_pos, obj->params.round_box.bounds);
+			break;
+		case torus:
+			distance = sdf_torus(local_pos, obj->params.torus.params);
+			break;
+		case cylinder:
+			distance = sdf_cylinder(local_pos, obj->params.cylinder.params);
 			break;
 	}
-	return (dist_to_obj);
+	return (distance);
 }
 
 static float	sceneSDF(float3 O, t_scene1 *scene, t_object *closest_obj)
@@ -33,7 +39,7 @@ static float	sceneSDF(float3 O, t_scene1 *scene, t_object *closest_obj)
 	for (int i = 0; i < scene->objects_num; i++)
 	{
 		object = scene->objects[i];
-		tmp_dist_to_obj = SDF(O, &object);
+		tmp_dist_to_obj = sdf(O, &object);
 		if (tmp_dist_to_obj < dist_to_obj && tmp_dist_to_obj > -0.0001f)
 		{
 			dist_to_obj = tmp_dist_to_obj;
@@ -47,9 +53,9 @@ static void		get_normal(float3 pos, float basic_dist, float3 *normal, t_object *
 {
 	float eps = 0.001f;
 
-	*normal = normalize((float3){SDF((float3){pos.x + eps, pos.y, pos.z}, obj),
-							SDF((float3){pos.x, pos.y + eps, pos.z}, obj),
-							SDF((float3){pos.x, pos.y, pos.z + eps}, obj)} -
+	*normal = normalize((float3){sdf((float3){pos.x + eps, pos.y, pos.z}, obj),
+							sdf((float3){pos.x, pos.y + eps, pos.z}, obj),
+							sdf((float3){pos.x, pos.y, pos.z + eps}, obj)} -
 									(float3){basic_dist, basic_dist, basic_dist});
 }
 
@@ -80,15 +86,15 @@ static float	find_intersect_and_normal(float3 start_ray, float3 dir_ray,
 	return (-1);
 }
 
-float3	ray_marching(float3 start_ray, float3 dir_ray, t_scene1 *scene, float mult)
+float3	ray_marching(float3 start_ray, float3 dir_ray, t_scene1 *scene, float
+mult, float3 *normal, float *intersect_dist)
 {
 	float3	color;
-	float		intersect_dist;
 	t_object	closest_obj;
-	float3	normal;
 
-	if ((intersect_dist = find_intersect_and_normal(start_ray, dir_ray, scene, &closest_obj, &normal, mult)) >= 0)
-		color = normal * 0.5f + (float3){0.5f, 0.5f, 0.5f};
+	if ((*intersect_dist = find_intersect_and_normal(start_ray, dir_ray, scene,
+		&closest_obj, normal, mult)) >= 0)
+		color = *normal * 0.5f + (float3){0.5f, 0.5f, 0.5f};
 	else
 		color = (float3){0.36 - dir_ray.y * 0.6, 0.36 + dir_ray.y * 0.6, 0.6 - dir_ray.y * 0.6};
 	color = pow(color, float3(0.4545));

@@ -16,6 +16,13 @@
 #include "rt_camera.h"
 #include "config.h"
 
+static void	transform_setup_default(t_transform *transform)
+{
+	transform->local.right = (cl_float3){{1, 0, 0}};
+	transform->local.up = (cl_float3){{0, 1, 0}};
+	transform->local.forward = (cl_float3){{0, 0, 1}};
+}
+
 int main(void)
 {
 	/// RT/CL SETUP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -29,15 +36,58 @@ int main(void)
 							"src/cl/render.cl",
 							"src/cl/ray_marching.cl",
 							"src/cl/sdf.cl",
+							"src/cl/sdf/sphere.cl",
+							"src/cl/sdf/box.cl",
+							"src/cl/sdf/round_box.cl",
+							"src/cl/sdf/torus.cl",
+							"src/cl/sdf/cylinder.cl",
 							"src/cl/get_cam_ray.cl",
 							NULL},
 							(char *[]){"render", NULL});
 	rt->scenes = ft_x_memalloc(sizeof(t_scene));
+//	rt->scenes[0].objects_count = 20;
+//	rt->scenes[0].objects = ft_x_memalloc(sizeof(t_object) * rt->scenes[0].objects_count);
+//	for (int i = 0; i < 20; i++)
+//	{
+//		rt->scenes[0].objects[i].type = box;
+//		rt->scenes[0].objects[i].params.box.bounds = (cl_float3){{1, 1, 1}};
+//	}
+//	rt->scenes[0].objects[0].transform.pos = (cl_float3){{-1, 5, 0}};
+//	rt->scenes[0].objects[1].transform.pos = (cl_float3){{1, 5, 0}};
+//	rt->scenes[0].objects[2].transform.pos = (cl_float3){{3, 5, 0}};
+//	rt->scenes[0].objects[3].transform.pos = (cl_float3){{-1, 3, 0}};
+//	rt->scenes[0].objects[4].transform.pos = (cl_float3){{-1, 1, 0}};
+//	rt->scenes[0].objects[5].transform.pos = (cl_float3){{1, 1, 0}};
+//	rt->scenes[0].objects[6].transform.pos = (cl_float3){{3, 1, 0}};
+//	rt->scenes[0].objects[7].transform.pos = (cl_float3){{9, 5, 0}};
+//	rt->scenes[0].objects[8].transform.pos = (cl_float3){{9, 3, 0}};
+//	rt->scenes[0].objects[9].transform.pos = (cl_float3){{9, 1, 0}};
+//	rt->scenes[0].objects[10].transform.pos = (cl_float3){{11, 5, 0}};
+//	rt->scenes[0].objects[11].transform.pos = (cl_float3){{11, 1, 0}};
+//	rt->scenes[0].objects[12].transform.pos = (cl_float3){{13, 3, 0}};
+//	rt->scenes[0].objects[13].transform.pos = (cl_float3){{17, 5, 0}};
+//	rt->scenes[0].objects[14].transform.pos = (cl_float3){{17, 3, 0}};
+//	rt->scenes[0].objects[15].transform.pos = (cl_float3){{17, 1, 0}};
+//	rt->scenes[0].objects[16].transform.pos = (cl_float3){{17, 7, 0}};
+//	rt->scenes[0].objects[17].transform.pos = (cl_float3){{19, 7, 0}};
+//	rt->scenes[0].objects[18].transform.pos = (cl_float3){{19, 3, 0}};
+//	rt->scenes[0].objects[19].transform.pos = (cl_float3){{21, 5, 0}};
+
+//	rt->scenes[0].ambient = (cl_float3){{.03f,.04f,.1f}};
+	rt->scenes[0].ambient = (cl_float3){{1,1,1}};
+
 	rt->scenes[0].objects_count = 1;
 	rt->scenes[0].objects = ft_x_memalloc(sizeof(t_object) * rt->scenes[0].objects_count);
-	rt->scenes[0].objects[0].type = round_box;
-	rt->scenes[0].objects[0].transform.pos = (cl_float3){{5, 5, 5}};
-	rt->scenes[0].objects[0].params.round_box.bounds = (cl_float3){{1,3,5, 2}};
+	rt->scenes[0].objects[0].type = sphere;
+	rt->scenes[0].objects[0].params.sphere.radius = 2;
+	rt->scenes[0].objects[0].transform.pos = (cl_float3){{-1, 5, 0}};
+
+	rt->scenes[0].lights_count = 1;
+	rt->scenes[0].lights = ft_x_memalloc(sizeof(t_light) * rt->scenes[0].lights_count);
+	rt->scenes[0].lights[0].transform.pos = (cl_float3){{1, 1, 1}};
+	transform_setup_default(&rt->scenes[0].lights[0].transform);
+	rt->scenes[0].lights[0].type = directional;
+	rt->scenes[0].lights[0].params.directional.intensity = (cl_float3){{.1f, .1f, .1f}};
 
 	ui->data = rt;
     ui_main_add_function_by_id(ui, rt_render, "rt_render");
