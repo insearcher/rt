@@ -80,7 +80,7 @@ int main(void)
 	rt->scenes[0].objects = ft_x_memalloc(sizeof(t_object) * rt->scenes[0].objects_count);
 	rt->scenes[0].objects[0].type = sphere;
 	rt->scenes[0].objects[0].params.sphere.radius = 2;
-	rt->scenes[0].objects[0].transform.pos = (cl_float3){{-1, 5, 0}};
+	rt->scenes[0].objects[0].transform.pos = (cl_float3){{0, 0, 10}};
 
 	rt->scenes[0].lights_count = 1;
 	rt->scenes[0].lights = ft_x_memalloc(sizeof(t_light) * rt->scenes[0].lights_count);
