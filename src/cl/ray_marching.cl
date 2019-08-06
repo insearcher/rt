@@ -7,8 +7,8 @@ static float	sdf(float3 origin, t_object *obj)
 	float3	local_pos;
 
 	local_pos = origin - obj->transform.pos;
-//	if (1) // if obj->isRepeating or anything like this
-//		local_pos = repeatSDF(ray_point, obj->transform.pos, 0, 0, 0);
+	if (1) // if obj->isRepeating or anything like this
+		local_pos = repeatSDF(origin, obj->transform.pos, 0, 0, 0);
 	switch (obj->type)
 	{
 		case sphere:
