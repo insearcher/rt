@@ -25,7 +25,7 @@ __kernel void render(__global char* img, int width, int height, int objects_num,
 	int			gid;
 	t_scene1	scene;
 	float3		color;
-	float3		direction;
+	float3		direction = float3(0);
 
 	gid = get_global_id(0);
 	int x = gid % width;
@@ -37,7 +37,7 @@ __kernel void render(__global char* img, int width, int height, int objects_num,
 	scene.min_distance = camera_min_distance;
 	scene.max_distance = camera_max_distance;
 	scene.ambient = ambient;
-	float mult, dist;
+	float mult, dist = 0;
 	float3 normal = float3(0);
 	t_object intersected;
 	direction = get_cam_ray(gid % width, gid / width, width, height, camera_pos, camera_local_x, camera_local_y, camera_local_z, camera_min_distance, camera_max_distance, fov, &mult);
@@ -47,9 +47,27 @@ __kernel void render(__global char* img, int width, int height, int objects_num,
 		float3	diffuse = color * ambient;
 		for (int i = 0; i < lights_num; ++i)
 		{
-			float NoL = max(dot(normal, normalize(camera_pos + direction * dist - lights[i].transform.pos)), 0.0);
-			float3 LDirectional = lights[i].params.directional.intensity * NoL;
-			diffuse += color * LDirectional;
+			float3 interpoint = camera_pos + direction * dist;
+			float NoL, a, mult;
+			float3 LDirectional;
+			switch (lights[i].type)
+			{
+				case directional:
+					NoL = max(dot(normal, normalize(interpoint - lights[i].transform.pos)), 0.0f);
+					a = lights[i].params.directional.color.w;
+					LDirectional = lights[i].params.directional.color.xyz * a * NoL;
+					diffuse += color * LDirectional;
+					break;
+				case point:
+					a = length(interpoint - lights[i].transform.pos);
+					if (a < lights[i].params.point.distance)
+					{
+						// -(dist / light.distance)^2 + 1
+						mult = -pow(a / lights[i].params.point.distance, 2) + 1;
+						diffuse += color * lights[i].params.point.color.xyz * lights[i].params.point.color.w * mult;
+					}
+					break;
+			}
 		}
 		color = pow(diffuse, float3(0.4545));
 	}

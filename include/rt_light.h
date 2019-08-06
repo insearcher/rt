@@ -22,20 +22,33 @@
 typedef struct			s_directional
 {
 # ifndef OPENCL___
-	cl_float3			intensity;
+	cl_float4			color;
 # else
-	float3				intensity;
+	float4				color;
 # endif
 }						t_directional;
+
+typedef struct			s_point
+{
+# ifndef OPENCL___
+	cl_float4			color;
+	cl_float			distance;
+# else
+	float4				color;
+	float				distance;
+# endif
+}						t_point;
 
 union					u_lparams
 {
 	t_directional		directional;
+	t_point				point;
 };
 
 enum					e_light_type
 {
-	directional
+	directional,
+	point
 };
 
 typedef struct			s_light

@@ -73,7 +73,7 @@ int main(void)
 //	rt->scenes[0].objects[18].transform.pos = (cl_float3){{19, 3, 0}};
 //	rt->scenes[0].objects[19].transform.pos = (cl_float3){{21, 5, 0}};
 
-	rt->scenes[0].ambient = (cl_float3){{0,0,0}};
+	rt->scenes[0].ambient = (cl_float3){{.1f, .1f, .1f}};
 
 	rt->scenes[0].objects_count = 1;
 	rt->scenes[0].objects = ft_x_memalloc(sizeof(t_object) * rt->scenes[0].objects_count);
@@ -85,9 +85,9 @@ int main(void)
 	rt->scenes[0].lights = ft_x_memalloc(sizeof(t_light) * rt->scenes[0].lights_count);
 	rt->scenes[0].lights[0].transform.pos = (cl_float3){{1, 1, 1}};
 	transform_setup_default(&rt->scenes[0].lights[0].transform);
-	rt->scenes[0].lights[0].transform.local.forward.z = -1;
-	rt->scenes[0].lights[0].type = directional;
-	rt->scenes[0].lights[0].params.directional.intensity = (cl_float3){{.3f, .3f, .3f}};
+	rt->scenes[0].lights[0].type = point;
+	rt->scenes[0].lights[0].params.point.color = (cl_float4){{.3f, .3f, .3f, 1}};
+	rt->scenes[0].lights[0].params.point.distance = 9;
 
 	ui->data = rt;
     ui_main_add_function_by_id(ui, rt_render, "rt_render");
