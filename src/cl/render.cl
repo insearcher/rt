@@ -23,7 +23,7 @@ __kernel void render(__global char* img, int width, int height, int objects_num,
 		float fov, int quality, float3 ambient)
 {
 	int			gid;
-	t_scene1	scene;
+	t_scene		scene;
 	float3		color;
 	float3		direction = float3(0);
 
@@ -32,28 +32,31 @@ __kernel void render(__global char* img, int width, int height, int objects_num,
 	int y = gid / width;
 	if (x % quality != 0 || y % quality != 0)
 		return ;
-	scene.objects_num = objects_num;
+	scene.objects_count = objects_num;
 	scene.objects = objects;
-	scene.min_distance = camera_min_distance;
-	scene.max_distance = camera_max_distance;
+	scene.camera.clipping_planes.near = camera_min_distance;
+	scene.camera.clipping_planes.far = camera_max_distance;
 	scene.ambient = ambient;
 	float mult, dist = 0;
 	float3 normal = float3(0);
 	t_object intersected;
 	direction = get_cam_ray(gid % width, gid / width, width, height, camera_pos, camera_local_x, camera_local_y, camera_local_z, camera_min_distance, camera_max_distance, fov, &mult);
-	color = ray_marching(camera_pos, direction, &scene, mult, &normal, &dist, &intersected);
-	if (!(normal.x == 0 && normal.y == 0 && normal.z == 0))
+//	color = ray_marching(camera_pos, direction, &scene, mult, &normal, &dist, &intersected);
+
+	cl_rm_info	info;
+	if (raymarch(camera_pos, direction, &scene, &info, mult))
 	{
+		color = info.hit.material.color.xyz;
 		float3	diffuse = color * ambient;
 		for (int i = 0; i < lights_num; ++i)
 		{
-			float3 interpoint = camera_pos + direction * dist;
+			float3 interpoint = camera_pos + direction * info.distance;
 			float NoL, a, mult;
 			float3 LDirectional;
 			switch (lights[i].type)
 			{
 				case directional:
-					NoL = max(dot(normal, normalize(interpoint - lights[i].transform.pos)), 0.0f);
+					NoL = max(dot(info.normal, normalize(interpoint - lights[i].transform.pos)), 0.0f);
 					a = lights[i].params.directional.color.w;
 					LDirectional = lights[i].params.directional.color.xyz * a * NoL;
 					diffuse += color * LDirectional;
@@ -71,6 +74,8 @@ __kernel void render(__global char* img, int width, int height, int objects_num,
 		}
 		color = pow(diffuse, float3(0.4545));
 	}
+	else
+		color = (float3){0.6 - direction.y * 0.7, 0.36 - direction.y * 0.7, 0.3 - direction.y * 0.7};
 	color = color * 255;
 //	put_pixel(gid % width, gid / width + 1, COLOR(color.x, color.y, color.z), img, width, height);
 	for (int i = 0; i < quality; ++i)

@@ -82,11 +82,21 @@ enum					e_object_type
 	cylinder
 };
 
+typedef struct			s_omaterial
+{
+# ifndef OPENCL___
+	cl_float4			color;
+# else
+	float4				color;
+# endif
+}						t_omaterial;
+
 typedef struct			s_object
 {
 	t_transform			transform;
 	union u_oparams		params;
 	enum e_object_type	type;
+	t_omaterial			material;
 
 # ifndef OPENCL___
 	t_rb				rb;

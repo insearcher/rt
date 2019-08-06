@@ -63,25 +63,15 @@ static void	run_render(t_rt_main *rt, t_ui_el *el, cl_mem *mem_img,
 void	get_mem_for_render(t_rt_main *rt, t_ui_el *el, cl_mem *mem_img,
 		cl_mem *mem_objects, cl_mem *mem_lights)
 {
-	int	err;
-
-	*mem_img = clCreateBuffer(*rt->cl->context, CL_MEM_READ_WRITE, sizeof(int) * el->rect.w * el->rect.h , NULL, &err);
-	if (err != 0)
-		SDL_Log("create buffer for image - error\n");
-	*mem_objects = clCreateBuffer(*rt->cl->context, CL_MEM_READ_ONLY, sizeof(t_object) * rt->scenes[0].objects_count, NULL, &err);
-	if (err != 0)
-		SDL_Log("create buffer for objects - error\n");
-	*mem_lights = clCreateBuffer(*rt->cl->context, CL_MEM_READ_ONLY, sizeof(t_light) * rt->scenes[0].lights_count, NULL, &err);
-	if (err != 0)
-		SDL_Log("create buffer for lights - error\n");
-	err = clEnqueueWriteBuffer(*rt->cl->queue, *mem_objects, CL_TRUE, 0,
+	*mem_img = clCreateBuffer(*rt->cl->context, CL_MEM_READ_WRITE, sizeof(int) * el->rect.w * el->rect.h , NULL, NULL);
+	*mem_objects = clCreateBuffer(*rt->cl->context, CL_MEM_READ_ONLY, sizeof(t_object) * rt->scenes[0].objects_count, NULL, NULL);
+	*mem_lights = clCreateBuffer(*rt->cl->context, CL_MEM_READ_ONLY, sizeof(t_light) * rt->scenes[0].lights_count, NULL, NULL);
+	clEnqueueWriteBuffer(*rt->cl->queue, *mem_objects, CL_TRUE, 0,
 			sizeof(t_object) * rt->scenes[0].objects_count,
 			rt->scenes[0].objects, 0, NULL, NULL);
-	err = clEnqueueWriteBuffer(*rt->cl->queue, *mem_lights, CL_TRUE, 0,
+	clEnqueueWriteBuffer(*rt->cl->queue, *mem_lights, CL_TRUE, 0,
 			sizeof(t_light) * rt->scenes[0].lights_count,
 			rt->scenes[0].lights, 0, NULL, NULL);
-	if (err != 0)
-		SDL_Log("create buffer - error\n");
 }
 
 int		rt_render(t_ui_main *ui, void *a)

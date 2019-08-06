@@ -34,13 +34,8 @@ int main(void)
 	rt = ft_memalloc(sizeof(t_rt_main));
 	rt->cl = cl_setup((char *[]){
 							"src/cl/render.cl",
-							"src/cl/ray_marching.cl",
+							"src/cl/raymarch.cl",
 							"src/cl/sdf.cl",
-							"src/cl/sdf/sphere.cl",
-							"src/cl/sdf/box.cl",
-							"src/cl/sdf/round_box.cl",
-							"src/cl/sdf/torus.cl",
-							"src/cl/sdf/cylinder.cl",
 							"src/cl/get_cam_ray.cl",
 							NULL},
 							(char *[]){"render", NULL});
@@ -80,6 +75,7 @@ int main(void)
 	rt->scenes[0].objects[0].type = sphere;
 	rt->scenes[0].objects[0].params.sphere.radius = 1;
 	rt->scenes[0].objects[0].transform.pos = (cl_float3){{4, 4, 4}};
+	rt->scenes[0].objects[0].material.color = (cl_float4){{1, 0, 0, 1}};
 
 	rt->scenes[0].lights_count = 1;
 	rt->scenes[0].lights = ft_x_memalloc(sizeof(t_light) * rt->scenes[0].lights_count);

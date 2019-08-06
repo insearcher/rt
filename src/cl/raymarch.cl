@@ -1,4 +1,3 @@
-
 #include "config_cl.h"
 
 static float	sdf(float3 origin, t_object *obj)
@@ -8,7 +7,7 @@ static float	sdf(float3 origin, t_object *obj)
 
 	local_pos = origin - obj->transform.pos;
 	if (1) // if obj->isRepeating or anything like this
-		local_pos = repeatSDF(origin, obj->transform.pos, 0, 0, 0);
+		local_pos = repeatSDF(local_pos, obj->transform.pos, 0, 0, 0);
 	switch (obj->type)
 	{
 		case sphere:
@@ -30,13 +29,13 @@ static float	sdf(float3 origin, t_object *obj)
 	return (distance);
 }
 
-static float	sceneSDF(float3 O, t_scene1 *scene, t_object *closest_obj)
+static float	sceneSDF(float3 O, t_scene *scene, t_object *closest_obj)
 {
 	float		dist_to_obj = 1000000.f;
 	t_object	object;
 	float		tmp_dist_to_obj;
 
-	for (int i = 0; i < scene->objects_num; i++)
+	for (size_t i = 0; i < scene->objects_count; i++)
 	{
 		object = scene->objects[i];
 		tmp_dist_to_obj = sdf(O, &object);
@@ -60,9 +59,9 @@ static void		get_normal(float3 pos, float basic_dist, float3 *normal, t_object *
 }
 
 static float	find_intersect_and_normal(float3 start_ray, float3 dir_ray,
-		t_scene1 *scene, t_object *closest_obj, float3 *normal, float mult)
+		t_scene *scene, t_object *closest_obj, float3 *normal, float mult)
 {
-	float		intersect_dist = scene->min_distance * mult;
+	float		intersect_dist = scene->camera.clipping_planes.near * mult;
 	float		dist_to_obj;
 	int			max_steps = 200;
 	float		epsilon = 0.0001f;
@@ -80,20 +79,26 @@ static float	find_intersect_and_normal(float3 start_ray, float3 dir_ray,
 			return (intersect_dist);
 		}
 		intersect_dist += dist_to_obj;
-		if (intersect_dist > scene->max_distance)
+		if (intersect_dist > scene->camera.clipping_planes.far)
 			return (-1);
 	}
 	return (-1);
 }
 
-float3	ray_marching(float3 origin, float3 direction, t_scene1 *scene, float mult, float3 *normal, float *intersect_dist, t_object *intersected)
+float3	ray_marching(float3 origin, float3 direction, t_scene *scene, float mult, float3 *normal, float *intersect_dist, t_object *intersected)
 {
 	float3	color;
 
 	if ((*intersect_dist = find_intersect_and_normal(origin, direction, scene,
 		intersected, normal, mult)) >= 0)
-		color = *normal * 0.5f + (float3){0.5f, 0.5f, 0.5f};
+		color = intersected->material.color.xyz;
 	else
 		color = (float3){0.6 - direction.y * 0.7, 0.36 - direction.y * 0.7, 0.3 - direction.y * 0.7};
 	return (color);
+}
+
+char	raymarch(float3 origin, float3 direction, t_scene *scene, cl_rm_info *rm_info, float mult)
+{
+	return ((rm_info->distance = find_intersect_and_normal(origin, direction, scene,
+		&rm_info->hit, &rm_info->normal, mult)) >= 0);
 }
