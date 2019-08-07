@@ -39,6 +39,7 @@ typedef struct			s_rt_main
 }						t_rt_main;
 
 int						rt_render(t_ui_main *ui, void *a);
+int						rt_new_render(t_ui_main *ui, void *a);
 # endif
 
 #endif

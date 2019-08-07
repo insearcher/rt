@@ -45,11 +45,11 @@ int					ps_func(void *psv)
 						curps->move.raw_vel.z * curps->move.speed_mult,
 						curps->move.acc);
 
-			curps->transform->pos.v4 += curps->transform->local.forward.v4 * curps->move.vel.z *
+			curps->transform->pos.v4 += curps->transform->forward.v4 * curps->move.vel.z *
 										 curps->move.speed * curps->move.speed_mult * ps->system.delta_time;
-			curps->transform->pos.v4 += curps->transform->local.right.v4 * curps->move.vel.x *
+			curps->transform->pos.v4 += curps->transform->right.v4 * curps->move.vel.x *
 										 curps->move.speed * curps->move.speed_mult * ps->system.delta_time;
-			curps->transform->pos.v4 += curps->transform->local.up.v4 * curps->move.vel.y *
+			curps->transform->pos.v4 += curps->transform->up.v4 * curps->move.vel.y *
 										 curps->move.speed * curps->move.speed_mult * ps->system.delta_time;
 		}
 //		SDL_UnlockMutex(ps->system.mutex);

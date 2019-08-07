@@ -29,53 +29,51 @@ static float	sdf(float3 origin, t_object *obj)
 	return (distance);
 }
 
-static float	sceneSDF(float3 O, t_scene *scene, t_object *closest_obj)
+static float	sceneSDF(float3 O, __global t_scene *scene, t_raycast_hit *rh)
 {
 	float		dist_to_obj = 1000000.f;
-	t_object	object;
 	float		tmp_dist_to_obj;
 
 	for (size_t i = 0; i < scene->objects_count; i++)
 	{
-		object = scene->objects[i];
-		tmp_dist_to_obj = sdf(O, &object);
-		if (tmp_dist_to_obj < dist_to_obj && tmp_dist_to_obj > -0.0001f)
+		t_object obj = rh->hit;
+		tmp_dist_to_obj = sdf(O, &obj);
+		if (tmp_dist_to_obj < dist_to_obj && tmp_dist_to_obj > -F_EPS)
 		{
 			dist_to_obj = tmp_dist_to_obj;
-			*closest_obj = object;
+			rh->hit = scene->objects[i];
 		}
 	}
 	return (dist_to_obj);
 }
 
-static void		get_normal(float3 pos, float basic_dist, float3 *normal, t_object *obj)
+static void	get_normal(float3 pos, float basic_dist, t_raycast_hit *rh)
 {
-	float eps = 0.001f;
-
-	*normal = normalize((float3){sdf((float3){pos.x + eps, pos.y, pos.z}, obj),
-							sdf((float3){pos.x, pos.y + eps, pos.z}, obj),
-							sdf((float3){pos.x, pos.y, pos.z + eps}, obj)} -
+	t_object obj = rh->hit;
+	rh->normal = normalize((float3){sdf((float3){pos.x + F_EPS, pos.y, pos.z}, &obj),
+							sdf((float3){pos.x, pos.y + F_EPS, pos.z}, &obj),
+							sdf((float3){pos.x, pos.y, pos.z + F_EPS}, &obj)} -
 									(float3){basic_dist, basic_dist, basic_dist});
 }
 
 static float	find_intersect_and_normal(float3 start_ray, float3 dir_ray,
-		t_scene *scene, t_object *closest_obj, float3 *normal, float mult)
+		__global t_scene *scene, t_raycast_hit *rh)
 {
-	float		intersect_dist = scene->camera.clipping_planes.near * mult;
-	float		dist_to_obj;
-	int			max_steps = 200;
-	float		epsilon = 0.0001f;
+	float	intersect_dist = 0;
+	float	dist_to_obj;
+	int		max_steps = 200;
 	float3	cur_ray_point;
 
 	for (int i = 0; i < max_steps; i++)
 	{
 		cur_ray_point = start_ray + dir_ray * intersect_dist;
-		dist_to_obj = sceneSDF(cur_ray_point, scene, closest_obj);
-		if (dist_to_obj < -epsilon)
+		dist_to_obj = sceneSDF(cur_ray_point, scene, rh);
+		if (dist_to_obj < -F_EPS)
 			return (intersect_dist);
-		if (dist_to_obj < epsilon)
+		if (dist_to_obj < F_EPS)
 		{
-			get_normal(cur_ray_point, dist_to_obj, normal, closest_obj);
+			rh->point = cur_ray_point;
+			get_normal(cur_ray_point, dist_to_obj, rh);
 			return (intersect_dist);
 		}
 		intersect_dist += dist_to_obj;
@@ -85,20 +83,8 @@ static float	find_intersect_and_normal(float3 start_ray, float3 dir_ray,
 	return (-1);
 }
 
-float3	ray_marching(float3 origin, float3 direction, t_scene *scene, float mult, float3 *normal, float *intersect_dist, t_object *intersected)
+char	raymarch(float3 origin, float3 direction, __global t_scene *scene, t_raycast_hit *rh)
 {
-	float3	color;
-
-	if ((*intersect_dist = find_intersect_and_normal(origin, direction, scene,
-		intersected, normal, mult)) >= 0)
-		color = intersected->material.color.xyz;
-	else
-		color = (float3){0.6 - direction.y * 0.7, 0.36 - direction.y * 0.7, 0.3 - direction.y * 0.7};
-	return (color);
-}
-
-char	raymarch(float3 origin, float3 direction, t_scene *scene, cl_rm_info *rm_info, float mult)
-{
-	return ((rm_info->distance = find_intersect_and_normal(origin, direction, scene,
-		&rm_info->hit, &rm_info->normal, mult)) >= 0);
+	rh->distance = find_intersect_and_normal(origin, direction, scene, rh);
+	return (rh->distance >= 0);
 }

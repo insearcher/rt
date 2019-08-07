@@ -18,9 +18,9 @@
 
 static void	transform_setup_default(t_transform *transform)
 {
-	transform->local.right = (cl_float3){{1, 0, 0}};
-	transform->local.up = (cl_float3){{0, 1, 0}};
-	transform->local.forward = (cl_float3){{0, 0, 1}};
+	transform->right = (cl_float3){{1, 0, 0}};
+	transform->up = (cl_float3){{0, 1, 0}};
+	transform->forward = (cl_float3){{0, 0, 1}};
 }
 
 int main(void)
@@ -102,12 +102,14 @@ int main(void)
 	ft_bzero(&rt->scenes[0].camera, sizeof(t_camera));
 	rt->scenes[0].camera.clipping_planes = (t_clipping){1, 100};
 	rt->scenes[0].camera.fov = 90;
-	rt->scenes[0].camera.quality = 4;
+	rt->scenes[0].camera.quality = 1;
+	rt->scenes[0].camera.transform.id = "camera";
+	rt->scenes[0].camera.screen = (cl_int2){{el->rect.w, el->rect.h}};
 
 	rt->scenes[0].camera.transform.pos = (cl_float3){{0, 0, 20}};
-	rt->scenes[0].camera.transform.local.right = (cl_float3){{-1, 0, 0}};
-	rt->scenes[0].camera.transform.local.up = (cl_float3){{0, 1, 0}};
-	rt->scenes[0].camera.transform.local.forward = (cl_float3){{0, 0, -1}};
+	rt->scenes[0].camera.transform.right = (cl_float3){{-1, 0, 0}};
+	rt->scenes[0].camera.transform.up = (cl_float3){{0, 1, 0}};
+	rt->scenes[0].camera.transform.forward = (cl_float3){{0, 0, -1}};
 
 	rt->scenes[0].camera.rb.move.speed = 1000;
 	rt->scenes[0].camera.rb.move.speed_mult = 4;

@@ -53,16 +53,16 @@ void	rotate_active(t_input_system *s)
 	float rot_matrix[9];
 //	SDL_LockMutex(s->system.mutex);
 
-	fill_rotation_matrix(&rot_matrix[0], active->transform->local.right, active->rot.vel.x * active->rot.speed * s->system.delta_time);
-//	get_x_rot_matrix(&rot_matrix[0], &active->transform->local.right, active->rot.vel.x * active->rot.speed * s->system.delta_time);
-	mult(&rot_matrix[0], &active->transform->local.right);
-	mult(&rot_matrix[0], &active->transform->local.up);
-	mult(&rot_matrix[0], &active->transform->local.forward);
+	fill_rotation_matrix(&rot_matrix[0], active->transform->right, active->rot.vel.x * active->rot.speed * s->system.delta_time);
+//	get_x_rot_matrix(&rot_matrix[0], &active->transform->right, active->rot.vel.x * active->rot.speed * s->system.delta_time);
+	mult(&rot_matrix[0], &active->transform->right);
+	mult(&rot_matrix[0], &active->transform->up);
+	mult(&rot_matrix[0], &active->transform->forward);
 
 	fill_rotation_matrix(&rot_matrix[0], (cl_float3){{0, 1, 0}}, active->rot.vel.y * active->rot.speed * s->system.delta_time);
-	mult(&rot_matrix[0], &active->transform->local.right);
-	mult(&rot_matrix[0], &active->transform->local.up);
-	mult(&rot_matrix[0], &active->transform->local.forward);
+	mult(&rot_matrix[0], &active->transform->right);
+	mult(&rot_matrix[0], &active->transform->up);
+	mult(&rot_matrix[0], &active->transform->forward);
 
 //	SDL_UnlockMutex(s->system.mutex);
 
@@ -79,7 +79,15 @@ void	move_active(t_input_system *s)
 		get_axis(s->state, SDL_SCANCODE_S, SDL_SCANCODE_W)
 	}};
 	s->active->move.speed_mult = (s->state[225] ? 4 : 1);
-//	SDL_UnlockMutex(s->system.mutex);
+
+	// ТЕСТ
+	if (!ft_strcmp(s->active->transform->id, "camera"))
+	{
+		t_camera *cam = (t_camera *)s->active->transform;
+		float d = get_axis(s->state, SDL_SCANCODE_T, SDL_SCANCODE_Y);
+		if (d != 0)
+			cam->fov += d * 0.1f;
+	}
 }
 
 int					is_func(void *isv)
