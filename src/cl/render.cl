@@ -66,7 +66,7 @@ __kernel void	render(__global char *image, __global t_scene *scene, __global t_o
 		color = pow(diffuse, float3(0.4545));
 	}
 	else
-		color = (float3){0.6 - direction.y * 0.7, 0.36 - direction.y * 0.7, 0.3 - direction.y * 0.7};
+		color = min(1, max(0, (float3){0.6 - direction.y * 0.7, 0.36 - direction.y * 0.7, 0.3 - direction.y * 0.7}));
 	color = color * 255;
 //	put_pixel(gid % scene->camera.screen.x, gid / scene->camera.screen.x + 1, COLOR(color.x, color.y, color.z), image, scene->camera.screen.x, scene->camera.screen.y);
 	for (int i = 0; i < (int)scene->camera.quality; ++i)

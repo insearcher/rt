@@ -75,15 +75,14 @@ int main(void)
 	rt->scenes[0].objects[0].type = sphere;
 	rt->scenes[0].objects[0].params.sphere.radius = 1;
 	rt->scenes[0].objects[0].transform.pos = (cl_float3){{4, 4, 4}};
-	rt->scenes[0].objects[0].material.color = (cl_float4){{1, 0, 0, 1}};
+	rt->scenes[0].objects[0].material.color = (cl_float4){{0x25 / 255.0f, 0x9B / 255.0f, 0x19 / 255.0f, 1}};
 
 	rt->scenes[0].lights_count = 1;
 	rt->scenes[0].lights = ft_x_memalloc(sizeof(t_light) * rt->scenes[0].lights_count);
-	rt->scenes[0].lights[0].transform.pos = (cl_float3){{1, 1, 1}};
+	rt->scenes[0].lights[0].transform.pos = (cl_float3){{0, 0, 0}};
 	transform_setup_default(&rt->scenes[0].lights[0].transform);
-	rt->scenes[0].lights[0].type = point;
-	rt->scenes[0].lights[0].params.point.color = (cl_float4){{.3f, .3f, .3f, 1}};
-	rt->scenes[0].lights[0].params.point.distance = 9;
+	rt->scenes[0].lights[0].type = directional;
+	rt->scenes[0].lights[0].params.directional.color = (cl_float4){{0.4f, 0.4f, 0.4f, 1}};
 
 	ui->data = rt;
     ui_main_add_function_by_id(ui, rt_render, "rt_render");
