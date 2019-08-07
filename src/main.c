@@ -36,7 +36,7 @@ int main(void)
 							"src/cl/render.cl",
 							"src/cl/raymarch.cl",
 							"src/cl/sdf.cl",
-							"src/cl/get_cam_ray.cl",
+							"src/cl/ray.cl",
 							NULL},
 							(char *[]){"render", NULL});
 	rt->scenes = ft_x_memalloc(sizeof(t_scene));
