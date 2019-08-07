@@ -1,6 +1,6 @@
 #include "config_cl.h"
 
-static float	sdf(float3 origin, t_object *obj)
+static float	sdf(float3 origin, __global t_object *obj)
 {
 	float	distance = 0;
 	float3	local_pos;
@@ -36,12 +36,11 @@ static float	sceneSDF(float3 O, __global t_scene *scene, t_raycast_hit *rh)
 
 	for (size_t i = 0; i < scene->objects_count; i++)
 	{
-		t_object obj = rh->hit;
-		tmp_dist_to_obj = sdf(O, &obj);
+		tmp_dist_to_obj = sdf(O, &scene->objects[i]);
 		if (tmp_dist_to_obj < dist_to_obj && tmp_dist_to_obj > -F_EPS)
 		{
 			dist_to_obj = tmp_dist_to_obj;
-			rh->hit = scene->objects[i];
+			rh->hit = &scene->objects[i];
 		}
 	}
 	return (dist_to_obj);
@@ -49,15 +48,13 @@ static float	sceneSDF(float3 O, __global t_scene *scene, t_raycast_hit *rh)
 
 static void	get_normal(float3 pos, float basic_dist, t_raycast_hit *rh)
 {
-	t_object obj = rh->hit;
-	rh->normal = normalize((float3){sdf((float3){pos.x + F_EPS, pos.y, pos.z}, &obj),
-							sdf((float3){pos.x, pos.y + F_EPS, pos.z}, &obj),
-							sdf((float3){pos.x, pos.y, pos.z + F_EPS}, &obj)} -
+	rh->normal = normalize((float3){sdf((float3){pos.x + F_EPS, pos.y, pos.z}, rh->hit),
+							sdf((float3){pos.x, pos.y + F_EPS, pos.z}, rh->hit),
+							sdf((float3){pos.x, pos.y, pos.z + F_EPS}, rh->hit)} -
 									(float3){basic_dist, basic_dist, basic_dist});
 }
 
-static float	find_intersect_and_normal(float3 start_ray, float3 dir_ray,
-		__global t_scene *scene, t_raycast_hit *rh)
+char	raymarch(float3 origin, float3 direction, __global t_scene *scene, t_raycast_hit *rh)
 {
 	float	intersect_dist = 0;
 	float	dist_to_obj;
@@ -66,25 +63,24 @@ static float	find_intersect_and_normal(float3 start_ray, float3 dir_ray,
 
 	for (int i = 0; i < max_steps; i++)
 	{
-		cur_ray_point = start_ray + dir_ray * intersect_dist;
+		cur_ray_point = origin + direction * intersect_dist;
 		dist_to_obj = sceneSDF(cur_ray_point, scene, rh);
 		if (dist_to_obj < -F_EPS)
-			return (intersect_dist);
+		{
+			rh->point = cur_ray_point;
+			rh->distance = intersect_dist;
+			return (1);
+		}
 		if (dist_to_obj < F_EPS)
 		{
 			rh->point = cur_ray_point;
+			rh->distance = intersect_dist;
 			get_normal(cur_ray_point, dist_to_obj, rh);
-			return (intersect_dist);
+			return (1);
 		}
 		intersect_dist += dist_to_obj;
 		if (intersect_dist > scene->camera.clipping_planes.far)
-			return (-1);
+			return (0);
 	}
-	return (-1);
-}
-
-char	raymarch(float3 origin, float3 direction, __global t_scene *scene, t_raycast_hit *rh)
-{
-	rh->distance = find_intersect_and_normal(origin, direction, scene, rh);
-	return (rh->distance >= 0);
+	return (0);
 }
