@@ -1,13 +1,13 @@
 #include "config_cl.h"
 
-void			put_pixel(int x, int y, int color, __global char* img, int width, int height)
+void			put_pixel(int2 pixel, int color, __global char* img, int2 screen)
 {
     int a;
 
-    y = height - y;
-    if (x >= 0 && x < width && y >= 0 && y < height)
+    pixel.y = screen.y - pixel.y - 1;
+    if (pixel.x >= 0 && pixel.x < screen.x && pixel.y >= 0 && pixel.y < screen.y)
     {
-        a = x * 4 + y * width * 4;
+        a = pixel.x * 4 + pixel.y * screen.x * 4;
         img[a] = RED(color);
         img[a + 1] = GREEN(color);
         img[a + 2] = BLUE(color);
@@ -17,20 +17,19 @@ void			put_pixel(int x, int y, int color, __global char* img, int width, int hei
 
 __kernel void	render(__global char *image, __global t_scene *scene, __global t_object *objects, __global t_light *lights)
 {
-	int			gid;
-	float3		color;
+	int		gid = get_global_id(0);
+
+	int2	screen = scene->camera.screen;
+	int2	pixel = (int2)(gid % screen.x, gid / screen.x);
+	float3	color;
 
 	scene->objects = objects;
 	scene->lights = lights;
 
-	gid = get_global_id(0);
-	int x, y;
-	x = gid % scene->camera.screen.x;
-	y = gid / scene->camera.screen.x;
-	if (x % scene->camera.quality || y % scene->camera.quality)
+	if (pixel.x % scene->camera.quality || pixel.y % scene->camera.quality)
 		return ;
 
-	float3 k = screen_to_world(x, y, scene->camera.screen, scene->camera.fov);
+	float3 k = screen_to_world(pixel, screen, scene->camera.fov);
 	t_transform t = scene->camera.transform;
 	float3 direction = normalize(t.right * k.x + t.up * k.y + t.forward * k.z);
 
@@ -73,7 +72,7 @@ __kernel void	render(__global char *image, __global t_scene *scene, __global t_o
 	{
 		for (int j = 0; j < (int)scene->camera.quality; ++j)
 		{
-			put_pixel(x + i, y + j + 1, COLOR(color.x, color.y, color.z), image, scene->camera.screen.x, scene->camera.screen.y);
+			put_pixel((int2)(pixel.x + i, pixel.y + j), COLOR(color.x, color.y, color.z), image, screen);
 		}
 	}
 }

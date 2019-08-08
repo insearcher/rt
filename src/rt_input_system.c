@@ -78,7 +78,8 @@ void	move_active(t_input_system *s)
 		get_axis(s->state, SDL_SCANCODE_Q, SDL_SCANCODE_E),
 		get_axis(s->state, SDL_SCANCODE_S, SDL_SCANCODE_W)
 	}};
-	s->active->move.speed_mult = (s->state[225] ? 4 : 1);
+	if (s->state[SDL_SCANCODE_LSHIFT])
+		s->active->move.raw_vel.v4 *= s->active->move.speed_mult;
 
 	// ТЕСТ
 	if (!ft_strcmp(s->active->transform->id, "camera"))

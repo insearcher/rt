@@ -110,7 +110,7 @@ int main(void)
 	rt->scenes[0].camera.transform.up = (cl_float3){{0, 1, 0}};
 	rt->scenes[0].camera.transform.forward = (cl_float3){{0, 0, -1}};
 
-	rt->scenes[0].camera.rb.move.speed = 1000;
+	rt->scenes[0].camera.rb.move.speed = 10000;
 	rt->scenes[0].camera.rb.move.speed_mult = 4;
 	rt->scenes[0].camera.rb.move.acc = 0.025f;
 	rt->scenes[0].camera.rb.move.vel = (cl_float3){{0, 0, 0}};
