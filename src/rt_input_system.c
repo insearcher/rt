@@ -82,13 +82,23 @@ void	move_active(t_input_system *s)
 		s->active->move.raw_vel.v4 *= s->active->move.speed_mult;
 
 	// ТЕСТ
-	if (!ft_strcmp(s->active->transform->id, "camera"))
+	if (s->active->transform->id == CAMERA_ID)
 	{
 		t_camera *cam = (t_camera *)s->active->transform;
 		float d = get_axis(s->state, SDL_SCANCODE_T, SDL_SCANCODE_Y);
 		if (d != 0)
 			cam->fov += d * 0.1f;
 	}
+}
+
+void				change_selected(t_input_system *s, t_object *o)
+{
+	t_object *obj = (t_object *)s->selected;
+	if (obj)
+		obj->material.color = (cl_float4){{1, 0, 0, 1}};
+	s->selected = &o->transform;
+	obj = (t_object *)s->selected;
+	obj->material.color = (cl_float4){{0, 1, 0, 1}};
 }
 
 int					is_func(void *isv)

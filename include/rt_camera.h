@@ -21,6 +21,8 @@
 
 # include "transform.h"
 
+# define CAMERA_ID		1
+
 typedef	struct			s_clipping
 {
 # ifndef OPENCL___

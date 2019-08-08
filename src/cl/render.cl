@@ -37,6 +37,8 @@ __kernel void	render(__global char *image, __global t_scene *scene, __global t_o
 	if (raymarch(scene->camera.transform.pos, direction, scene, &rh))
 	{
 		color = rh.hit->material.color.xyz;
+//		if (color.y * 255 - 0x8C > 0)
+//			printf("%d %d\n", pixel.x, pixel.y);
 		float3	diffuse = color * scene->ambient;
 		for (size_t i = 0; i < scene->lights_count; ++i)
 		{

@@ -21,7 +21,7 @@ static void	cl_add_kernel_by_name(t_cl *cl, char *name)
 
 	lst = NULL;
 	kernel = (cl_kernel *)ft_x_memalloc(sizeof(cl_kernel));
-	*kernel = clCreateKernel(*cl->program, "render", &err);
+	*kernel = clCreateKernel(*cl->program, name, &err);
 	if (err != 0 || !(lst = ft_lstnew(NULL, 0)))
 	{
 		SDL_Log("create kernel - ERROR\n");

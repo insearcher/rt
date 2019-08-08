@@ -36,7 +36,11 @@ typedef struct			s_rt_main
 {
 	t_cl				*cl;
 	t_scene				*scenes;
+	size_t				systems_count;
+	t_system			**systems;
 }						t_rt_main;
+
+void					create_buffers(t_rt_main *rt, cl_mem *cl_scene, cl_mem *cl_objects, cl_mem *cl_lights);
 
 int						rt_render(t_ui_main *ui, void *a);
 int						rt_new_render(t_ui_main *ui, void *a);

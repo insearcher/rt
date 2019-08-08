@@ -12,6 +12,7 @@
 
 #include <stdlib.h>
 #include "rt.h"
+#include "rt_raycast.h"
 #include "rt_input_system.h"
 #include "rt_camera.h"
 #include "config.h"
@@ -70,12 +71,25 @@ int main(void)
 
 	rt->scenes[0].ambient = (cl_float3){{.1f, .1f, .1f}};
 
-	rt->scenes[0].objects_count = 1;
+	rt->scenes[0].objects_count = 3;
 	rt->scenes[0].objects = ft_x_memalloc(sizeof(t_object) * rt->scenes[0].objects_count);
-	rt->scenes[0].objects[0].type = sphere;
-	rt->scenes[0].objects[0].params.sphere.radius = 1;
+	rt->scenes[0].objects[0].type = box;
+	rt->scenes[0].objects[0].params.box.bounds = (cl_float3){{1, 2, 3}};
 	rt->scenes[0].objects[0].transform.pos = (cl_float3){{4, 4, 4}};
+	rt->scenes[0].objects[0].transform.id = 2;
 	rt->scenes[0].objects[0].material.color = (cl_float4){{0x25 / 255.0f, 0x9B / 255.0f, 0x19 / 255.0f, 1}};
+
+	rt->scenes[0].objects[1].type = sphere;
+	rt->scenes[0].objects[1].params.sphere.radius = 3;
+	rt->scenes[0].objects[1].transform.pos = (cl_float3){{-4, 5, -4}};
+	rt->scenes[0].objects[1].transform.id = 3;
+	rt->scenes[0].objects[1].material.color = (cl_float4){{0x25 / 255.0f, 0x9B / 255.0f, 0x19 / 255.0f, 1}};
+
+	rt->scenes[0].objects[2].type = sphere;
+	rt->scenes[0].objects[2].params.sphere.radius = 0.5;
+	rt->scenes[0].objects[2].transform.pos = (cl_float3){{-5, -5, -5}};
+	rt->scenes[0].objects[2].transform.id = 4;
+	rt->scenes[0].objects[2].material.color = (cl_float4){{0x25 / 255.0f, 0x9B / 255.0f, 0x19 / 255.0f, 1}};
 
 	rt->scenes[0].lights_count = 1;
 	rt->scenes[0].lights = ft_x_memalloc(sizeof(t_light) * rt->scenes[0].lights_count);
@@ -102,7 +116,7 @@ int main(void)
 	rt->scenes[0].camera.clipping_planes = (t_clipping){1, 100};
 	rt->scenes[0].camera.fov = 90;
 	rt->scenes[0].camera.quality = 1;
-	rt->scenes[0].camera.transform.id = "camera";
+	rt->scenes[0].camera.transform.id = 1;
 	rt->scenes[0].camera.screen = (cl_int2){{el->rect.w, el->rect.h}};
 
 	rt->scenes[0].camera.transform.pos = (cl_float3){{0, 0, 20}};
@@ -139,6 +153,12 @@ int main(void)
 	ps->rbs[0] = &rt->scenes[0].camera.rb;
 	system_setup(&ps->system, "physics", &ps_func, 5);
 	system_start(&ps->system);
+
+	rt->systems = ft_memalloc(sizeof(t_system *) * rt->systems_count);
+	rt->systems[0] = &is->system;
+	rt->systems[1] = &ps->system;
+
+	ui_event_add_listener(((t_ui_win *)(ui->windows->content))->events->on_pointer_left_button_pressed, rt_raycast);
 
     ui_main_run_program(ui);
 	return 0;

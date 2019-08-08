@@ -37,10 +37,8 @@ static void	process(t_rt_main *rt, t_ui_el *el, cl_mem *cl_image, cl_mem *cl_sce
 ////////////////////////////////////////////////////////////////////////////////////////////////
 }
 
-static void	create_buffers(t_rt_main *rt, t_ui_el *el, cl_mem *cl_image, cl_mem *cl_scene, cl_mem *cl_objects, cl_mem *cl_lights)
+void	create_buffers(t_rt_main *rt, cl_mem *cl_scene, cl_mem *cl_objects, cl_mem *cl_lights)
 {
-	*cl_image = clCreateBuffer(*rt->cl->context, CL_MEM_READ_WRITE, sizeof(int) * el->rect.w * el->rect.h , NULL, NULL);
-
 	*cl_scene = clCreateBuffer(*rt->cl->context, CL_MEM_READ_ONLY, sizeof(t_scene), NULL, NULL);
 	clEnqueueWriteBuffer(*rt->cl->queue, *cl_scene, CL_TRUE, 0, sizeof(t_scene), &rt->scenes[0], 0, NULL, NULL);
 
@@ -62,7 +60,8 @@ int		rt_render(t_ui_main *ui, void *a)
 
 	rt = ui->data;
 	el = a;
-	create_buffers(rt, el, &cl_image, &cl_scene, &cl_objects, &cl_lights);
+	cl_image = clCreateBuffer(*rt->cl->context, CL_MEM_READ_WRITE, sizeof(int) * el->rect.w * el->rect.h , NULL, NULL);
+	create_buffers(rt, &cl_scene, &cl_objects, &cl_lights);
 	process(rt, el, &cl_image, &cl_scene, &cl_objects, &cl_lights);
 	clReleaseMemObject(cl_image);
 	clReleaseMemObject(cl_objects);

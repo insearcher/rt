@@ -18,4 +18,6 @@
 
 # include "raycast_hit.h"
 
+int		rt_raycast(t_ui_main *ui, void *a);
+
 #endif

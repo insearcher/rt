@@ -23,10 +23,13 @@ typedef struct		s_input_system
 	t_system		system;
 	const Uint8		*state;
 	t_rb			*active;
+	t_transform		*selected;
 }					t_input_system;
 
 void				move_active(t_input_system *s);
 void				rotate_active(t_input_system *s);
+
+void				change_selected(t_input_system *s, t_object *o);
 
 int					is_func(void *isv);
 

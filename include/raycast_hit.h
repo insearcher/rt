@@ -17,7 +17,6 @@
 
 typedef struct			s_raycast_hit
 {
-
 # ifndef OPENCL___
 	t_object			*hit;
 	cl_float3			normal;
