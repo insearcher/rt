@@ -15,7 +15,6 @@
 #include "rt_raycast.h"
 #include "rt_input_system.h"
 #include "rt_camera.h"
-#include "config.h"
 
 static void	transform_setup_default(t_transform *transform)
 {
@@ -138,7 +137,6 @@ int main(void)
 	/// INPUT SYSTEM START !!!!!!!!!!!!!!!!!!!!!!!!!
 	t_input_system		*is = ft_memalloc(sizeof(t_input_system));
 	is->system.parent = is;
-//	is->system.mutex = SDL_CreateMutex();
 	is->state = ui->state;
 	is->active = &rt->scenes[0].camera.rb;
 	system_setup(&is->system, "input", is_func, 3);
@@ -146,7 +144,6 @@ int main(void)
 
 	/// PHYSICS SYSTEM START !!!!!!!!!!!!!!!!!!!!!!!!!
 	t_physics_system	*ps = ft_memalloc(sizeof(t_physics_system));
-//	ps->system.mutex = is->system.mutex;
 	ps->system.parent = ps;
 	ps->rbs_count = 1;
 	ps->rbs = (t_rb **)malloc(sizeof(t_rb *) * ps->rbs_count);

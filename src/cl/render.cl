@@ -1,4 +1,4 @@
-#include "config_cl.h"
+#include "rt_cl.h"
 
 void			put_pixel(int2 pixel, int color, __global char* img, int2 screen)
 {

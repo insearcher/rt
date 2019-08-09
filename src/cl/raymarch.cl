@@ -1,4 +1,4 @@
-#include "config_cl.h"
+#include "rt_cl.h"
 
 static float	sdf(float3 origin, __global t_object *obj)
 {

@@ -1,6 +1,10 @@
 #ifndef RT_H
 # define RT_H
 
+# define CL_SILENCE_DEPRECATION
+
+# define INPUT_SYSTEM_INDEX	0
+
 # ifndef OPENCL___
 #  include <OpenCL/opencl.h>
 #  include "rt_camera.h"
@@ -10,10 +14,8 @@
 # include "rt_light.h"
 # include "rt_object.h"
 # include "rt_camera.h"
+# include "rt_raycast_hit.h"
 # include "transform.h"
-
-//typedef struct			t_
-/// END OF LIGHT
 
 typedef struct			s_scene
 {

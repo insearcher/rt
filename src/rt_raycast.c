@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <rt_input_system.h>
-#include "config.h"
-#include "rt_raycast.h"
+#include "rt_input_system.h"
 
 # define  F_EPS		0.001f
 
@@ -63,7 +61,6 @@ int		rt_raycast1(t_ui_main *ui, void *a)
 
 	int	id = 777;
 	clEnqueueReadBuffer(*rt->cl->queue, cl_id, CL_TRUE, 0, size, &id, 0, NULL, NULL);
-	SDL_Log("%d", id);
 
 	clReleaseMemObject(cl_id);
 	clReleaseMemObject(cl_objects);
@@ -220,7 +217,7 @@ int		rt_raycast(t_ui_main *ui, void *a)
 
 	t_raycast_hit	rh;
 	if (raycast(s, x, y, &rh))
-		change_selected((t_input_system *)rt->systems[0], rh.hit);
+		change_selected((t_input_system *)rt->systems[INPUT_SYSTEM_INDEX], rh.hit);
 
 	return (1);
 }

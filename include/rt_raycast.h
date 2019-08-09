@@ -16,7 +16,7 @@
 # include "rt.h"
 # include "rt_object.h"
 
-# include "raycast_hit.h"
+# include "rt_raycast_hit.h"
 
 int		rt_raycast(t_ui_main *ui, void *a);
 

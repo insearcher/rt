@@ -6,7 +6,6 @@
 # define F_EPS	0.001f
 
 # include "rt.h"
-# include "raycast_hit.h"
 # include "color.h"
 
 void  get_cam_ray(int x, int y, int width, int height, float fov, float3 *k);

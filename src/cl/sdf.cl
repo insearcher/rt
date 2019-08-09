@@ -1,4 +1,4 @@
-#include "config_cl.h"
+#include "rt_cl.h"
 
 static float ft_mod2(float a, float b)
 {

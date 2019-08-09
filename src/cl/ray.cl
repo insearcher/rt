@@ -1,4 +1,4 @@
-#include "config_cl.h"
+#include "rt_cl.h"
 
 float3	screen_to_world(int2 coord, int2 screen, float fov)
 {

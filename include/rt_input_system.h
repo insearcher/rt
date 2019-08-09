@@ -13,10 +13,8 @@
 #ifndef RT_INPUT_H
 # define RT_INPUT_H
 
-# include "config.h"
-# include "rt_camera.h"
+# include "rt.h"
 # include "rt_rotations.h"
-# include "rt_system.h"
 
 typedef struct		s_input_system
 {
