@@ -18,6 +18,9 @@
 
 # include "rt_raycast_hit.h"
 
+# define DEFAULT_LAYER			0
+# define IGNORE_RAYCAST_LAYER	1
+
 int		rt_raycast(t_ui_main *ui, void *a);
 
 #endif

@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "rt_raycast.h"
 #include "rt_input_system.h"
 
 # define  F_EPS		0.001f
@@ -85,13 +86,18 @@ static float	sdf_sphere(cl_float3 pos, float radius)
 	return (length(pos) - radius);
 }
 
-float	sdf_box(cl_float3 pos, cl_float3 bounds)
+static float	sdf_box(cl_float3 pos, cl_float3 bounds)
 {
 	cl_float3	temp = (cl_float3){{fabs(pos.x), fabs(pos.y), fabs(pos.z)}};
 	cl_float3 d;
 	d.v4 = temp.v4 - bounds.v4;
 	temp = (cl_float3){{fmax(d.x, 0), fmax(d.y, 0), fmax(d.z, 0)}};
 	return length(temp) + fmin(fmax(d.x, fmax(d.y, d.z)), 0);
+}
+
+static float	sdf_plane(cl_float3 p, cl_float3 n, float d)
+{
+	return p.x * n.x + p.y * n.y + p.z * n.z + d;
 }
 
 static float	sdf(cl_float3 origin, t_object *obj)
@@ -119,6 +125,9 @@ static float	sdf(cl_float3 origin, t_object *obj)
 		case cylinder:
 			distance = sdf_sphere(local_pos, obj->params.sphere.radius);
 			break;
+		case plane:
+			distance = sdf_plane(local_pos, obj->transform.up, obj->params.plane.distance);
+			break;
 	}
 	return (distance);
 }
@@ -131,6 +140,8 @@ static float	sceneSDF(cl_float3 O, t_scene *scene, t_raycast_hit *rh)
 	
 	for (size_t i = 0; i < scene->objects_count; i++)
 	{
+		if (scene->objects[i].layer & IGNORE_RAYCAST_LAYER)
+			continue ;
 		tmp_dist_to_obj = sdf(O, &scene->objects[i]);
 		if (tmp_dist_to_obj < dist_to_obj && tmp_dist_to_obj > -F_EPS)
 		{

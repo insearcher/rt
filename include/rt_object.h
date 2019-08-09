@@ -64,6 +64,15 @@ typedef struct			s_cylinder
 # endif
 }						t_cylinder;
 
+typedef struct			s_plane
+{
+# ifndef OPENCL___
+	cl_float			distance;
+# else
+	float				distance;
+# endif
+}						t_plane;
+
 union					u_oparams
 {
 	t_sphere			sphere;
@@ -71,6 +80,7 @@ union					u_oparams
 	t_round_box			round_box;
 	t_torus				torus;
 	t_cylinder			cylinder;
+	t_plane				plane;
 };
 
 enum					e_object_type
@@ -79,7 +89,8 @@ enum					e_object_type
 	box,
 	round_box,
 	torus,
-	cylinder
+	cylinder,
+	plane
 };
 
 typedef struct			s_omaterial
@@ -97,6 +108,7 @@ typedef struct			s_object
 	union u_oparams		params;
 	enum e_object_type	type;
 	t_omaterial			material;
+	int					layer;
 
 # ifndef OPENCL___
 	t_rb				rb;

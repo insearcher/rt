@@ -95,10 +95,10 @@ void				change_selected(t_input_system *s, t_object *o)
 {
 	t_object *obj = (t_object *)s->selected;
 	if (obj)
-		obj->material.color = (cl_float4){{1, 0, 0, 1}};
+		obj->material.color = (cl_float4){{0, 1, 1, 1}};
 	s->selected = &o->transform;
 	obj = (t_object *)s->selected;
-	obj->material.color = (cl_float4){{0, 1, 0, 1}};
+	obj->material.color = (cl_float4){{0, 0, 1, 1}};
 }
 
 int					is_func(void *isv)

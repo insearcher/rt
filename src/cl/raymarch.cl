@@ -25,6 +25,9 @@ static float	sdf(float3 origin, __global t_object *obj)
 		case cylinder:
 			distance = sdf_cylinder(local_pos, obj->params.cylinder.params);
 			break;
+		case plane:
+			distance = sdf_plane(local_pos, obj->transform.up, obj->params.plane.distance);
+			break;
 	}
 	return (distance);
 }

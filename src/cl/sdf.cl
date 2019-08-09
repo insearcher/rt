@@ -48,3 +48,8 @@ float	sdf_torus(float3 pos, float2 t)
 	float2 q = float2(length(pos.xz) - t.x, pos.y);
 	return length(q) - t.y;
 }
+
+float	sdf_plane(float3 pos, float3 n, float d)
+{
+	return dot(pos, n) + d;
+}
