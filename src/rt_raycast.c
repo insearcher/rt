@@ -227,7 +227,7 @@ int		rt_raycast(t_ui_main *ui, void *a)
 	y = s->camera.screen.y - y;
 
 	t_raycast_hit	rh;
-	if (raycast(s, x, y, &rh, ~0 ^ IGNORE_RAYCAST_LAYER))
+	if (raycast(s, x, y, &rh, ~IGNORE_RAYCAST_LAYER))
 		change_selected((t_input_system *)rt->systems[INPUT_SYSTEM_INDEX], rh.hit);
 
 	return (1);
