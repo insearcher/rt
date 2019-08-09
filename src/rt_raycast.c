@@ -133,14 +133,14 @@ static float	sdf(cl_float3 origin, t_object *obj)
 }
 
 
-static float	sceneSDF(cl_float3 O, t_scene *scene, t_raycast_hit *rh)
+static float	sceneSDF(cl_float3 O, t_scene *scene, t_raycast_hit *rh, cl_uint mask)
 {
 	float		dist_to_obj = 1000000.f;
 	float		tmp_dist_to_obj;
 	
 	for (size_t i = 0; i < scene->objects_count; i++)
 	{
-		if (scene->objects[i].layer & IGNORE_RAYCAST_LAYER)
+		if (!(scene->objects[i].layer & mask))
 			continue ;
 		tmp_dist_to_obj = sdf(O, &scene->objects[i]);
 		if (tmp_dist_to_obj < dist_to_obj && tmp_dist_to_obj > -F_EPS)
@@ -164,7 +164,7 @@ static void	get_normal(cl_float3 pos, float basic_dist, t_raycast_hit *rh)
 	rh->normal = normalize(rh->normal);
 }
 
-char	raymarch(cl_float3 origin, cl_float3 direction, t_scene *scene, t_raycast_hit *rh)
+char	raymarch(cl_float3 origin, cl_float3 direction, t_scene *scene, t_raycast_hit *rh, cl_uint mask)
 {
 	float	intersect_dist = 0;
 	float	dist_to_obj;
@@ -174,7 +174,7 @@ char	raymarch(cl_float3 origin, cl_float3 direction, t_scene *scene, t_raycast_h
 	for (int i = 0; i < max_steps; i++)
 	{
 		cur_ray_point.v4 = origin.v4 + direction.v4 * intersect_dist;
-		dist_to_obj = sceneSDF(cur_ray_point, scene, rh);
+		dist_to_obj = sceneSDF(cur_ray_point, scene, rh, mask);
 		if (dist_to_obj < -F_EPS)
 		{
 			rh->point = cur_ray_point;
@@ -195,7 +195,7 @@ char	raymarch(cl_float3 origin, cl_float3 direction, t_scene *scene, t_raycast_h
 	return (0);
 }
 
-static char	raycast(t_scene *scene, int x, int y, t_raycast_hit *rh)
+static char	raycast(t_scene *scene, int x, int y, t_raycast_hit *rh, cl_uint mask)
 {
 	cl_int2	screen = scene->camera.screen;
 	cl_int2	pixel = (cl_int2){{x, y}};
@@ -209,7 +209,7 @@ static char	raycast(t_scene *scene, int x, int y, t_raycast_hit *rh)
 	direction.v4 = t.right.v4 * k.x + t.up.v4 * k.y + t.forward.v4 * k.z;
 	direction.v4 = direction.v4 / sqrt(pow(direction.x, 2) + pow(direction.y, 2) + pow(direction.z, 2));
 	
-	return (raymarch(origin, direction, scene, rh));
+	return (raymarch(origin, direction, scene, rh, mask));
 }
 
 int		rt_raycast(t_ui_main *ui, void *a)
@@ -227,7 +227,7 @@ int		rt_raycast(t_ui_main *ui, void *a)
 	y = s->camera.screen.y - y;
 
 	t_raycast_hit	rh;
-	if (raycast(s, x, y, &rh))
+	if (raycast(s, x, y, &rh, ~0 ^ IGNORE_RAYCAST_LAYER))
 		change_selected((t_input_system *)rt->systems[INPUT_SYSTEM_INDEX], rh.hit);
 
 	return (1);
