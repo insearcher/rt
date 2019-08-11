@@ -36,11 +36,13 @@ static float	sceneSDF(float3 O, __global t_scene *scene, t_raycast_hit *rh)
 {
 	float		dist_to_obj = 1000000.f;
 	float		tmp_dist_to_obj;
+	bool		cond;
 
 	for (size_t i = 0; i < scene->objects_count; i++)
 	{
 		tmp_dist_to_obj = sdf(O, &scene->objects[i]);
-		if (tmp_dist_to_obj < dist_to_obj && tmp_dist_to_obj > -F_EPS)
+		cond = tmp_dist_to_obj < dist_to_obj && tmp_dist_to_obj > -F_EPS;
+		if (cond)
 		{
 			dist_to_obj = tmp_dist_to_obj;
 			rh->hit = &scene->objects[i];
@@ -64,9 +66,10 @@ char	raymarch(float3 origin, float3 direction, __global t_scene *scene, t_raycas
 	int		max_steps = 200;
 	float3	cur_ray_point;
 
+	#pragma unroll 4
 	for (int i = 0; i < max_steps; i++)
 	{
-		cur_ray_point = origin + direction * intersect_dist;
+		cur_ray_point = mad(direction, intersect_dist, origin);
 		dist_to_obj = sceneSDF(cur_ray_point, scene, rh);
 		if (dist_to_obj < -F_EPS)
 		{

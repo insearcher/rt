@@ -89,6 +89,9 @@ void	move_active(t_input_system *s)
 		if (d != 0)
 			cam->fov += d * 0.1f;
 	}
+
+	if (s->state[SDL_SCANCODE_M])
+		change_selected(s, NULL);
 }
 
 void				change_selected(t_input_system *s, t_object *o)
@@ -98,7 +101,8 @@ void				change_selected(t_input_system *s, t_object *o)
 		obj->material.color = (cl_float4){{0, 1, 1, 1}};
 	s->selected = &o->transform;
 	obj = (t_object *)s->selected;
-	obj->material.color = (cl_float4){{0, 0, 1, 1}};
+	if (obj)
+		obj->material.color = (cl_float4){{0, 0, 1, 1}};
 }
 
 int					is_func(void *isv)

@@ -18,6 +18,7 @@ void			put_pixel(__global char *image, int2 pixel, int2 screen, float3 color)
 void			fill_camera_pixel(__global char *image, int2 pixel, int2 screen, float3 color, int quality)
 {
 	int2 cur_pixel;
+
 	for (int i = 0; i < quality; ++i)
 	{
 		for (int j = 0; j < quality; ++j)
@@ -46,14 +47,16 @@ __kernel void	render(__global char *image, __global t_scene *scene, __global t_o
 	scene->objects = objects;
 	scene->lights = lights;
 
-	float3 k = screen_to_world(pixel, screen, scene->camera.fov);
+	t_camera cached_camera = scene->camera;
 
-	t_transform t = scene->camera.transform;
-	float3 direction = normalize(t.right * k.x + t.up * k.y + t.forward * k.z);
+	float3 k = screen_to_world(pixel, screen, cached_camera.fov);
+
+	t_transform t = cached_camera.transform;
+	float3 direction = normalize(mad(t.right, k.x, mad(t.up, k.y, t.forward * k.z)));
 
 	float3	color;
 	t_raycast_hit rh;
-	if (raymarch(scene->camera.transform.pos, direction, scene, &rh))
+	if (raymarch(cached_camera.transform.pos, direction, scene, &rh))
 	{
 		color = rh.hit->material.color.xyz;
 
@@ -62,7 +65,7 @@ __kernel void	render(__global char *image, __global t_scene *scene, __global t_o
 		float3 diffuse = color * scene->ambient;
 		for (size_t i = 0; i < scene->lights_count; ++i)
 		{
-			float3 interpoint = scene->camera.transform.pos + direction * rh.distance;
+			float3 interpoint = mad(direction, rh.distance, cached_camera.transform.pos);
 			float NoL, a, mult;
 			float3 LDirectional;
 			switch (scene->lights[i].type)
@@ -71,7 +74,7 @@ __kernel void	render(__global char *image, __global t_scene *scene, __global t_o
 					NoL = max(dot(rh.normal, normalize(interpoint - scene->lights[i].transform.pos)), 0.0f);
 					a = scene->lights[i].params.directional.color.w;
 					LDirectional = scene->lights[i].params.directional.color.xyz * a * NoL;
-					diffuse += color * LDirectional;
+					diffuse = mad(color, LDirectional, diffuse);
 					break;
 				case point:
 					a = length(interpoint - scene->lights[i].transform.pos);
@@ -89,5 +92,5 @@ __kernel void	render(__global char *image, __global t_scene *scene, __global t_o
 	}
 	else
 		color = get_skybox_color(direction);
-	fill_camera_pixel(image, pixel, screen, color, scene->camera.quality);
+	fill_camera_pixel(image, pixel, screen, color, cached_camera.quality);
 }
