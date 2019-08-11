@@ -67,13 +67,14 @@ __kernel void	render(__global char *image, __global t_scene *scene, __global t_o
 		for (size_t i = 0; i < scene->lights_count; ++i)
 		{
 			float NoL, a, mult;
-			float3 LDirectional, dir;
+			float3 LDirectional, dir, ndir;
 			t_raycast_hit rhl;
 			switch (scene->lights[i].type)
 			{
 				case directional:
-					dir = normalize(scene->lights[i].transform.pos - rh.point);
-					if (raymarch(rh.point + rh.normal * F_EPS, dir, scene, &rhl))
+					dir = scene->lights[i].transform.pos - rh.point;
+					ndir = normalize(dir);
+					if (raymarch(rh.point + rh.normal * F_EPS, ndir, scene, &rhl))
 						continue;
 					NoL = max(dot(rh.normal, dir), 0.0f);
 					a = scene->lights[i].params.directional.color.w;

@@ -45,7 +45,7 @@ float	sdf_sphere(float3 pos, float radius)
 
 float	sdf_torus(float3 pos, float2 t)
 {
-	float2 q = float2(length(pos.xz) - t.x, pos.y);
+	float2 q = (float2){length(pos.xz) - t.x, pos.y};
 	return length(q) - t.y;
 }
 

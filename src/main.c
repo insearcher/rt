@@ -86,9 +86,9 @@ int main(void)
 	rt->scenes[0].objects[1].transform.id = 3;
 	rt->scenes[0].objects[1].material.color = (cl_float4){{0, 1, 1, 1}};
 
-	rt->scenes[0].objects[2].type = sphere;
+	rt->scenes[0].objects[2].type = torus;
 	rt->scenes[0].objects[2].layer = DEFAULT_LAYER;
-	rt->scenes[0].objects[2].params.sphere.radius = 0.5;
+	rt->scenes[0].objects[2].params.torus.params = (cl_float2){{10, 1}};
 	rt->scenes[0].objects[2].transform.pos = (cl_float3){{5, -5, -5}};
 	rt->scenes[0].objects[2].transform.id = 4;
 	rt->scenes[0].objects[2].material.color = (cl_float4){{0, 1, 1, 1}};;
@@ -105,7 +105,7 @@ int main(void)
 
 	rt->scenes[0].lights_count = 1;
 	rt->scenes[0].lights = ft_x_memalloc(sizeof(t_light) * rt->scenes[0].lights_count);
-	rt->scenes[0].lights[0].transform.pos = (cl_float3){{0, 30, 0}};
+	rt->scenes[0].lights[0].transform.pos = (cl_float3){{0, 7, 0}};
 	transform_setup_default(&rt->scenes[0].lights[0].transform);
 	rt->scenes[0].lights[0].type = directional;
 	rt->scenes[0].lights[0].params.directional.color = (cl_float4){{0.4f, 0.4f, 0.4f, 1}};
@@ -126,7 +126,7 @@ int main(void)
 	ft_bzero(&rt->scenes[0].camera, sizeof(t_camera));
 	rt->scenes[0].camera.clipping_planes = (t_clipping){1, 100};
 	rt->scenes[0].camera.fov = 90;
-	rt->scenes[0].camera.quality = 1;
+	rt->scenes[0].camera.quality = 2;
 	rt->scenes[0].camera.transform.id = 1;
 	rt->scenes[0].camera.screen = (cl_int2){{el->rect.w, el->rect.h}};
 
