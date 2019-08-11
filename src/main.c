@@ -77,21 +77,21 @@ int main(void)
 	rt->scenes[0].objects[0].params.box.bounds = (cl_float3){{1, 2, 3}};
 	rt->scenes[0].objects[0].transform.pos = (cl_float3){{4, 4, 4}};
 	rt->scenes[0].objects[0].transform.id = 2;
-	rt->scenes[0].objects[0].material.color = (cl_float4){{0, 255, 255, 1}};
+	rt->scenes[0].objects[0].material.color = (cl_float4){{0, 1, 1, 1}};
 
 	rt->scenes[0].objects[1].type = sphere;
 	rt->scenes[0].objects[1].layer = DEFAULT_LAYER;
 	rt->scenes[0].objects[1].params.sphere.radius = 3;
 	rt->scenes[0].objects[1].transform.pos = (cl_float3){{-4, 5, -4}};
 	rt->scenes[0].objects[1].transform.id = 3;
-	rt->scenes[0].objects[1].material.color = (cl_float4){{0, 255, 255, 1}};
+	rt->scenes[0].objects[1].material.color = (cl_float4){{0, 1, 1, 1}};
 
 	rt->scenes[0].objects[2].type = sphere;
 	rt->scenes[0].objects[2].layer = DEFAULT_LAYER;
 	rt->scenes[0].objects[2].params.sphere.radius = 0.5;
-	rt->scenes[0].objects[2].transform.pos = (cl_float3){{-5, -5, -5}};
+	rt->scenes[0].objects[2].transform.pos = (cl_float3){{5, -5, -5}};
 	rt->scenes[0].objects[2].transform.id = 4;
-	rt->scenes[0].objects[2].material.color = (cl_float4){{0, 255, 255, 1}};;
+	rt->scenes[0].objects[2].material.color = (cl_float4){{0, 1, 1, 1}};;
 
 	rt->scenes[0].objects[3].type = plane;
 	rt->scenes[0].objects[3].layer = IGNORE_RAYCAST_LAYER;
@@ -101,11 +101,11 @@ int main(void)
 	float d = -(temp->up.x * temp->pos.x + temp->up.y * temp->pos.y + temp->up.z * temp->pos.z);
 	rt->scenes[0].objects[3].params.plane.distance = fabs(d) / sqrt(temp->up.x * temp->up.x + temp->up.y * temp->up.y + temp->up.z * temp->up.z);
 	rt->scenes[0].objects[3].transform.id = 5;
-	rt->scenes[0].objects[3].material.color = (cl_float4){{255, 0, 0, 1}};
+	rt->scenes[0].objects[3].material.color = (cl_float4){{1, 0, 0, 1}};
 
 	rt->scenes[0].lights_count = 1;
 	rt->scenes[0].lights = ft_x_memalloc(sizeof(t_light) * rt->scenes[0].lights_count);
-	rt->scenes[0].lights[0].transform.pos = (cl_float3){{0, 0, 0}};
+	rt->scenes[0].lights[0].transform.pos = (cl_float3){{0, 30, 0}};
 	transform_setup_default(&rt->scenes[0].lights[0].transform);
 	rt->scenes[0].lights[0].type = directional;
 	rt->scenes[0].lights[0].params.directional.color = (cl_float4){{0.4f, 0.4f, 0.4f, 1}};

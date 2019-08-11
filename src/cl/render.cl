@@ -7,10 +7,11 @@ void			put_pixel(__global char *image, int2 pixel, int2 screen, float3 color)
     pixel.y = screen.y - pixel.y - 1;
     if (pixel.x >= 0 && pixel.x < screen.x && pixel.y >= 0 && pixel.y < screen.y)
     {
-        a = pixel.x * 4 + pixel.y * screen.x * 4;
-        image[a] = color.x * 255;
-        image[a + 1] = color.y * 255;
-        image[a + 2] = color.z * 255;
+        a = 4 * (pixel.y * screen.x + pixel.x);
+        color *= 255;
+        image[a] = color.x;
+        image[a + 1] = color.y;
+        image[a + 2] = color.z;
         image[a + 3] = 0;
     }
 }
@@ -31,7 +32,7 @@ void			fill_camera_pixel(__global char *image, int2 pixel, int2 screen, float3 c
 
 float3			get_skybox_color(float3 direction)
 {
-	return (min(1, max(0, (float3){0.6f - direction.y * 0.7f, 0.36f - direction.y * 0.7f, 0.3f - direction.y * 0.7f})));
+	return (min(1, max(0, (float3){mad(direction.y, -0.7f, 0.6f), mad(direction.y, -0.7f, 0.36f), mad(direction.y, -0.7f, 0.3f)})));
 }
 
 __kernel void	render(__global char *image, __global t_scene *scene, __global t_object *objects, __global t_light *lights)
@@ -65,19 +66,22 @@ __kernel void	render(__global char *image, __global t_scene *scene, __global t_o
 		float3 diffuse = color * scene->ambient;
 		for (size_t i = 0; i < scene->lights_count; ++i)
 		{
-			float3 interpoint = mad(direction, rh.distance, cached_camera.transform.pos);
 			float NoL, a, mult;
-			float3 LDirectional;
+			float3 LDirectional, dir;
+			t_raycast_hit rhl;
 			switch (scene->lights[i].type)
 			{
 				case directional:
-					NoL = max(dot(rh.normal, normalize(interpoint - scene->lights[i].transform.pos)), 0.0f);
+					dir = normalize(scene->lights[i].transform.pos - rh.point);
+					if (raymarch(rh.point + rh.normal * F_EPS, dir, scene, &rhl))
+						continue;
+					NoL = max(dot(rh.normal, dir), 0.0f);
 					a = scene->lights[i].params.directional.color.w;
 					LDirectional = scene->lights[i].params.directional.color.xyz * a * NoL;
-					diffuse = mad(color, LDirectional, diffuse);
+					diffuse += color * LDirectional;
 					break;
 				case point:
-					a = length(interpoint - scene->lights[i].transform.pos);
+					a = length(rh.point - scene->lights[i].transform.pos);
 					if (a < scene->lights[i].params.point.distance)
 					{
 						mult = -pow(a / scene->lights[i].params.point.distance, 2) + 1;
