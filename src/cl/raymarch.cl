@@ -59,12 +59,15 @@ static void	get_normal(float3 pos, float basic_dist, t_raycast_hit *rh)
 									(float3){basic_dist, basic_dist, basic_dist});
 }
 
-char	raymarch(float3 origin, float3 direction, __global t_scene *scene, t_raycast_hit *rh)
+char	raymarch(float3 origin, float3 direction, float distance, __global t_scene *scene, t_raycast_hit *rh)
 {
 	float	intersect_dist = 0;
 	float	dist_to_obj;
 	int		max_steps = 200;
 	float3	cur_ray_point;
+	bool	cond;
+
+	distance = select(distance, MAXFLOAT, distance < F_EPS);
 
 	#pragma unroll 4
 	for (int i = 0; i < max_steps; i++)
@@ -85,7 +88,8 @@ char	raymarch(float3 origin, float3 direction, __global t_scene *scene, t_raycas
 			return (1);
 		}
 		intersect_dist += dist_to_obj;
-		if (intersect_dist > scene->camera.clipping_planes.far)
+		cond = intersect_dist > scene->camera.clipping_planes.far || intersect_dist > distance;
+		if (cond)
 			return (0);
 	}
 	return (0);

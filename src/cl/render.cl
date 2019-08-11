@@ -32,7 +32,11 @@ void			fill_camera_pixel(__global char *image, int2 pixel, int2 screen, float3 c
 
 float3			get_skybox_color(float3 direction)
 {
-	return (min(1, max(0, (float3){mad(direction.y, -0.7f, 0.6f), mad(direction.y, -0.7f, 0.36f), mad(direction.y, -0.7f, 0.3f)})));
+	return (min(1, max(0, (float3){
+		mad(direction.y, -0.7f, 0.6f),
+		mad(direction.y, -0.7f, 0.36f),
+		mad(direction.y, -0.7f, 0.3f)
+	})));
 }
 
 __kernel void	render(__global char *image, __global t_scene *scene, __global t_object *objects, __global t_light *lights)
@@ -57,7 +61,7 @@ __kernel void	render(__global char *image, __global t_scene *scene, __global t_o
 
 	float3	color;
 	t_raycast_hit rh;
-	if (raymarch(cached_camera.transform.pos, direction, scene, &rh))
+	if (raymarch(cached_camera.transform.pos, direction, 0, scene, &rh))
 	{
 		color = rh.hit->material.color.xyz;
 
@@ -66,23 +70,32 @@ __kernel void	render(__global char *image, __global t_scene *scene, __global t_o
 		float3 diffuse = color * scene->ambient;
 		for (size_t i = 0; i < scene->lights_count; ++i)
 		{
+			t = scene->lights[i].transform;
+
 			float NoL, a, mult;
 			float3 LDirectional, dir, ndir;
 			t_raycast_hit rhl;
+
 			switch (scene->lights[i].type)
 			{
 				case directional:
-					dir = scene->lights[i].transform.pos - rh.point;
+					dir = -t.forward;
 					ndir = normalize(dir);
-					if (raymarch(rh.point + rh.normal * F_EPS, ndir, scene, &rhl))
+					if (raymarch(rh.point + rh.normal * F_EPS, ndir, length(dir), scene, &rhl))
 						continue;
-					NoL = max(dot(rh.normal, dir), 0.0f);
+
+					NoL = max(dot(rh.normal, ndir), 0.0f);
 					a = scene->lights[i].params.directional.color.w;
 					LDirectional = scene->lights[i].params.directional.color.xyz * a * NoL;
 					diffuse += color * LDirectional;
 					break;
 				case point:
-					a = length(rh.point - scene->lights[i].transform.pos);
+					dir = t.pos - rh.point;
+					ndir = normalize(dir);
+					if (raymarch(rh.point + rh.normal * F_EPS, ndir, length(dir), scene, &rhl))
+						continue;
+
+					a = length(rh.point - t.pos);
 					if (a < scene->lights[i].params.point.distance)
 					{
 						mult = -pow(a / scene->lights[i].params.point.distance, 2) + 1;
