@@ -61,7 +61,7 @@ __kernel void	render(__global char *image, __global t_scene *scene, __global t_o
 
 	float3	color;
 	t_raycast_hit rh;
-	rh.clip_ratio = sqrt(pow(k.x, 2) + pow(k.y, 2) + pow(k.z, 2)) / k.z;
+	rh.clip_ratio = length(k) / k.z;
 	if (!raymarch(cached_camera.transform.pos, direction, 0, scene, &rh))
 	{
 		color = get_skybox_color(direction);
@@ -80,7 +80,7 @@ __kernel void	render(__global char *image, __global t_scene *scene, __global t_o
 		float NoL, a, mult;
 		float3 LDirectional, dir, ndir;
 		t_raycast_hit rhl;
-		rhl.clip_ratio = sqrt(pow(k.x, 2) + pow(k.y, 2) + pow(k.z, 2)) / k.z;
+		rhl.clip_ratio = length(k) / k.z;
 
 		switch (scene->lights[i].type)
 		{

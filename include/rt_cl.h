@@ -13,13 +13,16 @@
 
 float	sdf_sphere(float3 pos, float radius);
 float	sdf_box(float3 pos, float3 bounds);
-float	sdf_round_box(float3 pos, float4 bounds);
+float	sdf_round_box(float3 pos, float3 bounds, float r);
 float	sdf_torus(float3 pos, float2 t);
+float	sdf_capped_torus(float3 pos, float2 sc, float ra, float rb);
+float	sdf_link(float3 pos, float le, float r1, float r2);
 float	sdf_cylinder(float3 pos, float3 c);
+float	sdf_cone(float3 pos, float2 c);
 float	sdf_plane(float3 pos, float3 n, float d);
 
-void			put_pixel(__global char *image, int2 pixel, int2 screen, float3 color);
-void			fill_camera_pixel(__global char *image, int2 pixel, int2 screen, float3 color, int quality);
+void	put_pixel(__global char *image, int2 pixel, int2 screen, float3 color);
+void	fill_camera_pixel(__global char *image, int2 pixel, int2 screen, float3 color, int quality);
 
 float3	screen_to_world(int2 coord, int2 screen, float fov);
 

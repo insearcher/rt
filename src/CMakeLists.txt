@@ -5,6 +5,7 @@ cmake_policy(SET CMP0076 NEW)
 target_sources(rt PUBLIC
         main.c
         rt_render.c
+        rt_sdf.c
         rt_raycast.c
         rt_system.c
         rt_input_system.c

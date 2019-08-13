@@ -70,36 +70,6 @@ int		rt_raycast1(t_ui_main *ui, void *a)
 	return (1);
 }
 
-static float length(cl_float3 v)
-{
-	return sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
-}
-
-static cl_float3 normalize(cl_float3 v)
-{
-	v.v4 /= length(v);
-	return v;
-}
-
-static float	sdf_sphere(cl_float3 pos, float radius)
-{
-	return (length(pos) - radius);
-}
-
-static float	sdf_box(cl_float3 pos, cl_float3 bounds)
-{
-	cl_float3	temp = (cl_float3){{fabs(pos.x), fabs(pos.y), fabs(pos.z)}};
-	cl_float3 d;
-	d.v4 = temp.v4 - bounds.v4;
-	temp = (cl_float3){{fmax(d.x, 0), fmax(d.y, 0), fmax(d.z, 0)}};
-	return length(temp) + fmin(fmax(d.x, fmax(d.y, d.z)), 0);
-}
-
-static float	sdf_plane(cl_float3 p, cl_float3 n, float d)
-{
-	return p.x * n.x + p.y * n.y + p.z * n.z + d;
-}
-
 static float	sdf(cl_float3 origin, t_object *obj)
 {
 	float	distance = 0;
@@ -110,22 +80,31 @@ static float	sdf(cl_float3 origin, t_object *obj)
 //	local_pos = repeatSDF(local_pos, obj->transform.pos, 0, 0, 0);
 	switch (obj->type)
 	{
-		case sphere:
+		case o_sphere:
 			distance = sdf_sphere(local_pos, obj->params.sphere.radius);
 			break;
-		case box:
+		case o_box:
 			distance = sdf_box(local_pos, obj->params.box.bounds);
 			break;
-		case round_box:
-			distance = sdf_sphere(local_pos, obj->params.sphere.radius);
+		case o_round_box:
+			distance = sdf_round_box(local_pos, obj->params.round_box.bounds, obj->params.round_box.r);
 			break;
-		case torus:
-			distance = sdf_sphere(local_pos, obj->params.sphere.radius);
+		case o_torus:
+			distance = sdf_torus(local_pos, obj->params.torus.params);
 			break;
-		case cylinder:
-			distance = sdf_sphere(local_pos, obj->params.sphere.radius);
+		case o_capped_torus:
+			distance = sdf_capped_torus(local_pos, obj->params.capped_torus.sc, obj->params.capped_torus.ra, obj->params.capped_torus.rb);
 			break;
-		case plane:
+		case o_link:
+			distance = sdf_link(local_pos, obj->params.link.le, obj->params.link.r1, obj->params.link.r2);
+			break;
+		case o_cylinder:
+			distance = sdf_cylinder(local_pos, obj->params.cylinder.params);
+			break;
+		case o_cone:
+			distance = sdf_cone(local_pos, obj->params.cone.c);
+			break;
+		case o_plane:
 			distance = sdf_plane(local_pos, obj->transform.up, obj->params.plane.distance);
 			break;
 	}
@@ -161,7 +140,7 @@ static void	get_normal(cl_float3 pos, float basic_dist, t_raycast_hit *rh)
 	}};
 	cl_float3 b = (cl_float3){{basic_dist, basic_dist, basic_dist}};
 	rh->normal.v4 -= b.v4;
-	rh->normal = normalize(rh->normal);
+	rh->normal = f3norm(rh->normal);
 }
 
 char	raymarch(cl_float3 origin, cl_float3 direction, t_scene *scene, t_raycast_hit *rh, cl_uint mask)

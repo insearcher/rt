@@ -10,22 +10,31 @@ static float	sdf(float3 origin, __global t_object *obj)
 //		local_pos = repeatSDF(local_pos, obj->transform.pos, 0, 0, 0);
 	switch (obj->type)
 	{
-		case sphere:
+		case o_sphere:
 			distance = sdf_sphere(local_pos, obj->params.sphere.radius);
 			break;
-		case box:
+		case o_box:
 			distance = sdf_box(local_pos, obj->params.box.bounds);
 			break;
-		case round_box:
-			distance = sdf_round_box(local_pos, obj->params.round_box.bounds);
+		case o_round_box:
+			distance = sdf_round_box(local_pos, obj->params.round_box.bounds, obj->params.round_box.r);
 			break;
-		case torus:
+		case o_torus:
 			distance = sdf_torus(local_pos, obj->params.torus.params);
 			break;
-		case cylinder:
+		case o_capped_torus:
+			distance = sdf_capped_torus(local_pos, obj->params.capped_torus.sc, obj->params.capped_torus.ra, obj->params.capped_torus.rb);
+			break;
+		case o_link:
+			distance = sdf_link(local_pos, obj->params.link.le, obj->params.link.r1, obj->params.link.r2);
+			break;
+		case o_cylinder:
 			distance = sdf_cylinder(local_pos, obj->params.cylinder.params);
 			break;
-		case plane:
+		case o_cone:
+			distance = sdf_cone(local_pos, obj->params.cone.c);
+			break;
+		case o_plane:
 			distance = sdf_plane(local_pos, obj->transform.up, obj->params.plane.distance);
 			break;
 	}
@@ -38,7 +47,7 @@ static float	sceneSDF(float3 O, __global t_scene *scene, t_raycast_hit *rh)
 	float		tmp_dist_to_obj;
 	bool		cond;
 
-	for (size_t i = 0; i < scene->objects_count; i++)
+	for (uint i = 0; i < scene->objects_count; i++)
 	{
 		tmp_dist_to_obj = sdf(O, &scene->objects[i]);
 		cond = tmp_dist_to_obj < dist_to_obj && tmp_dist_to_obj > -F_EPS;
@@ -63,7 +72,7 @@ char	raymarch(float3 origin, float3 direction, float distance, __global t_scene 
 {
 	float	intersect_dist = rh->clip_ratio;
 	float	dist_to_obj;
-	int		max_steps = 1000.0f;
+	int		max_steps = 500.0f;
 	float3	cur_ray_point;
 	bool	cond;
 
@@ -88,7 +97,7 @@ char	raymarch(float3 origin, float3 direction, float distance, __global t_scene 
 			return (1);
 		}
 		intersect_dist += dist_to_obj;
-		cond = intersect_dist > scene->camera.clipping_planes.far || intersect_dist > distance;
+		cond = intersect_dist > scene->camera.clipping_planes.far * rh->clip_ratio || intersect_dist > distance * rh->clip_ratio;
 		if (cond)
 			return (0);
 	}

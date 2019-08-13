@@ -70,38 +70,79 @@ int main(void)
 
 	rt->scenes[0].ambient = (cl_float3){{.1f, .1f, .1f}};
 
-	rt->scenes[0].objects_count = 4;
+	rt->scenes[0].objects_count = 9;
 	rt->scenes[0].objects = ft_x_memalloc(sizeof(t_object) * rt->scenes[0].objects_count);
-	rt->scenes[0].objects[0].type = box;
+
+	rt->scenes[0].objects[0].type = o_sphere;
 	rt->scenes[0].objects[0].layer = DEFAULT_LAYER;
-	rt->scenes[0].objects[0].params.box.bounds = (cl_float3){{1, 2, 3}};
-	rt->scenes[0].objects[0].transform.pos = (cl_float3){{4, 4, 4}};
+	rt->scenes[0].objects[0].params.sphere.radius = 3;
+	rt->scenes[0].objects[0].transform.pos = (cl_float3){{0, 10, 0}};
 	rt->scenes[0].objects[0].transform.id = 2;
 	rt->scenes[0].objects[0].material.color = (cl_float4){{0, 1, 1, 1}};
 
-	rt->scenes[0].objects[1].type = sphere;
+	rt->scenes[0].objects[1].type = o_box;
 	rt->scenes[0].objects[1].layer = DEFAULT_LAYER;
-	rt->scenes[0].objects[1].params.sphere.radius = 3;
-	rt->scenes[0].objects[1].transform.pos = (cl_float3){{-4, 5, -4}};
+	rt->scenes[0].objects[1].params.box.bounds = (cl_float3){{1, 2, 3}};
+	rt->scenes[0].objects[1].transform.pos = (cl_float3){{0, 10, 10}};
 	rt->scenes[0].objects[1].transform.id = 3;
 	rt->scenes[0].objects[1].material.color = (cl_float4){{0, 1, 1, 1}};
 
-	rt->scenes[0].objects[2].type = torus;
+	rt->scenes[0].objects[2].type = o_round_box;
 	rt->scenes[0].objects[2].layer = DEFAULT_LAYER;
-	rt->scenes[0].objects[2].params.torus.params = (cl_float2){{10, 1}};
-	rt->scenes[0].objects[2].transform.pos = (cl_float3){{5, -5, -5}};
+	rt->scenes[0].objects[2].params.round_box.bounds = (cl_float3){{1, 2, 3}};
+	rt->scenes[0].objects[2].params.round_box.r = 1;
+	rt->scenes[0].objects[2].transform.pos = (cl_float3){{0, 10, 20}};
 	rt->scenes[0].objects[2].transform.id = 4;
-	rt->scenes[0].objects[2].material.color = (cl_float4){{0, 1, 1, 1}};;
+	rt->scenes[0].objects[2].material.color = (cl_float4){{0, 1, 1, 1}};
 
-	rt->scenes[0].objects[3].type = plane;
-	rt->scenes[0].objects[3].layer = IGNORE_RAYCAST_LAYER;
-	rt->scenes[0].objects[3].transform.pos = (cl_float3){{-5, -5, -5}};
-	transform_setup_default(&rt->scenes[0].objects[3].transform);
-	t_transform *temp = &rt->scenes[0].objects[3].transform;
-	float d = -(temp->up.x * temp->pos.x + temp->up.y * temp->pos.y + temp->up.z * temp->pos.z);
-	rt->scenes[0].objects[3].params.plane.distance = fabs(d) / sqrt(temp->up.x * temp->up.x + temp->up.y * temp->up.y + temp->up.z * temp->up.z);
+	rt->scenes[0].objects[3].type = o_torus;
+	rt->scenes[0].objects[3].layer = DEFAULT_LAYER;
+	rt->scenes[0].objects[3].params.torus.params = (cl_float2){{2, 2}};
+	rt->scenes[0].objects[3].transform.pos = (cl_float3){{0, 10, 30}};
 	rt->scenes[0].objects[3].transform.id = 5;
-	rt->scenes[0].objects[3].material.color = (cl_float4){{1, 0, 0, 1}};
+	rt->scenes[0].objects[3].material.color = (cl_float4){{0, 1, 1, 1}};
+
+	rt->scenes[0].objects[4].type = o_capped_torus;
+	rt->scenes[0].objects[4].layer = DEFAULT_LAYER;
+	rt->scenes[0].objects[4].params.capped_torus.sc = (cl_float2){{0.4f, 0.5f}};
+	rt->scenes[0].objects[4].params.capped_torus.ra = 1;
+	rt->scenes[0].objects[4].params.capped_torus.rb = 2;
+	rt->scenes[0].objects[4].transform.pos = (cl_float3){{0, 10, 40}};
+	rt->scenes[0].objects[4].transform.id = 6;
+	rt->scenes[0].objects[4].material.color = (cl_float4){{0, 1, 1, 1}};
+
+	rt->scenes[0].objects[5].type = o_link;
+	rt->scenes[0].objects[5].layer = DEFAULT_LAYER;
+	rt->scenes[0].objects[5].transform.pos = (cl_float3){{0, 10, 50}};
+	rt->scenes[0].objects[5].params.link.le = 3;
+	rt->scenes[0].objects[5].params.link.r1 = 2;
+	rt->scenes[0].objects[5].params.link.r2 = 1;
+	rt->scenes[0].objects[5].transform.id = 7;
+	rt->scenes[0].objects[5].material.color = (cl_float4){{0, 1, 1, 1}};
+
+	rt->scenes[0].objects[6].type = o_cylinder;
+	rt->scenes[0].objects[6].layer = DEFAULT_LAYER;
+	rt->scenes[0].objects[6].transform.pos = (cl_float3){{0, 10, 60}};
+	rt->scenes[0].objects[6].params.cylinder.params = (cl_float3){{1, 2, 3}};
+	rt->scenes[0].objects[6].transform.id = 8;
+	rt->scenes[0].objects[6].material.color = (cl_float4){{0, 1, 1, 1}};
+
+	rt->scenes[0].objects[7].type = o_cone;
+	rt->scenes[0].objects[7].layer = DEFAULT_LAYER;
+	rt->scenes[0].objects[7].transform.pos = (cl_float3){{0, 10, 70}};
+	rt->scenes[0].objects[7].params.cone.c = (cl_float2){{10, -1}};
+	rt->scenes[0].objects[7].transform.id = 9;
+	rt->scenes[0].objects[7].material.color = (cl_float4){{0, 1, 1, 1}};
+
+	rt->scenes[0].objects[8].type = o_plane;
+	rt->scenes[0].objects[8].layer = IGNORE_RAYCAST_LAYER;
+	rt->scenes[0].objects[8].transform.pos = (cl_float3){{-5, -5, -5}};
+	transform_setup_default(&rt->scenes[0].objects[8].transform);
+	t_transform *temp = &rt->scenes[0].objects[8].transform;
+	float d = -(temp->up.x * temp->pos.x + temp->up.y * temp->pos.y + temp->up.z * temp->pos.z);
+	rt->scenes[0].objects[8].params.plane.distance = fabs(d) / sqrt(temp->up.x * temp->up.x + temp->up.y * temp->up.y + temp->up.z * temp->up.z);
+	rt->scenes[0].objects[8].transform.id = 5;
+	rt->scenes[0].objects[8].material.color = (cl_float4){{1, 0, 0, 1}};
 
 	// TODO when lights count > 1 strange shit happens
 	rt->scenes[0].lights_count = 1;
@@ -132,7 +173,7 @@ int main(void)
 
 	/// CAMERA SETUP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	ft_bzero(&rt->scenes[0].camera, sizeof(t_camera));
-	rt->scenes[0].camera.clipping_planes = (t_clipping){.5f, 100};
+	rt->scenes[0].camera.clipping_planes = (t_clipping){0.5f, 1000};
 	rt->scenes[0].camera.fov = 90;
 	rt->scenes[0].camera.quality = 1;
 	rt->scenes[0].camera.transform.id = 1;

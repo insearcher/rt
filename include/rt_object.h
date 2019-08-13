@@ -40,9 +40,11 @@ typedef struct			s_box
 typedef struct			s_round_box
 {
 # ifndef OPENCL___
-	cl_float4			bounds;
+	cl_float3			bounds;
+	cl_float			r;
 # else
-	float4				bounds;
+	float3				bounds;
+	float				r;
 # endif
 }						t_round_box;
 
@@ -55,6 +57,32 @@ typedef struct			s_torus
 # endif
 }						t_torus;
 
+typedef struct			s_capped_torus
+{
+# ifndef OPENCL___
+	cl_float2			sc;
+	cl_float			ra;
+	cl_float			rb;
+# else
+	float2				sc;
+	float				ra;
+	float				rb;
+# endif
+}						t_capped_torus;
+
+typedef struct			s_link
+{
+# ifndef OPENCL___
+	cl_float			le;
+	cl_float			r1;
+	cl_float			r2;
+# else
+	float				le;
+	float				r1;
+	float				r2;
+# endif
+}						t_link;
+
 typedef struct			s_cylinder
 {
 # ifndef OPENCL___
@@ -63,6 +91,15 @@ typedef struct			s_cylinder
 	float3				params;
 # endif
 }						t_cylinder;
+
+typedef struct			s_cone
+{
+# ifndef OPENCL___
+	cl_float2			c;
+# else
+	float2				c;
+# endif
+}						t_cone;
 
 typedef struct			s_plane
 {
@@ -79,18 +116,24 @@ union					u_oparams
 	t_box				box;
 	t_round_box			round_box;
 	t_torus				torus;
+	t_capped_torus		capped_torus;
+	t_link				link;
 	t_cylinder			cylinder;
+	t_cone				cone;
 	t_plane				plane;
 };
 
 enum					e_object_type
 {
-	sphere,
-	box,
-	round_box,
-	torus,
-	cylinder,
-	plane
+	o_sphere,
+	o_box,
+	o_round_box,
+	o_torus,
+	o_capped_torus,
+	o_link,
+	o_cylinder,
+	o_cone,
+	o_plane
 };
 
 typedef struct			s_omaterial
