@@ -22,19 +22,19 @@
 typedef struct			s_directional
 {
 # ifndef OPENCL___
-	cl_float4			color;
+	cl_float3			color;
 # else
-	float4				color;
+	float3				color;
 # endif
 }						t_directional;
 
 typedef struct			s_point
 {
 # ifndef OPENCL___
-	cl_float4			color;
+	cl_float3			color;
 	cl_float			distance;
 # else
-	float4				color;
+	float3				color;
 	float				distance;
 # endif
 }						t_point;

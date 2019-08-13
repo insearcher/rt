@@ -103,19 +103,20 @@ int main(void)
 	rt->scenes[0].objects[3].transform.id = 5;
 	rt->scenes[0].objects[3].material.color = (cl_float4){{1, 0, 0, 1}};
 
-	rt->scenes[0].lights_count = 2;
+	// TODO when lights count > 1 strange shit happens
+	rt->scenes[0].lights_count = 1;
 	rt->scenes[0].lights = ft_x_memalloc(sizeof(t_light) * rt->scenes[0].lights_count);
 
 	rt->scenes[0].lights[0].transform.pos = (cl_float3){{0, 0, 0}};
 	transform_setup_default(&rt->scenes[0].lights[0].transform);
 	rt->scenes[0].lights[0].transform.forward = (cl_float3){{0, -1, 0}};
 	rt->scenes[0].lights[0].type = directional;
-	rt->scenes[0].lights[0].params.directional.color = (cl_float4){{.4f, .4f, .4f, 1}};
+	rt->scenes[0].lights[0].params.directional.color = (cl_float3){{.4f, .4f, .4f}};
 
-	rt->scenes[0].lights[1].transform.pos = (cl_float3){{0, 0, 0}};
-	rt->scenes[0].lights[1].type = point;
-	rt->scenes[0].lights[1].params.point.color = (cl_float4){{.5f, 0, 0, 1}};
-	rt->scenes[0].lights[0].params.point.distance = 100;
+//	rt->scenes[0].lights[1].transform.pos = (cl_float3){{0, 0, 0}};
+//	rt->scenes[0].lights[1].type = point;
+//	rt->scenes[0].lights[1].params.point.color = (cl_float3){{.5f, 0, 0}};
+//	rt->scenes[0].lights[1].params.point.distance = 100;
 
 	ui->data = rt;
     ui_main_add_function_by_id(ui, rt_render, "rt_render");
@@ -131,7 +132,7 @@ int main(void)
 
 	/// CAMERA SETUP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	ft_bzero(&rt->scenes[0].camera, sizeof(t_camera));
-	rt->scenes[0].camera.clipping_planes = (t_clipping){1, 100};
+	rt->scenes[0].camera.clipping_planes = (t_clipping){.5f, 100};
 	rt->scenes[0].camera.fov = 90;
 	rt->scenes[0].camera.quality = 1;
 	rt->scenes[0].camera.transform.id = 1;

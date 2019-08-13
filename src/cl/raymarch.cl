@@ -2,7 +2,7 @@
 
 static float	sdf(float3 origin, __global t_object *obj)
 {
-	float	distance = 0;
+	float	distance = 0.0f;
 	float3	local_pos;
 
 	local_pos = origin - obj->transform.pos;
@@ -61,15 +61,15 @@ static void	get_normal(float3 pos, float basic_dist, t_raycast_hit *rh)
 
 char	raymarch(float3 origin, float3 direction, float distance, __global t_scene *scene, t_raycast_hit *rh)
 {
-	float	intersect_dist = 0;
+	float	intersect_dist = rh->clip_ratio;
 	float	dist_to_obj;
-	int		max_steps = 1000;
+	int		max_steps = 1000.0f;
 	float3	cur_ray_point;
 	bool	cond;
 
 	distance = select(distance, MAXFLOAT, distance < F_EPS);
 
-	#pragma unroll 4
+	#pragma unroll 16
 	for (int i = 0; i < max_steps; i++)
 	{
 		cur_ray_point = mad(direction, intersect_dist, origin);
