@@ -19,15 +19,17 @@
 
 typedef struct			s_scene
 {
-	size_t				objects_count;
-	size_t				lights_count;
 	t_camera			camera;
 # ifndef OPENCL___
 	cl_float3			ambient;
+	cl_uint				objects_count;
+	cl_uint				lights_count;
 	t_object			*objects;
 	t_light				*lights;
 # else
 	float3				ambient;
+	uint				objects_count;
+	uint				lights_count;
 	__global t_object	*objects;
 	__global t_light	*lights;
 # endif

@@ -68,7 +68,7 @@ __kernel void	render(__global char *image, __global t_scene *scene, __global t_o
 		// TODO refactor
 		// Light processing.
 		float3 diffuse = color * scene->ambient;
-		for (size_t i = 0; i < scene->lights_count; ++i)
+		for (uint i = 0; i < scene->lights_count; ++i)
 		{
 			t = scene->lights[i].transform;
 
@@ -88,7 +88,7 @@ __kernel void	render(__global char *image, __global t_scene *scene, __global t_o
 					a = scene->lights[i].params.directional.color.w;
 					LDirectional = scene->lights[i].params.directional.color.xyz * a * NoL;
 					diffuse += color * LDirectional;
-					break;
+
 				case point:
 					dir = t.pos - rh.point;
 					ndir = normalize(dir);
@@ -101,7 +101,7 @@ __kernel void	render(__global char *image, __global t_scene *scene, __global t_o
 						mult = -pow(a / scene->lights[i].params.point.distance, 2) + 1;
 						diffuse += color * scene->lights[i].params.point.color.xyz * scene->lights[i].params.point.color.w * mult;
 					}
-					break;
+
 			}
 		}
 

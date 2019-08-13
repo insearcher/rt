@@ -63,7 +63,7 @@ char	raymarch(float3 origin, float3 direction, float distance, __global t_scene 
 {
 	float	intersect_dist = 0;
 	float	dist_to_obj;
-	int		max_steps = 200;
+	int		max_steps = 1000;
 	float3	cur_ray_point;
 	bool	cond;
 
