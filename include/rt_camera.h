@@ -45,14 +45,12 @@ typedef struct			s_camera
 	cl_int				mx;
 	cl_int				my;
 	cl_int				quality;
-	t_rb				rb;
 # else
 	int2				screen;
 	float				fov;
 	int					mx;
 	int					my;
 	int					quality;
-	char				trash[112];
 # endif
 
 }						t_camera;

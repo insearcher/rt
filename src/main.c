@@ -184,33 +184,32 @@ int main(void)
 	rt->scenes[0].camera.transform.up = (cl_float3){{0, 1, 0}};
 	rt->scenes[0].camera.transform.forward = (cl_float3){{0, 0, -1}};
 
-	rt->scenes[0].camera.rb.move.speed = 10000;
-	rt->scenes[0].camera.rb.move.speed_mult = 4;
-	rt->scenes[0].camera.rb.move.acc = 0.025f;
-	rt->scenes[0].camera.rb.move.vel = (cl_float3){{0, 0, 0}};
-	rt->scenes[0].camera.rb.move.raw_vel = (cl_float3){{0, 0, 0}};
+	/// PHYSICS SYSTEM START !!!!!!!!!!!!!!!!!!!!!!!!!
+	t_physics_system	*ps = ft_memalloc(sizeof(t_physics_system));
+	ps->system.parent = ps;
+	ps->rbs_count = 1;
+	ps->rbs = (t_rb *)malloc(sizeof(t_rb) * ps->rbs_count);
 
-	rt->scenes[0].camera.rb.rot.speed = 100;
-	rt->scenes[0].camera.rb.rot.acc = .04f;
+	ps->rbs[0].move.speed = 10000;
+	ps->rbs[0].move.speed_mult = 4;
+	ps->rbs[0].move.acc = 0.025f;
+	ps->rbs[0].move.vel = (cl_float3){{0, 0, 0}};
+	ps->rbs[0].move.raw_vel = (cl_float3){{0, 0, 0}};
 
-	rt->scenes[0].camera.rb.transform = &rt->scenes[0].camera.transform;
+	ps->rbs[0].rot.speed = 100;
+	ps->rbs[0].rot.acc = .04f;
+
+	ps->rbs[0].transform = &rt->scenes[0].camera.transform;
+	system_setup(&ps->system, "physics", &ps_func, 5);
+	system_start(&ps->system);
 
 	/// INPUT SYSTEM START !!!!!!!!!!!!!!!!!!!!!!!!!
 	t_input_system		*is = ft_memalloc(sizeof(t_input_system));
 	is->system.parent = is;
 	is->state = ui->state;
-	is->active = &rt->scenes[0].camera.rb;
+	is->active = &ps->rbs[0];
 	system_setup(&is->system, "input", is_func, 3);
 	system_start(&is->system);
-
-	/// PHYSICS SYSTEM START !!!!!!!!!!!!!!!!!!!!!!!!!
-	t_physics_system	*ps = ft_memalloc(sizeof(t_physics_system));
-	ps->system.parent = ps;
-	ps->rbs_count = 1;
-	ps->rbs = (t_rb **)malloc(sizeof(t_rb *) * ps->rbs_count);
-	ps->rbs[0] = &rt->scenes[0].camera.rb;
-	system_setup(&ps->system, "physics", &ps_func, 5);
-	system_start(&ps->system);
 
 	rt->systems = ft_memalloc(sizeof(t_system *) * rt->systems_count);
 	rt->systems[0] = &is->system;

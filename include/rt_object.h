@@ -152,12 +152,6 @@ typedef struct			s_object
 	enum e_object_type	type;
 	t_omaterial			material;
 	int					layer;
-
-# ifndef OPENCL___
-	t_rb				rb;
-# else
-	char				trash[112];
-# endif
 }						t_object;
 
 #endif

@@ -43,7 +43,7 @@ typedef struct		s_rb
 typedef struct		s_physics_system
 {
 	t_system		system;
-	t_rb			**rbs;
+	t_rb			*rbs;
 	size_t			rbs_count;
 }					t_physics_system;
 
