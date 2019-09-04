@@ -1,5 +1,7 @@
 # Ray marching
 
+ray tracing algorithm subtype
+---------
 [repetition sphere (video)](https://www.youtube.com/watch?v=vv_KDQdRFuM)
 ---------
 [repetition sphere with little changes (video)](https://www.youtube.com/watch?v=GvsYmthismk)
