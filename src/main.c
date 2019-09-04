@@ -102,11 +102,9 @@ int main(void)
 	rt->scenes[0].objects[3].transform.id = 5;
 	rt->scenes[0].objects[3].material.color = (cl_float4){{0, 1, 1, 1}};
 
-	rt->scenes[0].objects[4].type = o_capped_torus;
+	rt->scenes[0].objects[4].type = o_torus;
 	rt->scenes[0].objects[4].layer = DEFAULT_LAYER;
-	rt->scenes[0].objects[4].params.capped_torus.sc = (cl_float2){{0.4f, 0.5f}};
-	rt->scenes[0].objects[4].params.capped_torus.ra = 1;
-	rt->scenes[0].objects[4].params.capped_torus.rb = 2;
+	rt->scenes[0].objects[4].params.torus.params = (cl_float2){{3, 1}};
 	rt->scenes[0].objects[4].transform.pos = (cl_float3){{0, 10, 40}};
 	rt->scenes[0].objects[4].transform.id = 6;
 	rt->scenes[0].objects[4].material.color = (cl_float4){{0, 1, 1, 1}};
@@ -136,7 +134,7 @@ int main(void)
 
 	rt->scenes[0].objects[8].type = o_plane;
 	rt->scenes[0].objects[8].layer = IGNORE_RAYCAST_LAYER;
-	rt->scenes[0].objects[8].transform.pos = (cl_float3){{-5, -5, -5}};
+	rt->scenes[0].objects[8].transform.pos = (cl_float3){{-5, -100, -5}};
 	transform_setup_default(&rt->scenes[0].objects[8].transform);
 	t_transform *temp = &rt->scenes[0].objects[8].transform;
 	float d = -(temp->up.x * temp->pos.x + temp->up.y * temp->pos.y + temp->up.z * temp->pos.z);

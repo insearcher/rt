@@ -18,7 +18,7 @@ if (NOT SDL2_FOUND)
 endif()
 
 if (NOT SDL2_IMAGE_FOUND)
-    set(SDL2_IMAGE_PATH /Users/$ENV{USER}/.brew/Cellar/sdl2_image/2.0.4)
+    set(SDL2_IMAGE_PATH /Users/$ENV{USER}/.brew/Cellar/sdl2_image/2.0.5)
 endif()
 
 if (NOT SDL2_TTF_FOUND)
