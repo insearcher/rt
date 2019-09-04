@@ -1,4 +1,4 @@
-# rt
+# Ray marching
 
 [repetition sphere](https://www.youtube.com/watch?v=vv_KDQdRFuM)
 ---------
