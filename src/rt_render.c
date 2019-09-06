@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "rt.h"
+#include <time.h>
 
 static void	process(t_rt_main *rt, t_ui_el *el, cl_mem *cl_image, cl_mem *cl_scene, cl_mem *cl_objects, cl_mem *cl_lights)
 {
@@ -30,7 +31,9 @@ static void	process(t_rt_main *rt, t_ui_el *el, cl_mem *cl_image, cl_mem *cl_sce
 	int		pitch = 0;
 
 	SDL_LockTexture(el->sdl_textures->content, NULL, &pixels, &pitch);
+	clock_t t = clock();
 	clEnqueueReadBuffer(*rt->cl->queue, *cl_image, CL_TRUE, 0, pitch * el->rect.h, pixels, 0, NULL, NULL);
+	SDL_Log("Ticks: %zu", (clock() - t));
 	SDL_UnlockTexture(el->sdl_textures->content);
 
 	SDL_RenderCopy(el->sdl_renderer, el->sdl_textures->content, NULL, NULL);
