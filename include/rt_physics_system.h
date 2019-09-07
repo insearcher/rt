@@ -20,7 +20,10 @@
 #  include <SDL.h>
 #  include "libft.h"
 #  include "transform.h"
+#  include "rt_rotations.h"
 # endif
+
+# define RM_FLT_EPSILON	0.001f
 
 typedef struct		s_move_params
 {
@@ -45,6 +48,7 @@ typedef struct		s_physics_system
 	t_system		system;
 	t_rb			*rbs;
 	size_t			rbs_count;
+	int				change_indicator;
 }					t_physics_system;
 
 int					ps_func(void *psv);

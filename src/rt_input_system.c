@@ -47,22 +47,7 @@ void	rotate_active(t_input_system *s)
 //		raw_rot_velocity.x = (y - cam->my) / 810.f * 300;
 //	/// End of mouse mode
 
-	active->rot.vel.x = ft_lerp(active->rot.vel.x, active->rot.raw_vel.x, active->rot.acc);
-	active->rot.vel.y = ft_lerp(active->rot.vel.y, active->rot.raw_vel.y, active->rot.acc);
 
-	float rot_matrix[9];
-//	SDL_LockMutex(s->system.mutex);
-
-	fill_rotation_matrix(&rot_matrix[0], active->transform->right, active->rot.vel.x * active->rot.speed * s->system.delta_time);
-//	get_x_rot_matrix(&rot_matrix[0], &active->transform->right, active->rot.vel.x * active->rot.speed * s->system.delta_time);
-	mult(&rot_matrix[0], &active->transform->right);
-	mult(&rot_matrix[0], &active->transform->up);
-	mult(&rot_matrix[0], &active->transform->forward);
-
-	fill_rotation_matrix(&rot_matrix[0], (cl_float3){{0, 1, 0}}, active->rot.vel.y * active->rot.speed * s->system.delta_time);
-	mult(&rot_matrix[0], &active->transform->right);
-	mult(&rot_matrix[0], &active->transform->up);
-	mult(&rot_matrix[0], &active->transform->forward);
 
 //	SDL_UnlockMutex(s->system.mutex);
 

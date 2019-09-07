@@ -59,6 +59,8 @@ int		rt_render(t_ui_main *ui, void *a)
 	cl_mem		cl_lights;
 
 	rt = ui->data;
+	if (!((t_physics_system *)rt->systems[1])->change_indicator)
+		return (1);
 	el = a;
 	cl_image = clCreateBuffer(*rt->cl->context, CL_MEM_READ_WRITE, sizeof(int) * el->rect.w * el->rect.h , NULL, NULL);
 	create_buffers(rt, &cl_scene, &cl_objects, &cl_lights);

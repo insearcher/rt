@@ -21,7 +21,6 @@
 typedef struct	s_system
 {
 	SDL_Thread	*thread;
-	SDL_mutex	*mutex;
 	size_t		delay;
 	Uint64		last;
 	Uint64		now;

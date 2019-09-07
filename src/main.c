@@ -173,7 +173,7 @@ int main(void)
 
 	/// CAMERA SETUP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	ft_bzero(&rt->scenes[0].camera, sizeof(t_camera));
-	rt->scenes[0].camera.clipping_planes = (t_clipping){0.5f, 1000};
+	rt->scenes[0].camera.clipping_planes = (t_clipping){0.5f, 500};
 	rt->scenes[0].camera.fov = 90;
 	rt->scenes[0].camera.quality = 1;
 	rt->scenes[0].camera.transform.id = 1;
@@ -196,11 +196,12 @@ int main(void)
 	ps->rbs[0].move.vel = (cl_float3){{0, 0, 0}};
 	ps->rbs[0].move.raw_vel = (cl_float3){{0, 0, 0}};
 
-	ps->rbs[0].rot.speed = 100;
+	ps->rbs[0].rot.speed = 100000;
 	ps->rbs[0].rot.acc = .04f;
 
 	ps->rbs[0].transform = &rt->scenes[0].camera.transform;
 	system_setup(&ps->system, "physics", &ps_func, 5);
+	ps->change_indicator = 1;
 	system_start(&ps->system);
 
 	/// INPUT SYSTEM START !!!!!!!!!!!!!!!!!!!!!!!!!
