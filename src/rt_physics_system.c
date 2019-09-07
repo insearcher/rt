@@ -30,12 +30,15 @@ static int		ps_move(t_physics_system *ps, const int i)
 				ps->rbs[i].move.raw_vel.z,
 				ps->rbs[i].move.acc);
 
-	ps->rbs[i].transform->pos.v4 += ps->rbs[i].transform->forward.v4 * ps->rbs[i].move.vel.z *
+	if (fabs(ps->rbs[i].move.vel.x) > RM_FLT_EPSILON)
+		ps->rbs[i].transform->pos.v4 += ps->rbs[i].transform->right.v4 * ps->rbs[i].move.vel.x *
 									ps->rbs[i].move.speed * ps->system.delta_time;
-	ps->rbs[i].transform->pos.v4 += ps->rbs[i].transform->right.v4 * ps->rbs[i].move.vel.x *
+	if (fabs(ps->rbs[i].move.vel.y) > RM_FLT_EPSILON)
+		ps->rbs[i].transform->pos.v4 += ps->rbs[i].transform->up.v4 * ps->rbs[i].move.vel.y *
 									ps->rbs[i].move.speed * ps->system.delta_time;
-	ps->rbs[i].transform->pos.v4 += ps->rbs[i].transform->up.v4 * ps->rbs[i].move.vel.y *
-									ps->rbs[i].move.speed * ps->system.delta_time;
+	if (fabs(ps->rbs[i].move.vel.z) > RM_FLT_EPSILON)
+		ps->rbs[i].transform->pos.v4 += ps->rbs[i].transform->forward.v4 * ps->rbs[i].move.vel.z *
+										ps->rbs[i].move.speed * ps->system.delta_time;
 
 	return (fabs(ps->rbs[i].move.vel.x) > RM_FLT_EPSILON ||
 		fabs(ps->rbs[i].move.vel.y) > RM_FLT_EPSILON ||
@@ -57,15 +60,21 @@ static int		ps_rot(t_physics_system *ps, const int i)
 
 	float rot_matrix[9];
 
-	fill_rotation_matrix(&rot_matrix[0], ps->rbs[i].transform->right, ps->rbs[i].rot.vel.x * ps->rbs[i].rot.speed * ps->system.delta_time);
-	mult(&rot_matrix[0], &ps->rbs[i].transform->right);
-	mult(&rot_matrix[0], &ps->rbs[i].transform->up);
-	mult(&rot_matrix[0], &ps->rbs[i].transform->forward);
+	if (fabs(ps->rbs[i].rot.vel.x) > RM_FLT_EPSILON)
+	{
+		fill_rotation_matrix(&rot_matrix[0], ps->rbs[i].transform->right, ps->rbs[i].rot.vel.x * ps->rbs[i].rot.speed * ps->system.delta_time);
+		mult(&rot_matrix[0], &ps->rbs[i].transform->right);
+		mult(&rot_matrix[0], &ps->rbs[i].transform->up);
+		mult(&rot_matrix[0], &ps->rbs[i].transform->forward);
+	}
 
-	fill_rotation_matrix(&rot_matrix[0], (cl_float3){{0, 1, 0}}, ps->rbs[i].rot.vel.y * ps->rbs[i].rot.speed * ps->system.delta_time);
-	mult(&rot_matrix[0], &ps->rbs[i].transform->right);
-	mult(&rot_matrix[0], &ps->rbs[i].transform->up);
-	mult(&rot_matrix[0], &ps->rbs[i].transform->forward);
+	if (fabs(ps->rbs[i].rot.vel.y) > RM_FLT_EPSILON)
+	{
+		fill_rotation_matrix(&rot_matrix[0], (cl_float3){{0, 1, 0}}, ps->rbs[i].rot.vel.y * ps->rbs[i].rot.speed * ps->system.delta_time);
+		mult(&rot_matrix[0], &ps->rbs[i].transform->right);
+		mult(&rot_matrix[0], &ps->rbs[i].transform->up);
+		mult(&rot_matrix[0], &ps->rbs[i].transform->forward);
+	}
 
 	return (fabs(ps->rbs[i].rot.vel.x) > RM_FLT_EPSILON ||
 			fabs(ps->rbs[i].rot.vel.y) > RM_FLT_EPSILON ||

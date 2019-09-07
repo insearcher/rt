@@ -57,7 +57,6 @@ void	rotate_active(t_input_system *s)
 
 void	move_active(t_input_system *s)
 {
-//	SDL_LockMutex(s->system.mutex);
 	s->active->move.raw_vel = (cl_float3){{
 		get_axis(s->state, SDL_SCANCODE_A, SDL_SCANCODE_D),
 		get_axis(s->state, SDL_SCANCODE_Q, SDL_SCANCODE_E),
@@ -99,7 +98,7 @@ int					is_func(void *isv)
 	is->system.last = 0;
 	while (is)
 	{
-		is->system.delta_time = (is->system.now - is->system.last) / (double)SDL_GetPerformanceFrequency();
+		is->system.delta_time = (double)(is->system.now - is->system.last) / SDL_GetPerformanceFrequency();
 		move_active(is);
 		rotate_active(is);
 		SDL_Delay(is->system.delay);

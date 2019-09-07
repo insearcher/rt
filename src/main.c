@@ -175,7 +175,7 @@ int main(void)
 	ft_bzero(&rt->scenes[0].camera, sizeof(t_camera));
 	rt->scenes[0].camera.clipping_planes = (t_clipping){0.5f, 500};
 	rt->scenes[0].camera.fov = 90;
-	rt->scenes[0].camera.quality = 1;
+	rt->scenes[0].camera.quality = 2;
 	rt->scenes[0].camera.transform.id = 1;
 	rt->scenes[0].camera.screen = (cl_int2){{el->rect.w, el->rect.h}};
 
