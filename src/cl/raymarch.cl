@@ -2,10 +2,27 @@
 
 static float	sdf(float3 origin, __global t_object *obj)
 {
+	float3 gup = (float3){0, 1, 0};
 	float	distance = 0.0f;
 	float3	local_pos;
 
 	local_pos = origin - obj->transform.pos;
+	float cos = dot(gup, obj->transform.up);
+	float sin = length(cross(gup, obj->transform.up));
+	float3 a = normalize(cross(gup, obj->transform.up));
+	if (a.x == 0 && a.y == 0 && a.z == 0)
+		a = (float3){1, 0, 0};
+	float3 new_local_pos = (float3){
+		dot((float3){
+			cos + (1 - cos) * a.x * a.x, (1 - cos) * a.x * a.y - sin * a.z, (1 - cos) * a.x * a.z + sin * a.y
+			}, local_pos),
+		dot((float3){
+			(1 - cos) * a.x * a.y + sin * a.z, cos + (1 - cos) * a.y * a.y, (1 - cos) * a.y * a.z - sin * a.x
+			}, local_pos),
+		dot((float3){
+			(1 - cos) * a.x * a.z - sin * a.y, (1 - cos) * a.y * a.z + sin * a.x, cos + (1 - cos) * a.z * a.z
+			}, local_pos)};
+	local_pos = new_local_pos;
 	switch (obj->type)
 	{
 		case o_sphere:

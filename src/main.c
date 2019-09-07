@@ -70,10 +70,11 @@ int main(void)
 
 	rt->scenes[0].ambient = (cl_float3){{.1f, .1f, .1f}};
 
-	rt->scenes[0].objects_count = 5;
+	rt->scenes[0].objects_count = 4;
 	rt->scenes[0].objects = ft_x_memalloc(sizeof(t_object) * rt->scenes[0].objects_count);
 
 	rt->scenes[0].objects[0].type = o_sphere;
+	transform_setup_default(&rt->scenes[0].objects[0].transform);
 	rt->scenes[0].objects[0].layer = DEFAULT_LAYER;
 	rt->scenes[0].objects[0].params.sphere.radius = 3;
 	rt->scenes[0].objects[0].transform.pos = (cl_float3){{0, 10, 0}};
@@ -81,6 +82,7 @@ int main(void)
 	rt->scenes[0].objects[0].material.color = (cl_float4){{0, 1, 1, 1}};
 
 	rt->scenes[0].objects[1].type = o_box;
+	transform_setup_default(&rt->scenes[0].objects[1].transform);
 	rt->scenes[0].objects[1].layer = DEFAULT_LAYER;
 	rt->scenes[0].objects[1].params.box.bounds = (cl_float3){{1, 2, 3}};
 	rt->scenes[0].objects[1].transform.pos = (cl_float3){{0, 10, 10}};
@@ -88,6 +90,7 @@ int main(void)
 	rt->scenes[0].objects[1].material.color = (cl_float4){{0, 1, 1, 1}};
 
 	rt->scenes[0].objects[2].type = o_round_box;
+	transform_setup_default(&rt->scenes[0].objects[2].transform);
 	rt->scenes[0].objects[2].layer = DEFAULT_LAYER;
 	rt->scenes[0].objects[2].params.round_box.bounds = (cl_float3){{1, 2, 3}};
 	rt->scenes[0].objects[2].params.round_box.r = 1;
@@ -96,21 +99,22 @@ int main(void)
 	rt->scenes[0].objects[2].material.color = (cl_float4){{0, 1, 1, 1}};
 
 	rt->scenes[0].objects[3].type = o_torus;
+	transform_setup_default(&rt->scenes[0].objects[3].transform);
 	rt->scenes[0].objects[3].layer = DEFAULT_LAYER;
 	rt->scenes[0].objects[3].params.torus.params = (cl_float2){{2, 2}};
 	rt->scenes[0].objects[3].transform.pos = (cl_float3){{0, 10, 30}};
 	rt->scenes[0].objects[3].transform.id = 5;
 	rt->scenes[0].objects[3].material.color = (cl_float4){{0, 1, 1, 1}};
 
-	rt->scenes[0].objects[4].type = o_plane;
-	rt->scenes[0].objects[4].layer = IGNORE_RAYCAST_LAYER;
-	rt->scenes[0].objects[4].transform.pos = (cl_float3){{-5, -5, -5}};
-	transform_setup_default(&rt->scenes[0].objects[4].transform);
-	t_transform *temp = &rt->scenes[0].objects[4].transform;
-	float d = -(temp->up.x * temp->pos.x + temp->up.y * temp->pos.y + temp->up.z * temp->pos.z);
-	rt->scenes[0].objects[4].params.plane.distance = fabs(d) / sqrt(temp->up.x * temp->up.x + temp->up.y * temp->up.y + temp->up.z * temp->up.z);
-	rt->scenes[0].objects[4].transform.id = 5;
-	rt->scenes[0].objects[4].material.color = (cl_float4){{1, 0, 0, 1}};
+//	rt->scenes[0].objects[4].type = o_plane;
+//	transform_setup_default(&rt->scenes[0].objects[4].transform);
+//	rt->scenes[0].objects[4].layer = IGNORE_RAYCAST_LAYER;
+//	rt->scenes[0].objects[4].transform.pos = (cl_float3){{-5, -5, -5}};
+//	t_transform *temp = &rt->scenes[0].objects[4].transform;
+//	float d = -(temp->up.x * temp->pos.x + temp->up.y * temp->pos.y + temp->up.z * temp->pos.z);
+//	rt->scenes[0].objects[4].params.plane.distance = fabs(d) / sqrt(temp->up.x * temp->up.x + temp->up.y * temp->up.y + temp->up.z * temp->up.z);
+//	rt->scenes[0].objects[4].transform.id = 5;
+//	rt->scenes[0].objects[4].material.color = (cl_float4){{1, 0, 0, 1}};
 
 //	rt->scenes[0].objects[4].type = o_capped_torus;
 //	rt->scenes[0].objects[4].layer = DEFAULT_LAYER;
@@ -187,7 +191,7 @@ int main(void)
 	/// PHYSICS SYSTEM START !!!!!!!!!!!!!!!!!!!!!!!!!
 	t_physics_system	*ps = ft_memalloc(sizeof(t_physics_system));
 	ps->system.parent = ps;
-	ps->rbs_count = 1;
+	ps->rbs_count = 2;
 	ps->rbs = (t_rb *)malloc(sizeof(t_rb) * ps->rbs_count);
 
 	ps->rbs[0].move.speed = 10000;
@@ -200,6 +204,20 @@ int main(void)
 	ps->rbs[0].rot.acc = .04f;
 
 	ps->rbs[0].transform = &rt->scenes[0].camera.transform;
+
+	ps->rbs[1].move.speed = 10000;
+	ps->rbs[1].move.speed_mult = 4;
+	ps->rbs[1].move.acc = 0.025f;
+	ps->rbs[1].move.vel = (cl_float3){{0, 0, 0}};
+	ps->rbs[1].move.raw_vel = (cl_float3){{0, 0, 0}};
+
+	ps->rbs[1].rot.speed = 100000;
+	ps->rbs[1].rot.acc = .04f;
+	ps->rbs[1].rot.vel = (cl_float3){{1, 1, 0}};
+	ps->rbs[1].rot.raw_vel = (cl_float3){{1, 1, 0}};
+
+	ps->rbs[1].transform = &rt->scenes[0].objects[1].transform;
+
 	system_setup(&ps->system, "physics", &ps_func, 5);
 	ps->change_indicator = 1;
 	system_start(&ps->system);

@@ -78,6 +78,17 @@ void	move_active(t_input_system *s)
 		change_selected(s, NULL);
 }
 
+void				process_selected(t_input_system *s)
+{
+	cl_float3 raw_dir = (cl_float3){{
+		get_axis(s->state, SDL_SCANCODE_J, SDL_SCANCODE_L),
+		get_axis(s->state, SDL_SCANCODE_O, SDL_SCANCODE_U),
+		get_axis(s->state, SDL_SCANCODE_I, SDL_SCANCODE_K)
+	}};
+
+	s->selected->pos.v4 += raw_dir.v4 * 0.01f;
+}
+
 void				change_selected(t_input_system *s, t_object *o)
 {
 	t_object *obj = (t_object *)s->selected;
@@ -101,6 +112,8 @@ int					is_func(void *isv)
 		is->system.delta_time = (double)(is->system.now - is->system.last) / SDL_GetPerformanceFrequency();
 		move_active(is);
 		rotate_active(is);
+		if (is->selected)
+			process_selected(is);
 		SDL_Delay(is->system.delay);
 		is->system.last = is->system.now;
 		is->system.now = SDL_GetPerformanceCounter();
