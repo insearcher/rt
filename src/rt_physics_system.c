@@ -54,7 +54,7 @@ static int		ps_rot(t_physics_system *ps, const int i)
 				ps->rbs[i].rot.acc);
 	if (fabs(ps->rbs[i].rot.vel.y - ps->rbs[i].rot.raw_vel.y) > RM_FLT_EPSILON)
 		ps->rbs[i].rot.vel.y = ft_lerp(
-				ps->rbs[i].rot.vel.y, 
+				ps->rbs[i].rot.vel.y,
 				ps->rbs[i].rot.raw_vel.y, 
 				ps->rbs[i].rot.acc);
 
@@ -95,7 +95,7 @@ int					ps_func(void *psv)
 	{
 		ps->change_indicator = 0;
 		i = -1;
-		ps->system.delta_time = (ps->system.now - ps->system.last) / (double)SDL_GetPerformanceFrequency() / 1000;
+		ps->system.delta_time = (double)(ps->system.now - ps->system.last) / SDL_GetPerformanceFrequency() / 1000;
 		while (++i < ps->rbs_count)
 		{
 			ps->change_indicator |= ps_move(ps, i);
