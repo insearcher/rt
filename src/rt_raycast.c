@@ -75,7 +75,24 @@ static float	sdf(cl_float3 origin, t_object *obj)
 	float	distance = 0;
 	cl_float3	local_pos;
 
+	cl_float3 gup = (cl_float3){{0, 1, 0}};
 	local_pos.v4 = origin.v4 - obj->transform.pos.v4;
+	float cos = f3dot(gup, obj->transform.up);
+	float sin = f3len(f3cross(gup, obj->transform.up));
+	cl_float3 a = f3norm(f3cross(gup, obj->transform.up));
+	if (fabs(a.x) < RM_FLT_EPSILON && fabs(a.y) < RM_FLT_EPSILON && fabs(a.z) < RM_FLT_EPSILON)
+		a = (cl_float3) {{1, 0, 0}};
+	cl_float3 new_local_pos = (cl_float3){{
+			f3dot((cl_float3){{
+					cos + (1 - cos) * a.x * a.x, (1 - cos) * a.x * a.y - sin * a.z, (1 - cos) * a.x * a.z + sin * a.y
+			}}, local_pos),
+			f3dot((cl_float3){{
+					(1 - cos) * a.x * a.y + sin * a.z, cos + (1 - cos) * a.y * a.y, (1 - cos) * a.y * a.z - sin * a.x
+			}}, local_pos),
+			f3dot((cl_float3){{
+					(1 - cos) * a.x * a.z - sin * a.y, (1 - cos) * a.y * a.z + sin * a.x, cos + (1 - cos) * a.z * a.z
+			}}, local_pos)}};
+	local_pos = new_local_pos;
 //	if (0) // if obj->isRepeating or anything like this
 //	local_pos = repeatSDF(local_pos, obj->transform.pos, 0, 0, 0);
 	switch (obj->type)

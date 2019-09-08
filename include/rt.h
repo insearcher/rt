@@ -6,11 +6,11 @@
 # define INPUT_SYSTEM_INDEX	0
 
 # ifndef OPENCL___
-#  include <OpenCL/opencl.h>
 #  include "rt_camera.h"
 #  include "libcl.h"
 # endif
 
+# include "rt_numerics.h"
 # include "rt_light.h"
 # include "rt_object.h"
 # include "rt_camera.h"

@@ -21,6 +21,9 @@
 # define DEFAULT_LAYER			(1 << 0)
 # define IGNORE_RAYCAST_LAYER	(1 << 1)
 
+cl_float3	f3cross(cl_float3 v1, cl_float3 v2);
+float		f3len(cl_float3 v);
+float		f3dot(cl_float3 v1, cl_float3 v2);
 cl_float3	f3norm(cl_float3 v);
 
 float	sdf_sphere(cl_float3 pos, float radius);
@@ -32,7 +35,6 @@ float	sdf_link(cl_float3 pos, float le, float r1, float r2);
 float	sdf_cylinder(cl_float3 pos, cl_float3 c);
 float	sdf_cone(cl_float3 pos, cl_float2 c);
 float	sdf_plane(cl_float3 pos, cl_float3 n, float d);
-
 
 int		rt_raycast(t_ui_main *ui, void *a);
 

@@ -179,7 +179,7 @@ int main(void)
 	ft_bzero(&rt->scenes[0].camera, sizeof(t_camera));
 	rt->scenes[0].camera.clipping_planes = (t_clipping){0.5f, 500};
 	rt->scenes[0].camera.fov = 90;
-	rt->scenes[0].camera.quality = 2;
+	rt->scenes[0].camera.quality = 1;
 	rt->scenes[0].camera.transform.id = 1;
 	rt->scenes[0].camera.screen = (cl_int2){{el->rect.w, el->rect.h}};
 
@@ -216,7 +216,7 @@ int main(void)
 	ps->rbs[1].rot.vel = (cl_float3){{1, 1, 0}};
 	ps->rbs[1].rot.raw_vel = (cl_float3){{1, 1, 0}};
 
-	ps->rbs[1].transform = &rt->scenes[0].objects[1].transform;
+	ps->rbs[1].transform = &rt->scenes[0].objects[2].transform;
 
 	system_setup(&ps->system, "physics", &ps_func, 5);
 	ps->change_indicator = 1;
