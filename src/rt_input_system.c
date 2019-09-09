@@ -47,22 +47,7 @@ void	rotate_active(t_input_system *s)
 //		raw_rot_velocity.x = (y - cam->my) / 810.f * 300;
 //	/// End of mouse mode
 
-	active->rot.vel.x = ft_lerp(active->rot.vel.x, active->rot.raw_vel.x, active->rot.acc);
-	active->rot.vel.y = ft_lerp(active->rot.vel.y, active->rot.raw_vel.y, active->rot.acc);
 
-	float rot_matrix[9];
-//	SDL_LockMutex(s->system.mutex);
-
-	fill_rotation_matrix(&rot_matrix[0], active->transform->right, active->rot.vel.x * active->rot.speed * s->system.delta_time);
-//	get_x_rot_matrix(&rot_matrix[0], &active->transform->right, active->rot.vel.x * active->rot.speed * s->system.delta_time);
-	mult(&rot_matrix[0], &active->transform->right);
-	mult(&rot_matrix[0], &active->transform->up);
-	mult(&rot_matrix[0], &active->transform->forward);
-
-	fill_rotation_matrix(&rot_matrix[0], (cl_float3){{0, 1, 0}}, active->rot.vel.y * active->rot.speed * s->system.delta_time);
-	mult(&rot_matrix[0], &active->transform->right);
-	mult(&rot_matrix[0], &active->transform->up);
-	mult(&rot_matrix[0], &active->transform->forward);
 
 //	SDL_UnlockMutex(s->system.mutex);
 
@@ -72,7 +57,6 @@ void	rotate_active(t_input_system *s)
 
 void	move_active(t_input_system *s)
 {
-//	SDL_LockMutex(s->system.mutex);
 	s->active->move.raw_vel = (cl_float3){{
 		get_axis(s->state, SDL_SCANCODE_A, SDL_SCANCODE_D),
 		get_axis(s->state, SDL_SCANCODE_Q, SDL_SCANCODE_E),
@@ -92,6 +76,17 @@ void	move_active(t_input_system *s)
 
 	if (s->state[SDL_SCANCODE_M])
 		change_selected(s, NULL);
+}
+
+void				process_selected(t_input_system *s)
+{
+	cl_float3 raw_dir = (cl_float3){{
+		get_axis(s->state, SDL_SCANCODE_J, SDL_SCANCODE_L),
+		get_axis(s->state, SDL_SCANCODE_O, SDL_SCANCODE_U),
+		get_axis(s->state, SDL_SCANCODE_I, SDL_SCANCODE_K)
+	}};
+
+	s->selected->pos.v4 += raw_dir.v4 * 0.01f;
 }
 
 void				change_selected(t_input_system *s, t_object *o)
@@ -114,9 +109,11 @@ int					is_func(void *isv)
 	is->system.last = 0;
 	while (is)
 	{
-		is->system.delta_time = (is->system.now - is->system.last) / (double)SDL_GetPerformanceFrequency();
+		is->system.delta_time = (double)(is->system.now - is->system.last) / SDL_GetPerformanceFrequency();
 		move_active(is);
 		rotate_active(is);
+		if (is->selected)
+			process_selected(is);
 		SDL_Delay(is->system.delay);
 		is->system.last = is->system.now;
 		is->system.now = SDL_GetPerformanceCounter();

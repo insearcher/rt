@@ -14,7 +14,6 @@
 # define RT_INPUT_H
 
 # include "rt.h"
-# include "rt_rotations.h"
 
 typedef struct		s_input_system
 {
