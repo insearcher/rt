@@ -14,7 +14,7 @@
 # define RT_ROTATIONS_H
 
 # ifndef OPENCL___
-#  include <OpenCL/opencl.h>
+#  include <opencl.h>
 #  include "math.h"
 # endif
 

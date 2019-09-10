@@ -16,7 +16,7 @@
 # define CL_SILENCE_DEPRECATION
 
 # ifndef OPENCL___
-#  include <OpenCL/opencl.h>
+#  include <opencl.h>
 #  include <SDL.h>
 #  include "libft.h"
 #  include "transform.h"

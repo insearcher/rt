@@ -16,7 +16,7 @@
 # ifndef OPENCL___
 #  include "libui.h"
 #  include "rt_physics_system.h"
-#  include <OpenCL/opencl.h>
+#  include <opencl.h>
 # endif
 
 # include "transform.h"

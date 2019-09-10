@@ -13,29 +13,41 @@ set_target_properties(rt
         RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
         )
 
-if (NOT SDL2_FOUND)
-    set(SDL2_PATH /Users/$ENV{USER}/.brew/Cellar/sdl2/2.0.9_1)
+if (APPLE)
+    if (NOT SDL2_FOUND)
+        set(SDL2_PATH /Users/$ENV{USER}/.brew/Cellar/sdl2/2.0.9_1)
+    endif()
+    if (NOT SDL2_IMAGE_FOUND)
+        set(SDL2_IMAGE_PATH /Users/$ENV{USER}/.brew/Cellar/sdl2_image/2.0.5)
+    endif()
+    if (NOT SDL2_TTF_FOUND)
+        set(SDL2_TTF_PATH /Users/$ENV{USER}/.brew/Cellar/sdl2_ttf/2.0.15)
+    endif()
 endif()
 
-if (NOT SDL2_IMAGE_FOUND)
-    set(SDL2_IMAGE_PATH /Users/$ENV{USER}/.brew/Cellar/sdl2_image/2.0.5)
-endif()
-
-if (NOT SDL2_TTF_FOUND)
-    set(SDL2_TTF_PATH /Users/$ENV{USER}/.brew/Cellar/sdl2_ttf/2.0.15)
+if (NOT APPLE)
+    set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
+    set(THREADS_PREFER_PTHREAD_FLAG TRUE)
+    find_package(Threads REQUIRED)
+    if(NOT CMAKE_THREAD_LIBS_INIT)
+        set(SDL2_THREADS_NOT_FOUND "Could NOT find Threads (Threads is required by SDL2).")
+        if(SDL2_FIND_REQUIRED)
+            message(FATAL_ERROR ${SDL2_THREADS_NOT_FOUND})
+        endif()
+    endif()
 endif()
 
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
 find_package(SDL2_ttf REQUIRED)
 find_package(OpenCL REQUIRED)
-set(GCC_COMPILE_FLAGS "-Wall -Werror -Wextra")
-add_definitions(${GCC_COMPILE_FLAGS})
 
-add_subdirectory(libft)
-add_subdirectory(libjtoc)
-add_subdirectory(libui)
-add_subdirectory(libcl)
+if (APPLE)
+    set(GCC_COMPILE_FLAGS "-Wall -Werror -Wextra -D APPLE___")
+else()
+    set(GCC_COMPILE_FLAGS "-O3")
+endif()
+add_definitions(${GCC_COMPILE_FLAGS})
 
 set(${PROJECT_NAME}_INCLUDE_DIRS
         ${PROJECT_SOURCE_DIR}/include
@@ -44,12 +56,29 @@ set(${PROJECT_NAME}_INCLUDE_DIRS
         ${LIBCL_INCLUDE_DIRS}
         ${LIBUI_INCLUDE_DIRS})
 message(${RT_INCLUDE_DIRS})
+message(${OpenCL_INCLUDE_DIRS})
+
+if (APPLE)
+    set(CL_INCLUDE_DIRS ${OpenCL_INCLUDE_DIRS}/OpenCL)
+else()
+    set(CL_INCLUDE_DIRS ${OpenCL_INCLUDE_DIRS}/CL)
+endif()
+message(${CL_INCLUDE_DIRS})
 
 include_directories(
         ${RT_INCLUDE_DIRS}
+        ${CL_INCLUDE_DIRS}
         ${OpenCL_INCLUDE_DIRS}
 )
+
+message(${OpenCL_LIBRARY})
+
 link_directories(${OpenCL_LIBRARY})
+
+add_subdirectory(libft)
+add_subdirectory(libjtoc)
+add_subdirectory(libui)
+add_subdirectory(libcl)
 
 target_link_libraries(rt
         ft

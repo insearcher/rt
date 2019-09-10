@@ -203,7 +203,7 @@ static char	raycast(t_scene *scene, int x, int y, t_raycast_hit *rh, cl_uint mas
 	cl_float3	origin = t.pos;
 	cl_float3	direction;
 	direction.v4 = t.right.v4 * k.x + t.up.v4 * k.y + t.forward.v4 * k.z;
-	direction.v4 = direction.v4 / sqrt(pow(direction.x, 2) + pow(direction.y, 2) + pow(direction.z, 2));
+	direction.v4 = direction.v4 / sqrtf(powf(direction.x, 2) + powf(direction.y, 2) + powf(direction.z, 2));
 	
 	return (raymarch(origin, direction, scene, rh, mask));
 }

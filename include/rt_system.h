@@ -16,6 +16,7 @@
 # ifndef OPENCL___
 #  include <SDL.h>
 #  include "libft.h"
+# include <opencl.h>
 # endif
 
 typedef struct	s_system
@@ -24,7 +25,7 @@ typedef struct	s_system
 	size_t		delay;
 	Uint64		last;
 	Uint64		now;
-	double		delta_time;
+	cl_float	delta_time;
 	void		*parent;
 }				t_system;
 
