@@ -250,6 +250,14 @@ int SDL_main(int argc, char *argv[])
 	ui_sdl_init();
 	ui = ui_main_init();
 	rt = ft_memalloc(sizeof(t_rt_main));
+/*	rt->cl = cl_setup((char *[]){
+							  "src/cl/render.c",
+							  "src/cl/raymarch.c",
+							  "src/cl/sdf.c",
+							  "src/cl/ray.c",
+							  "src/cl/gauss_blur.c",
+							  NULL},
+					  (char *[]){"render_rm", "gauss_blur_x", "gauss_blur_y", NULL});*/
 	rt->cl = cl_setup((char *[]){
 							  "src/cl/render.c",
 							  "src/cl/raymarch.c",
@@ -439,6 +447,7 @@ int SDL_main(int argc, char *argv[])
 	system_setup(&ps->system, "physics", &ps_func, 5);
 	ps->change_indicator = 1;
 	system_start(&ps->system);
+	SDL_SetThreadPriority(SDL_THREAD_PRIORITY_HIGH);
 
 /// INPUT SYSTEM START !!!!!!!!!!!!!!!!!!!!!!!!!
 	t_input_system		*is = ft_memalloc(sizeof(t_input_system));
@@ -447,11 +456,21 @@ int SDL_main(int argc, char *argv[])
 	is->active = &ps->rbs[0];
 	system_setup(&is->system, "input", is_func, 3);
 	system_start(&is->system);
+	SDL_SetThreadPriority(SDL_THREAD_PRIORITY_HIGH);
 
+	ps->system.delay = 50;
+	is->system.delay = 50;
 	rt->systems_count = 2;
 	rt->systems = ft_memalloc(sizeof(t_system *) * rt->systems_count);
 	rt->systems[0] = &is->system;
 	rt->systems[1] = &ps->system;
+
+	is->rt = rt;
+	rt->gpu_mem = (t_s_gpu_mem *)ft_x_memalloc(sizeof(t_s_gpu_mem));
+	rt->gpu_mem->cl_image = clCreateBuffer(*rt->cl->context,
+			CL_MEM_READ_WRITE, sizeof(int) * el->rect.w * el->rect.h , NULL, NULL);
+	rt->gpu_mem->cl_aux = clCreateBuffer(*rt->cl->context,
+		   CL_MEM_READ_WRITE, sizeof(int) * el->rect.w * el->rect.h , NULL, NULL);
 
 	ui_event_add_listener(((t_ui_win *)(ui->windows->content))->events->on_pointer_left_button_pressed, rt_raycast);
 

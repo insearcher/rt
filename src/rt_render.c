@@ -13,14 +13,14 @@
 #include "rt.h"
 #include <time.h>
 
-static void	process(t_rt_main *rt, t_ui_el *el, cl_mem *cl_image, cl_mem *cl_scene, cl_mem *cl_objects, cl_mem *cl_lights)
+static void	process(t_rt_main *rt, t_ui_el *el, cl_mem *cl_scene, cl_mem *cl_objects, cl_mem *cl_lights)
 {
 	size_t		global_size;
 	cl_kernel	*kernel;
 
 	kernel = cl_get_kernel_by_name(rt->cl, "render");
 	clock_t start = clock();
-	clSetKernelArg(*kernel, 0, sizeof(cl_mem), cl_image);
+	clSetKernelArg(*kernel, 0, sizeof(cl_mem), &rt->gpu_mem->cl_image);
 	clSetKernelArg(*kernel, 1, sizeof(cl_mem), cl_scene);
 	clSetKernelArg(*kernel, 2, sizeof(cl_mem), cl_objects);
 	clSetKernelArg(*kernel, 3, sizeof(cl_mem), cl_lights);
@@ -32,7 +32,7 @@ static void	process(t_rt_main *rt, t_ui_el *el, cl_mem *cl_image, cl_mem *cl_sce
 	int		pitch = 0;
 
 	SDL_LockTexture(el->sdl_textures->content, NULL, &pixels, &pitch);
-	clEnqueueReadBuffer(*rt->cl->queue, *cl_image, CL_TRUE, 0, pitch * el->rect.h, pixels, 0, NULL, NULL);
+	clEnqueueReadBuffer(*rt->cl->queue, rt->gpu_mem->cl_image, CL_TRUE, 0, pitch * el->rect.h, pixels, 0, NULL, NULL);
 	SDL_UnlockTexture(el->sdl_textures->content);
 
 	SDL_Log("%zu", clock() - start);
@@ -57,7 +57,6 @@ int		rt_render(t_ui_main *ui, void *a)
 {
 	t_rt_main	*rt;
 	t_ui_el		*el;
-	cl_mem		cl_image;
 	cl_mem		cl_scene;
 	cl_mem		cl_objects;
 	cl_mem		cl_lights;
@@ -66,10 +65,8 @@ int		rt_render(t_ui_main *ui, void *a)
 	if (!((t_physics_system *)rt->systems[1])->change_indicator)
 		return (1);
 	el = a;
-	cl_image = clCreateBuffer(*rt->cl->context, CL_MEM_READ_WRITE, sizeof(int) * el->rect.w * el->rect.h , NULL, NULL);
 	create_buffers(rt, &cl_scene, &cl_objects, &cl_lights);
-	process(rt, el, &cl_image, &cl_scene, &cl_objects, &cl_lights);
-	clReleaseMemObject(cl_image);
+	process(rt, el, &cl_scene, &cl_objects, &cl_lights);
 	clReleaseMemObject(cl_objects);
 	clReleaseMemObject(cl_lights);
 	clReleaseMemObject(cl_scene);

@@ -21,6 +21,9 @@ typedef struct		s_input_system
 	const Uint8		*state;
 	t_rb			*active;
 	t_transform		*selected;
+#ifndef OPENCL___
+	t_rt_main		*rt; //TODO MAKSON SORE
+#endif
 }					t_input_system;
 
 void				move_active(t_input_system *s);

@@ -17,6 +17,9 @@
 # include "rt_raycast_hit.h"
 # include "transform.h"
 
+#define BASIC_RT		(1 << 0)
+#define GAUSS_BLUR		(1 << 1)
+
 typedef struct			s_scene
 {
 	t_camera			camera;
@@ -36,12 +39,20 @@ typedef struct			s_scene
 }						t_scene;
 
 # ifndef OPENCL___
+typedef struct			s_static_gpu_mem
+{
+	cl_mem 				cl_image;
+	cl_mem 				cl_aux;
+}						t_s_gpu_mem;
+
 typedef struct			s_rt_main
 {
 	t_cl				*cl;
 	t_scene				*scenes;
 	size_t				systems_count;
 	void				**systems;
+	t_s_gpu_mem			*gpu_mem;
+	int					params;
 }						t_rt_main;
 
 void					create_buffers(t_rt_main *rt, cl_mem *cl_scene, cl_mem *cl_objects, cl_mem *cl_lights);
