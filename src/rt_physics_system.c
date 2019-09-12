@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "rt_physics_system.h"
+#include "rt.h"
 
 static int		ps_move(t_physics_system *ps, const int i)
 {
@@ -86,13 +87,17 @@ int					ps_func(void *psv)
 {
 	t_physics_system	*ps;
 	size_t				i;
+	t_rt_main			*rt;
 
 	ps = (t_physics_system *)psv;
 	SDL_Delay(100);
 	ps->system.now = SDL_GetPerformanceCounter();
 	ps->system.last = ps->system.now;
+	rt = (t_rt_main *)ps->rt;
 	while (ps->rbs)
 	{
+		SDL_LockMutex(rt->mutex);
+		SDL_Log("CHECK1");
 		ps->change_indicator = 0;
 		i = -1;
 		ps->system.delta_time = (double)(ps->system.now - ps->system.last) / SDL_GetPerformanceFrequency() / 1000;
@@ -101,9 +106,10 @@ int					ps_func(void *psv)
 			ps->change_indicator |= ps_move(ps, i);
 			ps->change_indicator |= ps_rot(ps, i);
 		}
-		SDL_Delay(ps->system.delay);
+//		SDL_Delay(ps->system.delay);
 		ps->system.last = ps->system.now;
 		ps->system.now = SDL_GetPerformanceCounter();
+		SDL_UnlockMutex(rt->mutex);
 	}
 	return (0);
 }

@@ -31,45 +31,6 @@ static cl_float3	screen_to_world(cl_int2 coord, cl_int2 screen, float fov)
 	return (k);
 }
 
-int		rt_raycast1(t_ui_main *ui, void *a)
-{
-	t_rt_main	*rt;
-	cl_mem		cl_id;
-	cl_mem		cl_scene;
-	cl_mem		cl_objects;
-	cl_mem		cl_lights;
-	int			x;
-	int			y;
-
-	size_t		size = sizeof(int);
-
-	(void)a;
-	rt = ui->data;
-	cl_id = clCreateBuffer(*rt->cl->context, CL_MEM_READ_WRITE, size, NULL, NULL);
-	create_buffers(rt, &cl_scene, &cl_objects, &cl_lights);
-
-	SDL_GetMouseState(&x, &y);
-	y = rt->scenes[0].camera.screen.y - y;
-
-	cl_kernel	*kernel = cl_get_kernel_by_name(rt->cl, "raycast");
-	clSetKernelArg(*kernel, 0, sizeof(cl_mem), &cl_scene);
-	clSetKernelArg(*kernel, 1, sizeof(cl_mem), &cl_objects);
-	clSetKernelArg(*kernel, 2, sizeof(cl_mem), &cl_lights);
-	clSetKernelArg(*kernel, 3, sizeof(int), &x);
-	clSetKernelArg(*kernel, 4, sizeof(int), &y);
-	clSetKernelArg(*kernel, 5, sizeof(cl_mem), &cl_id);
-	clEnqueueNDRangeKernel(*rt->cl->queue, *kernel, 1, NULL, &size, NULL, 0, NULL, NULL);
-
-	int	id = 777;
-	clEnqueueReadBuffer(*rt->cl->queue, cl_id, CL_TRUE, 0, size, &id, 0, NULL, NULL);
-
-	clReleaseMemObject(cl_id);
-	clReleaseMemObject(cl_objects);
-	clReleaseMemObject(cl_lights);
-	clReleaseMemObject(cl_scene);
-	return (1);
-}
-
 static float	sdf(cl_float3 origin, t_object *obj)
 {
 	float	distance = 0;

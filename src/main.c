@@ -414,8 +414,10 @@ int SDL_main(int argc, char *argv[])
 	rt->scenes[0].camera.transform.up = (cl_float3){{0, 1, 0}};
 	rt->scenes[0].camera.transform.forward = (cl_float3){{0, 0, -1}};
 
+	rt->mutex = SDL_CreateMutex();
 /// PHYSICS SYSTEM START !!!!!!!!!!!!!!!!!!!!!!!!!
 	t_physics_system	*ps = ft_memalloc(sizeof(t_physics_system));
+	ps->rt = rt;
 	ps->system.parent = ps;
 	ps->rbs_count = 2;
 	ps->rbs = (t_rb *)malloc(sizeof(t_rb) * ps->rbs_count);
@@ -451,6 +453,7 @@ int SDL_main(int argc, char *argv[])
 
 /// INPUT SYSTEM START !!!!!!!!!!!!!!!!!!!!!!!!!
 	t_input_system		*is = ft_memalloc(sizeof(t_input_system));
+	is->rt = rt;
 	is->system.parent = is;
 	is->state = ui->state;
 	is->active = &ps->rbs[0];
@@ -465,13 +468,12 @@ int SDL_main(int argc, char *argv[])
 	rt->systems[0] = &is->system;
 	rt->systems[1] = &ps->system;
 
-	is->rt = rt;
 	rt->gpu_mem = (t_s_gpu_mem *)ft_x_memalloc(sizeof(t_s_gpu_mem));
 	rt->gpu_mem->cl_image = clCreateBuffer(*rt->cl->context,
 			CL_MEM_READ_WRITE, sizeof(int) * el->rect.w * el->rect.h , NULL, NULL);
 	rt->gpu_mem->cl_aux = clCreateBuffer(*rt->cl->context,
 		   CL_MEM_READ_WRITE, sizeof(int) * el->rect.w * el->rect.h , NULL, NULL);
-
+	rt->params |= RT_RENDER_2;
 	ui_event_add_listener(((t_ui_win *)(ui->windows->content))->events->on_pointer_left_button_pressed, rt_raycast);
 
 	ui_main_run_program(ui);

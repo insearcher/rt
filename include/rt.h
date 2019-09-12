@@ -17,8 +17,9 @@
 # include "rt_raycast_hit.h"
 # include "transform.h"
 
-#define BASIC_RT		(1 << 0)
-#define GAUSS_BLUR		(1 << 1)
+#define RT_RENDER_1		(1 << 0)
+#define RT_RENDER_2		(1 << 1)
+#define RT_GAUSS_BLUR	(1 << 2)
 
 typedef struct			s_scene
 {
@@ -52,6 +53,7 @@ typedef struct			s_rt_main
 	size_t				systems_count;
 	void				**systems;
 	t_s_gpu_mem			*gpu_mem;
+	SDL_mutex			*mutex;
 	int					params;
 }						t_rt_main;
 

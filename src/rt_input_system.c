@@ -100,6 +100,20 @@ void				change_selected(t_input_system *s, t_object *o)
 		obj->material.color = (cl_float4){{0, 0, 1, 1}};
 }
 
+static void 		post_processing_flags(t_input_system *is)
+{
+	t_rt_main *rt;
+
+	if (is->state[SDL_SCANCODE_Z])
+	{
+		SDL_Log("CHECK");
+//		if (rt->params & RT_GAUSS_BLUR)
+//			rt->params &= ~RT_GAUSS_BLUR;
+//		else
+			rt->params |= RT_GAUSS_BLUR;
+	}
+}
+
 int					is_func(void *isv)
 {
 	t_input_system	*is;
@@ -109,14 +123,18 @@ int					is_func(void *isv)
 	is->system.last = 0;
 	while (is)
 	{
-		is->system.delta_time = (double)(is->system.now - is->system.last) / SDL_GetPerformanceFrequency();
+		SDL_LockMutex(is->rt->mutex);
+		SDL_Log("CHECK");
+		post_processing_flags(is);
+		is->system.delta_time = (float)(is->system.now - is->system.last) / SDL_GetPerformanceFrequency();
 		move_active(is);
 		rotate_active(is);
 		if (is->selected)
 			process_selected(is);
-		SDL_Delay(is->system.delay);
+//		SDL_Delay(is->system.delay);
 		is->system.last = is->system.now;
 		is->system.now = SDL_GetPerformanceCounter();
+		SDL_UnlockMutex(is->rt->mutex);
 	}
 	return (0);
 }

@@ -48,6 +48,7 @@ typedef struct		s_physics_system
 	t_rb			*rbs;
 	size_t			rbs_count;
 	int				change_indicator;
+	void			*rt;
 }					t_physics_system;
 
 int					ps_func(void *psv);
