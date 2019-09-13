@@ -1,29 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utilits.h                                          :+:      :+:    :+:   */
+/*   rt_raycast_hit.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sbecker <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/11 03:01:47 by sbecker           #+#    #+#             */
-/*   Updated: 2019/07/03 19:48:39 by sbecker          ###   ########.fr       */
+/*   Created: 2019/04/10 05:13:21 by sbecker           #+#    #+#             */
+/*   Updated: 2019/07/03 20:16:18 by sbecker          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILITS_H
-# define UTILITS_H
+#ifndef RT_RAYCAST_HIT_H
+# define RT_RAYCAST_HIT_H
 
-typedef struct	s_color
+# include "rt_object.h"
+
+typedef struct			s_raycast_hit
 {
-	int			r;
-	int			g;
-	int			b;
-}				t_color;
-
-t_color			get_rgb(int r, int g, int b);
-t_color			rgb_mult_num(t_color rgb, float num);
-t_color			rgb_plus(t_color rgb1, t_color rgb2);
-t_color			rgb_minus(t_color rgb1, t_color rgb2);
-t_color			rgb_minus_num(t_color rgb1, int num);
+# ifndef OPENCL___
+	t_object			*hit;
+	cl_float3			normal;
+	cl_float3			point;
+	cl_float			distance;
+	cl_float			clip_ratio;
+# else
+	__global t_object	*hit;
+	float3				normal;
+	float3				point;
+	float				distance;
+	float				clip_ratio;
+# endif
+}						t_raycast_hit;
 
 #endif

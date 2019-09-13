@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rt_camera.c                                        :+:      :+:    :+:   */
+/*   rt_light.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sbecker <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,49 +10,52 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RT_CAMERA_H
-# define RT_CAMERA_H
+#ifndef RT_LIGHT_H
+# define RT_LIGHT_H
 
 # ifndef OPENCL___
-#  include "libui.h"
-#  include "rt_physics_system.h"
 #  include <OpenCL/opencl.h>
 # endif
 
 # include "transform.h"
 
-# define CAMERA_ID		1
-
-typedef	struct			s_clipping
+typedef struct			s_directional
 {
 # ifndef OPENCL___
-	cl_float			near;
-	cl_float			far;
-#else
-	float				near;
-	float				far;
-#endif
-}						t_clipping;
+	cl_float3			color;
+# else
+	float3				color;
+# endif
+}						t_directional;
 
-typedef struct			s_camera
+typedef struct			s_point
+{
+# ifndef OPENCL___
+	cl_float3			color;
+	cl_float			distance;
+# else
+	float3				color;
+	float				distance;
+# endif
+}						t_point;
+
+union					u_lparams
+{
+	t_directional		directional;
+	t_point				point;
+};
+
+enum					e_light_type
+{
+	directional,
+	point
+};
+
+typedef struct			s_light
 {
 	t_transform			transform;
-	t_clipping			clipping_planes;
-
-# ifndef OPENCL___
-	cl_int2				screen;
-	cl_float			fov;
-	cl_int				mx;
-	cl_int				my;
-	cl_int				quality;
-# else
-	int2				screen;
-	float				fov;
-	int					mx;
-	int					my;
-	int					quality;
-# endif
-
-}						t_camera;
+	union u_lparams		params;
+	enum e_light_type	type;
+}						t_light;
 
 #endif

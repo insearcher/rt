@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rt_camera.c                                        :+:      :+:    :+:   */
+/*   rt_input.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sbecker <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,49 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RT_CAMERA_H
-# define RT_CAMERA_H
+#ifndef RT_INPUT_H
+# define RT_INPUT_H
 
-# ifndef OPENCL___
-#  include "libui.h"
-#  include "rt_physics_system.h"
-#  include <OpenCL/opencl.h>
-# endif
+# include "rt.h"
 
-# include "transform.h"
-
-# define CAMERA_ID		1
-
-typedef	struct			s_clipping
+typedef struct		s_input_system
 {
-# ifndef OPENCL___
-	cl_float			near;
-	cl_float			far;
-#else
-	float				near;
-	float				far;
-#endif
-}						t_clipping;
+	t_system		system;
+	const Uint8		*state;
+	t_rb			*active;
+	t_transform		*selected;
+}					t_input_system;
 
-typedef struct			s_camera
-{
-	t_transform			transform;
-	t_clipping			clipping_planes;
+void				move_active(t_input_system *s);
+void				rotate_active(t_input_system *s);
 
-# ifndef OPENCL___
-	cl_int2				screen;
-	cl_float			fov;
-	cl_int				mx;
-	cl_int				my;
-	cl_int				quality;
-# else
-	int2				screen;
-	float				fov;
-	int					mx;
-	int					my;
-	int					quality;
-# endif
+void				change_selected(t_input_system *s, t_object *o);
 
-}						t_camera;
+int					is_func(void *isv);
 
 #endif

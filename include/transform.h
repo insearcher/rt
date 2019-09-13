@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utilits.c                                          :+:      :+:    :+:   */
+/*   transform.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sbecker <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,35 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "config.h"
+#ifndef TRANSFORM_H
+# define TRANSFORM_H
 
-t_color	get_rgb(int r, int g, int b)
+typedef struct		s_transform
 {
-	t_color color;
+# ifndef OPENCL___
+	cl_int			id;
+	cl_float3		pos;
+	cl_float3		right;
+	cl_float3		up;
+	cl_float3		forward;
+# else
+	int				id;
+	float3			pos;
+	float3			right;
+	float3			up;
+	float3			forward;
+# endif
+}					t_transform;
 
-	color.r = r;
-	color.g = g;
-	color.b = b;
-	return (color);
-}
-
-t_color	rgb_mult_num(t_color rgb, float num)
-{
-	rgb.r *= num;
-	rgb.g *= num;
-	rgb.b *= num;
-	rgb.r = rgb.r > 255 ? 255 : rgb.r;
-	rgb.g = rgb.g > 255 ? 255 : rgb.g;
-	rgb.b = rgb.b > 255 ? 255 : rgb.b;
-	return (rgb);
-}
-
-t_color	rgb_plus(t_color rgb1, t_color rgb2)
-{
-	t_color	new_rgb;
-
-	new_rgb.r = rgb1.r + rgb2.r;
-	new_rgb.g = rgb1.g + rgb2.g;
-	new_rgb.b = rgb1.b + rgb2.b;
-	return (new_rgb);
-}
+#endif

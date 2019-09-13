@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rt_camera.c                                        :+:      :+:    :+:   */
+/*   rt_rotations.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sbecker <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,49 +10,31 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RT_CAMERA_H
-# define RT_CAMERA_H
+#include "rt_rotations.h"
 
-# ifndef OPENCL___
-#  include "libui.h"
-#  include "rt_physics_system.h"
-#  include <OpenCL/opencl.h>
-# endif
-
-# include "transform.h"
-
-# define CAMERA_ID		1
-
-typedef	struct			s_clipping
+void	fill_rotation_matrix(float *m, cl_float3 v, float a)
 {
-# ifndef OPENCL___
-	cl_float			near;
-	cl_float			far;
-#else
-	float				near;
-	float				far;
-#endif
-}						t_clipping;
+	float rads = a / 180 * M_PI;
+	float c = cosf(rads);
+	float s = sinf(rads);
 
-typedef struct			s_camera
+	m[0] = c + v.x * v.x * (1 - c);
+	m[1] = v.x * v.y * (1 - c) - v.z * s;
+	m[2] = v.x * v.z * (1 - c) + v.y * s;
+	m[3] = v.x * v.y * (1 - c) + v.z * s;
+	m[4] = c + v.y * v.y * (1 - c);
+	m[5] = v.y * v.z * (1 - c) - v.x * s;
+	m[6] = v.x * v.z * (1 - c) - v.y * s;
+	m[7] = v.y * v.z * (1 - c) + v.x * s;
+	m[8] = c + v.z * v.z * (1 - c);
+}
+
+void	mult(float *m, cl_float3 *v)
 {
-	t_transform			transform;
-	t_clipping			clipping_planes;
+	cl_float3 temp = *v;
 
-# ifndef OPENCL___
-	cl_int2				screen;
-	cl_float			fov;
-	cl_int				mx;
-	cl_int				my;
-	cl_int				quality;
-# else
-	int2				screen;
-	float				fov;
-	int					mx;
-	int					my;
-	int					quality;
-# endif
-
-}						t_camera;
-
-#endif
+	temp.x = m[0] * v->x + m[1] * v->y + m[2] * v->z;
+	temp.y = m[3] * v->x + m[4] * v->y + m[5] * v->z;
+	temp.z = m[6] * v->x + m[7] * v->y + m[8] * v->z;
+	*v = temp;
+}

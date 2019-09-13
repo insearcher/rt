@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rt_camera.c                                        :+:      :+:    :+:   */
+/*   rt_physics.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sbecker <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,49 +10,47 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RT_CAMERA_H
-# define RT_CAMERA_H
+#ifndef RT_PHYSICS_H
+# define RT_PHYSICS_H
+
+# define CL_SILENCE_DEPRECATION
 
 # ifndef OPENCL___
-#  include "libui.h"
-#  include "rt_physics_system.h"
 #  include <OpenCL/opencl.h>
+#  include <SDL.h>
+#  include "libft.h"
+#  include "transform.h"
+#  include "rt_rotations.h"
 # endif
 
-# include "transform.h"
+# define RM_FLT_EPSILON	0.001f
 
-# define CAMERA_ID		1
-
-typedef	struct			s_clipping
+typedef struct		s_move_params
 {
-# ifndef OPENCL___
-	cl_float			near;
-	cl_float			far;
-#else
-	float				near;
-	float				far;
-#endif
-}						t_clipping;
+	cl_float3		vel;
+	cl_float3		raw_vel;
+	cl_float		acc;
+	cl_float		speed;
+	cl_float		speed_mult;
+}					t_move_params;
 
-typedef struct			s_camera
+typedef struct		s_rb
 {
-	t_transform			transform;
-	t_clipping			clipping_planes;
+	t_move_params	move;
+	t_move_params	rot;
+	t_transform		*transform;
+}					t_rb;
 
-# ifndef OPENCL___
-	cl_int2				screen;
-	cl_float			fov;
-	cl_int				mx;
-	cl_int				my;
-	cl_int				quality;
-# else
-	int2				screen;
-	float				fov;
-	int					mx;
-	int					my;
-	int					quality;
-# endif
+# include "rt_system.h"
 
-}						t_camera;
+typedef struct		s_physics_system
+{
+	t_system		system;
+	t_rb			*rbs;
+	size_t			rbs_count;
+	int				change_indicator;
+}					t_physics_system;
+
+int					ps_func(void *psv);
 
 #endif

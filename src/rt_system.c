@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rt_camera.c                                        :+:      :+:    :+:   */
+/*   rt_system.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sbecker <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,49 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RT_CAMERA_H
-# define RT_CAMERA_H
+#include "rt_system.h"
 
-# ifndef OPENCL___
-#  include "libui.h"
-#  include "rt_physics_system.h"
-#  include <OpenCL/opencl.h>
-# endif
-
-# include "transform.h"
-
-# define CAMERA_ID		1
-
-typedef	struct			s_clipping
+int	system_setup(t_system *s, const char *n, t_system_func *f, const size_t d)
 {
-# ifndef OPENCL___
-	cl_float			near;
-	cl_float			far;
-#else
-	float				near;
-	float				far;
-#endif
-}						t_clipping;
+	if (!(s->thread = SDL_CreateThread(f, n, s->parent)))
+		return (-1);
+	s->delay = d;
+	return (0);
+}
 
-typedef struct			s_camera
+int	system_start(t_system *s)
 {
-	t_transform			transform;
-	t_clipping			clipping_planes;
-
-# ifndef OPENCL___
-	cl_int2				screen;
-	cl_float			fov;
-	cl_int				mx;
-	cl_int				my;
-	cl_int				quality;
-# else
-	int2				screen;
-	float				fov;
-	int					mx;
-	int					my;
-	int					quality;
-# endif
-
-}						t_camera;
-
-#endif
+	if (!s)
+		return (-1);
+	SDL_DetachThread(s->thread);
+	return (0);
+}

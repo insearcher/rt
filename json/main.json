@@ -6,12 +6,12 @@
           "title": "RAY MARCHING",
           "size":
           {
-              "x": 1440,
-              "y": 810
+              "x": 1280,
+              "y": 720
           },
           "pos":
           {
-              "x": 400
+              "x": 0
           },
           "events":
           [
@@ -46,7 +46,7 @@
                   [
                       {
                           "event_name": "onRender",
-                          "func_name": "ray_marching_render"
+                          "func_name": "rt_render"
                       }
                   ]
               }

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rt_camera.c                                        :+:      :+:    :+:   */
+/*   rt_system.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sbecker <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,49 +10,27 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RT_CAMERA_H
-# define RT_CAMERA_H
+#ifndef RT_SYSTEM_H
+# define RT_SYSTEM_H
 
 # ifndef OPENCL___
-#  include "libui.h"
-#  include "rt_physics_system.h"
-#  include <OpenCL/opencl.h>
+#  include <SDL.h>
+#  include "libft.h"
 # endif
 
-# include "transform.h"
-
-# define CAMERA_ID		1
-
-typedef	struct			s_clipping
+typedef struct	s_system
 {
-# ifndef OPENCL___
-	cl_float			near;
-	cl_float			far;
-#else
-	float				near;
-	float				far;
-#endif
-}						t_clipping;
+	SDL_Thread	*thread;
+	size_t		delay;
+	Uint64		last;
+	Uint64		now;
+	double		delta_time;
+	void		*parent;
+}				t_system;
 
-typedef struct			s_camera
-{
-	t_transform			transform;
-	t_clipping			clipping_planes;
+typedef	int		(t_system_func)(void *);
 
-# ifndef OPENCL___
-	cl_int2				screen;
-	cl_float			fov;
-	cl_int				mx;
-	cl_int				my;
-	cl_int				quality;
-# else
-	int2				screen;
-	float				fov;
-	int					mx;
-	int					my;
-	int					quality;
-# endif
-
-}						t_camera;
+int				system_setup(t_system *s, const char *n, t_system_func *f, const size_t d);
+int				system_start(t_system *s);
 
 #endif

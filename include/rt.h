@@ -1,60 +1,52 @@
 #ifndef RT_H
 # define RT_H
 
-# include "math_vec.h"
+# define CL_SILENCE_DEPRECATION
+
+# define INPUT_SYSTEM_INDEX	0
+
 # ifndef OPENCL___
-# include <OpenCL/opencl.h>
+#  include <OpenCL/opencl.h>
+#  include "rt_camera.h"
+#  include "libcl.h"
 # endif
 
-typedef struct			s_object3d
+# include "rt_light.h"
+# include "rt_object.h"
+# include "rt_camera.h"
+# include "rt_raycast_hit.h"
+# include "transform.h"
+
+typedef struct			s_scene
 {
-	int					type;
+	t_camera			camera;
 # ifndef OPENCL___
-
-	cl_float3			center;
+	cl_float3			ambient;
+	cl_uint				objects_count;
+	cl_uint				lights_count;
+	t_object			*objects;
+	t_light				*lights;
 # else
-
-	float3			center;
-
+	float3				ambient;
+	uint				objects_count;
+	uint				lights_count;
+	__global t_object	*objects;
+	__global t_light	*lights;
 # endif
-	float				radius;
-}						t_object3d;
+}						t_scene;
 
-typedef struct          s_camera
+# ifndef OPENCL___
+typedef struct			s_rt_main
 {
-	/// Rendering
-	float 				aspect_ratio;
-	float				min_distance;
-	float				max_distance;
-	/// Physics
-	float				pos_acc;
-	float				speed;
-	float				rot_speed;
-	float				rot_acc;
+	t_cl				*cl;
+	t_scene				*scenes;
+	size_t				systems_count;
+	t_system			**systems;
+}						t_rt_main;
 
-# ifndef OPENCL___
+void					create_buffers(t_rt_main *rt, cl_mem *cl_scene, cl_mem *cl_objects, cl_mem *cl_lights);
 
-	cl_float3			pos;
-	cl_float3			velocity;
-	cl_float3			rot_velocity;
-	cl_float3			local_x;
-	cl_float3			local_y;
-	cl_float3			local_z;
-
-# else
-
-	float3			pos;
-	float3			velocity;
-	float3			rot_velocity;
-	float3			local_x;
-	float3			local_y;
-	float3			local_z;
-
+int						rt_render(t_ui_main *ui, void *a);
 # endif
-
-	/// Temp
-	int					mx;
-	int					my;
-}						t_camera;
 
 #endif
