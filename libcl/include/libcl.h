@@ -14,7 +14,11 @@
 # define LIBCL_H
 
 # define CL_SILENCE_DEPRECATION
+# ifdef APPLE___
+# include <OpenCL/opencl.h>
+# else
 # include <opencl.h>
+#endif
 # include "libft.h"
 # include "libui.h"
 

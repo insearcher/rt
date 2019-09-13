@@ -16,15 +16,12 @@
 static void	cl_build_program(cl_device_id device, cl_program *program)
 {
 	cl_int	err;
-    char	*log;
-    size_t	log_size;
 
 	err = clBuildProgram(*program, 1, &device, "-DOPENCL___ -I include/", NULL, NULL);
 	if (err != 0)
         exit(-1);
 }
 #else
-
 static void	cl_build_program(cl_device_id device, cl_program *program)
 {
 	cl_int	err;

@@ -16,12 +16,16 @@
 # define CL_SILENCE_DEPRECATION
 
 # ifndef OPENCL___
-#  include <opencl.h>
-#  include <SDL.h>
-#  include "libft.h"
-#  include "transform.h"
-#  include "rt_rotations.h"
-#  include "rt_numerics.h"
+# ifdef APPLE___
+# include <OpenCL/opencl.h>
+# else
+# include <opencl.h>
+# endif
+# include <SDL.h>
+# include "libft.h"
+# include "transform.h"
+# include "rt_rotations.h"
+# include "rt_numerics.h"
 # endif
 
 typedef struct		s_move_params

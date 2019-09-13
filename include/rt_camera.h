@@ -14,9 +14,13 @@
 # define RT_CAMERA_H
 
 # ifndef OPENCL___
+# ifdef APPLE___
+# include <OpenCL/opencl.h>
+# else
+# include <opencl.h>
+# endif
 #  include "libui.h"
 #  include "rt_physics_system.h"
-#  include <opencl.h>
 # endif
 
 # include "transform.h"
