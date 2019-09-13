@@ -14,7 +14,11 @@
 # define LIBCL_H
 
 # define CL_SILENCE_DEPRECATION
+# ifdef APPLE___
+# include <OpenCL/opencl.h>
+# else
 # include <opencl.h>
+#endif
 # include "libft.h"
 # include "libui.h"
 
@@ -38,5 +42,6 @@ char					*cl_get_file_buf(const char *name,
 		size_t *program_size);
 size_t					cl_get_files_num(char **files);
 void					cl_fill_kernels(t_cl *cl, char **kernels);
+void					cl_exit_error(char *error);
 
 #endif

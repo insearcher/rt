@@ -14,7 +14,11 @@
 # define RT_LIGHT_H
 
 # ifndef OPENCL___
-#  include <opencl.h>
+# ifdef APPLE___
+# include <OpenCL/opencl.h>
+# else
+# include <opencl.h>
+# endif
 # endif
 
 # include "transform.h"

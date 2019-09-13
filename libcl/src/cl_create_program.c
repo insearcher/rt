@@ -16,15 +16,12 @@
 static void	cl_build_program(cl_device_id device, cl_program *program)
 {
 	cl_int	err;
-    char	*log;
-    size_t	log_size;
 
 	err = clBuildProgram(*program, 1, &device, "-DOPENCL___ -I include/", NULL, NULL);
 	if (err != 0)
         exit(-1);
 }
 #else
-
 static void	cl_build_program(cl_device_id device, cl_program *program)
 {
 	cl_int	err;
@@ -84,7 +81,7 @@ cl_program	*cl_create_program(cl_context context, char **files,
 	*program = clCreateProgramWithSource(context, files_num,
 			(const char**)program_buf, (const size_t*)program_size, &err);
 	if (err != 0)
-		SDL_Log("create program - ERROR\n");
+		cl_exit_error("create program");
 	cl_build_program(device_id, program);
 	free_bufs(program_buf, program_size, files_num);
 	return (program);

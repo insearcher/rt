@@ -57,7 +57,6 @@ void		ui_main_loop(t_ui_main *m)
 	SDL_DetachThread(thread);
 	while (1337)
 	{
-		ui_main_try_invoke_modal_windows(m);
 		if (SDL_PollEvent(m->sdl_event))
 			ui_main_handle_event(m);
 	}

@@ -6,8 +6,9 @@
 # define INPUT_SYSTEM_INDEX	0
 
 # ifndef OPENCL___
-#  include "rt_camera.h"
-#  include "libcl.h"
+# include "libjtoc.h"
+# include "rt_camera.h"
+# include "libcl.h"
 # endif
 
 # include "rt_numerics.h"
@@ -49,15 +50,12 @@ typedef struct			s_static_gpu_mem
 typedef struct			s_rt_main
 {
 	t_cl				*cl;
-	t_scene				*scenes;
+	t_scene				*scenes; //TODO remake to vec
 	size_t				systems_count;
 	void				**systems;
 	t_s_gpu_mem			*gpu_mem;
-	SDL_mutex			*mutex;
 	int					params;
 }						t_rt_main;
-
-void					create_buffers(t_rt_main *rt, cl_mem *cl_scene, cl_mem *cl_objects, cl_mem *cl_lights);
 
 int						rt_render(t_ui_main *ui, void *a);
 # endif

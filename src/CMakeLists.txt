@@ -12,3 +12,5 @@ target_sources(rt PUBLIC
         rt_physics_system.c
         rt_rotations.c
         )
+
+add_subdirectory(rt_jtoc)

@@ -14,9 +14,13 @@
 # define RT_SYSTEM_H
 
 # ifndef OPENCL___
+# ifdef APPLE___
+# include <OpenCL/opencl.h>
+# else
+# include <opencl.h>
+# endif
 #  include <SDL.h>
 #  include "libft.h"
-# include <opencl.h>
 # endif
 
 typedef struct	s_system
