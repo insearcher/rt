@@ -16,14 +16,13 @@
 # define CL_SILENCE_DEPRECATION
 
 # ifndef OPENCL___
-#  include <OpenCL/opencl.h>
+#  include <opencl.h>
 #  include <SDL.h>
 #  include "libft.h"
 #  include "transform.h"
 #  include "rt_rotations.h"
+#  include "rt_numerics.h"
 # endif
-
-# define RM_FLT_EPSILON	0.001f
 
 typedef struct		s_move_params
 {

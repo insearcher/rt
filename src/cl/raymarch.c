@@ -10,7 +10,7 @@ static float	sdf(float3 origin, __global t_object *obj)
 	float cos = dot(gup, obj->transform.up);
 	float sin = length(cross(gup, obj->transform.up));
 	float3 a = normalize(cross(gup, obj->transform.up));
-	if (a.x == 0 && a.y == 0 && a.z == 0)
+	if (fabs(a.x) < RM_FLT_EPSILON && fabs(a.y) < RM_FLT_EPSILON && fabs(a.z) < RM_FLT_EPSILON)
 		a = (float3){1, 0, 0};
 	float3 new_local_pos = (float3){
 		dot((float3){

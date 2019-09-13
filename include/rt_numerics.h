@@ -1,24 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rt_rotations.h                                     :+:      :+:    :+:   */
+/*   rt_numerics.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbecker <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: sbednar <sbednar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/10 05:13:21 by sbecker           #+#    #+#             */
-/*   Updated: 2019/07/03 20:16:18 by sbecker          ###   ########.fr       */
+/*   Created: 2019/09/08 20:44:00 by sbednar           #+#    #+#             */
+/*   Updated: 2019/09/08 20:44:00 by sbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RT_ROTATIONS_H
-# define RT_ROTATIONS_H
+#ifndef RT_NUMERICS_H
+# define RT_NUMERICS_H
 
-# ifndef OPENCL___
-#  include <opencl.h>
-#  include "math.h"
-# endif
-
-void	fill_rotation_matrix(float *m, cl_float3 v, float a);
-void	mult(float *m, cl_float3 *v);
+# define RM_FLT_EPSILON	0.001f
 
 #endif

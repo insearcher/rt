@@ -29,13 +29,13 @@ float	sdf_sphere(float3 pos, float radius)
 float	sdf_box(float3 pos, float3 bounds)
 {
 	float3 d = fabs(pos) - bounds;
-	return length(fmax(d, float3(0))) + fmin(fmax(d.x, fmax(d.y, d.z)), 0);
+	return length(fmax(d, 0.f)) + fmin(fmax(d.x, fmax(d.y, d.z)), 0);
 }
 
 float	sdf_round_box(float3 pos, float3 bounds, float r)
 {
 	float3 d = fabs(pos) - bounds;
-	return length(fmax(d, float3(0))) - r + fmin(fmax(d.x, fmax(d.y, d.z)), 0);
+	return length(fmax(d, 0.f)) - r + fmin(fmax(d.x, fmax(d.y, d.z)), 0);
 }
 
 float	sdf_torus(float3 pos, float2 t)

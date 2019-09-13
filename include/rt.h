@@ -6,11 +6,11 @@
 # define INPUT_SYSTEM_INDEX	0
 
 # ifndef OPENCL___
-#  include <OpenCL/opencl.h>
 #  include "rt_camera.h"
 #  include "libcl.h"
 # endif
 
+# include "rt_numerics.h"
 # include "rt_light.h"
 # include "rt_object.h"
 # include "rt_camera.h"
@@ -41,7 +41,7 @@ typedef struct			s_rt_main
 	t_cl				*cl;
 	t_scene				*scenes;
 	size_t				systems_count;
-	t_system			**systems;
+	void				**systems;
 }						t_rt_main;
 
 void					create_buffers(t_rt_main *rt, cl_mem *cl_scene, cl_mem *cl_objects, cl_mem *cl_lights);

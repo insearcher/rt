@@ -110,6 +110,6 @@ __kernel void	render(__global char *image, __global t_scene *scene, __global t_o
 	}
 
 	// Gamma correction.
-	color = pow(diffuse, float3(0.4545f));
+	color = pow(diffuse, 0.4545f);
 	fill_camera_pixel(image, pixel, screen, color, cached_camera.quality);
 }

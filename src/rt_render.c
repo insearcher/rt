@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "rt.h"
+#include <time.h>
 
 static void	process(t_rt_main *rt, t_ui_el *el, cl_mem *cl_image, cl_mem *cl_scene, cl_mem *cl_objects, cl_mem *cl_lights)
 {
@@ -18,6 +19,7 @@ static void	process(t_rt_main *rt, t_ui_el *el, cl_mem *cl_image, cl_mem *cl_sce
 	cl_kernel	*kernel;
 
 	kernel = cl_get_kernel_by_name(rt->cl, "render");
+	clock_t start = clock();
 	clSetKernelArg(*kernel, 0, sizeof(cl_mem), cl_image);
 	clSetKernelArg(*kernel, 1, sizeof(cl_mem), cl_scene);
 	clSetKernelArg(*kernel, 2, sizeof(cl_mem), cl_objects);
@@ -32,6 +34,8 @@ static void	process(t_rt_main *rt, t_ui_el *el, cl_mem *cl_image, cl_mem *cl_sce
 	SDL_LockTexture(el->sdl_textures->content, NULL, &pixels, &pitch);
 	clEnqueueReadBuffer(*rt->cl->queue, *cl_image, CL_TRUE, 0, pitch * el->rect.h, pixels, 0, NULL, NULL);
 	SDL_UnlockTexture(el->sdl_textures->content);
+
+	SDL_Log("%zu", clock() - start);
 
 	SDL_RenderCopy(el->sdl_renderer, el->sdl_textures->content, NULL, NULL);
 ////////////////////////////////////////////////////////////////////////////////////////////////

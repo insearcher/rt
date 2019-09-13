@@ -14,7 +14,7 @@
 # define RT_OBJECT_H
 
 # ifndef OPENCL___
-#  include <OpenCL/opencl.h>
+#  include <opencl.h>
 # endif
 
 # include "transform.h"
