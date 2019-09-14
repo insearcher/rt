@@ -148,7 +148,7 @@ int main()
 	transform_setup_default(&rt->scenes[0].lights[0].transform);
 	rt->scenes[0].lights[0].transform.forward = (cl_float3){{0, -1, 0}};
 	rt->scenes[0].lights[0].type = directional;
-	rt->scenes[0].lights[0].params.directional.color = (cl_float3){{.4f, .4f, .4f}};
+	rt->scenes[0].lights[0].params.directional.color = (cl_float3){{.4f,.4f,.4f}};
 
 //	rt->scenes[0].lights[1].transform.pos = (cl_float3){{0, 0, 0}};
 //	rt->scenes[0].lights[1].type = point;
@@ -169,6 +169,8 @@ int main()
 
 	ps->rbs[0].rot.speed = 100000;
 	ps->rbs[0].rot.acc = .04f;
+	ps->rbs[0].rot.vel = (cl_float3){{0, 0, 0}};
+	ps->rbs[0].rot.raw_vel = (cl_float3){{0, 0, 0}};
 
 	ps->rbs[0].transform = &rt->scenes[0].camera.transform;
 
@@ -199,8 +201,8 @@ int main()
 
 	rt->systems_count = 2;
 	rt->systems = ft_memalloc(sizeof(t_system *) * rt->systems_count);
-	rt->systems[0] = &is->system;
-	rt->systems[1] = &ps->system;
+	rt->systems[0] = &(is->system);
+	rt->systems[1] = &(ps->system);
 
 	ui_event_add_listener(((t_ui_win *)(ui->windows->content))->events->on_pointer_left_button_pressed, rt_raycast);
 
