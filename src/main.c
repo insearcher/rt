@@ -14,8 +14,6 @@
 #include "rt.h"
 #include "rt_raycast.h"
 #include "rt_input_system.h"
-#include "rt_camera.h"
-#include "rt_jtoc.h"
 
 static void	transform_setup_default(t_transform *transform)
 {
@@ -24,29 +22,45 @@ static void	transform_setup_default(t_transform *transform)
 	transform->forward = (cl_float3){{0, 0, 1}};
 }
 
+cl_int2		modification_rt_elem_and_get_screen_size(t_ui_main *ui)
+{
+	t_ui_win	*w;
+	t_ui_el		*el;
+	SDL_Texture	*t;
+	t_list		*lst;
+	cl_int2		rt_screen_size;
+
+	w = ui_main_find_window_by_id(ui, 0);
+	el = ui_win_find_el_by_id(w, 1);
+	t = SDL_CreateTexture(el->sdl_renderer, SDL_PIXELFORMAT_RGB888,
+						  SDL_TEXTUREACCESS_STREAMING, el->rect.w, el->rect.h);
+	lst = ft_lstnew(NULL, 0);
+	lst->content = t;
+	lst->content_size = ft_strhash("default");
+	ft_lstadd(&el->sdl_textures, lst);
+	rt_screen_size.x = el->rect.w;
+	rt_screen_size.y = el->rect.h;
+	return (rt_screen_size);
+}
+
 #ifdef APPLE___
 int main()
 {
-/// RT/CL SETUP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	t_rt_main	*rt;
 	t_ui_main	*ui;
+	cl_int2		rt_screen_size;
 
-	ui_sdl_init();
 	ui = ui_main_init();
-	rt = ft_memalloc(sizeof(t_rt_main));
-	rt->cl = cl_setup((char *[]){
-							  "src/cl/render.c",
-							  "src/cl/raymarch.c",
-							  "src/cl/sdf.c",
-							  "src/cl/ray.c",
-							  NULL},
-					  (char *[]){"render", NULL});
+	ui_sdl_init();
+	ui_main_add_function_by_id(ui, rt_render, "rt_render");
+	ui_main_fill_default_functions(ui);
+	ui_jtoc_main_from_json(ui, "json/interface/main.json");
 
-	rt->scenes = rt_jtoc_scenes_setup((char *[]){
-		"json/scenes/scene_1.json",
-		NULL});
+	rt_screen_size = modification_rt_elem_and_get_screen_size(ui);
 
-	rt->scenes[0].ambient = (cl_float3){{.1f, .1f, .1f}};
+	rt = setup_rt(rt_screen_size);
+	ui->data = (void *)rt;
+
 //OBJECTS
 	rt->scenes[0].objects_count = 4;
 	rt->scenes[0].objects = ft_x_memalloc(sizeof(t_object) * rt->scenes[0].objects_count);
@@ -141,21 +155,6 @@ int main()
 //	rt->scenes[0].lights[1].params.point.color = (cl_float3){{.5f, 0, 0}};
 //	rt->scenes[0].lights[1].params.point.distance = 100;
 
-	ui->data = rt;
-	ui_main_add_function_by_id(ui, rt_render, "rt_render");
-	ui_jtoc_main_from_json(ui, "json/interface/main.json");
-	t_ui_win *w = ui_main_find_window_by_id(ui, 0);
-	t_ui_el *el = ui_win_find_el_by_id(w, 1);
-
-	SDL_Texture *t = SDL_CreateTexture(el->sdl_renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_STREAMING, w->size.x, w->size.y);
-	t_list *l = ft_lstnew(NULL, 0);
-	l->content = t;
-	l->content_size = ft_strhash("default");
-	ft_lstadd(&el->sdl_textures, l);
-
-/// CAMERA SETUP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	rt->scenes[0].camera.screen = (cl_int2){{el->rect.w, el->rect.h}};
-
 /// PHYSICS SYSTEM START !!!!!!!!!!!!!!!!!!!!!!!!!
 	t_physics_system	*ps = ft_memalloc(sizeof(t_physics_system));
 	ps->system.parent = ps;
@@ -202,14 +201,6 @@ int main()
 	rt->systems = ft_memalloc(sizeof(t_system *) * rt->systems_count);
 	rt->systems[0] = &is->system;
 	rt->systems[1] = &ps->system;
-
-/// FILLING CONSTANT GPU MEMORY
-	rt->gpu_mem = (t_s_gpu_mem *)ft_x_memalloc(sizeof(t_s_gpu_mem));
-	rt->gpu_mem->cl_image = clCreateBuffer(*rt->cl->context,
-										   CL_MEM_READ_WRITE, sizeof(int) * el->rect.w * el->rect.h , NULL, NULL);
-	rt->gpu_mem->cl_aux = clCreateBuffer(*rt->cl->context,
-										 CL_MEM_READ_WRITE, sizeof(int) * el->rect.w * el->rect.h , NULL, NULL);
-	rt->params |= RT_RENDER_2;
 
 	ui_event_add_listener(((t_ui_win *)(ui->windows->content))->events->on_pointer_left_button_pressed, rt_raycast);
 

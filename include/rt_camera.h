@@ -44,13 +44,11 @@ typedef struct			s_camera
 	t_clipping			clipping_planes;
 
 # ifndef OPENCL___
-	cl_int2				screen;
 	cl_float			fov;
 	cl_int				mx;
 	cl_int				my;
 	cl_int				quality;
 # else
-	int2				screen;
 	float				fov;
 	int					mx;
 	int					my;

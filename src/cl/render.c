@@ -39,11 +39,10 @@ float3			get_skybox_color(float3 direction)
 	})));
 }
 
-__kernel void	render(__global char *image, __global t_scene *scene, __global t_object *objects, __global t_light *lights)
+__kernel void	render(__global char *image, __global t_scene *scene, __global t_object *objects, __global t_light *lights, int2 screen)
 {
 	int		gid = get_global_id(0);
 
-	int2	screen = scene->camera.screen;
 	int2	pixel = (int2)(gid % screen.x, gid / screen.x);
 
 	if (pixel.x % scene->camera.quality || pixel.y % scene->camera.quality)

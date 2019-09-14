@@ -36,16 +36,28 @@
       }
     }
   },
-  "ambient":
-  {
-    "x": 0.1,
-    "y": 0.1,
-    "z": 0.1
-  },
   "lights":
-  [
+  {
+    "ambient":
+    {
+      "x": 0.1,
+      "y": 0.1,
+      "z": 0.1
+    },
+    "directional_lights":
+    [
+      {
+        "color":
+        {
 
-  ],
+        },
+        "transform":
+        {
+
+        }
+      }
+    ]
+  },
   "objects":
   [
 

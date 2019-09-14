@@ -5,7 +5,7 @@
 #include "rt.h"
 #include "rt_jtoc.h"
 
-int	rt_jtoc_get_clipping_planes(t_clipping *clipping_planes, t_jnode *n)
+static int	rt_jtoc_get_clipping_planes(t_clipping *clipping_planes, t_jnode *n)
 {
 	t_jnode	*tmp;
 
@@ -20,7 +20,7 @@ int	rt_jtoc_get_clipping_planes(t_clipping *clipping_planes, t_jnode *n)
 	return (FUNCTION_SUCCESS);
 }
 
-int	rt_jtoc_get_camera(t_camera *camera, t_jnode *n)
+int			rt_jtoc_get_camera(t_camera *camera, t_jnode *n)
 {
 	t_jnode		*tmp;
 

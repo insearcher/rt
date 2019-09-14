@@ -152,12 +152,13 @@ char	raymarch(cl_float3 origin, cl_float3 direction, t_scene *scene, t_raycast_h
 	return (0);
 }
 
-static char	raycast(t_scene *scene, int x, int y, t_raycast_hit *rh, cl_uint mask)
+static char	raycast(t_rt_main *rt, int x, int y, t_raycast_hit *rh, cl_uint mask)
 {
-	cl_int2	screen = scene->camera.screen;
+	t_scene	*scene;
 	cl_int2	pixel = (cl_int2){{x, y}};
 
-	cl_float3	k = screen_to_world(pixel, screen, scene->camera.fov);
+	scene = rt->scenes;  //TODO THERE ARE SEVERAL SCENES NOT ONE
+	cl_float3	k = screen_to_world(pixel, rt->screen_size, scene->camera.fov);
 
 	t_transform t = scene->camera.transform;
 
@@ -172,19 +173,17 @@ static char	raycast(t_scene *scene, int x, int y, t_raycast_hit *rh, cl_uint mas
 int		rt_raycast(t_ui_main *ui, void *a)
 {
 	t_rt_main	*rt;
-	t_scene		*s;
 	int			x;
 	int			y;
 
 	(void)a;
 	rt = ui->data;
-	s = &rt->scenes[0];
 
 	SDL_GetMouseState(&x, &y);
-	y = s->camera.screen.y - y;
+	y = rt->screen_size.y - y;
 
 	t_raycast_hit	rh;
-	if (raycast(s, x, y, &rh, ~IGNORE_RAYCAST_LAYER))
+	if (raycast(rt, x, y, &rh, ~IGNORE_RAYCAST_LAYER))
 		change_selected((t_input_system *)rt->systems[INPUT_SYSTEM_INDEX], rh.hit);
 
 	return (1);

@@ -55,9 +55,13 @@ typedef struct			s_rt_main
 	void				**systems;
 	t_s_gpu_mem			*gpu_mem;
 	int					params;
+	cl_int2				screen_size;
 }						t_rt_main;
 
+t_rt_main				*setup_rt(cl_int2 screen_size);
 int						rt_render(t_ui_main *ui, void *a);
+void					render_processing(t_rt_main *rt, size_t *global_size);
+void					post_processing(t_rt_main *rt, size_t *global_size);
 # endif
 
 #endif
