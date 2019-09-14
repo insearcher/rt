@@ -1,18 +1,6 @@
 #include "rt.h"
 #include "rt_jtoc.h"
 
-static int	rt_jtoc_get_lights(cl_float3 *ambient, t_light **lights, t_jnode *n)
-{
-	t_jnode	*tmp;
-
-	if ((tmp = jtoc_node_get_by_path(n, "ambient")) && tmp->type == object)
-	{
-		if (rt_jtoc_get_float3(ambient, tmp))
-			return (rt_jtoc_sdl_log_error("AMBIENT ERROR", -1));
-	}
-	(void)lights;
-	return (FUNCTION_SUCCESS);
-}
 
 static int	rt_jtoc_get_scene(const char *path, t_scene *scene)
 {
@@ -23,13 +11,18 @@ static int	rt_jtoc_get_scene(const char *path, t_scene *scene)
 		return (rt_jtoc_sdl_log_error("JSON", -1));
 
 	if (!(tmp = jtoc_node_get_by_path(root, "camera")) || tmp->type != object)
-		return (rt_jtoc_sdl_log_error("CAMERA TYPE ERROR OR CAMERA IS MISSING", -1));
+		return (rt_jtoc_sdl_log_error("CAMERA TYPE ERROR OR CAMERA IS NOT SET", -1));
 	if (rt_jtoc_get_camera(&(scene->camera), tmp))
 		return (rt_jtoc_sdl_log_error("CAMERA DATA ERROR", -1));
 
 	if (!(tmp = jtoc_node_get_by_path(root, "lights")) || tmp->type != object)
-		return (rt_jtoc_sdl_log_error("LIGHTS TYPE ERROR OR LIGHTS IS MISSING", -1));
-	if (rt_jtoc_get_lights(&(scene->ambient), &(scene->lights), tmp))
+		return (rt_jtoc_sdl_log_error("LIGHTS TYPE ERROR OR LIGHTS AREN'T SET", -1));
+	if (rt_jtoc_get_lights(scene, tmp))
+		return (rt_jtoc_sdl_log_error("LIGHTS ERROR", -1));
+
+	if (!(tmp = jtoc_node_get_by_path(root, "objects")) || tmp->type != array)
+		return (rt_jtoc_sdl_log_error("OBJECTS TYPE ERROR OR OBJECTS AREN'T SET", -1));
+	if (rt_jtoc_get_lights(scene, tmp))
 		return (rt_jtoc_sdl_log_error("LIGHTS ERROR", -1));
 
 	jtoc_node_clear(root);

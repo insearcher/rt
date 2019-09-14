@@ -12,6 +12,25 @@ int				rt_jtoc_sdl_log_error(const char *p, const int id)
 	return (FUNCTION_FAILURE);
 }
 
+int				rt_jtoc_get_objects_num_in_arr(unsigned int *objects_num, t_jnode *n)
+{
+	t_jnode	*tmp;
+
+	if (n == NULL)
+		return (FUNCTION_SUCCESS);
+	if (n->type != array)
+		return (rt_jtoc_sdl_log_error("TYPE IS NOT ARRAY", -1));
+	tmp = n->down;
+	while (tmp)
+	{
+		if (tmp->type != object)
+			return (rt_jtoc_sdl_log_error("TYPE IS NOT OBJECT", -1));
+		(*objects_num)++;
+		tmp = tmp->right;
+	}
+	return (FUNCTION_SUCCESS);
+}
+
 int				rt_jtoc_get_float3(cl_float3 *vec, t_jnode *n)
 {
 	t_jnode	*tmp;

@@ -15,6 +15,7 @@
 #include "rt_raycast.h"
 #include "rt_input_system.h"
 
+
 static void	transform_setup_default(t_transform *transform)
 {
 	transform->right = (cl_float3){{1, 0, 0}};
@@ -139,21 +140,6 @@ int main()
 //	rt->scenes[0].objects[7].params.cone.c = (cl_float2){{10, -1}};
 //	rt->scenes[0].objects[7].transform.id = 9;
 //	rt->scenes[0].objects[7].material.color = (cl_float4){{0, 1, 1, 1}};
-
-// TODO when lights count > 1 strange shit happens
-	rt->scenes[0].lights_count = 1;
-	rt->scenes[0].lights = ft_x_memalloc(sizeof(t_light) * rt->scenes[0].lights_count);
-
-	rt->scenes[0].lights[0].transform.pos = (cl_float3){{0, 0, 0}};
-	transform_setup_default(&rt->scenes[0].lights[0].transform);
-	rt->scenes[0].lights[0].transform.forward = (cl_float3){{0, -1, 0}};
-	rt->scenes[0].lights[0].type = directional;
-	rt->scenes[0].lights[0].params.directional.color = (cl_float3){{.4f,.4f,.4f}};
-
-//	rt->scenes[0].lights[1].transform.pos = (cl_float3){{0, 0, 0}};
-//	rt->scenes[0].lights[1].type = point;
-//	rt->scenes[0].lights[1].params.point.color = (cl_float3){{.5f, 0, 0}};
-//	rt->scenes[0].lights[1].params.point.distance = 100;
 
 /// PHYSICS SYSTEM START !!!!!!!!!!!!!!!!!!!!!!!!!
 	t_physics_system	*ps = ft_memalloc(sizeof(t_physics_system));
