@@ -72,6 +72,7 @@ __kernel void	render(__global char *image, __global t_scene *scene, __global t_o
 	// TODO refactor
 	// Light processing.
 	float3 diffuse = color * scene->ambient;
+	diffuse = clamp(diffuse, (float3){0, 0, 0}, (float3){1, 1, 1});
 	for (uint i = 0; i < scene->lights_count; ++i)
 	{
 		t = scene->lights[i].transform;
@@ -92,6 +93,7 @@ __kernel void	render(__global char *image, __global t_scene *scene, __global t_o
 				NoL = max(dot(rh.normal, ndir), 0.0f);
 				LDirectional = scene->lights[i].params.directional.color * NoL;
 				diffuse += color * LDirectional;
+				diffuse = clamp(diffuse, (float3){0, 0, 0}, (float3){1, 1, 1});
 			case point:
 				dir = t.pos - rh.point;
 				ndir = normalize(dir);
@@ -104,6 +106,7 @@ __kernel void	render(__global char *image, __global t_scene *scene, __global t_o
 					NoL = max(dot(rh.normal, ndir), 0.0f);
 					mult = -pow(min(a / scene->lights[i].params.point.distance, 1.0f), 2) + 1.0f;
 					diffuse += color * scene->lights[i].params.point.color * NoL * mult;
+					diffuse = clamp(diffuse, (float3){0, 0, 0}, (float3){1, 1, 1});
 				}
 		}
 	}
