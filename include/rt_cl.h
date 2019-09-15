@@ -5,6 +5,7 @@
 
 # define F_EPS	0.001f
 # define PI		3.14159265f
+# define TWO_PI	6.28318530f
 # include "rt.h"
 # include "color.h"
 
@@ -23,15 +24,16 @@ float	sdf_plane(float3 pos, float3 n, float d);
 
 void	put_pixel(__global char *image, int2 pixel, int2 screen, float3 color);
 void	fill_camera_pixel(__global char *image, int2 pixel, int2 screen, float3 color, int quality);
-float2	uv_mapping_for_sphere(t_raycast_hit rh);
 
 float3	screen_to_world(int2 coord, int2 screen, float fov);
 
 float3	get_skybox_color(float3 direction);
 
-float3 repeatSDF(float3 pos, float3 cen, float rx, float ry, float rz);
-float sphereSDF(float3 posc, float radius);
+float3	repeatSDF(float3 pos, float3 cen, float rx, float ry, float rz);
+float	sphereSDF(float3 posc, float radius);
 
+float2	uv_mapping_for_sphere(t_raycast_hit rh);
+float2	uv_mapping_for_cylinder(t_raycast_hit rh);
 
 char	raymarch(float3 origin, float3 direction, float distance, __global t_scene *scene, t_raycast_hit *rh);
 
