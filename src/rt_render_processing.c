@@ -39,6 +39,7 @@ void	render_processing(t_rt_main *rt, size_t *global_size)
 	clSetKernelArg(*kernel, 2, sizeof(cl_mem), &cl_objects);
 	clSetKernelArg(*kernel, 3, sizeof(cl_mem), &cl_lights);
 	clSetKernelArg(*kernel, 4, sizeof(cl_int2), &rt->screen_size);
+	clSetKernelArg(*kernel, 5, sizeof(cl_mem), &rt->gpu_mem->cl_texture);
 
 	clEnqueueNDRangeKernel(*rt->cl->queue, *kernel, 1, NULL, global_size, NULL, 0, NULL, NULL);
 
