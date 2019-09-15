@@ -62,15 +62,16 @@ int main()
 	rt = setup_rt(rt_screen_size);
 	ui->data = (void *)rt;
 
-//OBJECTS
-//	rt->scenes[0].objects_count = 4;
-//	rt->scenes[0].objects = ft_x_memalloc(sizeof(t_object) * rt->scenes[0].objects_count);
-
 //TODO NEEDED FOR PLANE (NOW PLANE IN JSON DOESN'T WORK CORRECTLY) (MAKSON WHAT IT TAKOE WOBSHE?)
 //	t_transform *temp = &rt->scenes[0].objects[4].transform;
 //	float d = -(temp->up.x * temp->pos.x + temp->up.y * temp->pos.y + temp->up.z * temp->pos.z);
 //	rt->scenes[0].objects[4].params.plane.distance = fabs(d) / sqrt(temp->up.x * temp->up.x + temp->up.y * temp->up.y + temp->up.z * temp->up.z);
 
+//TODO CONE IS STRANGE
+
+//TODO CYLINDER PARAMS X AND Y ARE USELESS (IT'S Z AND X OFFSET, BUT WE HAVE TRANSFORM)
+
+//TODO	capped torus doesn't work correctly
 //	rt->scenes[0].objects[4].type = o_capped_torus;
 //	rt->scenes[0].objects[4].layer = DEFAULT_LAYER;
 //	rt->scenes[0].objects[4].params.capped_torus.sc = (cl_float2){{0.4f, 0.5f}};
@@ -79,34 +80,11 @@ int main()
 //	rt->scenes[0].objects[4].transform.pos = (cl_float3){{0, 10, 40}};
 //	rt->scenes[0].objects[4].transform.id = 6;
 //	rt->scenes[0].objects[4].material.color = (cl_float4){{0, 1, 1, 1}};
-//
-//	rt->scenes[0].objects[5].type = o_link;
-//	rt->scenes[0].objects[5].layer = DEFAULT_LAYER;
-//	rt->scenes[0].objects[5].transform.pos = (cl_float3){{0, 10, 50}};
-//	rt->scenes[0].objects[5].params.link.le = 3;
-//	rt->scenes[0].objects[5].params.link.r1 = 2;
-//	rt->scenes[0].objects[5].params.link.r2 = 1;
-//	rt->scenes[0].objects[5].transform.id = 7;
-//	rt->scenes[0].objects[5].material.color = (cl_float4){{0, 1, 1, 1}};
-//
-//	rt->scenes[0].objects[6].type = o_cylinder;
-//	rt->scenes[0].objects[6].layer = DEFAULT_LAYER;
-//	rt->scenes[0].objects[6].transform.pos = (cl_float3){{0, 10, 60}};
-//	rt->scenes[0].objects[6].params.cylinder.params = (cl_float3){{1, 2, 3}};
-//	rt->scenes[0].objects[6].transform.id = 8;
-//	rt->scenes[0].objects[6].material.color = (cl_float4){{0, 1, 1, 1}};
-//
-//	rt->scenes[0].objects[7].type = o_cone;
-//	rt->scenes[0].objects[7].layer = DEFAULT_LAYER;
-//	rt->scenes[0].objects[7].transform.pos = (cl_float3){{0, 10, 70}};
-//	rt->scenes[0].objects[7].params.cone.c = (cl_float2){{10, -1}};
-//	rt->scenes[0].objects[7].transform.id = 9;
-//	rt->scenes[0].objects[7].material.color = (cl_float4){{0, 1, 1, 1}};
 
 /// PHYSICS SYSTEM START !!!!!!!!!!!!!!!!!!!!!!!!!
 	t_physics_system	*ps = ft_memalloc(sizeof(t_physics_system));
 	ps->system.parent = ps;
-	ps->rbs_count = 2;
+	ps->rbs_count = 5;
 	ps->rbs = (t_rb *)malloc(sizeof(t_rb) * ps->rbs_count);
 
 	ps->rbs[0].move.speed = 10000;
@@ -130,11 +108,50 @@ int main()
 
 	ps->rbs[1].rot.speed = 100000;
 	ps->rbs[1].rot.acc = .04f;
-	ps->rbs[1].rot.vel = (cl_float3){{1, 1, 0}};
-	ps->rbs[1].rot.raw_vel = (cl_float3){{1, 1, 0}};
+	ps->rbs[1].rot.vel = (cl_float3){{1, 0, 1}};
+	ps->rbs[1].rot.raw_vel = (cl_float3){{1, 0, 1}};
 
-	ps->rbs[1].transform = &rt->scenes[0].objects[1].transform;
+	ps->rbs[1].transform = &rt->scenes[0].objects[10].transform;
 
+	ps->rbs[2].move.speed = 10000;
+	ps->rbs[2].move.speed_mult = 4;
+	ps->rbs[2].move.acc = 0.025f;
+	ps->rbs[2].move.vel = (cl_float3){{0, 0, 0}};
+	ps->rbs[2].move.raw_vel = (cl_float3){{0, 0, 0}};
+
+	ps->rbs[2].rot.speed = 150000;
+	ps->rbs[2].rot.acc = .04f;
+	ps->rbs[2].rot.vel = (cl_float3){{1, 0, 1}};
+	ps->rbs[2].rot.raw_vel = (cl_float3){{0, 1, 1}};
+
+	ps->rbs[2].transform = &rt->scenes[0].objects[11].transform;
+
+
+	ps->rbs[3].move.speed = 10000;
+	ps->rbs[3].move.speed_mult = 4;
+	ps->rbs[3].move.acc = 0.025f;
+	ps->rbs[3].move.vel = (cl_float3){{0, 0, 0}};
+	ps->rbs[3].move.raw_vel = (cl_float3){{0, 0, 0}};
+
+	ps->rbs[3].rot.speed =  200000;
+	ps->rbs[3].rot.acc = .04f;
+	ps->rbs[3].rot.vel = (cl_float3){{1, 0, 1}};
+	ps->rbs[3].rot.raw_vel = (cl_float3){{1, 1, 1}};
+
+	ps->rbs[3].transform = &rt->scenes[0].objects[12].transform;
+
+	ps->rbs[4].move.speed = 100000;
+	ps->rbs[4].move.speed_mult = 4;
+	ps->rbs[4].move.acc = 0.025f;
+	ps->rbs[4].move.vel = (cl_float3){{0, 0, 0}};
+	ps->rbs[4].move.raw_vel = (cl_float3){{0, 0, 0}};
+
+	ps->rbs[4].rot.speed =  200000;
+	ps->rbs[4].rot.acc = .04f;
+	ps->rbs[4].rot.vel = (cl_float3){{1, 1, 1}};
+	ps->rbs[4].rot.raw_vel = (cl_float3){{1, 1, 1}};
+
+	ps->rbs[4].transform = &rt->scenes[0].objects[14].transform;
 	system_setup(&ps->system, "physics", &ps_func, 5);
 	ps->change_indicator = 1;
 	system_start(&ps->system);

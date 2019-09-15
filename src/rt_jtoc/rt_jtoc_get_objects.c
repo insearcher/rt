@@ -35,7 +35,7 @@ int			rt_jtoc_get_object_layer(t_object *obj, t_jnode *n)
 	str = jtoc_get_string(tmp);
 	obj->layer = 0;
 	obj->layer |= ft_strcmp(str, "default_layer") ? DEFAULT_LAYER : obj->layer;
-	obj->layer |= ft_strcmp(str, "IGNORE_RAYCAST_LAYER") ? IGNORE_RAYCAST_LAYER : obj->layer;
+	obj->layer |= ft_strcmp(str, "ignore_raycast_layer") ? IGNORE_RAYCAST_LAYER : obj->layer;
 	if (obj->layer == 0)
 		obj->layer = DEFAULT_LAYER;
 	return (FUNCTION_SUCCESS);
@@ -64,6 +64,9 @@ int			rt_jtoc_get_object(t_object *obj, t_jnode *n)
 	err = obj->type == o_round_box ? rt_jtoc_get_round_box(obj, n) : err;
 	err = obj->type == o_torus ? rt_jtoc_get_torus(obj, n) : err;
 	err = obj->type == o_plane ? rt_jtoc_get_plane(obj, n) : err;
+	err = obj->type == o_cone ? rt_jtoc_get_cone(obj, n) : err;
+	err = obj->type == o_cylinder ? rt_jtoc_get_cylinder(obj, n) : err;
+	err = obj->type == o_link ? rt_jtoc_get_link(obj, n) : err;
 	if (err != 0)
 		return (FUNCTION_FAILURE);
 

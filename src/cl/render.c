@@ -95,8 +95,8 @@ __kernel void	render(__global char *image, __global t_scene *scene, __global t_o
 		fill_camera_pixel(image, pixel, screen, color, cached_camera.quality);
 		return;
 	}
-	if (rh.hit->type == o_sphere)
-	{
+//	if (rh.hit->type == o_sphere)
+//	{
 		float2 uv;
 		uv = uv_mapping_for_sphere(rh);
 		int coord = int(uv.x * 1024) + int(uv.y * 1024) * 1024;
@@ -106,9 +106,9 @@ __kernel void	render(__global char *image, __global t_scene *scene, __global t_o
 		color.x /= 255;
 		color.y /= 255;
 		color.z /= 255;
-	}
-	else
-		color = rh.hit->material.color.xyz;
+//	}
+//	else
+//		color = rh.hit->material.color.xyz;
 	// TODO refactor
 	// Light processing.
 	float3 diffuse = color * scene->ambient;
