@@ -35,7 +35,7 @@ static float	sdf(float3 origin, __global t_object *obj)
 			distance = sdf_round_box(local_pos, obj->params.round_box.bounds, obj->params.round_box.r);
 			break;
 		case o_torus:
-			distance = sdf_torus(local_pos, obj->params.torus.params);
+			distance = sdf_torus(local_pos, obj->params.torus.radius, obj->params.torus.inner_radius);
 			break;
 		case o_capped_torus:
 			distance = sdf_capped_torus(local_pos, obj->params.capped_torus.sc, obj->params.capped_torus.ra, obj->params.capped_torus.rb);

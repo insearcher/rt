@@ -38,10 +38,10 @@ float	sdf_round_box(float3 pos, float3 bounds, float r)
 	return length(fmax(d, 0.f)) - r + fmin(fmax(d.x, fmax(d.y, d.z)), 0);
 }
 
-float	sdf_torus(float3 pos, float2 t)
+float	sdf_torus(float3 pos, float radius, float inner_radius)
 {
-	float2 q = (float2)(length(pos.xz) - t.x, pos.y);
-	return length(q) - t.y;
+	float2 q = (float2)(length(pos.xz) - radius, pos.y);
+	return length(q) - inner_radius;
 }
 
 float	sdf_capped_torus(float3 pos, float2 sc, float ra, float rb)
