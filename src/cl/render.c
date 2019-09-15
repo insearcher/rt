@@ -84,7 +84,7 @@ __kernel void	render(__global char *image, __global t_scene *scene, __global t_o
 	{
 		float2 uv;
 		uv = uv_mapping_for_sphere(rh);
-		int  coord = int(uv.x * 1024) + int(uv.y * 1024) * 1024;
+		int coord = int(uv.x * 1024) + int(uv.y * 1024) * 1024;
 		color.x = (RED(texture[coord]));
 		color.y = (GREEN(texture[coord]));
 		color.z = (BLUE(texture[coord]));
