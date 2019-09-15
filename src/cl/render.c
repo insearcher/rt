@@ -85,6 +85,14 @@ float2			uv_mapping_for_cylinder(t_raycast_hit rh)
 	return ((float2){u, v});
 }
 
+float2			uv_mapping_for_torus(t_raycast_hit rh)
+{
+	float3	vec = rh.point - rh.hit->transform.pos;
+	float	u = 0.5f + (atan2(vec.z, vec.x) / TWO_PI);
+	float 	v = 0.5f - asin(vec.y / rh.hit->params.torus.inner_radius) / PI;
+	return ((float2){u, v});
+}
+
 __kernel void	render(__global char *image, __global t_scene *scene, __global t_object *objects, __global t_light *lights, int2 screen, __global int *texture)
 {
 	int		gid = get_global_id(0);
@@ -141,6 +149,18 @@ __kernel void	render(__global char *image, __global t_scene *scene, __global t_o
 	{
 		float2 uv;
 		uv = uv_mapping_for_plane(rh);
+		int coord = int(uv.x * 1024) + int(uv.y * 1024) * 1024;
+		color.x = (RED(texture[coord]));
+		color.y = (GREEN(texture[coord]));
+		color.z = (BLUE(texture[coord]));
+		color.x /= 255;
+		color.y /= 255;
+		color.z /= 255;
+	}
+	else if (rh.hit->type == o_torus)
+	{
+		float2 uv;
+		uv = uv_mapping_for_torus(rh);
 		int coord = int(uv.x * 1024) + int(uv.y * 1024) * 1024;
 		color.x = (RED(texture[coord]));
 		color.y = (GREEN(texture[coord]));
