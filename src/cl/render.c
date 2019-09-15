@@ -48,8 +48,22 @@ float2			uv_mapping_for_sphere(t_raycast_hit rh)
 	float 	u;
 
 	vec = normalize(point - obj_pos);
-	u = 0.5 + (atan2(vec.z, vec.x) / (2 * PI));
+	u = 0.5 + (atan2(vec.z, vec.x) / TWO_PI);
 	v = 0.5 - (asin(vec.y) / PI);
+	return ((float2){u, v});
+}
+
+float2			uv_mapping_for_cylinder(t_raycast_hit rh)
+{
+	float3	point = rh.point;
+	float3	obj_pos = rh.hit->transform.pos;
+	float3	vec;
+	float 	v;
+	float 	u;
+
+	vec = normalize(point - obj_pos);
+	u = 0.5 + (atan2(vec.z, vec.x) / TWO_PI);
+	v = 0.5 + (modf(point.y * 1000 / 1024, &v) / 2);
 	return ((float2){u, v});
 }
 
