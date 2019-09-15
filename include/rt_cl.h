@@ -4,7 +4,7 @@
 # define CL_SILENCE_DEPRECATION
 
 # define F_EPS	0.001f
-
+# define PI		3.14159265f
 # include "rt.h"
 # include "color.h"
 
@@ -23,6 +23,7 @@ float	sdf_plane(float3 pos, float3 n, float d);
 
 void	put_pixel(__global char *image, int2 pixel, int2 screen, float3 color);
 void	fill_camera_pixel(__global char *image, int2 pixel, int2 screen, float3 color, int quality);
+float2	uv_mapping_for_sphere(t_raycast_hit rh);
 
 float3	screen_to_world(int2 coord, int2 screen, float fov);
 

@@ -14,6 +14,7 @@ target_sources(rt PUBLIC
         rt_physics_system.c
         rt_rotations.c
         rt_setup.c
+        rt_get_texture.c
         )
 
 add_subdirectory(rt_jtoc)

@@ -45,10 +45,20 @@ typedef struct			s_static_gpu_mem
 {
 	cl_mem 				cl_image;
 	cl_mem 				cl_aux;
+	cl_mem 				cl_texture;
 }						t_s_gpu_mem;
+
+typedef struct 			s_obj_texture
+{
+	int 				w;
+	int 				h;
+	int 				*texture;
+	cl_int2				texture_size;
+}						t_obj_texture;
 
 typedef struct			s_rt_main
 {
+	t_obj_texture		texture;
 	t_cl				*cl;
 	t_scene				*scenes; //TODO remake to vec
 	size_t				systems_count;
@@ -62,6 +72,7 @@ t_rt_main				*setup_rt(cl_int2 screen_size);
 int						rt_render(t_ui_main *ui, void *a);
 void					render_processing(t_rt_main *rt, size_t *global_size);
 void					post_processing(t_rt_main *rt, size_t *global_size);
+int						*get_texture(t_rt_main *rt);
 # endif
 
 #endif
