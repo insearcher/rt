@@ -58,6 +58,7 @@ __kernel void	render(__global char *image, __global t_scene *scene, __global t_o
 	int		gid = get_global_id(0);
 
 	int2	pixel = (int2)(gid % screen.x, gid / screen.x);
+
 	if (pixel.x % scene->camera.quality || pixel.y % scene->camera.quality)
 		return;
 
@@ -137,6 +138,14 @@ __kernel void	render(__global char *image, __global t_scene *scene, __global t_o
 	}
 
 	// Gamma correction.
+	//TODO COLOR IS BAD
+/*	if (diffuse.x > 255)
+		diffuse.x = 255;
+	if (diffuse.y > 255)
+		diffuse.y = 255;
+	if (diffuse.z > 255)
+		diffuse.z = 255;
+	color = diffuse;*/
 //	color = pow(diffuse, 0.4545f);
 	color = diffuse;
 	fill_camera_pixel(image, pixel, screen, color, cached_camera.quality);

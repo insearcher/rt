@@ -39,10 +39,9 @@ int				rt_jtoc_get_transform(t_transform *transform, t_jnode *n)
 	if (!(n = jtoc_node_get_by_path(n, "transform")) || n->type != object)
 		return (rt_jtoc_sdl_log_error("TRANSFORM TYPE ERROR OR TRANSFORM MISSING", -1));
 
-	if (!(tmp = jtoc_node_get_by_path(n, "pos")) || tmp->type != object)
-		return (rt_jtoc_sdl_log_error("POS ERROR", -1));
-	if (rt_jtoc_get_float3(&(transform->pos), tmp))
-		return (rt_jtoc_sdl_log_error("POS ERROR", -1));
+	if ((tmp = jtoc_node_get_by_path(n, "pos")) && tmp->type == object)
+		if (rt_jtoc_get_float3(&(transform->pos), tmp))
+			return (rt_jtoc_sdl_log_error("POS ERROR", -1));
 
 	if ((tmp = jtoc_node_get_by_path(n, "right")) && tmp->type == object)
 		if (rt_jtoc_get_float3(&(transform->right), tmp))
