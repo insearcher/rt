@@ -20,10 +20,10 @@ static int	rt_jtoc_get_scene(const char *path, t_scene *scene)
 	if (rt_jtoc_get_lights(scene, tmp))
 		return (rt_jtoc_sdl_log_error("LIGHTS ERROR", -1));
 
-	if (!(tmp = jtoc_node_get_by_path(root, "objects")) || tmp->type != array)
+/*	if (!(tmp = jtoc_node_get_by_path(root, "objects")) || tmp->type != array)
 		return (rt_jtoc_sdl_log_error("OBJECTS TYPE ERROR OR OBJECTS AREN'T SET", -1));
 	if (rt_jtoc_get_lights(scene, tmp))
-		return (rt_jtoc_sdl_log_error("LIGHTS ERROR", -1));
+		return (rt_jtoc_sdl_log_error("LIGHTS ERROR", -1));*/
 
 	jtoc_node_clear(root);
 	return (FUNCTION_SUCCESS);
