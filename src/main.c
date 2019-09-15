@@ -16,12 +16,12 @@
 #include "rt_input_system.h"
 
 
-static void	transform_setup_default(t_transform *transform)
+/*static void	transform_setup_default(t_transform *transform)
 {
 	transform->right = (cl_float3){{1, 0, 0}};
 	transform->up = (cl_float3){{0, 1, 0}};
 	transform->forward = (cl_float3){{0, 0, 1}};
-}
+}*/
 
 cl_int2		modification_rt_elem_and_get_screen_size(t_ui_main *ui)
 {
@@ -63,51 +63,13 @@ int main()
 	ui->data = (void *)rt;
 
 //OBJECTS
-	rt->scenes[0].objects_count = 4;
-	rt->scenes[0].objects = ft_x_memalloc(sizeof(t_object) * rt->scenes[0].objects_count);
+//	rt->scenes[0].objects_count = 4;
+//	rt->scenes[0].objects = ft_x_memalloc(sizeof(t_object) * rt->scenes[0].objects_count);
 
-	rt->scenes[0].objects[0].type = o_sphere;
-	transform_setup_default(&rt->scenes[0].objects[0].transform);
-	rt->scenes[0].objects[0].layer = DEFAULT_LAYER;
-	rt->scenes[0].objects[0].params.sphere.radius = 3;
-	rt->scenes[0].objects[0].transform.pos = (cl_float3){{0, 10, 0}};
-	rt->scenes[0].objects[0].transform.id = 2;
-	rt->scenes[0].objects[0].material.color = (cl_float4){{0, 1, 1, 1}};
-
-	rt->scenes[0].objects[1].type = o_box;
-	transform_setup_default(&rt->scenes[0].objects[1].transform);
-	rt->scenes[0].objects[1].layer = DEFAULT_LAYER;
-	rt->scenes[0].objects[1].params.box.bounds = (cl_float3){{1, 2, 3}};
-	rt->scenes[0].objects[1].transform.pos = (cl_float3){{0, 10, 10}};
-	rt->scenes[0].objects[1].transform.id = 3;
-	rt->scenes[0].objects[1].material.color = (cl_float4){{0, 1, 1, 1}};
-
-	rt->scenes[0].objects[2].type = o_round_box;
-	transform_setup_default(&rt->scenes[0].objects[2].transform);
-	rt->scenes[0].objects[2].layer = DEFAULT_LAYER;
-	rt->scenes[0].objects[2].params.round_box.bounds = (cl_float3){{1, 2, 3}};
-	rt->scenes[0].objects[2].params.round_box.r = 1;
-	rt->scenes[0].objects[2].transform.pos = (cl_float3){{0, 10, 20}};
-	rt->scenes[0].objects[2].transform.id = 4;
-	rt->scenes[0].objects[2].material.color = (cl_float4){{0, 1, 1, 1}};
-
-	rt->scenes[0].objects[3].type = o_torus;
-	transform_setup_default(&rt->scenes[0].objects[3].transform);
-	rt->scenes[0].objects[3].layer = DEFAULT_LAYER;
-	rt->scenes[0].objects[3].params.torus.params = (cl_float2){{2, 2}};
-	rt->scenes[0].objects[3].transform.pos = (cl_float3){{0, 10, 30}};
-	rt->scenes[0].objects[3].transform.id = 5;
-	rt->scenes[0].objects[3].material.color = (cl_float4){{0, 1, 1, 1}};
-
-//	rt->scenes[0].objects[4].type = o_plane;
-//	transform_setup_default(&rt->scenes[0].objects[4].transform);
-//	rt->scenes[0].objects[4].layer = IGNORE_RAYCAST_LAYER;
-//	rt->scenes[0].objects[4].transform.pos = (cl_float3){{-5, -5, -5}};
+//TODO NEEDED FOR PLANE (NOW PLANE IN JSON DOESN'T WORK CORRECTLY) (MAKSON WHAT IT TAKOE WOBSHE?)
 //	t_transform *temp = &rt->scenes[0].objects[4].transform;
 //	float d = -(temp->up.x * temp->pos.x + temp->up.y * temp->pos.y + temp->up.z * temp->pos.z);
 //	rt->scenes[0].objects[4].params.plane.distance = fabs(d) / sqrt(temp->up.x * temp->up.x + temp->up.y * temp->up.y + temp->up.z * temp->up.z);
-//	rt->scenes[0].objects[4].transform.id = 5;
-//	rt->scenes[0].objects[4].material.color = (cl_float4){{1, 0, 0, 1}};
 
 //	rt->scenes[0].objects[4].type = o_capped_torus;
 //	rt->scenes[0].objects[4].layer = DEFAULT_LAYER;
