@@ -39,12 +39,25 @@ float3			get_skybox_color(float3 direction)
 	})));
 }
 
-__kernel void	render(__global char *image, __global t_scene *scene, __global t_object *objects, __global t_light *lights, int2 screen)
+float2			uv_mapping_for_sphere(t_raycast_hit rh)
+{
+	float3	point = rh.point;
+	float3	obj_pos = rh.hit->transform.pos;
+	float3	vec;
+	float 	v;
+	float 	u;
+
+	vec = normalize(point - obj_pos);
+	u = 0.5 + (atan2(vec.z, vec.x) / (2 * PI));
+	v = 0.5 - (asin(vec.y) / PI);
+	return ((float2){u, v});
+}
+
+__kernel void	render(__global char *image, __global t_scene *scene, __global t_object *objects, __global t_light *lights, int2 screen, __global int *texture)
 {
 	int		gid = get_global_id(0);
 
 	int2	pixel = (int2)(gid % screen.x, gid / screen.x);
-
 	if (pixel.x % scene->camera.quality || pixel.y % scene->camera.quality)
 		return;
 
@@ -67,8 +80,20 @@ __kernel void	render(__global char *image, __global t_scene *scene, __global t_o
 		fill_camera_pixel(image, pixel, screen, color, cached_camera.quality);
 		return;
 	}
-	color = rh.hit->material.color.xyz;
-
+	if (rh.hit->type == o_sphere)
+	{
+		float2 uv;
+		uv = uv_mapping_for_sphere(rh);
+		int  coord = int(uv.x * 1024) + int(uv.y * 1024) * 1024;
+		color.x = (RED(texture[coord]));
+		color.y = (GREEN(texture[coord]));
+		color.z = (BLUE(texture[coord]));
+		color.x /= 255;
+		color.y /= 255;
+		color.z /= 255;
+	}
+	else
+		color = rh.hit->material.color.xyz;
 	// TODO refactor
 	// Light processing.
 	float3 diffuse = color * scene->ambient;
@@ -112,6 +137,7 @@ __kernel void	render(__global char *image, __global t_scene *scene, __global t_o
 	}
 
 	// Gamma correction.
-	color = pow(diffuse, 0.4545f);
+//	color = pow(diffuse, 0.4545f);
+	color = diffuse;
 	fill_camera_pixel(image, pixel, screen, color, cached_camera.quality);
 }
