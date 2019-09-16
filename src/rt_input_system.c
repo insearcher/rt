@@ -109,12 +109,11 @@ int					is_func(void *isv)
 	is->system.last = 0;
 	while (is)
 	{
-		is->system.delta_time = (double)(is->system.now - is->system.last) / SDL_GetPerformanceFrequency();
+		is->system.delta_time = (float)(is->system.now - is->system.last) / SDL_GetPerformanceFrequency();
 		move_active(is);
 		rotate_active(is);
 		if (is->selected)
 			process_selected(is);
-		SDL_Delay(is->system.delay);
 		is->system.last = is->system.now;
 		is->system.now = SDL_GetPerformanceCounter();
 	}

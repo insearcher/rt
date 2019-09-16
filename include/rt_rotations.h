@@ -14,8 +14,12 @@
 # define RT_ROTATIONS_H
 
 # ifndef OPENCL___
-#  include <OpenCL/opencl.h>
-#  include "math.h"
+# ifdef APPLE___
+# include <OpenCL/opencl.h>
+# else
+# include <opencl.h>
+# endif
+# include "math.h"
 # endif
 
 void	fill_rotation_matrix(float *m, cl_float3 v, float a);

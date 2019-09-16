@@ -88,7 +88,6 @@ int					ps_func(void *psv)
 	size_t				i;
 
 	ps = (t_physics_system *)psv;
-	SDL_Delay(100);
 	ps->system.now = SDL_GetPerformanceCounter();
 	ps->system.last = ps->system.now;
 	while (ps->rbs)
@@ -107,5 +106,3 @@ int					ps_func(void *psv)
 	}
 	return (0);
 }
-
-/// PHYSICS SYSTEM

@@ -20,10 +20,10 @@ static cl_device_id	cl_get_device_id(void)
 
 	err = clGetPlatformIDs(1, &platform, NULL);
 	if (err != 0)
-		SDL_Log("Get platform - ERROR\n");
+		cl_exit_error("get platform");
 	err = clGetDeviceIDs(platform, CL_DEVICE_TYPE_GPU, 1, &device, NULL);
 	if (err != 0)
-		SDL_Log("Get device id - ERROR\n");
+		cl_exit_error("get device id");
 	return (device);
 }
 

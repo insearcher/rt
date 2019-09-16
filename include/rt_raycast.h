@@ -29,12 +29,12 @@ cl_float3	f3norm(cl_float3 v);
 float	sdf_sphere(cl_float3 pos, float radius);
 float	sdf_box(cl_float3 pos, cl_float3 bounds);
 float	sdf_round_box(cl_float3 pos, cl_float3 bounds, float r);
-float	sdf_torus(cl_float3 pos, cl_float2 t);
 float	sdf_capped_torus(cl_float3 pos, cl_float2 sc, float ra, float rb);
 float	sdf_link(cl_float3 pos, float le, float r1, float r2);
 float	sdf_cylinder(cl_float3 pos, cl_float3 c);
 float	sdf_cone(cl_float3 pos, cl_float2 c);
 float	sdf_plane(cl_float3 pos, cl_float3 n, float d);
+float	sdf_torus(cl_float3 pos, cl_float radius, cl_float inner_radius);
 
 int		rt_raycast(t_ui_main *ui, void *a);
 

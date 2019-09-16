@@ -12,14 +12,35 @@
 
 #include "libcl.h"
 
+#ifdef APPLE___
 static void	cl_build_program(cl_device_id device, cl_program *program)
 {
 	cl_int	err;
 
 	err = clBuildProgram(*program, 1, &device, "-DOPENCL___ -I include/", NULL, NULL);
 	if (err != 0)
-		exit(-1);
+        exit(-1);
 }
+#else
+static void	cl_build_program(cl_device_id device, cl_program *program)
+{
+	cl_int	err;
+    char	*log;
+    size_t	log_size;
+
+	err = clBuildProgram(*program, 1, &device, "-DOPENCL___ -I include/ -cl-nv-verbose", NULL, NULL);
+	if (err != 0){
+        clGetProgramBuildInfo(*program, device, CL_PROGRAM_BUILD_LOG,
+                              0, NULL, &log_size);
+        log = (char*)malloc(log_size);
+        clGetProgramBuildInfo(*program, device,
+                              CL_PROGRAM_BUILD_LOG, log_size, log, NULL);
+        SDL_Log("build program - ERROR (%d)\n", err);
+        SDL_Log("%s\n", log);
+        exit(-1);
+    }
+}
+#endif
 
 static void	get_files_buf(char **program_buf,
 		size_t *program_size, char **files)
@@ -60,7 +81,7 @@ cl_program	*cl_create_program(cl_context context, char **files,
 	*program = clCreateProgramWithSource(context, files_num,
 			(const char**)program_buf, (const size_t*)program_size, &err);
 	if (err != 0)
-		SDL_Log("create program - ERROR\n");
+		cl_exit_error("create program");
 	cl_build_program(device_id, program);
 	free_bufs(program_buf, program_size, files_num);
 	return (program);

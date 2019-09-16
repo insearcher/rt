@@ -39,11 +39,10 @@ float3			get_skybox_color(float3 direction)
 	})));
 }
 
-__kernel void	render(__global char *image, __global t_scene *scene, __global t_object *objects, __global t_light *lights)
+__kernel void	render(__global char *image, __global t_scene *scene, __global t_object *objects, __global t_light *lights, int2 screen, __global int *texture)
 {
 	int		gid = get_global_id(0);
 
-	int2	screen = scene->camera.screen;
 	int2	pixel = (int2)(gid % screen.x, gid / screen.x);
 
 	if (pixel.x % scene->camera.quality || pixel.y % scene->camera.quality)
@@ -68,11 +67,12 @@ __kernel void	render(__global char *image, __global t_scene *scene, __global t_o
 		fill_camera_pixel(image, pixel, screen, color, cached_camera.quality);
 		return;
 	}
-	color = rh.hit->material.color.xyz;
-
+	if (choose_texture_for_object(rh, texture, &color))
+		color = rh.hit->material.color.xyz;
 	// TODO refactor
 	// Light processing.
 	float3 diffuse = color * scene->ambient;
+//	diffuse = clamp(diffuse, (float3){0, 0, 0}, (float3){1, 1, 1});
 	for (uint i = 0; i < scene->lights_count; ++i)
 	{
 		t = scene->lights[i].transform;
@@ -93,6 +93,7 @@ __kernel void	render(__global char *image, __global t_scene *scene, __global t_o
 				NoL = max(dot(rh.normal, ndir), 0.0f);
 				LDirectional = scene->lights[i].params.directional.color * NoL;
 				diffuse += color * LDirectional;
+				diffuse = clamp(diffuse, (float3){0, 0, 0}, (float3){1, 1, 1});
 			case point:
 				dir = t.pos - rh.point;
 				ndir = normalize(dir);
@@ -105,11 +106,21 @@ __kernel void	render(__global char *image, __global t_scene *scene, __global t_o
 					NoL = max(dot(rh.normal, ndir), 0.0f);
 					mult = -pow(min(a / scene->lights[i].params.point.distance, 1.0f), 2) + 1.0f;
 					diffuse += color * scene->lights[i].params.point.color * NoL * mult;
+					diffuse = clamp(diffuse, (float3){0, 0, 0}, (float3){1, 1, 1});
 				}
 		}
 	}
 
 	// Gamma correction.
-	color = pow(diffuse, float3(0.4545f));
+	//TODO COLOR IS BAD
+/*	if (diffuse.x > 255)
+		diffuse.x = 255;
+	if (diffuse.y > 255)
+		diffuse.y = 255;
+	if (diffuse.z > 255)
+		diffuse.z = 255;
+	color = diffuse;*/
+//	color = pow(diffuse, 0.4545f);
+	color = diffuse;
 	fill_camera_pixel(image, pixel, screen, color, cached_camera.quality);
 }

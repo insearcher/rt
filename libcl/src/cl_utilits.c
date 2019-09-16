@@ -12,6 +12,12 @@
 
 #include "libcl.h"
 
+void	cl_exit_error(char *error)
+{
+	SDL_Log("ERROR: %s", error);
+	exit(-1);
+}
+
 size_t	cl_get_files_num(char **files)
 {
 	size_t i;
@@ -28,9 +34,16 @@ char	*cl_get_file_buf(const char *name, size_t *program_size)
 	FILE	*fd;
 	char	*buf;
 
+#ifdef APPLE
 	fd = fopen(name, "r");
+#else
+    fd = fopen(name, "rb");
+#endif
 	if (!fd)
-		SDL_Log("Open kernel file '%s' - ERROR\n", name);
+	{
+		SDL_Log("ERROR: Open kernel file '%s'\n", name);
+		exit(-1);
+	}
 	fseek(fd, 0, SEEK_END);
 	file_size = ftell(fd);
 	rewind(fd);

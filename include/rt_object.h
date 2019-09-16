@@ -14,7 +14,11 @@
 # define RT_OBJECT_H
 
 # ifndef OPENCL___
-#  include <OpenCL/opencl.h>
+# ifdef APPLE___
+# include <OpenCL/opencl.h>
+# else
+# include <opencl.h>
+# endif
 # endif
 
 # include "transform.h"
@@ -51,9 +55,11 @@ typedef struct			s_round_box
 typedef struct			s_torus
 {
 # ifndef OPENCL___
-	cl_float2			params;
+	cl_float	radius;
+	cl_float	inner_radius;
 # else
-	float2				params;
+	float	radius;
+	float	inner_radius;
 # endif
 }						t_torus;
 
@@ -125,7 +131,7 @@ union					u_oparams
 
 enum					e_object_type
 {
-	o_sphere,
+	o_sphere = 1,
 	o_box,
 	o_round_box,
 	o_torus,

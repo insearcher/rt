@@ -27,7 +27,7 @@ void		cl_queue_init(t_cl *cl, cl_device_id device_id)
 	cl->queue = (cl_command_queue *)ft_x_memalloc(sizeof(cl_command_queue));
 	*cl->queue = clCreateCommandQueue(*cl->context, device_id, 0, &err);
 	if (err != 0)
-		SDL_Log("create command queue - ERROR\n");
+		cl_exit_error("create command queue");
 }
 
 void		cl_context_init(t_cl *cl, cl_device_id device_id)
@@ -37,5 +37,5 @@ void		cl_context_init(t_cl *cl, cl_device_id device_id)
 	cl->context = (cl_context *)ft_x_memalloc(sizeof(cl_context));
 	*cl->context = clCreateContext(NULL, 1, &device_id, NULL, NULL, &err);
 	if (err != 0)
-		SDL_Log("create context - ERROR\n");
+		cl_exit_error("create context");
 }

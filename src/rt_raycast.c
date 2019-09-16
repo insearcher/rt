@@ -31,45 +31,6 @@ static cl_float3	screen_to_world(cl_int2 coord, cl_int2 screen, float fov)
 	return (k);
 }
 
-int		rt_raycast1(t_ui_main *ui, void *a)
-{
-	t_rt_main	*rt;
-	cl_mem		cl_id;
-	cl_mem		cl_scene;
-	cl_mem		cl_objects;
-	cl_mem		cl_lights;
-	int			x;
-	int			y;
-
-	size_t		size = sizeof(int);
-
-	(void)a;
-	rt = ui->data;
-	cl_id = clCreateBuffer(*rt->cl->context, CL_MEM_READ_WRITE, size, NULL, NULL);
-	create_buffers(rt, &cl_scene, &cl_objects, &cl_lights);
-
-	SDL_GetMouseState(&x, &y);
-	y = rt->scenes[0].camera.screen.y - y;
-
-	cl_kernel	*kernel = cl_get_kernel_by_name(rt->cl, "raycast");
-	clSetKernelArg(*kernel, 0, sizeof(cl_mem), &cl_scene);
-	clSetKernelArg(*kernel, 1, sizeof(cl_mem), &cl_objects);
-	clSetKernelArg(*kernel, 2, sizeof(cl_mem), &cl_lights);
-	clSetKernelArg(*kernel, 3, sizeof(int), &x);
-	clSetKernelArg(*kernel, 4, sizeof(int), &y);
-	clSetKernelArg(*kernel, 5, sizeof(cl_mem), &cl_id);
-	clEnqueueNDRangeKernel(*rt->cl->queue, *kernel, 1, NULL, &size, NULL, 0, NULL, NULL);
-
-	int	id = 777;
-	clEnqueueReadBuffer(*rt->cl->queue, cl_id, CL_TRUE, 0, size, &id, 0, NULL, NULL);
-
-	clReleaseMemObject(cl_id);
-	clReleaseMemObject(cl_objects);
-	clReleaseMemObject(cl_lights);
-	clReleaseMemObject(cl_scene);
-	return (1);
-}
-
 static float	sdf(cl_float3 origin, t_object *obj)
 {
 	float	distance = 0;
@@ -107,7 +68,7 @@ static float	sdf(cl_float3 origin, t_object *obj)
 			distance = sdf_round_box(local_pos, obj->params.round_box.bounds, obj->params.round_box.r);
 			break;
 		case o_torus:
-			distance = sdf_torus(local_pos, obj->params.torus.params);
+			distance = sdf_torus(local_pos, obj->params.torus.radius, obj->params.torus.inner_radius);
 			break;
 		case o_capped_torus:
 			distance = sdf_capped_torus(local_pos, obj->params.capped_torus.sc, obj->params.capped_torus.ra, obj->params.capped_torus.rb);
@@ -191,19 +152,20 @@ char	raymarch(cl_float3 origin, cl_float3 direction, t_scene *scene, t_raycast_h
 	return (0);
 }
 
-static char	raycast(t_scene *scene, int x, int y, t_raycast_hit *rh, cl_uint mask)
+static char	raycast(t_rt_main *rt, int x, int y, t_raycast_hit *rh, cl_uint mask)
 {
-	cl_int2	screen = scene->camera.screen;
+	t_scene	*scene;
 	cl_int2	pixel = (cl_int2){{x, y}};
 
-	cl_float3	k = screen_to_world(pixel, screen, scene->camera.fov);
+	scene = rt->scenes;  //TODO THERE ARE SEVERAL SCENES NOT ONE
+	cl_float3	k = screen_to_world(pixel, rt->screen_size, scene->camera.fov);
 
 	t_transform t = scene->camera.transform;
 
 	cl_float3	origin = t.pos;
 	cl_float3	direction;
 	direction.v4 = t.right.v4 * k.x + t.up.v4 * k.y + t.forward.v4 * k.z;
-	direction.v4 = direction.v4 / sqrt(pow(direction.x, 2) + pow(direction.y, 2) + pow(direction.z, 2));
+	direction.v4 = direction.v4 / sqrtf(powf(direction.x, 2) + powf(direction.y, 2) + powf(direction.z, 2));
 	
 	return (raymarch(origin, direction, scene, rh, mask));
 }
@@ -211,19 +173,17 @@ static char	raycast(t_scene *scene, int x, int y, t_raycast_hit *rh, cl_uint mas
 int		rt_raycast(t_ui_main *ui, void *a)
 {
 	t_rt_main	*rt;
-	t_scene		*s;
 	int			x;
 	int			y;
 
 	(void)a;
 	rt = ui->data;
-	s = &rt->scenes[0];
 
 	SDL_GetMouseState(&x, &y);
-	y = s->camera.screen.y - y;
+	y = rt->screen_size.y - y;
 
 	t_raycast_hit	rh;
-	if (raycast(s, x, y, &rh, ~IGNORE_RAYCAST_LAYER))
+	if (raycast(rt, x, y, &rh, ~IGNORE_RAYCAST_LAYER))
 		change_selected((t_input_system *)rt->systems[INPUT_SYSTEM_INDEX], rh.hit);
 
 	return (1);

@@ -6,8 +6,9 @@
 # define INPUT_SYSTEM_INDEX	0
 
 # ifndef OPENCL___
-#  include "rt_camera.h"
-#  include "libcl.h"
+# include "libjtoc.h"
+# include "rt_camera.h"
+# include "libcl.h"
 # endif
 
 # include "rt_numerics.h"
@@ -16,6 +17,10 @@
 # include "rt_camera.h"
 # include "rt_raycast_hit.h"
 # include "transform.h"
+
+#define RT_RENDER_1		(1 << 0)
+#define RT_RENDER_2		(1 << 1)
+#define RT_GAUSS_BLUR	(1 << 2)
 
 typedef struct			s_scene
 {
@@ -36,17 +41,38 @@ typedef struct			s_scene
 }						t_scene;
 
 # ifndef OPENCL___
+typedef struct			s_static_gpu_mem
+{
+	cl_mem 				cl_image;
+	cl_mem 				cl_aux;
+	cl_mem 				cl_texture;
+}						t_s_gpu_mem;
+
+typedef struct 			s_obj_texture
+{
+	int 				w;
+	int 				h;
+	int 				*texture;
+	cl_int2				texture_size;
+}						t_obj_texture;
+
 typedef struct			s_rt_main
 {
+	t_obj_texture		texture;
 	t_cl				*cl;
-	t_scene				*scenes;
+	t_scene				*scenes; //TODO remake to vec
 	size_t				systems_count;
-	t_system			**systems;
+	void				**systems;
+	t_s_gpu_mem			*gpu_mem;
+	int					params;
+	cl_int2				screen_size;
 }						t_rt_main;
 
-void					create_buffers(t_rt_main *rt, cl_mem *cl_scene, cl_mem *cl_objects, cl_mem *cl_lights);
-
+t_rt_main				*setup_rt(cl_int2 screen_size);
 int						rt_render(t_ui_main *ui, void *a);
+void					render_processing(t_rt_main *rt, size_t *global_size);
+void					post_processing(t_rt_main *rt, size_t *global_size);
+int						*get_texture(t_rt_main *rt);
 # endif
 
 #endif

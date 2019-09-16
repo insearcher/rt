@@ -5,10 +5,16 @@ cmake_policy(SET CMP0076 NEW)
 target_sources(rt PUBLIC
         main.c
         rt_render.c
+        rt_render_processing.c
+        rt_post_processing.c
         rt_sdf.c
         rt_raycast.c
         rt_system.c
         rt_input_system.c
         rt_physics_system.c
         rt_rotations.c
+        rt_setup.c
+        rt_get_texture.c
         )
+
+add_subdirectory(rt_jtoc)

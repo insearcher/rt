@@ -14,9 +14,13 @@
 # define RT_CAMERA_H
 
 # ifndef OPENCL___
+# ifdef APPLE___
+# include <OpenCL/opencl.h>
+# else
+# include <opencl.h>
+# endif
 #  include "libui.h"
 #  include "rt_physics_system.h"
-#  include <OpenCL/opencl.h>
 # endif
 
 # include "transform.h"
@@ -40,13 +44,11 @@ typedef struct			s_camera
 	t_clipping			clipping_planes;
 
 # ifndef OPENCL___
-	cl_int2				screen;
 	cl_float			fov;
 	cl_int				mx;
 	cl_int				my;
 	cl_int				quality;
 # else
-	int2				screen;
 	float				fov;
 	int					mx;
 	int					my;

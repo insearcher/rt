@@ -14,6 +14,11 @@
 # define RT_SYSTEM_H
 
 # ifndef OPENCL___
+# ifdef APPLE___
+# include <OpenCL/opencl.h>
+# else
+# include <opencl.h>
+# endif
 #  include <SDL.h>
 #  include "libft.h"
 # endif
@@ -24,7 +29,7 @@ typedef struct	s_system
 	size_t		delay;
 	Uint64		last;
 	Uint64		now;
-	double		delta_time;
+	cl_float	delta_time;
 	void		*parent;
 }				t_system;
 

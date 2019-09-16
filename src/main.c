@@ -14,31 +14,191 @@
 #include "rt.h"
 #include "rt_raycast.h"
 #include "rt_input_system.h"
-#include "rt_camera.h"
 
-static void	transform_setup_default(t_transform *transform)
+
+/*static void	transform_setup_default(t_transform *transform)
 {
 	transform->right = (cl_float3){{1, 0, 0}};
 	transform->up = (cl_float3){{0, 1, 0}};
 	transform->forward = (cl_float3){{0, 0, 1}};
+}*/
+
+cl_int2		modification_rt_elem_and_get_screen_size(t_ui_main *ui)
+{
+	t_ui_win	*w;
+	t_ui_el		*el;
+	SDL_Texture	*t;
+	t_list		*lst;
+	cl_int2		rt_screen_size;
+
+	w = ui_main_find_window_by_id(ui, 0);
+	el = ui_win_find_el_by_id(w, 1);
+	t = SDL_CreateTexture(el->sdl_renderer, SDL_PIXELFORMAT_RGB888,
+						  SDL_TEXTUREACCESS_STREAMING, el->rect.w, el->rect.h);
+	lst = ft_lstnew(NULL, 0);
+	lst->content = t;
+	lst->content_size = ft_strhash("default");
+	ft_lstadd(&el->sdl_textures, lst);
+	rt_screen_size.x = el->rect.w;
+	rt_screen_size.y = el->rect.h;
+	return (rt_screen_size);
 }
 
-int main(void)
+#ifdef APPLE___
+int main()
 {
-	/// RT/CL SETUP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	t_rt_main	*rt;
+	t_ui_main	*ui;
+	cl_int2		rt_screen_size;
+
+	ui = ui_main_init();
+	ui_sdl_init();
+	ui_main_add_function_by_id(ui, rt_render, "rt_render");
+	ui_main_fill_default_functions(ui);
+	ui_jtoc_main_from_json(ui, "json/interface/main.json");
+
+	rt_screen_size = modification_rt_elem_and_get_screen_size(ui);
+
+	rt = setup_rt(rt_screen_size);
+	ui->data = (void *)rt;
+
+//TODO NEEDED FOR PLANE (NOW PLANE IN JSON DOESN'T WORK CORRECTLY) (MAKSON WHAT IT TAKOE WOBSHE?)
+//	t_transform *temp = &rt->scenes[0].objects[4].transform;
+//	float d = -(temp->up.x * temp->pos.x + temp->up.y * temp->pos.y + temp->up.z * temp->pos.z);
+//	rt->scenes[0].objects[4].params.plane.distance = fabs(d) / sqrt(temp->up.x * temp->up.x + temp->up.y * temp->up.y + temp->up.z * temp->up.z);
+
+//TODO CONE IS STRANGE
+
+//TODO CYLINDER PARAMS X AND Y ARE USELESS (IT'S Z AND X OFFSET, BUT WE HAVE TRANSFORM)
+
+//TODO	capped torus doesn't work correctly
+//	rt->scenes[0].objects[4].type = o_capped_torus;
+//	rt->scenes[0].objects[4].layer = DEFAULT_LAYER;
+//	rt->scenes[0].objects[4].params.capped_torus.sc = (cl_float2){{0.4f, 0.5f}};
+//	rt->scenes[0].objects[4].params.capped_torus.ra = 1;
+//	rt->scenes[0].objects[4].params.capped_torus.rb = 2;
+//	rt->scenes[0].objects[4].transform.pos = (cl_float3){{0, 10, 40}};
+//	rt->scenes[0].objects[4].transform.id = 6;
+//	rt->scenes[0].objects[4].material.color = (cl_float4){{0, 1, 1, 1}};
+
+/// PHYSICS SYSTEM START !!!!!!!!!!!!!!!!!!!!!!!!!
+	t_physics_system	*ps = ft_memalloc(sizeof(t_physics_system));
+	ps->system.parent = ps;
+	ps->rbs_count = 5;
+	ps->rbs = (t_rb *)malloc(sizeof(t_rb) * ps->rbs_count);
+
+	ps->rbs[0].move.speed = 10000;
+	ps->rbs[0].move.speed_mult = 4;
+	ps->rbs[0].move.acc = 0.025f;
+	ps->rbs[0].move.vel = (cl_float3){{0, 0, 0}};
+	ps->rbs[0].move.raw_vel = (cl_float3){{0, 0, 0}};
+
+	ps->rbs[0].rot.speed = 100000;
+	ps->rbs[0].rot.acc = .04f;
+	ps->rbs[0].rot.vel = (cl_float3){{0, 0, 0}};
+	ps->rbs[0].rot.raw_vel = (cl_float3){{0, 0, 0}};
+
+	ps->rbs[0].transform = &rt->scenes[0].camera.transform;
+
+	ps->rbs[1].move.speed = 10000;
+	ps->rbs[1].move.speed_mult = 4;
+	ps->rbs[1].move.acc = 0.025f;
+	ps->rbs[1].move.vel = (cl_float3){{0, 0, 0}};
+	ps->rbs[1].move.raw_vel = (cl_float3){{0, 0, 0}};
+
+	ps->rbs[1].rot.speed = 100000;
+	ps->rbs[1].rot.acc = .04f;
+	ps->rbs[1].rot.vel = (cl_float3){{1, 0, 1}};
+	ps->rbs[1].rot.raw_vel = (cl_float3){{1, 0, 1}};
+
+	ps->rbs[1].transform = &rt->scenes[0].objects[10].transform;
+
+	ps->rbs[2].move.speed = 10000;
+	ps->rbs[2].move.speed_mult = 4;
+	ps->rbs[2].move.acc = 0.025f;
+	ps->rbs[2].move.vel = (cl_float3){{0, 0, 0}};
+	ps->rbs[2].move.raw_vel = (cl_float3){{0, 0, 0}};
+
+	ps->rbs[2].rot.speed = 150000;
+	ps->rbs[2].rot.acc = .04f;
+	ps->rbs[2].rot.vel = (cl_float3){{1, 0, 1}};
+	ps->rbs[2].rot.raw_vel = (cl_float3){{0, 1, 1}};
+
+	ps->rbs[2].transform = &rt->scenes[0].objects[11].transform;
+
+
+	ps->rbs[3].move.speed = 10000;
+	ps->rbs[3].move.speed_mult = 4;
+	ps->rbs[3].move.acc = 0.025f;
+	ps->rbs[3].move.vel = (cl_float3){{0, 0, 0}};
+	ps->rbs[3].move.raw_vel = (cl_float3){{0, 0, 0}};
+
+	ps->rbs[3].rot.speed =  200000;
+	ps->rbs[3].rot.acc = .04f;
+	ps->rbs[3].rot.vel = (cl_float3){{1, 0, 1}};
+	ps->rbs[3].rot.raw_vel = (cl_float3){{1, 1, 1}};
+
+	ps->rbs[3].transform = &rt->scenes[0].objects[12].transform;
+
+	ps->rbs[4].move.speed = 100000;
+	ps->rbs[4].move.speed_mult = 4;
+	ps->rbs[4].move.acc = 0.025f;
+	ps->rbs[4].move.vel = (cl_float3){{0, 0, 0}};
+	ps->rbs[4].move.raw_vel = (cl_float3){{0, 0, 0}};
+
+	ps->rbs[4].rot.speed =  200000;
+	ps->rbs[4].rot.acc = .04f;
+	ps->rbs[4].rot.vel = (cl_float3){{1, 1, 1}};
+	ps->rbs[4].rot.raw_vel = (cl_float3){{1, 1, 1}};
+
+	ps->rbs[4].transform = &rt->scenes[0].objects[14].transform;
+	system_setup(&ps->system, "physics", &ps_func, 5);
+	ps->change_indicator = 1;
+	system_start(&ps->system);
+
+/// INPUT SYSTEM START !!!!!!!!!!!!!!!!!!!!!!!!!
+	t_input_system		*is = ft_memalloc(sizeof(t_input_system));
+	is->system.parent = is;
+	is->state = ui->state;
+	is->active = &ps->rbs[0];
+	system_setup(&is->system, "input", is_func, 3);
+	system_start(&is->system);
+
+	rt->systems_count = 2;
+	rt->systems = ft_memalloc(sizeof(t_system *) * rt->systems_count);
+	rt->systems[0] = &(is->system);
+	rt->systems[1] = &(ps->system);
+
+	ui_event_add_listener(((t_ui_win *)(ui->windows->content))->events->on_pointer_left_button_pressed, rt_raycast);
+
+	ui_main_run_program(ui);
+	return 0;
+}
+#else
+int SDL_main(int argc, char *argv[])
+{
+/// RT/CL SETUP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	t_rt_main	*rt;
 	t_ui_main	*ui;
 
 	ui_sdl_init();
 	ui = ui_main_init();
 	rt = ft_memalloc(sizeof(t_rt_main));
+/*	rt->cl = cl_setup((char *[]){
+							  "src/cl/render.c",
+							  "src/cl/raymarch.c",
+							  "src/cl/sdf.c",
+							  "src/cl/ray.c",
+							  "src/cl/gauss_blur.c",
+							  NULL},
+					  (char *[]){"render_rm", "gauss_blur_x", "gauss_blur_y", NULL});*/
 	rt->cl = cl_setup((char *[]){
-							"src/cl/render.cl",
-							"src/cl/raymarch.cl",
-							"src/cl/sdf.cl",
-							"src/cl/ray.cl",
-							NULL},
-							(char *[]){"render", NULL});
+							  "src/cl/render.c",
+							  "src/cl/raymarch.c",
+							  "src/cl/sdf.c",
+							  "src/cl/ray.c",
+							  NULL},
+					  (char *[]){"render", NULL});
 	rt->scenes = ft_x_memalloc(sizeof(t_scene));
 //	rt->scenes[0].objects_count = 20;
 //	rt->scenes[0].objects = ft_x_memalloc(sizeof(t_object) * rt->scenes[0].objects_count);
@@ -148,7 +308,7 @@ int main(void)
 //	rt->scenes[0].objects[7].transform.id = 9;
 //	rt->scenes[0].objects[7].material.color = (cl_float4){{0, 1, 1, 1}};
 
-	// TODO when lights count > 1 strange shit happens
+// TODO when lights count > 1 strange shit happens
 	rt->scenes[0].lights_count = 1;
 	rt->scenes[0].lights = ft_x_memalloc(sizeof(t_light) * rt->scenes[0].lights_count);
 
@@ -164,18 +324,18 @@ int main(void)
 //	rt->scenes[0].lights[1].params.point.distance = 100;
 
 	ui->data = rt;
-    ui_main_add_function_by_id(ui, rt_render, "rt_render");
-    ui_jtoc_main_from_json(ui, "json/main.json");
-    t_ui_win *w = ui_main_find_window_by_id(ui, 0);
-    t_ui_el *el = ui_win_find_el_by_id(w, 1);
+	ui_main_add_function_by_id(ui, rt_render, "rt_render");
+	ui_jtoc_main_from_json(ui, "json/main.json");
+	t_ui_win *w = ui_main_find_window_by_id(ui, 0);
+	t_ui_el *el = ui_win_find_el_by_id(w, 1);
 
-    SDL_Texture *t = SDL_CreateTexture(el->sdl_renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_STREAMING, w->size.x, w->size.y);
+	SDL_Texture *t = SDL_CreateTexture(el->sdl_renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_STREAMING, w->size.x, w->size.y);
 	t_list *l = ft_lstnew(NULL, 0);
 	l->content = t;
 	l->content_size = ft_strhash("default");
 	ft_lstadd(&el->sdl_textures, l);
 
-	/// CAMERA SETUP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+/// CAMERA SETUP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	ft_bzero(&rt->scenes[0].camera, sizeof(t_camera));
 	rt->scenes[0].camera.clipping_planes = (t_clipping){0.5f, 500};
 	rt->scenes[0].camera.fov = 90;
@@ -188,8 +348,10 @@ int main(void)
 	rt->scenes[0].camera.transform.up = (cl_float3){{0, 1, 0}};
 	rt->scenes[0].camera.transform.forward = (cl_float3){{0, 0, -1}};
 
-	/// PHYSICS SYSTEM START !!!!!!!!!!!!!!!!!!!!!!!!!
+	rt->mutex = SDL_CreateMutex();
+/// PHYSICS SYSTEM START !!!!!!!!!!!!!!!!!!!!!!!!!
 	t_physics_system	*ps = ft_memalloc(sizeof(t_physics_system));
+	ps->rt = rt;
 	ps->system.parent = ps;
 	ps->rbs_count = 2;
 	ps->rbs = (t_rb *)malloc(sizeof(t_rb) * ps->rbs_count);
@@ -216,26 +378,33 @@ int main(void)
 	ps->rbs[1].rot.vel = (cl_float3){{1, 1, 0}};
 	ps->rbs[1].rot.raw_vel = (cl_float3){{1, 1, 0}};
 
-	ps->rbs[1].transform = &rt->scenes[0].objects[2].transform;
+	ps->rbs[1].transform = &rt->scenes[0].objects[1].transform;
 
 	system_setup(&ps->system, "physics", &ps_func, 5);
 	ps->change_indicator = 1;
 	system_start(&ps->system);
+	SDL_SetThreadPriority(SDL_THREAD_PRIORITY_HIGH);
 
-	/// INPUT SYSTEM START !!!!!!!!!!!!!!!!!!!!!!!!!
+/// INPUT SYSTEM START !!!!!!!!!!!!!!!!!!!!!!!!!
 	t_input_system		*is = ft_memalloc(sizeof(t_input_system));
+	is->rt = rt;
 	is->system.parent = is;
 	is->state = ui->state;
 	is->active = &ps->rbs[0];
 	system_setup(&is->system, "input", is_func, 3);
 	system_start(&is->system);
+	SDL_SetThreadPriority(SDL_THREAD_PRIORITY_HIGH);
 
+	ps->system.delay = 50;
+	is->system.delay = 50;
+	rt->systems_count = 2;
 	rt->systems = ft_memalloc(sizeof(t_system *) * rt->systems_count);
 	rt->systems[0] = &is->system;
 	rt->systems[1] = &ps->system;
 
 	ui_event_add_listener(((t_ui_win *)(ui->windows->content))->events->on_pointer_left_button_pressed, rt_raycast);
 
-    ui_main_run_program(ui);
+	ui_main_run_program(ui);
 	return 0;
 }
+#endif

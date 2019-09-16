@@ -87,10 +87,10 @@ float	sdf_round_box(cl_float3 pos, cl_float3 bounds, float r)
 	return f3len(f3max(d, (cl_float3){{0, 0, 0}})) - r + fmin(fmax(d.x, fmax(d.y, d.z)), 0);
 }
 
-float	sdf_torus(cl_float3 pos, cl_float2 t)
+float	sdf_torus(cl_float3 pos, cl_float radius, cl_float inner_radius)
 {
-	cl_float2 q = (cl_float2){{f2len((cl_float2){{pos.x, pos.z}}) - t.x, pos.y}};
-	return f2len(q) - t.y;
+	cl_float2 q = (cl_float2){{f2len((cl_float2){{pos.x, pos.z}}) - radius, pos.y}};
+	return f2len(q) - inner_radius;
 }
 
 float	sdf_capped_torus(cl_float3 pos, cl_float2 sc, float ra, float rb)
