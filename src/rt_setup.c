@@ -34,6 +34,8 @@ t_rt_main	*setup_rt(cl_int2 screen_size)
 							  "src/cl/raymarch.c",
 							  "src/cl/sdf.c",
 							  "src/cl/ray.c",
+							  "src/cl/uv_mapping.cl",
+							  "src/cl/choose_texture_for_object.cl",
 							  NULL},
 					  (char *[]){"render", NULL});
 	rt_jtoc_scene_setup(rt, "json/scenes/scene_1.json");

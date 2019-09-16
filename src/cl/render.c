@@ -39,60 +39,6 @@ float3			get_skybox_color(float3 direction)
 	})));
 }
 
-float2			uv_mapping_for_plane(t_raycast_hit rh)
-{
-	float3 point = rh.point;
-	float3 normvec;
-	float3 crossvec;
-	float v;
-	float u;
-
-	if (rh.normal.x != 0.0f || rh.normal.y != 0.0f)
-		normvec = normalize((float3) {rh.normal.y, -rh.normal.x, 0.0f});
-	else
-		normvec = (float3) {0.0f, 0.0f, 1.0f};
-	crossvec = cross(normvec, rh.normal);
-	u = 0.5 + fmod(dot(normvec, point), 1.0f) / 2;
-	v = 0.5 + fmod(dot(crossvec, point), 1.0f) / 2;
-	return ((float2){u, v});
-}
-
-float2			uv_mapping_for_sphere(t_raycast_hit rh)
-{
-	float3	point = rh.point;
-	float3	obj_pos = rh.hit->transform.pos;
-	float3	vec;
-	float 	v;
-	float 	u;
-
-	vec = normalize(point - obj_pos);
-	u = 0.5f + (atan2(vec.z, vec.x) / TWO_PI);
-	v = 0.5f - (asin(vec.y) / PI);
-	return ((float2){u, v});
-}
-
-float2			uv_mapping_for_cylinder(t_raycast_hit rh)
-{
-	float3	point = rh.point;
-	float3	obj_pos = rh.hit->transform.pos;
-	float3	vec;
-	float 	v;
-	float 	u;
-
-	vec = normalize(point - obj_pos);
-	u = 0.5f + (atan2(vec.z, vec.x) / TWO_PI);
-	v = 0.5f + (modf(point.y * 1000 / 1024, &v) / 2);
-	return ((float2){u, v});
-}
-
-float2			uv_mapping_for_torus(t_raycast_hit rh)
-{
-	float3	vec = rh.point - rh.hit->transform.pos;
-	float	u = 0.5f + (atan2(vec.z, vec.x) / TWO_PI);
-	float 	v = 0.5f - asin(vec.y / rh.hit->params.torus.inner_radius) / PI;
-	return ((float2){u, v});
-}
-
 __kernel void	render(__global char *image, __global t_scene *scene, __global t_object *objects, __global t_light *lights, int2 screen, __global int *texture)
 {
 	int		gid = get_global_id(0);
@@ -121,57 +67,8 @@ __kernel void	render(__global char *image, __global t_scene *scene, __global t_o
 		fill_camera_pixel(image, pixel, screen, color, cached_camera.quality);
 		return;
 	}
-	if (rh.hit->type == o_sphere)
-	{
-		float2 uv;
-		uv = uv_mapping_for_sphere(rh);
-		int coord = int(uv.x * 1024) + int(uv.y * 1024) * 1024;
-		color.x = (RED(texture[coord]));
-		color.y = (GREEN(texture[coord]));
-		color.z = (BLUE(texture[coord]));
-		color.x /= 255;
-		color.y /= 255;
-		color.z /= 255;
-	}
-	else if (rh.hit->type == o_cylinder)
-	{
-		float2 uv;
-		uv = uv_mapping_for_cylinder(rh);
-		int coord = int(uv.x * 1024) + int(uv.y * 1024) * 1024;
-		color.x = (RED(texture[coord]));
-		color.y = (GREEN(texture[coord]));
-		color.z = (BLUE(texture[coord]));
-		color.x /= 255;
-		color.y /= 255;
-		color.z /= 255;
-	}
-	else if (rh.hit->type == o_plane)
-	{
-		float2 uv;
-		uv = uv_mapping_for_plane(rh);
-		int coord = int(uv.x * 1024) + int(uv.y * 1024) * 1024;
-		color.x = (RED(texture[coord]));
-		color.y = (GREEN(texture[coord]));
-		color.z = (BLUE(texture[coord]));
-		color.x /= 255;
-		color.y /= 255;
-		color.z /= 255;
-	}
-	else if (rh.hit->type == o_torus)
-	{
-		float2 uv;
-		uv = uv_mapping_for_torus(rh);
-		int coord = int(uv.x * 1024) + int(uv.y * 1024) * 1024;
-		color.x = (RED(texture[coord]));
-		color.y = (GREEN(texture[coord]));
-		color.z = (BLUE(texture[coord]));
-		color.x /= 255;
-		color.y /= 255;
-		color.z /= 255;
-	}
-	else
+	if (choose_texture_for_object(rh, texture, &color))
 		color = rh.hit->material.color.xyz;
-//		color = rh.hit->material.color.xyz;
 	// TODO refactor
 	// Light processing.
 	float3 diffuse = color * scene->ambient;
