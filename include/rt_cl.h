@@ -32,10 +32,13 @@ float3	get_skybox_color(float3 direction);
 float3	repeatSDF(float3 pos, float3 cen, float rx, float ry, float rz);
 float	sphereSDF(float3 posc, float radius);
 
+void	normalize_coord_for_texture(float2 uv, float3 *color,  __global int *texture);
+int		choose_texture_for_object(t_raycast_hit rh,  __global int *texture, float3 *color);
 float2	uv_mapping_for_sphere(t_raycast_hit rh);
 float2	uv_mapping_for_cylinder(t_raycast_hit rh);
 float2	uv_mapping_for_plane(t_raycast_hit rh);
 float2	uv_mapping_for_torus(t_raycast_hit rh);
+float2	uv_mapping_for_cube(t_raycast_hit rh);
 
 char	raymarch(float3 origin, float3 direction, float distance, __global t_scene *scene, t_raycast_hit *rh);
 
