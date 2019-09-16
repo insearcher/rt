@@ -41,22 +41,24 @@ float3			get_skybox_color(float3 direction)
 
 __kernel void	render(__global char *image, __global t_scene *scene, __global t_object *objects, __global t_light *lights, int2 screen, __global int *texture)
 {
-	int		gid = get_global_id(0);
+	t_camera	cached_camera;
+	int			gid;
+	int2		pixel;
 
-	int2	pixel = (int2)(gid % screen.x, gid / screen.x);
-
+	gid = get_global_id(0);
+	pixel = (int2)(gid % screen.x, gid / screen.x);
 	if (pixel.x % scene->camera.quality || pixel.y % scene->camera.quality)
 		return;
 
 	scene->objects = objects;
 	scene->lights = lights;
-
-	t_camera cached_camera = scene->camera;
+	cached_camera = scene->camera;
 
 	float3 k = screen_to_world(pixel, screen, cached_camera.fov);
 
 	t_transform t = cached_camera.transform;
-	float3 direction = normalize(mad(t.right, k.x, mad(t.up, k.y, t.forward * k.z)));
+	float3 direction = normalize(mad(cached_camera.transform.right, k.x, mad(t.up, k.y, t.forward * k.z)));
+//	float3 direction = normalize(k);
 
 	float3	color;
 	t_raycast_hit rh;
@@ -69,10 +71,11 @@ __kernel void	render(__global char *image, __global t_scene *scene, __global t_o
 	}
 	if (choose_texture_for_object(rh, texture, &color))
 		color = rh.hit->material.color.xyz;
+
 	// TODO refactor
 	// Light processing.
 	float3 diffuse = color * scene->ambient;
-//	diffuse = clamp(diffuse, (float3){0, 0, 0}, (float3){1, 1, 1});
+	diffuse = clamp(diffuse, (float3){0, 0, 0}, (float3){1, 1, 1});
 	for (uint i = 0; i < scene->lights_count; ++i)
 	{
 		t = scene->lights[i].transform;

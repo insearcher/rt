@@ -30,7 +30,7 @@ t_rt_main	*setup_rt(cl_int2 screen_size)
 	rt = (t_rt_main *)ft_memalloc(sizeof(t_rt_main));
 	rt->screen_size = screen_size;
 	rt->cl = cl_setup((char *[]){
-							  "src/cl/render.c",
+							  "src/cl/render_rm.c",
 							  "src/cl/raymarch.c",
 							  "src/cl/sdf.c",
 							  "src/cl/ray.c",
