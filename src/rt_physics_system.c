@@ -18,17 +18,17 @@ static int		ps_move(t_physics_system *ps, const int i)
 		ps->rbs[i].move.vel.x = ft_lerp(
 				ps->rbs[i].move.vel.x,
 				ps->rbs[i].move.raw_vel.x,
-				ps->rbs[i].move.acc);
+				ps->rbs[i].move.braking_coef);
 	if (fabs(ps->rbs[i].move.vel.y - ps->rbs[i].move.raw_vel.y) > RM_FLT_EPSILON)
 		ps->rbs[i].move.vel.y = ft_lerp(
 				ps->rbs[i].move.vel.y,
 				ps->rbs[i].move.raw_vel.y,
-				ps->rbs[i].move.acc);
+				ps->rbs[i].move.braking_coef);
 	if (fabs(ps->rbs[i].move.vel.z - ps->rbs[i].move.raw_vel.z) > RM_FLT_EPSILON)
 		ps->rbs[i].move.vel.z = ft_lerp(
 				ps->rbs[i].move.vel.z,
 				ps->rbs[i].move.raw_vel.z,
-				ps->rbs[i].move.acc);
+				ps->rbs[i].move.braking_coef);
 
 	if (fabs(ps->rbs[i].move.vel.x) > RM_FLT_EPSILON)
 		ps->rbs[i].transform->pos.v4 += ps->rbs[i].transform->right.v4 * ps->rbs[i].move.vel.x *
@@ -51,12 +51,12 @@ static int		ps_rot(t_physics_system *ps, const int i)
 		ps->rbs[i].rot.vel.x = ft_lerp(
 				ps->rbs[i].rot.vel.x, 
 				ps->rbs[i].rot.raw_vel.x, 
-				ps->rbs[i].rot.acc);
+				ps->rbs[i].rot.braking_coef);
 	if (fabs(ps->rbs[i].rot.vel.y - ps->rbs[i].rot.raw_vel.y) > RM_FLT_EPSILON)
 		ps->rbs[i].rot.vel.y = ft_lerp(
 				ps->rbs[i].rot.vel.y,
 				ps->rbs[i].rot.raw_vel.y, 
-				ps->rbs[i].rot.acc);
+				ps->rbs[i].rot.braking_coef);
 
 	float rot_matrix[9];
 

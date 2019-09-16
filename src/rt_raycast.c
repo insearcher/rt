@@ -157,7 +157,7 @@ static char	raycast(t_rt_main *rt, int x, int y, t_raycast_hit *rh, cl_uint mask
 	t_scene	*scene;
 	cl_int2	pixel = (cl_int2){{x, y}};
 
-	scene = rt->scenes;  //TODO THERE ARE SEVERAL SCENES NOT ONE
+	scene = rt->scene;
 	cl_float3	k = screen_to_world(pixel, rt->screen_size, scene->camera.fov);
 
 	t_transform t = scene->camera.transform;

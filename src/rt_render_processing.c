@@ -6,17 +6,17 @@ static void	create_buffers_for_render(t_rt_main *rt, cl_mem *cl_scene,
 	*cl_scene = clCreateBuffer(*rt->cl->context, CL_MEM_READ_ONLY,
 							   sizeof(t_scene), NULL, NULL);
 	*cl_objects = clCreateBuffer(*rt->cl->context, CL_MEM_READ_ONLY,
-								 sizeof(t_object) * rt->scenes[0].objects_count, NULL, NULL);
+								 sizeof(t_object) * rt->scene[0].objects_count, NULL, NULL);
 	*cl_lights = clCreateBuffer(*rt->cl->context, CL_MEM_READ_ONLY,
-								sizeof(t_light) * rt->scenes[0].lights_count, NULL, NULL);
+								sizeof(t_light) * rt->scene[0].lights_count, NULL, NULL);
 	clEnqueueWriteBuffer(*rt->cl->queue, *cl_scene, CL_TRUE, 0,
-						 sizeof(t_scene), &rt->scenes[0], 0, NULL, NULL);
+						 sizeof(t_scene), &rt->scene[0], 0, NULL, NULL);
 	clEnqueueWriteBuffer(*rt->cl->queue, *cl_objects, CL_TRUE, 0,
-						 sizeof(t_object) * rt->scenes[0].objects_count,
-						 rt->scenes[0].objects, 0, NULL, NULL);
+						 sizeof(t_object) * rt->scene[0].objects_count,
+						 rt->scene[0].objects, 0, NULL, NULL);
 	clEnqueueWriteBuffer(*rt->cl->queue, *cl_lights, CL_TRUE, 0,
-						 sizeof(t_light) * rt->scenes[0].lights_count,
-						 rt->scenes[0].lights, 0, NULL, NULL);
+						 sizeof(t_light) * rt->scene[0].lights_count,
+						 rt->scene[0].lights, 0, NULL, NULL);
 }
 
 void	render_processing(t_rt_main *rt, size_t *global_size)

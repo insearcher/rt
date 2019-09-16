@@ -32,7 +32,7 @@ typedef struct		s_move_params
 {
 	cl_float3		vel;
 	cl_float3		raw_vel;
-	cl_float		acc;
+	cl_float		braking_coef;
 	cl_float		speed;
 	cl_float		speed_mult;
 }					t_move_params;

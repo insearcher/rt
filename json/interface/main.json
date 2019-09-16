@@ -13,6 +13,11 @@
           {
               "x": 0
           },
+          "event na budushee":
+          {
+              "event_name": "Customizable",
+              "func_name": "PRI_PRESSED_BUTTON_K_EBATb_MEDVEDEI"
+          },
           "events":
           [
               {

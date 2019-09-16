@@ -36,9 +36,7 @@ t_rt_main	*setup_rt(cl_int2 screen_size)
 							  "src/cl/ray.c",
 							  NULL},
 					  (char *[]){"render", NULL});
-	rt->scenes = rt_jtoc_scenes_setup((char *[]){
-			"json/scenes/scene_1.json",
-			NULL});
+	rt_jtoc_scene_setup(rt, "json/scenes/scene_1.json");
 	fill_constant_screen_gpu_mem(rt, screen_size);
 	rt->params |= RT_RENDER_2;
 	return (rt);

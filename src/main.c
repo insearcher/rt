@@ -63,23 +63,23 @@ int main()
 	ui->data = (void *)rt;
 
 //TODO NEEDED FOR PLANE (NOW PLANE IN JSON DOESN'T WORK CORRECTLY) (MAKSON WHAT IT TAKOE WOBSHE?)
-//	t_transform *temp = &rt->scenes[0].objects[4].transform;
+//	t_transform *temp = &rt->scene[0].objects[4].transform;
 //	float d = -(temp->up.x * temp->pos.x + temp->up.y * temp->pos.y + temp->up.z * temp->pos.z);
-//	rt->scenes[0].objects[4].params.plane.distance = fabs(d) / sqrt(temp->up.x * temp->up.x + temp->up.y * temp->up.y + temp->up.z * temp->up.z);
+//	rt->scene[0].objects[4].params.plane.distance = fabs(d) / sqrt(temp->up.x * temp->up.x + temp->up.y * temp->up.y + temp->up.z * temp->up.z);
 
 //TODO CONE IS STRANGE
 
 //TODO CYLINDER PARAMS X AND Y ARE USELESS (IT'S Z AND X OFFSET, BUT WE HAVE TRANSFORM)
 
 //TODO	capped torus doesn't work correctly
-//	rt->scenes[0].objects[4].type = o_capped_torus;
-//	rt->scenes[0].objects[4].layer = DEFAULT_LAYER;
-//	rt->scenes[0].objects[4].params.capped_torus.sc = (cl_float2){{0.4f, 0.5f}};
-//	rt->scenes[0].objects[4].params.capped_torus.ra = 1;
-//	rt->scenes[0].objects[4].params.capped_torus.rb = 2;
-//	rt->scenes[0].objects[4].transform.pos = (cl_float3){{0, 10, 40}};
-//	rt->scenes[0].objects[4].transform.id = 6;
-//	rt->scenes[0].objects[4].material.color = (cl_float4){{0, 1, 1, 1}};
+//	rt->scene[0].objects[4].type = o_capped_torus;
+//	rt->scene[0].objects[4].layer = DEFAULT_LAYER;
+//	rt->scene[0].objects[4].params.capped_torus.sc = (cl_float2){{0.4f, 0.5f}};
+//	rt->scene[0].objects[4].params.capped_torus.ra = 1;
+//	rt->scene[0].objects[4].params.capped_torus.rb = 2;
+//	rt->scene[0].objects[4].transform.pos = (cl_float3){{0, 10, 40}};
+//	rt->scene[0].objects[4].transform.id = 6;
+//	rt->scene[0].objects[4].material.color = (cl_float4){{0, 1, 1, 1}};
 
 /// PHYSICS SYSTEM START !!!!!!!!!!!!!!!!!!!!!!!!!
 	t_physics_system	*ps = ft_memalloc(sizeof(t_physics_system));
@@ -89,69 +89,67 @@ int main()
 
 	ps->rbs[0].move.speed = 10000;
 	ps->rbs[0].move.speed_mult = 4;
-	ps->rbs[0].move.acc = 0.025f;
+	ps->rbs[0].move.braking_coef = 0.025f;
 	ps->rbs[0].move.vel = (cl_float3){{0, 0, 0}};
 	ps->rbs[0].move.raw_vel = (cl_float3){{0, 0, 0}};
 
 	ps->rbs[0].rot.speed = 100000;
-	ps->rbs[0].rot.acc = .04f;
+	ps->rbs[0].rot.braking_coef = .04f;
 	ps->rbs[0].rot.vel = (cl_float3){{0, 0, 0}};
 	ps->rbs[0].rot.raw_vel = (cl_float3){{0, 0, 0}};
+	ps->rbs[0].transform = rt_find_transform_by_id(rt->scene, 1);
 
-	ps->rbs[0].transform = &rt->scenes[0].camera.transform;
 
 	ps->rbs[1].move.speed = 10000;
 	ps->rbs[1].move.speed_mult = 4;
-	ps->rbs[1].move.acc = 0.025f;
+	ps->rbs[1].move.braking_coef = 0.025f;
 	ps->rbs[1].move.vel = (cl_float3){{0, 0, 0}};
 	ps->rbs[1].move.raw_vel = (cl_float3){{0, 0, 0}};
 
 	ps->rbs[1].rot.speed = 100000;
-	ps->rbs[1].rot.acc = .04f;
+	ps->rbs[1].rot.braking_coef = .04f;
 	ps->rbs[1].rot.vel = (cl_float3){{1, 0, 1}};
 	ps->rbs[1].rot.raw_vel = (cl_float3){{1, 0, 1}};
+	ps->rbs[1].transform = rt_find_transform_by_id(rt->scene, 2);
 
-	ps->rbs[1].transform = &rt->scenes[0].objects[10].transform;
 
 	ps->rbs[2].move.speed = 10000;
 	ps->rbs[2].move.speed_mult = 4;
-	ps->rbs[2].move.acc = 0.025f;
+	ps->rbs[2].move.braking_coef = 0.025f;
 	ps->rbs[2].move.vel = (cl_float3){{0, 0, 0}};
 	ps->rbs[2].move.raw_vel = (cl_float3){{0, 0, 0}};
 
 	ps->rbs[2].rot.speed = 150000;
-	ps->rbs[2].rot.acc = .04f;
+	ps->rbs[2].rot.braking_coef = .04f;
 	ps->rbs[2].rot.vel = (cl_float3){{1, 0, 1}};
 	ps->rbs[2].rot.raw_vel = (cl_float3){{0, 1, 1}};
-
-	ps->rbs[2].transform = &rt->scenes[0].objects[11].transform;
+	ps->rbs[2].transform = rt_find_transform_by_id(rt->scene, 3);
 
 
 	ps->rbs[3].move.speed = 10000;
 	ps->rbs[3].move.speed_mult = 4;
-	ps->rbs[3].move.acc = 0.025f;
+	ps->rbs[3].move.braking_coef = 0.025f;
 	ps->rbs[3].move.vel = (cl_float3){{0, 0, 0}};
 	ps->rbs[3].move.raw_vel = (cl_float3){{0, 0, 0}};
 
 	ps->rbs[3].rot.speed =  200000;
-	ps->rbs[3].rot.acc = .04f;
+	ps->rbs[3].rot.braking_coef = .04f;
 	ps->rbs[3].rot.vel = (cl_float3){{1, 0, 1}};
 	ps->rbs[3].rot.raw_vel = (cl_float3){{1, 1, 1}};
+	ps->rbs[3].transform = rt_find_transform_by_id(rt->scene, 4);
 
-	ps->rbs[3].transform = &rt->scenes[0].objects[12].transform;
-
-	ps->rbs[4].move.speed = 100000;
+	ps->rbs[4].move.speed = 10000;
 	ps->rbs[4].move.speed_mult = 4;
-	ps->rbs[4].move.acc = 0.025f;
+	ps->rbs[4].move.braking_coef = 0.025f;
 	ps->rbs[4].move.vel = (cl_float3){{0, 0, 0}};
 	ps->rbs[4].move.raw_vel = (cl_float3){{0, 0, 0}};
 
 	ps->rbs[4].rot.speed =  200000;
-	ps->rbs[4].rot.acc = .04f;
+	ps->rbs[4].rot.braking_coef = .04f;
 	ps->rbs[4].rot.vel = (cl_float3){{1, 1, 1}};
 	ps->rbs[4].rot.raw_vel = (cl_float3){{1, 1, 1}};
+	ps->rbs[4].transform = rt_find_transform_by_id(rt->scene, 5);
 
-	ps->rbs[4].transform = &rt->scenes[0].objects[14].transform;
 	system_setup(&ps->system, "physics", &ps_func, 5);
 	ps->change_indicator = 1;
 	system_start(&ps->system);
@@ -199,129 +197,129 @@ int SDL_main(int argc, char *argv[])
 							  "src/cl/ray.c",
 							  NULL},
 					  (char *[]){"render", NULL});
-	rt->scenes = ft_x_memalloc(sizeof(t_scene));
-//	rt->scenes[0].objects_count = 20;
-//	rt->scenes[0].objects = ft_x_memalloc(sizeof(t_object) * rt->scenes[0].objects_count);
+	rt->scene = ft_x_memalloc(sizeof(t_scene));
+//	rt->scene[0].objects_count = 20;
+//	rt->scene[0].objects = ft_x_memalloc(sizeof(t_object) * rt->scene[0].objects_count);
 //	for (int i = 0; i < 20; i++)
 //	{
-//		rt->scenes[0].objects[i].type = box;
-//		rt->scenes[0].objects[i].params.box.bounds = (cl_float3){{1, 1, 1}};
+//		rt->scene[0].objects[i].type = box;
+//		rt->scene[0].objects[i].params.box.bounds = (cl_float3){{1, 1, 1}};
 //	}
-//	rt->scenes[0].objects[0].transform.pos = (cl_float3){{-1, 5, 0}};
-//	rt->scenes[0].objects[1].transform.pos = (cl_float3){{1, 5, 0}};
-//	rt->scenes[0].objects[2].transform.pos = (cl_float3){{3, 5, 0}};
-//	rt->scenes[0].objects[3].transform.pos = (cl_float3){{-1, 3, 0}};
-//	rt->scenes[0].objects[4].transform.pos = (cl_float3){{-1, 1, 0}};
-//	rt->scenes[0].objects[5].transform.pos = (cl_float3){{1, 1, 0}};
-//	rt->scenes[0].objects[6].transform.pos = (cl_float3){{3, 1, 0}};
-//	rt->scenes[0].objects[7].transform.pos = (cl_float3){{9, 5, 0}};
-//	rt->scenes[0].objects[8].transform.pos = (cl_float3){{9, 3, 0}};
-//	rt->scenes[0].objects[9].transform.pos = (cl_float3){{9, 1, 0}};
-//	rt->scenes[0].objects[10].transform.pos = (cl_float3){{11, 5, 0}};
-//	rt->scenes[0].objects[11].transform.pos = (cl_float3){{11, 1, 0}};
-//	rt->scenes[0].objects[12].transform.pos = (cl_float3){{13, 3, 0}};
-//	rt->scenes[0].objects[13].transform.pos = (cl_float3){{17, 5, 0}};
-//	rt->scenes[0].objects[14].transform.pos = (cl_float3){{17, 3, 0}};
-//	rt->scenes[0].objects[15].transform.pos = (cl_float3){{17, 1, 0}};
-//	rt->scenes[0].objects[16].transform.pos = (cl_float3){{17, 7, 0}};
-//	rt->scenes[0].objects[17].transform.pos = (cl_float3){{19, 7, 0}};
-//	rt->scenes[0].objects[18].transform.pos = (cl_float3){{19, 3, 0}};
-//	rt->scenes[0].objects[19].transform.pos = (cl_float3){{21, 5, 0}};
+//	rt->scene[0].objects[0].transform.pos = (cl_float3){{-1, 5, 0}};
+//	rt->scene[0].objects[1].transform.pos = (cl_float3){{1, 5, 0}};
+//	rt->scene[0].objects[2].transform.pos = (cl_float3){{3, 5, 0}};
+//	rt->scene[0].objects[3].transform.pos = (cl_float3){{-1, 3, 0}};
+//	rt->scene[0].objects[4].transform.pos = (cl_float3){{-1, 1, 0}};
+//	rt->scene[0].objects[5].transform.pos = (cl_float3){{1, 1, 0}};
+//	rt->scene[0].objects[6].transform.pos = (cl_float3){{3, 1, 0}};
+//	rt->scene[0].objects[7].transform.pos = (cl_float3){{9, 5, 0}};
+//	rt->scene[0].objects[8].transform.pos = (cl_float3){{9, 3, 0}};
+//	rt->scene[0].objects[9].transform.pos = (cl_float3){{9, 1, 0}};
+//	rt->scene[0].objects[10].transform.pos = (cl_float3){{11, 5, 0}};
+//	rt->scene[0].objects[11].transform.pos = (cl_float3){{11, 1, 0}};
+//	rt->scene[0].objects[12].transform.pos = (cl_float3){{13, 3, 0}};
+//	rt->scene[0].objects[13].transform.pos = (cl_float3){{17, 5, 0}};
+//	rt->scene[0].objects[14].transform.pos = (cl_float3){{17, 3, 0}};
+//	rt->scene[0].objects[15].transform.pos = (cl_float3){{17, 1, 0}};
+//	rt->scene[0].objects[16].transform.pos = (cl_float3){{17, 7, 0}};
+//	rt->scene[0].objects[17].transform.pos = (cl_float3){{19, 7, 0}};
+//	rt->scene[0].objects[18].transform.pos = (cl_float3){{19, 3, 0}};
+//	rt->scene[0].objects[19].transform.pos = (cl_float3){{21, 5, 0}};
 
-	rt->scenes[0].ambient = (cl_float3){{.1f, .1f, .1f}};
+	rt->scene[0].ambient = (cl_float3){{.1f, .1f, .1f}};
 
-	rt->scenes[0].objects_count = 4;
-	rt->scenes[0].objects = ft_x_memalloc(sizeof(t_object) * rt->scenes[0].objects_count);
+	rt->scene[0].objects_count = 4;
+	rt->scene[0].objects = ft_x_memalloc(sizeof(t_object) * rt->scene[0].objects_count);
 
-	rt->scenes[0].objects[0].type = o_sphere;
-	transform_setup_default(&rt->scenes[0].objects[0].transform);
-	rt->scenes[0].objects[0].layer = DEFAULT_LAYER;
-	rt->scenes[0].objects[0].params.sphere.radius = 3;
-	rt->scenes[0].objects[0].transform.pos = (cl_float3){{0, 10, 0}};
-	rt->scenes[0].objects[0].transform.id = 2;
-	rt->scenes[0].objects[0].material.color = (cl_float4){{0, 1, 1, 1}};
+	rt->scene[0].objects[0].type = o_sphere;
+	transform_setup_default(&rt->scene[0].objects[0].transform);
+	rt->scene[0].objects[0].layer = DEFAULT_LAYER;
+	rt->scene[0].objects[0].params.sphere.radius = 3;
+	rt->scene[0].objects[0].transform.pos = (cl_float3){{0, 10, 0}};
+	rt->scene[0].objects[0].transform.id = 2;
+	rt->scene[0].objects[0].material.color = (cl_float4){{0, 1, 1, 1}};
 
-	rt->scenes[0].objects[1].type = o_box;
-	transform_setup_default(&rt->scenes[0].objects[1].transform);
-	rt->scenes[0].objects[1].layer = DEFAULT_LAYER;
-	rt->scenes[0].objects[1].params.box.bounds = (cl_float3){{1, 2, 3}};
-	rt->scenes[0].objects[1].transform.pos = (cl_float3){{0, 10, 10}};
-	rt->scenes[0].objects[1].transform.id = 3;
-	rt->scenes[0].objects[1].material.color = (cl_float4){{0, 1, 1, 1}};
+	rt->scene[0].objects[1].type = o_box;
+	transform_setup_default(&rt->scene[0].objects[1].transform);
+	rt->scene[0].objects[1].layer = DEFAULT_LAYER;
+	rt->scene[0].objects[1].params.box.bounds = (cl_float3){{1, 2, 3}};
+	rt->scene[0].objects[1].transform.pos = (cl_float3){{0, 10, 10}};
+	rt->scene[0].objects[1].transform.id = 3;
+	rt->scene[0].objects[1].material.color = (cl_float4){{0, 1, 1, 1}};
 
-	rt->scenes[0].objects[2].type = o_round_box;
-	transform_setup_default(&rt->scenes[0].objects[2].transform);
-	rt->scenes[0].objects[2].layer = DEFAULT_LAYER;
-	rt->scenes[0].objects[2].params.round_box.bounds = (cl_float3){{1, 2, 3}};
-	rt->scenes[0].objects[2].params.round_box.r = 1;
-	rt->scenes[0].objects[2].transform.pos = (cl_float3){{0, 10, 20}};
-	rt->scenes[0].objects[2].transform.id = 4;
-	rt->scenes[0].objects[2].material.color = (cl_float4){{0, 1, 1, 1}};
+	rt->scene[0].objects[2].type = o_round_box;
+	transform_setup_default(&rt->scene[0].objects[2].transform);
+	rt->scene[0].objects[2].layer = DEFAULT_LAYER;
+	rt->scene[0].objects[2].params.round_box.bounds = (cl_float3){{1, 2, 3}};
+	rt->scene[0].objects[2].params.round_box.r = 1;
+	rt->scene[0].objects[2].transform.pos = (cl_float3){{0, 10, 20}};
+	rt->scene[0].objects[2].transform.id = 4;
+	rt->scene[0].objects[2].material.color = (cl_float4){{0, 1, 1, 1}};
 
-	rt->scenes[0].objects[3].type = o_torus;
-	transform_setup_default(&rt->scenes[0].objects[3].transform);
-	rt->scenes[0].objects[3].layer = DEFAULT_LAYER;
-	rt->scenes[0].objects[3].params.torus.params = (cl_float2){{2, 2}};
-	rt->scenes[0].objects[3].transform.pos = (cl_float3){{0, 10, 30}};
-	rt->scenes[0].objects[3].transform.id = 5;
-	rt->scenes[0].objects[3].material.color = (cl_float4){{0, 1, 1, 1}};
+	rt->scene[0].objects[3].type = o_torus;
+	transform_setup_default(&rt->scene[0].objects[3].transform);
+	rt->scene[0].objects[3].layer = DEFAULT_LAYER;
+	rt->scene[0].objects[3].params.torus.params = (cl_float2){{2, 2}};
+	rt->scene[0].objects[3].transform.pos = (cl_float3){{0, 10, 30}};
+	rt->scene[0].objects[3].transform.id = 5;
+	rt->scene[0].objects[3].material.color = (cl_float4){{0, 1, 1, 1}};
 
-//	rt->scenes[0].objects[4].type = o_plane;
-//	transform_setup_default(&rt->scenes[0].objects[4].transform);
-//	rt->scenes[0].objects[4].layer = IGNORE_RAYCAST_LAYER;
-//	rt->scenes[0].objects[4].transform.pos = (cl_float3){{-5, -5, -5}};
-//	t_transform *temp = &rt->scenes[0].objects[4].transform;
+//	rt->scene[0].objects[4].type = o_plane;
+//	transform_setup_default(&rt->scene[0].objects[4].transform);
+//	rt->scene[0].objects[4].layer = IGNORE_RAYCAST_LAYER;
+//	rt->scene[0].objects[4].transform.pos = (cl_float3){{-5, -5, -5}};
+//	t_transform *temp = &rt->scene[0].objects[4].transform;
 //	float d = -(temp->up.x * temp->pos.x + temp->up.y * temp->pos.y + temp->up.z * temp->pos.z);
-//	rt->scenes[0].objects[4].params.plane.distance = fabs(d) / sqrt(temp->up.x * temp->up.x + temp->up.y * temp->up.y + temp->up.z * temp->up.z);
-//	rt->scenes[0].objects[4].transform.id = 5;
-//	rt->scenes[0].objects[4].material.color = (cl_float4){{1, 0, 0, 1}};
+//	rt->scene[0].objects[4].params.plane.distance = fabs(d) / sqrt(temp->up.x * temp->up.x + temp->up.y * temp->up.y + temp->up.z * temp->up.z);
+//	rt->scene[0].objects[4].transform.id = 5;
+//	rt->scene[0].objects[4].material.color = (cl_float4){{1, 0, 0, 1}};
 
-//	rt->scenes[0].objects[4].type = o_capped_torus;
-//	rt->scenes[0].objects[4].layer = DEFAULT_LAYER;
-//	rt->scenes[0].objects[4].params.capped_torus.sc = (cl_float2){{0.4f, 0.5f}};
-//	rt->scenes[0].objects[4].params.capped_torus.ra = 1;
-//	rt->scenes[0].objects[4].params.capped_torus.rb = 2;
-//	rt->scenes[0].objects[4].transform.pos = (cl_float3){{0, 10, 40}};
-//	rt->scenes[0].objects[4].transform.id = 6;
-//	rt->scenes[0].objects[4].material.color = (cl_float4){{0, 1, 1, 1}};
+//	rt->scene[0].objects[4].type = o_capped_torus;
+//	rt->scene[0].objects[4].layer = DEFAULT_LAYER;
+//	rt->scene[0].objects[4].params.capped_torus.sc = (cl_float2){{0.4f, 0.5f}};
+//	rt->scene[0].objects[4].params.capped_torus.ra = 1;
+//	rt->scene[0].objects[4].params.capped_torus.rb = 2;
+//	rt->scene[0].objects[4].transform.pos = (cl_float3){{0, 10, 40}};
+//	rt->scene[0].objects[4].transform.id = 6;
+//	rt->scene[0].objects[4].material.color = (cl_float4){{0, 1, 1, 1}};
 //
-//	rt->scenes[0].objects[5].type = o_link;
-//	rt->scenes[0].objects[5].layer = DEFAULT_LAYER;
-//	rt->scenes[0].objects[5].transform.pos = (cl_float3){{0, 10, 50}};
-//	rt->scenes[0].objects[5].params.link.le = 3;
-//	rt->scenes[0].objects[5].params.link.r1 = 2;
-//	rt->scenes[0].objects[5].params.link.r2 = 1;
-//	rt->scenes[0].objects[5].transform.id = 7;
-//	rt->scenes[0].objects[5].material.color = (cl_float4){{0, 1, 1, 1}};
+//	rt->scene[0].objects[5].type = o_link;
+//	rt->scene[0].objects[5].layer = DEFAULT_LAYER;
+//	rt->scene[0].objects[5].transform.pos = (cl_float3){{0, 10, 50}};
+//	rt->scene[0].objects[5].params.link.le = 3;
+//	rt->scene[0].objects[5].params.link.r1 = 2;
+//	rt->scene[0].objects[5].params.link.r2 = 1;
+//	rt->scene[0].objects[5].transform.id = 7;
+//	rt->scene[0].objects[5].material.color = (cl_float4){{0, 1, 1, 1}};
 //
-//	rt->scenes[0].objects[6].type = o_cylinder;
-//	rt->scenes[0].objects[6].layer = DEFAULT_LAYER;
-//	rt->scenes[0].objects[6].transform.pos = (cl_float3){{0, 10, 60}};
-//	rt->scenes[0].objects[6].params.cylinder.params = (cl_float3){{1, 2, 3}};
-//	rt->scenes[0].objects[6].transform.id = 8;
-//	rt->scenes[0].objects[6].material.color = (cl_float4){{0, 1, 1, 1}};
+//	rt->scene[0].objects[6].type = o_cylinder;
+//	rt->scene[0].objects[6].layer = DEFAULT_LAYER;
+//	rt->scene[0].objects[6].transform.pos = (cl_float3){{0, 10, 60}};
+//	rt->scene[0].objects[6].params.cylinder.params = (cl_float3){{1, 2, 3}};
+//	rt->scene[0].objects[6].transform.id = 8;
+//	rt->scene[0].objects[6].material.color = (cl_float4){{0, 1, 1, 1}};
 //
-//	rt->scenes[0].objects[7].type = o_cone;
-//	rt->scenes[0].objects[7].layer = DEFAULT_LAYER;
-//	rt->scenes[0].objects[7].transform.pos = (cl_float3){{0, 10, 70}};
-//	rt->scenes[0].objects[7].params.cone.c = (cl_float2){{10, -1}};
-//	rt->scenes[0].objects[7].transform.id = 9;
-//	rt->scenes[0].objects[7].material.color = (cl_float4){{0, 1, 1, 1}};
+//	rt->scene[0].objects[7].type = o_cone;
+//	rt->scene[0].objects[7].layer = DEFAULT_LAYER;
+//	rt->scene[0].objects[7].transform.pos = (cl_float3){{0, 10, 70}};
+//	rt->scene[0].objects[7].params.cone.c = (cl_float2){{10, -1}};
+//	rt->scene[0].objects[7].transform.id = 9;
+//	rt->scene[0].objects[7].material.color = (cl_float4){{0, 1, 1, 1}};
 
 // TODO when lights count > 1 strange shit happens
-	rt->scenes[0].lights_count = 1;
-	rt->scenes[0].lights = ft_x_memalloc(sizeof(t_light) * rt->scenes[0].lights_count);
+	rt->scene[0].lights_count = 1;
+	rt->scene[0].lights = ft_x_memalloc(sizeof(t_light) * rt->scene[0].lights_count);
 
-	rt->scenes[0].lights[0].transform.pos = (cl_float3){{0, 0, 0}};
-	transform_setup_default(&rt->scenes[0].lights[0].transform);
-	rt->scenes[0].lights[0].transform.forward = (cl_float3){{0, -1, 0}};
-	rt->scenes[0].lights[0].type = directional;
-	rt->scenes[0].lights[0].params.directional.color = (cl_float3){{.4f, .4f, .4f}};
+	rt->scene[0].lights[0].transform.pos = (cl_float3){{0, 0, 0}};
+	transform_setup_default(&rt->scene[0].lights[0].transform);
+	rt->scene[0].lights[0].transform.forward = (cl_float3){{0, -1, 0}};
+	rt->scene[0].lights[0].type = directional;
+	rt->scene[0].lights[0].params.directional.color = (cl_float3){{.4f, .4f, .4f}};
 
-//	rt->scenes[0].lights[1].transform.pos = (cl_float3){{0, 0, 0}};
-//	rt->scenes[0].lights[1].type = point;
-//	rt->scenes[0].lights[1].params.point.color = (cl_float3){{.5f, 0, 0}};
-//	rt->scenes[0].lights[1].params.point.distance = 100;
+//	rt->scene[0].lights[1].transform.pos = (cl_float3){{0, 0, 0}};
+//	rt->scene[0].lights[1].type = point;
+//	rt->scene[0].lights[1].params.point.color = (cl_float3){{.5f, 0, 0}};
+//	rt->scene[0].lights[1].params.point.distance = 100;
 
 	ui->data = rt;
 	ui_main_add_function_by_id(ui, rt_render, "rt_render");
@@ -336,17 +334,17 @@ int SDL_main(int argc, char *argv[])
 	ft_lstadd(&el->sdl_textures, l);
 
 /// CAMERA SETUP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	ft_bzero(&rt->scenes[0].camera, sizeof(t_camera));
-	rt->scenes[0].camera.clipping_planes = (t_clipping){0.5f, 500};
-	rt->scenes[0].camera.fov = 90;
-	rt->scenes[0].camera.quality = 1;
-	rt->scenes[0].camera.transform.id = 1;
-	rt->scenes[0].camera.screen = (cl_int2){{el->rect.w, el->rect.h}};
+	ft_bzero(&rt->scene[0].camera, sizeof(t_camera));
+	rt->scene[0].camera.clipping_planes = (t_clipping){0.5f, 500};
+	rt->scene[0].camera.fov = 90;
+	rt->scene[0].camera.quality = 1;
+	rt->scene[0].camera.transform.id = 1;
+	rt->scene[0].camera.screen = (cl_int2){{el->rect.w, el->rect.h}};
 
-	rt->scenes[0].camera.transform.pos = (cl_float3){{0, 0, 20}};
-	rt->scenes[0].camera.transform.right = (cl_float3){{-1, 0, 0}};
-	rt->scenes[0].camera.transform.up = (cl_float3){{0, 1, 0}};
-	rt->scenes[0].camera.transform.forward = (cl_float3){{0, 0, -1}};
+	rt->scene[0].camera.transform.pos = (cl_float3){{0, 0, 20}};
+	rt->scene[0].camera.transform.right = (cl_float3){{-1, 0, 0}};
+	rt->scene[0].camera.transform.up = (cl_float3){{0, 1, 0}};
+	rt->scene[0].camera.transform.forward = (cl_float3){{0, 0, -1}};
 
 	rt->mutex = SDL_CreateMutex();
 /// PHYSICS SYSTEM START !!!!!!!!!!!!!!!!!!!!!!!!!
@@ -365,7 +363,7 @@ int SDL_main(int argc, char *argv[])
 	ps->rbs[0].rot.speed = 100000;
 	ps->rbs[0].rot.acc = .04f;
 
-	ps->rbs[0].transform = &rt->scenes[0].camera.transform;
+	ps->rbs[0].transform = &rt->scene[0].camera.transform;
 
 	ps->rbs[1].move.speed = 10000;
 	ps->rbs[1].move.speed_mult = 4;
@@ -378,7 +376,7 @@ int SDL_main(int argc, char *argv[])
 	ps->rbs[1].rot.vel = (cl_float3){{1, 1, 0}};
 	ps->rbs[1].rot.raw_vel = (cl_float3){{1, 1, 0}};
 
-	ps->rbs[1].transform = &rt->scenes[0].objects[1].transform;
+	ps->rbs[1].transform = &rt->scene[0].objects[1].transform;
 
 	system_setup(&ps->system, "physics", &ps_func, 5);
 	ps->change_indicator = 1;

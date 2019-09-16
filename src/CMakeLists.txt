@@ -15,6 +15,7 @@ target_sources(rt PUBLIC
         rt_rotations.c
         rt_setup.c
         rt_get_texture.c
+        rt_find_by_id.c
         )
 
 add_subdirectory(rt_jtoc)
