@@ -61,7 +61,6 @@ int main()
 
 	rt = setup_rt(rt_screen_size);
 	ui->data = (void *)rt;
-
 //TODO NEEDED FOR PLANE (NOW PLANE IN JSON DOESN'T WORK CORRECTLY) (MAKSON WHAT IT TAKOE WOBSHE?)
 //	t_transform *temp = &rt->scene[0].objects[4].transform;
 //	float d = -(temp->up.x * temp->pos.x + temp->up.y * temp->pos.y + temp->up.z * temp->pos.z);

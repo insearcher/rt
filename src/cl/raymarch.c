@@ -56,7 +56,7 @@ static float	sdf(float3 origin, __global t_object *obj)
 	return (distance);
 }
 
-static float	sceneSDF(float3 O, __global t_scene *scene, t_raycast_hit *rh)
+static float	sceneSDF(float3 O, t_scene *scene, t_raycast_hit *rh)
 {
 	float		dist_to_obj = 1000000.f;
 	float		tmp_dist_to_obj;
@@ -83,7 +83,7 @@ static void	get_normal(float3 pos, float basic_dist, t_raycast_hit *rh)
 									(float3){basic_dist, basic_dist, basic_dist});
 }
 
-char	raymarch(float3 origin, float3 direction, float distance, __global t_scene *scene, t_raycast_hit *rh)
+char	raymarch(float3 origin, float3 direction, float distance, t_scene *scene, t_raycast_hit *rh)
 {
 	float	intersect_dist = rh->clip_ratio;
 	float	dist_to_obj;

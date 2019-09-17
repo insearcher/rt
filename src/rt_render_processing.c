@@ -35,7 +35,7 @@ void	render_processing(t_rt_main *rt, size_t *global_size)
 		kernel = cl_get_kernel_by_name(rt->cl, "render");
 
 	clSetKernelArg(*kernel, 0, sizeof(cl_mem), &rt->gpu_mem->cl_image);
-	clSetKernelArg(*kernel, 1, sizeof(cl_mem), &cl_scene);
+	clSetKernelArg(*kernel, 1, sizeof(t_scene), rt->scene);
 	clSetKernelArg(*kernel, 2, sizeof(cl_mem), &cl_objects);
 	clSetKernelArg(*kernel, 3, sizeof(cl_mem), &cl_lights);
 	clSetKernelArg(*kernel, 4, sizeof(cl_int2), &rt->screen_size);
