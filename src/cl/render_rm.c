@@ -39,88 +39,36 @@ float3			get_skybox_color(float3 direction)
 	})));
 }
 
-__kernel void	render(__global char *image, t_scene scene, __global t_object *objects, __global t_light *lights, int2 screen, __global int *texture)
+__kernel void	render(__global char *image, t_scene scene, __global t_object *objects,
+		__global t_light *lights, int2 screen, __global int *texture)
 {
 	int			gid;
 	int2		pixel;
+	float3		color;
+	float3		ray_direction;
+	t_raycast_hit	ray_hit;
 
 	gid = get_global_id(0);
 	pixel = (int2)(gid % screen.x, gid / screen.x);
-	if (pixel.x % scene.camera.quality || pixel.y % scene.camera.quality)
-		return;
-
+	if (scene.camera.quality != 1)
+		if (pixel.x % scene.camera.quality || pixel.y % scene.camera.quality)
+			return ;
 	scene.objects = objects;
 	scene.lights = lights;
 
-	float3 k = screen_to_world(pixel, screen, scene.camera.fov);
+	get_ray_direction_and_clip_ratio(&ray_direction, &ray_hit.clip_ratio, pixel, screen,
+			scene.camera.fov, scene.camera.transform);
 
-	t_transform t = scene.camera.transform;
-	float3 direction = normalize(mad(scene.camera.transform.right, k.x, mad(t.up, k.y, t.forward * k.z)));
-
-	float3	color;
-	t_raycast_hit rh;
-	rh.clip_ratio = length(k) / k.z;
-	if (!raymarch(scene.camera.transform.pos, direction, 0, &scene, &rh))
+	if (!raymarch(scene.camera.transform.pos, ray_direction, 0, &scene, &ray_hit))
 	{
-		color = get_skybox_color(direction);
+		color = get_skybox_color(ray_direction);
 		fill_camera_pixel(image, pixel, screen, color, scene.camera.quality);
-		return;
+		return ;
 	}
-	if (choose_texture_for_object(rh, texture, &color))
-		color = rh.hit->material.color.xyz;
+	if (choose_texture_for_object(ray_hit, texture, &color))
+		color = ray_hit.hit->material.color.xyz;
 
-	// TODO refactor
-	// Light processing.
-	float3 diffuse = color * scene.ambient;
-	diffuse = clamp(diffuse, (float3){0, 0, 0}, (float3){1, 1, 1});
-	for (uint i = 0; i < scene.lights_count; ++i)
-	{
-		t = scene.lights[i].transform;
-
-		float NoL, a, mult;
-		float3 LDirectional, dir, ndir;
-		t_raycast_hit rhl;
-		rhl.clip_ratio = length(k) / k.z;
-
-		switch (scene.lights[i].type)
-		{
-			case directional:
-				dir = -t.forward;
-				ndir = normalize(dir);
-				if (raymarch(rh.point + rh.normal * F_EPS, ndir, length(dir), &scene, &rhl))
-					continue;
-
-				NoL = max(dot(rh.normal, ndir), 0.0f);
-				LDirectional = scene.lights[i].params.directional.color * NoL;
-				diffuse += color * LDirectional;
-				diffuse = clamp(diffuse, (float3){0, 0, 0}, (float3){1, 1, 1});
-			case point:
-				dir = t.pos - rh.point;
-				ndir = normalize(dir);
-				if (raymarch(rh.point + rh.normal * F_EPS, ndir, length(dir), &scene, &rhl))
-					continue;
-
-				a = length(dir);
-				if (a < scene.lights[i].params.point.distance)
-				{
-					NoL = max(dot(rh.normal, ndir), 0.0f);
-					mult = -pow(min(a / scene.lights[i].params.point.distance, 1.0f), 2) + 1.0f;
-					diffuse += color * scene.lights[i].params.point.color * NoL * mult;
-					diffuse = clamp(diffuse, (float3){0, 0, 0}, (float3){1, 1, 1});
-				}
-		}
-	}
-
-	// Gamma correction.
-	//TODO COLOR IS BAD
-	//if (diffuse.x > 255)
-	//	diffuse.x = 255;
-	//if (diffuse.y > 255)
-	//	diffuse.y = 255;
-	//if (diffuse.z > 255)
-	//	diffuse.z = 255;
-	//color = diffuse;
-	//color = pow(diffuse, 0.4545f);
-	color = diffuse;
+	color = get_lighting(&scene, color, ray_hit);
+	//color = pow(color, 0.4545f);
 	fill_camera_pixel(image, pixel, screen, color, scene.camera.quality);
 }

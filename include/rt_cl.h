@@ -25,8 +25,6 @@ float	sdf_plane(float3 pos, float3 n, float d);
 void	put_pixel(__global char *image, int2 pixel, int2 screen, float3 color);
 void	fill_camera_pixel(__global char *image, int2 pixel, int2 screen, float3 color, int quality);
 
-float3	screen_to_world(int2 coord, int2 screen, float fov);
-
 float3	get_skybox_color(float3 direction);
 
 float3	repeatSDF(float3 pos, float3 cen, float rx, float ry, float rz);
@@ -41,5 +39,7 @@ float2	uv_mapping_for_torus(t_raycast_hit rh);
 float2	uv_mapping_for_cube(t_raycast_hit rh);
 
 char	raymarch(float3 origin, float3 direction, float distance, t_scene *scene, t_raycast_hit *rh);
+void	get_ray_direction_and_clip_ratio(float3 *ray_direction, float *clip_ratio, int2 coord, int2 screen, float fov, t_transform transform);
+float3	get_lighting(t_scene *scene, float3 color, t_raycast_hit ray_hit);
 
 #endif
