@@ -1,17 +1,12 @@
-__kernel void	render_rt(__global int *data, __global t_scene *scene,
-		const __global t_cam *cam,
-		const __global t_screen *screen, const __global t_counter *counter,
-		const __global t_light *l, const __global t_object *obj)
+__kernel void	ray_trace_render(__global int *data, t_scene scene, const __global t_object *objects,
+		const __global t_light *lights, int2 screen, const __global int *texture)
 {
-	int			tx = get_global_id(0);
+/*	int			tx = get_global_id(0);
 	int			ty = get_global_id(1);
-	int			index = ty * WIDTH + tx;
-	t_camera	*camera;
-	float3		dir;
+	float3		rat_direction;
 	float3		color;
 	int			fsaa = screen->fsaa_n;
 
-	camera = scene->camera;
 	color = (float3) 0;
 	for (int i = -fsaa / 2; i <= fsaa / 2; i++)
 	{
@@ -34,5 +29,5 @@ __kernel void	render_rt(__global int *data, __global t_scene *scene,
 
 	color = color / ((fsaa + 1) * (fsaa + 1));
 
-	data[index] = get_color(color, screen->effects);
+	data[ty * screen.x + tx] = get_color(color, screen->effects);*/
 }
