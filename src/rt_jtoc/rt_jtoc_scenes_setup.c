@@ -65,6 +65,8 @@ static int	rt_jtoc_get_scene(const char *path, t_scene *scene)
 	if (!(tmp = jtoc_node_get_by_path(root, "quality")) || tmp->type != integer)
 		return (rt_jtoc_sdl_log_error("QUALITY ERROR", -1));
 	scene->quality = jtoc_get_int(tmp);
+	if (scene->quality > 100)
+		return (rt_jtoc_sdl_log_error("MAX QUALITY IS 100", -1));
 
 /*	if ((tmp = jtoc_node_get_by_path(root, "rigid_bodies")) && tmp->type == array)
 		if (rt_jtoc_get_rigid_bodies(scene, tmp))
