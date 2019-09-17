@@ -153,7 +153,7 @@ typedef struct			s_omaterial
 	float4				color;
 	int					texture_id;
 	float2				offset;
-	float2				tiling
+	float2				tiling;
 # endif
 }						t_omaterial;
 
