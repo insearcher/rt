@@ -7,6 +7,7 @@
 
 static void	fill_constant_screen_gpu_mem(t_rt_main *rt, cl_int2 screen_size)
 {
+	char *filename = "./textures/test.jpg";
 	rt->gpu_mem = (t_s_gpu_mem *)ft_x_memalloc(sizeof(t_s_gpu_mem));
 	rt->gpu_mem->cl_image = clCreateBuffer(*rt->cl->context,
 										   CL_MEM_READ_WRITE, sizeof(int) * screen_size.x * screen_size.y,
@@ -14,13 +15,20 @@ static void	fill_constant_screen_gpu_mem(t_rt_main *rt, cl_int2 screen_size)
 	rt->gpu_mem->cl_aux = clCreateBuffer(*rt->cl->context,
 										 CL_MEM_READ_WRITE, sizeof(int) * screen_size.x * screen_size.y,
 										 NULL, NULL);
-	rt->texture.texture = get_texture(rt);
+	find_textures_size(rt,4);
+	if (!(rt->texture.texture = (int *)ft_memalloc(sizeof(int) * rt->texture.texture_size)))
+		return ;
+	get_texture(rt, filename, 4);
 	rt->gpu_mem->cl_texture = clCreateBuffer(*rt->cl->context,
-										 CL_MEM_READ_ONLY, 4 * rt->texture.w * rt->texture.h,
+										 CL_MEM_READ_ONLY, 4 * rt->texture.texture_size,
 										 NULL, NULL);
 	clEnqueueWriteBuffer(*rt->cl->queue, rt->gpu_mem->cl_texture, CL_TRUE, 0,
-			4 * rt->texture.h * rt->texture.w,
+			4 * rt->texture.texture_size,
 			rt->texture.texture, 0, NULL, NULL);
+	rt->gpu_mem->cl_texture_size = clCreateBuffer(*rt->cl->context,
+									  CL_MEM_READ_ONLY, sizeof(size_t), NULL, NULL);
+	clEnqueueWriteBuffer(*rt->cl->queue, rt->gpu_mem->cl_texture_size, CL_TRUE, 0,
+			sizeof(int), &rt->texture.texture_size, 0, NULL, NULL);
 }
 
 t_rt_main	*setup_rt(cl_int2 screen_size)

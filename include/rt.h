@@ -46,6 +46,7 @@ typedef struct			s_static_gpu_mem
 	cl_mem 				cl_image;
 	cl_mem 				cl_aux;
 	cl_mem 				cl_texture;
+	cl_mem 				cl_texture_size;
 }						t_s_gpu_mem;
 
 typedef struct 			s_obj_texture
@@ -53,7 +54,9 @@ typedef struct 			s_obj_texture
 	int 				w;
 	int 				h;
 	int 				*texture;
-	cl_int2				texture_size;
+	int 				bpp;
+//	cl_int2				texture_size;
+	size_t				texture_size;
 }						t_obj_texture;
 
 typedef struct			s_rt_main
@@ -72,7 +75,9 @@ t_rt_main				*setup_rt(cl_int2 screen_size);
 int						rt_render(t_ui_main *ui, void *a);
 void					render_processing(t_rt_main *rt, size_t *global_size);
 void					post_processing(t_rt_main *rt, size_t *global_size);
-int						*get_texture(t_rt_main *rt);
+
+void					get_texture(t_rt_main *rt, char *texturename, int number_of_texture);
+void 					find_textures_size(t_rt_main *rt, int number_of_texture);
 # endif
 
 #endif

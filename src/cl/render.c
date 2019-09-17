@@ -39,7 +39,9 @@ float3			get_skybox_color(float3 direction)
 	})));
 }
 
-__kernel void	render(__global char *image, __global t_scene *scene, __global t_object *objects, __global t_light *lights, int2 screen, __global int *texture)
+__kernel void	render(__global char *image, __global t_scene *scene,
+		__global t_object *objects, __global t_light *lights,
+		int2 screen, __global int *texture, __global size_t *texture_size)
 {
 	int		gid = get_global_id(0);
 
@@ -58,8 +60,11 @@ __kernel void	render(__global char *image, __global t_scene *scene, __global t_o
 	t_transform t = cached_camera.transform;
 	float3 direction = normalize(mad(t.right, k.x, mad(t.up, k.y, t.forward * k.z)));
 
-	float3	color;
-	t_raycast_hit rh;
+	float3			color;
+	t_raycast_hit	rh;
+	int 			texture_number;
+
+	texture_number = (int)(texture_size[0] / (1024 * 1024));
 	rh.clip_ratio = length(k) / k.z;
 	if (!raymarch(cached_camera.transform.pos, direction, 0, scene, &rh))
 	{
