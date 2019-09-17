@@ -23,7 +23,8 @@ float	sdf_cone(float3 pos, float2 c);
 float	sdf_plane(float3 pos, float3 n, float d);
 
 void	put_pixel(__global char *image, int2 pixel, int2 screen, float3 color);
-void	fill_camera_pixel(__global char *image, int2 pixel, int2 screen, float3 color, int quality);
+void	fill_camera_pixel_with_lowering_quality(__global char *image, int2 pixel, int2 screen,
+		float3 color, int quality);
 
 float3	get_skybox_color(float3 direction);
 

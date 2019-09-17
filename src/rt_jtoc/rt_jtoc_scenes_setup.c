@@ -62,6 +62,10 @@ static int	rt_jtoc_get_scene(const char *path, t_scene *scene)
 	if (rt_jtoc_get_objects(scene, tmp))
 		return (rt_jtoc_sdl_log_error("OBJECTS ERROR", -1));
 
+	if (!(tmp = jtoc_node_get_by_path(root, "quality")) || tmp->type != integer)
+		return (rt_jtoc_sdl_log_error("QUALITY ERROR", -1));
+	scene->quality = jtoc_get_int(tmp);
+
 /*	if ((tmp = jtoc_node_get_by_path(root, "rigid_bodies")) && tmp->type == array)
 		if (rt_jtoc_get_rigid_bodies(scene, tmp))
 			return (rt_jtoc_sdl_log_error("RIGID BODIES ERROR", -1));

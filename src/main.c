@@ -84,6 +84,7 @@ int main()
 	t_physics_system	*ps = ft_memalloc(sizeof(t_physics_system));
 	ps->system.parent = ps;
 	ps->rbs_count = 5;
+//	ps->rbs_count = 1;
 	ps->rbs = (t_rb *)malloc(sizeof(t_rb) * ps->rbs_count);
 
 	ps->rbs[0].move.speed = 10000;

@@ -29,9 +29,6 @@ int			rt_jtoc_get_camera(t_camera *camera, t_jnode *n)
 	if (!(tmp = jtoc_node_get_by_path(n, "fov")) || tmp->type != fractional)
 		return (rt_jtoc_sdl_log_error("FOV ERROR", -1));
 	camera->fov = jtoc_get_float(tmp);
-	if (!(tmp = jtoc_node_get_by_path(n, "quality")) || tmp->type != integer)
-		return (rt_jtoc_sdl_log_error("QUALITY ERROR", -1));
-	camera->quality = jtoc_get_int(tmp);
 	if (rt_jtoc_get_clipping_planes(&(camera->clipping_planes), n))
 		return (rt_jtoc_sdl_log_error("CLIPPING_PLANES ERROR", -1));
 	if (rt_jtoc_get_transform(&(camera->transform), n))

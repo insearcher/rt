@@ -16,7 +16,8 @@ void			put_pixel(__global char *image, int2 pixel, int2 screen, float3 color)
     }
 }
 
-void			fill_camera_pixel(__global char *image, int2 pixel, int2 screen, float3 color, int quality)
+void			fill_camera_pixel_with_lowering_quality(__global char *image, int2 pixel, int2 screen,
+		float3 color, int quality)
 {
 	int2 cur_pixel;
 
@@ -39,36 +40,78 @@ float3			get_skybox_color(float3 direction)
 	})));
 }
 
-__kernel void	render(__global char *image, t_scene scene, __global t_object *objects,
+static float3	render_color(t_scene *scene, int2 pixel, int2 screen, __global int *texture)
+{
+	float3			ray_direction;
+	t_raycast_hit	ray_hit;
+	float3			color;
+
+	get_ray_direction_and_clip_ratio(&ray_direction, &ray_hit.clip_ratio, pixel, screen,
+									 scene->camera.fov, scene->camera.transform);
+	if (!raymarch(scene->camera.transform.pos, ray_direction, 0, scene, &ray_hit))
+	{
+		color = get_skybox_color(ray_direction);
+		return (color);
+//		fill_camera_pixel(image, pixel, screen, color, scene->quality);
+	}
+	if (choose_texture_for_object(ray_hit, texture, &color))
+		color = ray_hit.hit->material.color.xyz;
+	color = get_lighting(scene, color, ray_hit);
+	return (color);
+}
+
+static float	reverse(int n)
+{
+	if (n != 0)
+		return (1.0f / n);
+	return (0);
+}
+
+__kernel void	ray_march_render(__global char *image, t_scene scene, __global t_object *objects,
 		__global t_light *lights, int2 screen, __global int *texture)
 {
 	int			gid;
 	int2		pixel;
 	float3		color;
-	float3		ray_direction;
-	t_raycast_hit	ray_hit;
+	int			fsaa;
+	float2		fsaa_pixel;
 
 	gid = get_global_id(0);
 	pixel = (int2)(gid % screen.x, gid / screen.x);
-	if (scene.camera.quality != 1)
-		if (pixel.x % scene.camera.quality || pixel.y % scene.camera.quality)
-			return ;
 	scene.objects = objects;
 	scene.lights = lights;
-
-	get_ray_direction_and_clip_ratio(&ray_direction, &ray_hit.clip_ratio, pixel, screen,
-			scene.camera.fov, scene.camera.transform);
-
-	if (!raymarch(scene.camera.transform.pos, ray_direction, 0, &scene, &ray_hit))
+	if (scene.quality == 100)
 	{
-		color = get_skybox_color(ray_direction);
-		fill_camera_pixel(image, pixel, screen, color, scene.camera.quality);
-		return ;
+		color = render_color(&scene, pixel, screen, texture);
+		put_pixel(image, pixel, screen, color);
 	}
-	if (choose_texture_for_object(ray_hit, texture, &color))
-		color = ray_hit.hit->material.color.xyz;
-
-	color = get_lighting(&scene, color, ray_hit);
+	else if (scene.quality < 100)
+	{
+		scene.quality = 31 - (int)(scene.quality / 3.3);
+		if (pixel.x % scene.quality || pixel.y % scene.quality)
+			return;
+		color = render_color(&scene, pixel, screen, texture);
+		fill_camera_pixel_with_lowering_quality(image, pixel, screen, color, scene.quality);
+	}
+	else
+	{
+//		fsaa = scene.quality - 30;
+		for (int i = -fsaa / 2; i <= fsaa / 2; i++)
+		{
+			for (int j = -fsaa / 2; j <= fsaa / 2; j++)
+			{
+/*				fsaa_pixel.x = (float)pixel.x + i * reverse(fsaa) - 0.5;
+				fsaa_pixel.y = (float)pixel.y + j * reverse(fsaa) - 0.5;
+				color = render_color(&scene, fsaa_pixel, screen, texture);*/
+			}
+		}
+//		color = color / ((fsaa + 1) * (fsaa + 1));
+		put_pixel(image, pixel, screen, color);
+	}
 	//color = pow(color, 0.4545f);
-	fill_camera_pixel(image, pixel, screen, color, scene.camera.quality);
 }
+/*for (int i = -fsaa / 2; i <= fsaa / 2; i++)
+{
+for (int j = -fsaa / 2; j <= fsaa / 2; j++)
+color += render_color(&scene, pixel, screen, texture);
+}*/

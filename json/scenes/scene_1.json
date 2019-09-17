@@ -1,9 +1,9 @@
 {
+  "quality": 100,
   "camera":
   {
     "id": 1,
     "fov": 90.0,
-    "quality": 1,
     "clipping_planes":
     {
       "near": 0.5,

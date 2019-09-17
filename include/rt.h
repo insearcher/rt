@@ -29,12 +29,14 @@ typedef struct			s_scene
 	cl_float3			ambient;
 	cl_uint				objects_count;
 	cl_uint				lights_count;
+	cl_int				quality;
 	t_object			*objects;
 	t_light				*lights;
 # else
 	float3				ambient;
 	uint				objects_count;
 	uint				lights_count;
+	int					quality;
 	__global t_object	*objects;
 	__global t_light	*lights;
 # endif
