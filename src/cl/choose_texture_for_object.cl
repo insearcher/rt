@@ -1,18 +1,25 @@
 #include "rt_cl.h"
 #include "color.h"
 
-void	normalize_coord_for_texture(t_raycast_hit rh, float2 uv, float3 *color,  __global int *texture)
+void	normalize_coord_for_texture(t_raycast_hit rh, float2 uv, float3 *color,
+		__global int *texture, __global int *texture_w, __global int *texture_h,
+		__global int *prev_texture_size)
 {
 	int coord;
+	int coord_x;
+	int coord_y;
 
 	rh.hit->material.offset.x = 0.f;
 	rh.hit->material.offset.y = 0.f;
-	if (rh.hit->material.offset.x + uv.x > 1.f)
+	if (rh.hit->material.offset.x + uv.x > 1.f && rh.hit->material.offset.x + uv.x <= 0.f)
 		rh.hit->material.offset.x = 0.f;
-	if (rh.hit->material.offset.y + uv.y > 1.f)
+	if (rh.hit->material.offset.y + uv.y > 1.f && rh.hit->material.offset.y + uv.y <= 0.f)
 		rh.hit->material.offset.y = 0.f;
-	coord = int((rh.hit->material.offset.x + uv.x) * 1024) + int((rh.hit->material.offset.y + uv.y) * 1024) * 1024;
-	coord += rh.hit->material.texture_id * 1024 * 1024;
+	coord_x = int((uv.x + rh.hit->material.offset.x) * texture_w[rh.hit->material.texture_id]);
+	coord_y = int((uv.y + rh.hit->material.offset.y) * texture_h[rh.hit->material.texture_id]);
+	coord_y *= (texture_w[rh.hit->material.texture_id]);
+	coord = coord_x + coord_y;
+	coord += prev_texture_size[rh.hit->material.texture_id];
 
 	color->x = (RED(texture[coord]));
 	color->y = (GREEN(texture[coord]));
@@ -22,7 +29,8 @@ void	normalize_coord_for_texture(t_raycast_hit rh, float2 uv, float3 *color,  __
 	color->z /= 255;
 }
 
-int		choose_texture_for_object(t_raycast_hit rh,  __global int *texture, float3 *color)
+int		choose_texture_for_object(t_raycast_hit rh,  __global int *texture,
+		float3 *color, __global int *texture_w, __global int *texture_h, __global int *prev_texture_size)
 {
 	float2	uv;
 	int 	found_texture_for_obj;
@@ -57,7 +65,7 @@ int		choose_texture_for_object(t_raycast_hit rh,  __global int *texture, float3 
 	if (uv.x != -1.f && uv.y != -1.f)
 	{
 		found_texture_for_obj = 0;
-		normalize_coord_for_texture(rh, uv, color, texture);
+		normalize_coord_for_texture(rh, uv, color, texture, texture_w, texture_h, prev_texture_size);
 		return (found_texture_for_obj);
 	}
 	return (found_texture_for_obj);
