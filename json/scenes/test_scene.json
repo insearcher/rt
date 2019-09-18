@@ -127,7 +127,7 @@
     {
       "type": "sphere",
       "layer": "default_layer",
-      "radius": 1.0,
+      "radius": 10.0,
       "color":
       {
         "x": 0.0,
