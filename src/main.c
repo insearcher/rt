@@ -44,6 +44,51 @@ cl_int2		modification_rt_elem_and_get_screen_size(t_ui_main *ui)
 	return (rt_screen_size);
 }
 
+//static void	vec_test()
+//{
+//
+//	t_vec v;
+//	vec_setup(&v, 4, sizeof(long));
+//	long a = 2;
+//	vec_push_back(&v, &a);
+//	for (size_t i = 0; i < v.capacity * v.cell_size * sizeof(long); ++i)
+//	{
+//		printf("%d", ((char *)v.storage)[i]);
+//	}
+//	printf("\n");
+//	a = 3;
+//	vec_push_back(&v, &a);
+//	for (size_t i = 0; i < v.capacity * v.cell_size * sizeof(long); ++i)
+//	{
+//		printf("%d", ((char *)v.storage)[i]);
+//	}
+//	printf("\n");
+//	a = 2;
+//	vec_push_back(&v, &a);
+//	for (size_t i = 0; i < v.capacity * v.cell_size * sizeof(long); ++i)
+//	{
+//		printf("%d", ((char *)v.storage)[i]);
+//	}
+//	printf("\n");
+//	a = 3;
+//	vec_push_back(&v, &a);
+//	a = 4;
+//	vec_push_back(&v, &a);
+//	a = 5;
+//	vec_push_back(&v, &a);
+//	for (size_t i = 0; i < v.capacity * v.cell_size * sizeof(long); ++i)
+//	{
+//		printf("%d", ((char *)v.storage)[i]);
+//	}
+//	printf("\n");
+//	SDL_Log("vec size = %zu, capacity = %zu", v.size, v.capacity);
+//	SDL_Log("vec last = %ld", *((long *)vec_last(&v)));
+//	for (size_t i = 0; i < v.size; ++i)
+//	{
+//		SDL_Log("%zu: %ld", i, *(long *)vec_at(&v, i));
+//	}
+//}
+
 #ifdef APPLE___
 int main()
 {

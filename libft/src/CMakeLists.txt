@@ -84,4 +84,17 @@ target_sources(ft PUBLIC
         get_strs.c
         cut_str_by_num_words.c
         ft_lerp.c
+        gc_get.c
+        gc_add.c
+        gc_collect.c
+        ft_gcalloc.c
+        vec_init.c
+        vec_at.c
+        vec_clear.c
+        vec_insert.c
+        vec_last.c
+        vec_push_back.c
+        vec_resize.c
+        vec_last.c
+        vec_setup.c
         )
