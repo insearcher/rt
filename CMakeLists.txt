@@ -15,13 +15,30 @@ set_target_properties(rt
 
 if (APPLE)
     if (NOT SDL2_FOUND)
-        set(SDL2_PATH /Users/$ENV{USER}/.brew/Cellar/sdl2/2.0.9_1)
+        execute_process(COMMAND ls
+                COMMAND head -1
+                WORKING_DIRECTORY /Users/$ENV{USER}/.brew/Cellar/sdl2/
+                OUTPUT_VARIABLE SDL_VERSION)
+        message("Found SDL version ${SDL_VERSION}")
+        set(SDL2_PATH /Users/$ENV{USER}/.brew/Cellar/sdl2/${SDL_VERSION})
     endif()
     if (NOT SDL2_IMAGE_FOUND)
-        set(SDL2_IMAGE_PATH /Users/$ENV{USER}/.brew/Cellar/sdl2_image/2.0.5)
+        execute_process(COMMAND ls
+                COMMAND head -1
+                WORKING_DIRECTORY /Users/$ENV{USER}/.brew/Cellar/sdl2_image/
+                OUTPUT_VARIABLE SDL_IMAGE_VERSION)
+        message("Found SDL_image version ${SDL_IMAGE_VERSION}")
+        set(SDL2_IMAGE_PATH /Users/$ENV{USER}/
+                .brew/Cellar/sdl2_image/${SDL_IMAGE_VERSION})
     endif()
     if (NOT SDL2_TTF_FOUND)
-        set(SDL2_TTF_PATH /Users/$ENV{USER}/.brew/Cellar/sdl2_ttf/2.0.15)
+        execute_process(COMMAND ls
+                COMMAND head -1
+                WORKING_DIRECTORY /Users/$ENV{USER}/.brew/Cellar/sdl2_ttf/
+                OUTPUT_VARIABLE SDL_TTF_VERSION)
+        message("Found SDL_image version ${SDL_TTF_VERSION}")
+        set(SDL2_TTF_PATH /Users/$ENV{USER}/
+                .brew/Cellar/sdl2_ttf/${SDL_TTF_VERSION})
     endif()
 endif()
 
