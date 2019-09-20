@@ -41,7 +41,9 @@ float3			get_skybox_color(float3 direction)
 
 __kernel void	render(__global char *image, __global t_scene *scene,
 		__global t_object *objects, __global t_light *lights,
-		int2 screen, __global int *texture, __global size_t *texture_size)
+		int2 screen, __global int *texture,	__global int *texture_w,
+		__global int *texture_h,
+		__global int *prev_texture_size)
 {
 	int		gid = get_global_id(0);
 
@@ -62,9 +64,7 @@ __kernel void	render(__global char *image, __global t_scene *scene,
 
 	float3			color;
 	t_raycast_hit	rh;
-	int 			texture_number;
 
-	texture_number = (int)(texture_size[0] / (1024 * 1024));
 	rh.clip_ratio = length(k) / k.z;
 	if (!raymarch(cached_camera.transform.pos, direction, 0, scene, &rh))
 	{
@@ -72,7 +72,7 @@ __kernel void	render(__global char *image, __global t_scene *scene,
 		fill_camera_pixel(image, pixel, screen, color, cached_camera.quality);
 		return;
 	}
-	if (choose_texture_for_object(rh, texture, &color))
+	if (choose_texture_for_object(rh, texture, &color, texture_w, texture_h, prev_texture_size))
 		color = rh.hit->material.color.xyz;
 	// TODO refactor
 	// Light processing.

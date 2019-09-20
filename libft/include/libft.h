@@ -43,6 +43,20 @@ typedef struct		s_fvec2
 	float			y;
 }					t_fvec2;
 
+typedef struct		s_gc
+{
+	t_list			*root;
+}					t_gc;
+
+typedef struct		s_vec
+{
+	int				*storage;
+	size_t			capacity;
+	size_t			real_cell_size;
+	size_t			cell_size;
+	size_t			size;
+}					t_vec;
+
 void				*ft_memset(void *b, int c, size_t len);
 void				ft_bzero(void *s, size_t n);
 void				*ft_memcpy(void *dst, void const *src, size_t n);
@@ -138,5 +152,24 @@ char				**get_strs(const char *s, size_t *nss,
 		size_t *num_words_in_strs);
 
 float				ft_lerp(float from, float to, float t);
+
+t_gc				*gc_get(void);
+int					gc_add(void *c);
+int					gc_collect(void);
+void				*ft_gcalloc(size_t size);
+
+t_vec				*vec_init(size_t c, size_t cs);
+int					vec_setup(t_vec *v, size_t c, size_t cs);
+void				*vec_at(t_vec *v, size_t i);
+void				*vec_last(t_vec *v);
+int					vec_resize(t_vec *v, size_t c);
+int					vec_clear(t_vec *v);
+int					vec_insert(t_vec *v, void *d, size_t i);
+int					vec_push_back(t_vec *v, void *d);
+
+
+
+int					vec_remove_at(t_vec *v, size_t i);
+
 
 #endif

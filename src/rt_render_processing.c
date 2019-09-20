@@ -40,7 +40,9 @@ void	render_processing(t_rt_main *rt, size_t *global_size)
 	clSetKernelArg(*kernel, 3, sizeof(cl_mem), &cl_lights);
 	clSetKernelArg(*kernel, 4, sizeof(cl_int2), &rt->screen_size);
 	clSetKernelArg(*kernel, 5, sizeof(cl_mem), &rt->gpu_mem->cl_texture);
-	clSetKernelArg(*kernel, 6, sizeof(cl_mem), &rt->gpu_mem->cl_texture_size);
+	clSetKernelArg(*kernel, 6, sizeof(cl_mem), &rt->gpu_mem->cl_texture_w);
+	clSetKernelArg(*kernel, 7, sizeof(cl_mem), &rt->gpu_mem->cl_texture_h);
+	clSetKernelArg(*kernel, 8, sizeof(cl_mem), &rt->gpu_mem->cl_prev_texture_size);
 
 	clEnqueueNDRangeKernel(*rt->cl->queue, *kernel, 1, NULL, global_size, NULL, 0, NULL, NULL);
 
