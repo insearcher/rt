@@ -107,6 +107,7 @@ int main()
 	rt = setup_rt(rt_screen_size);
 	ui->data = (void *)rt;
 
+
 //TODO NEEDED FOR PLANE (NOW PLANE IN JSON DOESN'T WORK CORRECTLY) (MAKSON WHAT IT TAKOE WOBSHE?)
 //	t_transform *temp = &rt->scenes[0].objects[4].transform;
 //	float d = -(temp->up.x * temp->pos.x + temp->up.y * temp->pos.y + temp->up.z * temp->pos.z);
@@ -127,6 +128,9 @@ int main()
 //	rt->scenes[0].objects[4].material.color = (cl_float4){{0, 1, 1, 1}};
 
 /// PHYSICS SYSTEM START !!!!!!!!!!!!!!!!!!!!!!!!!
+
+//	rt->scenes[0].objects[0].params.mandelbumb.power = 2;
+
 	t_physics_system	*ps = ft_memalloc(sizeof(t_physics_system));
 	ps->system.parent = ps;
 	ps->rbs_count = 5;
@@ -144,7 +148,21 @@ int main()
 	ps->rbs[0].rot.raw_vel = (cl_float3){{0, 0, 0}};
 
 	ps->rbs[0].transform = &rt->scenes[0].camera.transform;
-
+//
+// mandelbumb
+//	ps->rbs[1].move.speed = 10000;
+//	ps->rbs[1].move.speed_mult = 4;
+//	ps->rbs[1].move.acc = 0.025f;
+//	ps->rbs[1].move.vel = (cl_float3){{0, 0, 0}};
+//	ps->rbs[1].move.raw_vel = (cl_float3){{0, 0, 0}};
+//
+//	ps->rbs[1].rot.speed = 100000;
+//	ps->rbs[1].rot.acc = .04f;
+//	ps->rbs[1].rot.vel = (cl_float3){{0, 0, 1}};
+//	ps->rbs[1].rot.raw_vel = (cl_float3){{0, 0, 1}};
+//
+//	ps->rbs[1].transform = &rt->scenes[0].objects[0].transform;
+//
 	ps->rbs[1].move.speed = 10000;
 	ps->rbs[1].move.speed_mult = 4;
 	ps->rbs[1].move.acc = 0.025f;
@@ -156,7 +174,7 @@ int main()
 	ps->rbs[1].rot.vel = (cl_float3){{1, 0, 1}};
 	ps->rbs[1].rot.raw_vel = (cl_float3){{1, 0, 1}};
 
-	ps->rbs[1].transform = &rt->scenes[0].objects[10].transform;
+	ps->rbs[1].transform = &rt->scenes[0].objects[0].transform;
 
 	ps->rbs[2].move.speed = 10000;
 	ps->rbs[2].move.speed_mult = 4;

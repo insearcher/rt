@@ -1,4 +1,5 @@
 #include "rt.h"
+#include "time.h"
 
 static void	create_buffers_for_render(t_rt_main *rt, cl_mem *cl_scene,
 							  cl_mem *cl_objects, cl_mem *cl_lights)
@@ -28,6 +29,7 @@ void	render_processing(t_rt_main *rt, size_t *global_size)
 
 	create_buffers_for_render(rt, &cl_scene, &cl_objects, &cl_lights);
 
+//	rt->scenes[0].objects[0].params.mandelbumb.power = 1 + 7 * (sin(clock() / (CLOCKS_PER_SEC * 3.0f)) + 1); //для изменения фрактала со временем
 	kernel = NULL;
 	if (rt->params & RT_RENDER_1)
 		;

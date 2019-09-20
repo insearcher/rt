@@ -116,6 +116,16 @@ typedef struct			s_plane
 # endif
 }						t_plane;
 
+typedef struct			s_mandelbumb
+{
+# ifndef OPENCL___
+	float				power;
+# else
+	float				power;
+# endif
+}						t_mandelbumb;
+
+
 union					u_oparams
 {
 	t_sphere			sphere;
@@ -127,6 +137,7 @@ union					u_oparams
 	t_cylinder			cylinder;
 	t_cone				cone;
 	t_plane				plane;
+	t_mandelbumb		mandelbumb;
 };
 
 enum					e_object_type
@@ -139,7 +150,8 @@ enum					e_object_type
 	o_link,
 	o_cylinder,
 	o_cone,
-	o_plane
+	o_plane,
+	o_mandelbumb
 };
 
 typedef struct			s_omaterial

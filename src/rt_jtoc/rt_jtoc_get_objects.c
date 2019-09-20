@@ -20,6 +20,7 @@ int			rt_jtoc_get_object_type(t_object *obj, t_jnode *n)
 	obj->type = ft_strcmp(str, "cylinder") ? obj->type : o_cylinder;
 	obj->type = ft_strcmp(str, "cone") ? obj->type : o_cone;
 	obj->type = ft_strcmp(str, "plane") ? obj->type : o_plane;
+	obj->type = ft_strcmp(str, "mandelbumb") ? obj->type : o_mandelbumb;
 	if (obj->type == 0)
 		return (FUNCTION_FAILURE);
 	return (FUNCTION_SUCCESS);
