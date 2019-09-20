@@ -9,7 +9,7 @@ static void	fill_constant_screen_gpu_mem(t_rt_main *rt, cl_int2 screen_size)
 {
 	char			*texture[4];
 
-	texture[0] = "./textures/earth.jpg";
+	texture[0] = "./textures/brick.jpg";
 	texture[1] = "./textures/texture.png";
 	texture[2] = "./textures/brick.jpg";
 	texture[3] = "./textures/marble.png";
@@ -60,7 +60,7 @@ t_rt_main	*setup_rt(cl_int2 screen_size)
 							  NULL},
 					  (char *[]){"render", NULL});
 	rt->scenes = rt_jtoc_scenes_setup((char *[]){
-			"json/scenes/test_scene.json",
+			"json/scenes/scene_1.json",
 			NULL});
 	fill_constant_screen_gpu_mem(rt, screen_size);
 	rt->params |= RT_RENDER_2;
