@@ -19,5 +19,6 @@ int				rt_jtoc_get_plane(t_object *obj, t_jnode *n);
 int				rt_jtoc_get_cone(t_object *obj, t_jnode *n);
 int				rt_jtoc_get_cylinder(t_object *obj, t_jnode *n);
 int				rt_jtoc_get_link(t_object *obj, t_jnode *n);
+int				rt_jtoc_get_mandelbumb(t_object *obj, t_jnode *n);
 
 # endif

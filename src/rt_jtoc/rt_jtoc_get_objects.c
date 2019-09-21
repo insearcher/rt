@@ -68,6 +68,7 @@ int			rt_jtoc_get_object(t_object *obj, t_jnode *n)
 	err = obj->type == o_cone ? rt_jtoc_get_cone(obj, n) : err;
 	err = obj->type == o_cylinder ? rt_jtoc_get_cylinder(obj, n) : err;
 	err = obj->type == o_link ? rt_jtoc_get_link(obj, n) : err;
+	err = obj->type == o_mandelbumb ? rt_jtoc_get_mandelbumb(obj, n) : err;
 	if (err != 0)
 		return (FUNCTION_FAILURE);
 

@@ -21,7 +21,7 @@ float	sdf_link(float3 pos, float le, float r1, float r2);
 float	sdf_cylinder(float3 pos, float3 c);
 float	sdf_cone(float3 pos, float2 c);
 float	sdf_plane(float3 pos, float3 n, float d);
-float	sdf_mandelbumb(float3 pos, float power);
+float	sdf_mandelbumb(float3 pos, float power, int iter, int breakout);
 
 void	put_pixel(__global char *image, int2 pixel, int2 screen, float3 color);
 void	fill_camera_pixel(__global char *image, int2 pixel, int2 screen, float3 color, int quality);

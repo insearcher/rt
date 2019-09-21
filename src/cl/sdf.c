@@ -122,16 +122,16 @@ float	sdf_plane(float3 pos, float3 n, float d)
 //	return (0.25f * log(m) * sqrt(m)/dz);
 //}
 
-float	sdf_mandelbumb(float3 pos, float power)
+float	sdf_mandelbumb(float3 pos, float power, int iter, int breakout)
 {
 	float3 z = pos;
 	float dr = 1;
 	float r;
 
-	for (int i = 0; i < 15; i++)
+	for (int i = 0; i < iter; i++)
 	{
 		r = length(z);
-		if (r > 2)
+		if (r > breakout)
 			break ;
 
 		float theta = acos(z.z / r) * power;
@@ -142,6 +142,7 @@ float	sdf_mandelbumb(float3 pos, float power)
 		z = zr * (float3)(sin(theta) * cos(phi), sin(phi) * sin(theta), cos(theta));
 		z += pos;
 	}
-	return (0.5 * log(r) * r / dr);
+	return ((0.5 * log(r) * r / dr));
+//	0.5*log(r)*r/dr,50.0*pow(dr,0.128/float(MARCHINGITERATIONS))
 }
 

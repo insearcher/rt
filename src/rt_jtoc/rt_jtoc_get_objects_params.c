@@ -98,3 +98,19 @@ int			rt_jtoc_get_link(t_object *obj, t_jnode *n)
 	obj->params.link.r2 = jtoc_get_float(tmp);
 	return (FUNCTION_SUCCESS);
 }
+
+int			rt_jtoc_get_mandelbumb(t_object *obj, t_jnode *n)
+{
+	t_jnode	*tmp;
+
+	if (!(tmp = jtoc_node_get_by_path(n, "power")) || tmp->type != fractional)
+		return (rt_jtoc_sdl_log_error("POWER TYPE ERROR OR POWER IS MISSING", -1));
+	obj->params.mandelbumb.power = jtoc_get_float(tmp);
+	if (!(tmp = jtoc_node_get_by_path(n, "iteration")) || tmp->type != integer)
+		return (rt_jtoc_sdl_log_error("ITERTATION TYPE ERROR OR ITERTATION IS MISSING", -1));
+	obj->params.mandelbumb.iteration = jtoc_get_int(tmp);
+	if (!(tmp = jtoc_node_get_by_path(n, "breakout")) || tmp->type != integer)
+		return (rt_jtoc_sdl_log_error("BREAKOUT TYPE ERROR OR BREAKOUT IS MISSING", -1));
+	obj->params.mandelbumb.breakout = jtoc_get_int(tmp);
+	return (FUNCTION_SUCCESS);
+}

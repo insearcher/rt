@@ -120,8 +120,12 @@ typedef struct			s_mandelbumb
 {
 # ifndef OPENCL___
 	float				power;
+	int					iteration;
+	int					breakout;
 # else
 	float				power;
+	int					iteration;
+	int					breakout;
 # endif
 }						t_mandelbumb;
 

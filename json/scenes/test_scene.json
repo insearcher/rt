@@ -127,6 +127,9 @@
     {
       "type": "mandelbumb",
       "layer": "ignore_raycast_layer",
+      "power": 8.0,
+      "iteration": 15,
+      "breakout": 3,
       "color":
       {
         "x": 0.0,
