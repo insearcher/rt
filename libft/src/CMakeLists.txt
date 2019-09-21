@@ -97,4 +97,5 @@ target_sources(ft PUBLIC
         vec_resize.c
         vec_last.c
         vec_setup.c
+        vec_remove_at.c
         )
