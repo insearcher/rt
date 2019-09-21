@@ -40,7 +40,8 @@ float3			get_skybox_color(float3 direction)
 	})));
 }
 
-static float3	render_color(t_scene *scene, int2 pixel, int2 screen, __global int *texture)
+static float3	render_color(t_scene *scene, int2 pixel, int2 screen, __global int *texture,
+		__global int *texture_w, __global int *texture_h, __global int *prev_texture_size)
 {
 	float3			ray_direction;
 	t_raycast_hit	ray_hit;
@@ -54,7 +55,7 @@ static float3	render_color(t_scene *scene, int2 pixel, int2 screen, __global int
 		return (color);
 //		fill_camera_pixel(image, pixel, screen, color, scene->quality);
 	}
-	if (choose_texture_for_object(ray_hit, texture, &color))
+	if(choose_texture_for_object(ray_hit, texture, &color, texture_w, texture_h, prev_texture_size))
 		color = ray_hit.hit->material.color.xyz;
 	color = get_lighting(scene, color, ray_hit);
 	return (color);
@@ -68,13 +69,14 @@ static float	reverse(int n)
 }
 
 __kernel void	ray_march_render(__global char *image, t_scene scene, __global t_object *objects,
-		__global t_light *lights, int2 screen, __global int *texture)
+		__global t_light *lights, int2 screen, __global int *texture, __global int *texture_w,
+		__global int *texture_h, __global int *prev_texture_size)
 {
 	int			gid;
 	int2		pixel;
 	float3		color;
 	int			fsaa;
-	float2		fsaa_pixel;
+//	float2		fsaa_pixel;
 
 	gid = get_global_id(0);
 	pixel = (int2)(gid % screen.x, gid / screen.x);
@@ -82,7 +84,7 @@ __kernel void	ray_march_render(__global char *image, t_scene scene, __global t_o
 	scene.lights = lights;
 	if (scene.quality == 100)
 	{
-		color = render_color(&scene, pixel, screen, texture);
+		color = render_color(&scene, pixel, screen, texture, texture_w, texture_h, prev_texture_size);
 		put_pixel(image, pixel, screen, color);
 	}
 	else if (scene.quality < 100)
@@ -90,7 +92,7 @@ __kernel void	ray_march_render(__global char *image, t_scene scene, __global t_o
 		scene.quality = 31 - (int)(scene.quality / 3.3);
 		if (pixel.x % scene.quality || pixel.y % scene.quality)
 			return;
-		color = render_color(&scene, pixel, screen, texture);
+		color = render_color(&scene, pixel, screen, texture, texture_w, texture_h, prev_texture_size);
 		fill_camera_pixel_with_lowering_quality(image, pixel, screen, color, scene.quality);
 	}
 	else

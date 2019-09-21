@@ -202,8 +202,6 @@ int main()
 	ps->rbs[3].rot.raw_vel = (cl_float3){{1, 1, 1}};
 	ps->rbs[3].transform = rt_find_transform_by_id(rt->scene, 4);
 
-	ps->rbs[3].transform = &rt->scenes[0].objects[12].transform;
-
 	ps->rbs[4].move.speed = 100000;
 	ps->rbs[4].move.speed_mult = 4;
 	ps->rbs[4].move.braking_coef = 0.025f;
@@ -216,7 +214,6 @@ int main()
 	ps->rbs[4].rot.raw_vel = (cl_float3){{1, 1, 1}};
 	ps->rbs[4].transform = rt_find_transform_by_id(rt->scene, 5);
 
-	ps->rbs[4].transform = &rt->scenes[0].objects[14].transform;
 	system_setup(&ps->system, "physics", &ps_func, 5);
 	ps->change_indicator = 1;
 	system_start(&ps->system);
