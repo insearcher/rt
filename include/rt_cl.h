@@ -26,9 +26,8 @@ float	sdf_mandelbox(float3 pos, float scale, float fixedradius,
 					   float minradius, float3 cube_size, int iter);
 
 void	put_pixel(__global char *image, int2 pixel, int2 screen, float3 color);
-void	fill_camera_pixel(__global char *image, int2 pixel, int2 screen, float3 color, int quality);
-
-float3	screen_to_world(int2 coord, int2 screen, float fov);
+void	fill_camera_pixel_with_lowering_quality(__global char *image, int2 pixel, int2 screen,
+		float3 color, int quality);
 
 float3	get_skybox_color(float3 direction);
 
@@ -48,5 +47,8 @@ float2	uv_mapping_for_plane(t_raycast_hit rh);
 float2	uv_mapping_for_torus(t_raycast_hit rh);
 float2	uv_mapping_for_cube(t_raycast_hit rh);
 
-char	raymarch(float3 origin, float3 direction, float distance, __global t_scene *scene, t_raycast_hit *rh);
+char	raymarch(float3 origin, float3 direction, float distance, t_scene *scene, t_raycast_hit *rh);
+void	get_ray_direction_and_clip_ratio(float3 *ray_direction, float *clip_ratio, int2 coord, int2 screen, float fov, t_transform transform);
+float3	get_lighting(t_scene *scene, float3 color, t_raycast_hit ray_hit);
+
 #endif

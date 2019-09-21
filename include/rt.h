@@ -29,12 +29,14 @@ typedef struct			s_scene
 	cl_float3			ambient;
 	cl_uint				objects_count;
 	cl_uint				lights_count;
+	cl_int				quality;
 	t_object			*objects;
 	t_light				*lights;
 # else
 	float3				ambient;
 	uint				objects_count;
 	uint				lights_count;
+	int					quality;
 	__global t_object	*objects;
 	__global t_light	*lights;
 # endif
@@ -67,7 +69,7 @@ typedef struct			s_rt_main
 {
 	t_obj_texture		texture;
 	t_cl				*cl;
-	t_scene				*scenes; //TODO remake to vec
+	t_scene				*scene;
 	size_t				systems_count;
 	void				**systems;
 	t_s_gpu_mem			*gpu_mem;
@@ -79,6 +81,10 @@ t_rt_main				*setup_rt(cl_int2 screen_size);
 int						rt_render(t_ui_main *ui, void *a);
 void					render_processing(t_rt_main *rt, size_t *global_size);
 void					post_processing(t_rt_main *rt, size_t *global_size);
+int						*get_texture(t_rt_main *rt);
+t_object				*rt_find_object_by_id(t_object *objs, cl_uint objs_count, cl_int id);
+t_transform				*rt_find_transform_by_id(t_scene *scene, cl_int id);
+t_light					*rt_find_light_by_id(t_light *lights, cl_uint lights_count, cl_int id);
 
 void					get_textures(t_rt_main *rt, char **texture_file, int number_of_texture);
 void

@@ -7,17 +7,17 @@ static void	create_buffers_for_render(t_rt_main *rt, cl_mem *cl_scene,
 	*cl_scene = clCreateBuffer(*rt->cl->context, CL_MEM_READ_ONLY,
 							   sizeof(t_scene), NULL, NULL);
 	*cl_objects = clCreateBuffer(*rt->cl->context, CL_MEM_READ_ONLY,
-								 sizeof(t_object) * rt->scenes[0].objects_count, NULL, NULL);
+								 sizeof(t_object) * rt->scene[0].objects_count, NULL, NULL);
 	*cl_lights = clCreateBuffer(*rt->cl->context, CL_MEM_READ_ONLY,
-								sizeof(t_light) * rt->scenes[0].lights_count, NULL, NULL);
+								sizeof(t_light) * rt->scene[0].lights_count, NULL, NULL);
 	clEnqueueWriteBuffer(*rt->cl->queue, *cl_scene, CL_TRUE, 0,
-						 sizeof(t_scene), &rt->scenes[0], 0, NULL, NULL);
+						 sizeof(t_scene), &rt->scene[0], 0, NULL, NULL);
 	clEnqueueWriteBuffer(*rt->cl->queue, *cl_objects, CL_TRUE, 0,
-						 sizeof(t_object) * rt->scenes[0].objects_count,
-						 rt->scenes[0].objects, 0, NULL, NULL);
+						 sizeof(t_object) * rt->scene[0].objects_count,
+						 rt->scene[0].objects, 0, NULL, NULL);
 	clEnqueueWriteBuffer(*rt->cl->queue, *cl_lights, CL_TRUE, 0,
-						 sizeof(t_light) * rt->scenes[0].lights_count,
-						 rt->scenes[0].lights, 0, NULL, NULL);
+						 sizeof(t_light) * rt->scene[0].lights_count,
+						 rt->scene[0].lights, 0, NULL, NULL);
 }
 
 void	render_processing(t_rt_main *rt, size_t *global_size)
@@ -32,12 +32,12 @@ void	render_processing(t_rt_main *rt, size_t *global_size)
 //	rt->scenes[0].objects[0].params.mandelbulb.power = 10 + 10 * (sin(clock() / (CLOCKS_PER_SEC * 10.0f)) + 1); //для изменения фрактала со временем
 	kernel = NULL;
 	if (rt->params & RT_RENDER_1)
-		;
+		kernel = cl_get_kernel_by_name(rt->cl, "ray_trace_render");
 	else if (rt->params & RT_RENDER_2)
-		kernel = cl_get_kernel_by_name(rt->cl, "render");
+		kernel = cl_get_kernel_by_name(rt->cl, "ray_march_render");
 
 	clSetKernelArg(*kernel, 0, sizeof(cl_mem), &rt->gpu_mem->cl_image);
-	clSetKernelArg(*kernel, 1, sizeof(cl_mem), &cl_scene);
+	clSetKernelArg(*kernel, 1, sizeof(t_scene), rt->scene);
 	clSetKernelArg(*kernel, 2, sizeof(cl_mem), &cl_objects);
 	clSetKernelArg(*kernel, 3, sizeof(cl_mem), &cl_lights);
 	clSetKernelArg(*kernel, 4, sizeof(cl_int2), &rt->screen_size);
