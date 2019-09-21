@@ -20,7 +20,8 @@ int			rt_jtoc_get_object_type(t_object *obj, t_jnode *n)
 	obj->type = ft_strcmp(str, "cylinder") ? obj->type : o_cylinder;
 	obj->type = ft_strcmp(str, "cone") ? obj->type : o_cone;
 	obj->type = ft_strcmp(str, "plane") ? obj->type : o_plane;
-	obj->type = ft_strcmp(str, "mandelbumb") ? obj->type : o_mandelbumb;
+	obj->type = ft_strcmp(str, "mandelbulb") ? obj->type : o_mandelbulb;
+	obj->type = ft_strcmp(str, "mandelbox") ? obj->type : o_mandelbox;
 	if (obj->type == 0)
 		return (FUNCTION_FAILURE);
 	return (FUNCTION_SUCCESS);
@@ -68,7 +69,8 @@ int			rt_jtoc_get_object(t_object *obj, t_jnode *n)
 	err = obj->type == o_cone ? rt_jtoc_get_cone(obj, n) : err;
 	err = obj->type == o_cylinder ? rt_jtoc_get_cylinder(obj, n) : err;
 	err = obj->type == o_link ? rt_jtoc_get_link(obj, n) : err;
-	err = obj->type == o_mandelbumb ? rt_jtoc_get_mandelbumb(obj, n) : err;
+	err = obj->type == o_mandelbulb ? rt_jtoc_get_mandelbulb(obj, n) : err;
+	err = obj->type == o_mandelbox ? rt_jtoc_get_mandelbox(obj, n) : err;
 	if (err != 0)
 		return (FUNCTION_FAILURE);
 

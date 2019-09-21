@@ -99,18 +99,41 @@ int			rt_jtoc_get_link(t_object *obj, t_jnode *n)
 	return (FUNCTION_SUCCESS);
 }
 
-int			rt_jtoc_get_mandelbumb(t_object *obj, t_jnode *n)
+int			rt_jtoc_get_mandelbulb(t_object *obj, t_jnode *n)
 {
 	t_jnode	*tmp;
 
 	if (!(tmp = jtoc_node_get_by_path(n, "power")) || tmp->type != fractional)
 		return (rt_jtoc_sdl_log_error("POWER TYPE ERROR OR POWER IS MISSING", -1));
-	obj->params.mandelbumb.power = jtoc_get_float(tmp);
+	obj->params.mandelbulb.power = jtoc_get_float(tmp);
 	if (!(tmp = jtoc_node_get_by_path(n, "iteration")) || tmp->type != integer)
 		return (rt_jtoc_sdl_log_error("ITERTATION TYPE ERROR OR ITERTATION IS MISSING", -1));
-	obj->params.mandelbumb.iteration = jtoc_get_int(tmp);
+	obj->params.mandelbulb.iteration = jtoc_get_int(tmp);
 	if (!(tmp = jtoc_node_get_by_path(n, "breakout")) || tmp->type != integer)
 		return (rt_jtoc_sdl_log_error("BREAKOUT TYPE ERROR OR BREAKOUT IS MISSING", -1));
-	obj->params.mandelbumb.breakout = jtoc_get_int(tmp);
+	obj->params.mandelbulb.breakout = jtoc_get_int(tmp);
+	return (FUNCTION_SUCCESS);
+}
+
+int			rt_jtoc_get_mandelbox(t_object *obj, t_jnode *n)
+{
+	t_jnode	*tmp;
+
+	if (!(tmp = jtoc_node_get_by_path(n, "scale")) || tmp->type != fractional)
+		return (rt_jtoc_sdl_log_error("POWER SCALE ERROR OR SCALE IS MISSING", -1));
+	obj->params.mandelbox.scale = jtoc_get_float(tmp);
+	if (!(tmp = jtoc_node_get_by_path(n, "fixedradius")) || tmp->type != fractional)
+		return (rt_jtoc_sdl_log_error("FIXEDRADUIS TYPE ERROR OR FIXEDRADIUS IS MISSING", -1));
+	obj->params.mandelbox.fixedradius = jtoc_get_float(tmp);
+	if (!(tmp = jtoc_node_get_by_path(n, "minradius")) || tmp->type != fractional)
+		return (rt_jtoc_sdl_log_error("MINRADIUS TYPE ERROR OR MINRADIUS IS MISSING", -1));
+	obj->params.mandelbox.minradius = jtoc_get_float(tmp);
+	if (!(tmp = jtoc_node_get_by_path(n, "iteration")) || tmp->type != integer)
+		return (rt_jtoc_sdl_log_error("ITERTATION TYPE ERROR OR ITERTATION IS MISSING", -1));
+	obj->params.mandelbox.iteration = jtoc_get_int(tmp);
+	if (!(tmp = jtoc_node_get_by_path(n, "cube_size")) || tmp->type != object)
+		return (rt_jtoc_sdl_log_error("CUBE SIZE TYPE ERROR OR CUBE SIZE IS MISSING", -1));
+	if (rt_jtoc_get_float3(&obj->params.mandelbox.cube_size, tmp))
+		return (rt_jtoc_sdl_log_error("CUBE SIZE ERROR", -1));
 	return (FUNCTION_SUCCESS);
 }

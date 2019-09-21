@@ -116,7 +116,7 @@ typedef struct			s_plane
 # endif
 }						t_plane;
 
-typedef struct			s_mandelbumb
+typedef struct			s_mandelbulb
 {
 # ifndef OPENCL___
 	float				power;
@@ -127,7 +127,24 @@ typedef struct			s_mandelbumb
 	int					iteration;
 	int					breakout;
 # endif
-}						t_mandelbumb;
+}						t_mandelbulb;
+
+typedef struct			s_mandelbox
+{
+# ifndef OPENCL___
+	cl_float3			cube_size;
+	float				scale;
+	float 				fixedradius;
+	float 				minradius;
+	int					iteration;
+# else
+	float3				cube_size;
+	float				scale;
+	float 				fixedradius;
+	float 				minradius;
+	int					iteration;
+# endif
+}						t_mandelbox;
 
 
 union					u_oparams
@@ -141,7 +158,8 @@ union					u_oparams
 	t_cylinder			cylinder;
 	t_cone				cone;
 	t_plane				plane;
-	t_mandelbumb		mandelbumb;
+	t_mandelbulb		mandelbulb;
+	t_mandelbox			mandelbox;
 };
 
 enum					e_object_type
@@ -155,7 +173,8 @@ enum					e_object_type
 	o_cylinder,
 	o_cone,
 	o_plane,
-	o_mandelbumb
+	o_mandelbulb,
+	o_mandelbox
 };
 
 typedef struct			s_omaterial

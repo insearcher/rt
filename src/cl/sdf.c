@@ -122,7 +122,56 @@ float	sdf_plane(float3 pos, float3 n, float d)
 //	return (0.25f * log(m) * sqrt(m)/dz);
 //}
 
-float	sdf_mandelbumb(float3 pos, float power, int iter, int breakout)
+static float4		sphere_fold(float3 z, float dz, float fixedradius, float minradius)
+{
+	float r2 = dot(z,z);
+
+	if (r2 < minradius)
+	{
+		float temp = (fixedradius / minradius);
+		z *= temp;
+		dz *= temp;
+	}
+	else if (r2 < fixedradius)
+	{
+		float temp =(fixedradius/r2);
+		z *= temp;
+		dz *= temp;
+	}
+	return ((float4){z.x, z.y, z.z, dz});
+}
+
+static float3		box_fold(float3 z, float3 cube_size)
+{
+	z.x = clamp(z.x, -cube_size.x, cube_size.x) * 2.0 - z.x;
+	z.y = clamp(z.y, -cube_size.y, cube_size.y) * 2.0 - z.y;
+	z.z = clamp(z.z, -cube_size.z, cube_size.z) * 2.0 - z.z;
+	return (z);
+}
+
+float	sdf_mandelbox(float3 pos, float scale, float fixedradius,
+		float minradius, float3 cube_size, int iter)
+{
+	float3 z = pos;
+	float3 offset = z;
+	float dr = 2.0f;
+	for (int n = 0; n < iter; n++)
+	{
+		float4 tmp;
+		z = box_fold(z, cube_size);
+		tmp = sphere_fold(z, dr, fixedradius, minradius);
+		z.x = tmp.x;
+		z.y = tmp.y;
+		z.z = tmp.z;
+		dr = tmp.w;
+		z= scale * z + offset;
+		dr = dr * fabs(scale) + 1.0f;
+	}
+	float r = length(z);
+	return (r / fabs(dr));
+}
+
+float	sdf_mandelbulb(float3 pos, float power, int iter, int breakout)
 {
 	float3 z = pos;
 	float dr = 1;
@@ -143,6 +192,5 @@ float	sdf_mandelbumb(float3 pos, float power, int iter, int breakout)
 		z += pos;
 	}
 	return ((0.5 * log(r) * r / dr));
-//	0.5*log(r)*r/dr,50.0*pow(dr,0.128/float(MARCHINGITERATIONS))
 }
 

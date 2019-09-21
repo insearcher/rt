@@ -29,7 +29,7 @@ void	render_processing(t_rt_main *rt, size_t *global_size)
 
 	create_buffers_for_render(rt, &cl_scene, &cl_objects, &cl_lights);
 
-//	rt->scenes[0].objects[0].params.mandelbumb.power = 1 + 7 * (sin(clock() / (CLOCKS_PER_SEC * 3.0f)) + 1); //для изменения фрактала со временем
+//	rt->scenes[0].objects[0].params.mandelbulb.power = 10 + 10 * (sin(clock() / (CLOCKS_PER_SEC * 10.0f)) + 1); //для изменения фрактала со временем
 	kernel = NULL;
 	if (rt->params & RT_RENDER_1)
 		;

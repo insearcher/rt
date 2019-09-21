@@ -85,8 +85,12 @@ static float	sdf(cl_float3 origin, t_object *obj)
 		case o_plane:
 			distance = sdf_plane(local_pos, obj->transform.up, obj->params.plane.distance);
 			break;
-		case o_mandelbumb:
+		case o_mandelbulb:
 			distance = 0;
+			break;
+		case o_mandelbox:
+			distance = 0;
+			break;
 	}
 	return (distance);
 }
