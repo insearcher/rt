@@ -59,9 +59,10 @@ t_rt_main	*setup_rt(cl_int2 screen_size)
 							  "src/cl/uv_mapping.cl",
 							  "src/cl/choose_texture_for_object.cl",
 							  "src/cl/ray_trace/render_rt.c",
+							  "src/cl/gauss_blur.c",
 							  NULL},
-					  (char *[]){"ray_march_render", "ray_trace_render", NULL});
-	rt_jtoc_scene_setup(rt, "json/scenes/scene_1.json");
+					  (char *[]){"ray_march_render", "ray_trace_render", "gauss_blur_x", "gauss_blur_y", NULL});
+	rt_jtoc_scene_setup(rt, "json/scenes/test_scene.json");
 //	rt_jtoc_scene_setup(rt, "json/scenes/test_scene.json");
 	fill_constant_screen_gpu_mem(rt, screen_size);
 	rt->params |= RT_RENDER_2;

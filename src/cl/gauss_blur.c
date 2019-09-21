@@ -43,6 +43,8 @@ __kernel void	gauss_blur_y(const __global int	*input_data,
 	int ty = get_global_id(1);
 	int index = ty * screen.x + tx;
 
+	output_data[index] = 255;
+
 	float3	color;
 	int		a = 3 * (int)SIGMA;
 	float	sum = 0;
@@ -62,12 +64,14 @@ __kernel void	gauss_blur_y(const __global int	*input_data,
 }
 
 __kernel void	gauss_blur_x(
-		const __global int *input_data,
+		__global int *input_data,
 		__global int *output_data, int2 screen)
 {
 	int tx = get_global_id(0);
 	int ty = get_global_id(1);
 	int index = ty * screen.x + tx;
+
+	output_data[index] = 255;
 
 	float3	color;
 	int		a = 3 * (int)SIGMA;

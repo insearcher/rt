@@ -106,6 +106,7 @@ int main()
 
 	rt = setup_rt(rt_screen_size);
 	ui->data = (void *)rt;
+//	rt->params |= RT_GAUSS_BLUR;
 
 
 //TODO NEEDED FOR PLANE (NOW PLANE IN JSON DOESN'T WORK CORRECTLY) (MAKSON WHAT IT TAKOE WOBSHE?)
@@ -133,7 +134,7 @@ int main()
 
 	t_physics_system	*ps = ft_memalloc(sizeof(t_physics_system));
 	ps->system.parent = ps;
-	ps->rbs_count = 5;
+	ps->rbs_count = 1;
 //	ps->rbs_count = 1;
 	ps->rbs = (t_rb *)malloc(sizeof(t_rb) * ps->rbs_count);
 
@@ -164,7 +165,7 @@ int main()
 //
 //	ps->rbs[1].transform = &rt->scenes[0].objects[0].transform;
 //
-	ps->rbs[1].move.speed = 10000;
+/*	ps->rbs[1].move.speed = 10000;
 	ps->rbs[1].move.speed_mult = 4;
 	ps->rbs[1].move.braking_coef = 0.025f;
 	ps->rbs[1].move.vel = (cl_float3){{0, 0, 0}};
@@ -212,7 +213,7 @@ int main()
 	ps->rbs[4].rot.braking_coef = .04f;
 	ps->rbs[4].rot.vel = (cl_float3){{1, 1, 1}};
 	ps->rbs[4].rot.raw_vel = (cl_float3){{1, 1, 1}};
-	ps->rbs[4].transform = rt_find_transform_by_id(rt->scene, 5);
+	ps->rbs[4].transform = rt_find_transform_by_id(rt->scene, 5);*/
 
 	system_setup(&ps->system, "physics", &ps_func, 5);
 	ps->change_indicator = 1;

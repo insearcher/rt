@@ -40,7 +40,7 @@ float3			get_skybox_color(float3 direction)
 	})));
 }
 
-static float3	render_color(t_scene *scene, int2 pixel, int2 screen, __global int *texture,
+/*static float3	render_color(t_scene *scene, int2 pixel, int2 screen, __global int *texture,
 		__global int *texture_w, __global int *texture_h, __global int *prev_texture_size)
 {
 	float3			ray_direction;
@@ -54,6 +54,25 @@ static float3	render_color(t_scene *scene, int2 pixel, int2 screen, __global int
 		color = get_skybox_color(ray_direction);
 		return (color);
 //		fill_camera_pixel(image, pixel, screen, color, scene->quality);
+	}
+	if(choose_texture_for_object(ray_hit, texture, &color, texture_w, texture_h, prev_texture_size))
+		color = ray_hit.hit->material.color.xyz;
+	color = get_lighting(scene, color, ray_hit);
+	return (color);
+}*/
+
+static float3	render_color(t_scene *scene, int2 pixel, int2 screen, __global int *texture,
+							  __global int *texture_w, __global int *texture_h, __global int *prev_texture_size,
+							  float3 ray_direction, t_raycast_hit ray_hit)
+{
+//	float3			ray_direction;
+//	t_raycast_hit	ray_hit;
+	float3			color;
+
+	if (!raymarch(scene->camera.transform.pos, ray_direction, 0, scene, &ray_hit))
+	{
+		color = get_skybox_color(ray_direction);
+		return (color);
 	}
 	if(choose_texture_for_object(ray_hit, texture, &color, texture_w, texture_h, prev_texture_size))
 		color = ray_hit.hit->material.color.xyz;
@@ -77,12 +96,14 @@ __kernel void	ray_march_render(__global char *image, t_scene scene, __global t_o
 	float3		color;
 	int			fsaa;
 //	float2		fsaa_pixel;
+	float3			ray_direction;
+	t_raycast_hit	ray_hit;
 
 	gid = get_global_id(0);
 	pixel = (int2)(gid % screen.x, gid / screen.x);
 	scene.objects = objects;
 	scene.lights = lights;
-	if (scene.quality == 100)
+/*	if (scene.quality == 100)
 	{
 		color = render_color(&scene, pixel, screen, texture, texture_w, texture_h, prev_texture_size);
 		put_pixel(image, pixel, screen, color);
@@ -95,21 +116,31 @@ __kernel void	ray_march_render(__global char *image, t_scene scene, __global t_o
 		color = render_color(&scene, pixel, screen, texture, texture_w, texture_h, prev_texture_size);
 		fill_camera_pixel_with_lowering_quality(image, pixel, screen, color, scene.quality);
 	}
-	else
-	{
-//		fsaa = scene.quality - 30;
+	else*/
+//	{
+		fsaa = 4;
+		get_ray_direction_and_clip_ratio(&ray_direction, &ray_hit.clip_ratio, pixel, screen,
+				scene.camera.fov, scene.camera.transform);
+		color = float3(0);
 		for (int i = -fsaa / 2; i <= fsaa / 2; i++)
 		{
 			for (int j = -fsaa / 2; j <= fsaa / 2; j++)
 			{
-/*				fsaa_pixel.x = (float)pixel.x + i * reverse(fsaa) - 0.5;
-				fsaa_pixel.y = (float)pixel.y + j * reverse(fsaa) - 0.5;
-				color = render_color(&scene, fsaa_pixel, screen, texture);*/
+				float3 ray_dir_aa = normalize(ray_direction + (float)j / (3 * screen.y) * scene.camera.transform.up +
+						(float)i / (3 * screen.x) * scene.camera.transform.right);
+					color += render_color(&scene, pixel, screen, texture, texture_w, texture_h, prev_texture_size,
+					ray_dir_aa, ray_hit);
 			}
 		}
-//		color = color / ((fsaa + 1) * (fsaa + 1));
+		color = color / (float)((fsaa + 1) * (fsaa + 1));
+/*		if (color.x > 1.0)
+			color.x = 1.0;
+		if (color.y > 1.0)
+			color.y = 1.0;
+		if (color.z > 1.0)
+			color.z = 1.0;*/
 		put_pixel(image, pixel, screen, color);
-	}
+//	}
 	//color = pow(color, 0.4545f);
 }
 /*for (int i = -fsaa / 2; i <= fsaa / 2; i++)
