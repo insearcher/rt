@@ -125,11 +125,18 @@
   "objects":
   [
     {
-      "type": "mandelbumb",
+      "type": "mandelbox",
       "layer": "ignore_raycast_layer",
-      "power": 8.0,
-      "iteration": 15,
-      "breakout": 3,
+      "scale": -1.73,
+      "fixedradius": 1.0,
+      "minradius": 0.5,
+      "iteration": 10,
+      "cube_size":
+      {
+        "x": 0.5,
+        "y": 0.5,
+        "z": 0.5
+      },
       "color":
       {
         "x": 0.0,
