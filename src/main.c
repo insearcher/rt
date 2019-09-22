@@ -150,6 +150,13 @@ int main()
 	ps->rbs[0].rot.raw_vel = (cl_float3){{0, 0, 0}};
 	ps->rbs[0].transform = rt_find_transform_by_id(rt->scene, 1);
 
+	t_object *objs = rt->scene->objects;
+	objs[0].material.luminosity = (cl_float3){{.0f, .0f, 0.f}};
+	objs[1].material.luminosity = (cl_float3){{.0f, .0f, 0.f}};
+	objs[2].material.luminosity = (cl_float3){{.0f, .0f, 0.f}};
+	objs[3].material.luminosity = (cl_float3){{.0f, .0f, 0.f}};
+	objs[4].material.luminosity = (cl_float3){{1.f, 1.f, 1.f}};
+
 //
 // mandelbumb
 //	ps->rbs[1].move.speed = 10000;

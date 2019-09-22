@@ -36,6 +36,12 @@ void	render_processing(t_rt_main *rt, size_t *global_size)
 	else if (rt->params & RT_RENDER_2)
 		kernel = cl_get_kernel_by_name(rt->cl, "ray_march_render");
 
+
+	cl_int2	rands;
+	rands.x = rand();
+	rands.y = rand();
+
+
 	clSetKernelArg(*kernel, 0, sizeof(cl_mem), &rt->gpu_mem->cl_image);
 	clSetKernelArg(*kernel, 1, sizeof(t_scene), rt->scene);
 	clSetKernelArg(*kernel, 2, sizeof(cl_mem), &cl_objects);
@@ -45,6 +51,7 @@ void	render_processing(t_rt_main *rt, size_t *global_size)
 	clSetKernelArg(*kernel, 6, sizeof(cl_mem), &rt->gpu_mem->cl_texture_w);
 	clSetKernelArg(*kernel, 7, sizeof(cl_mem), &rt->gpu_mem->cl_texture_h);
 	clSetKernelArg(*kernel, 8, sizeof(cl_mem), &rt->gpu_mem->cl_prev_texture_size);
+	clSetKernelArg(*kernel, 9, sizeof(cl_int2), &rands);
 
 	clEnqueueNDRangeKernel(*rt->cl->queue, *kernel, 1, NULL, global_size, NULL, 0, NULL, NULL);
 

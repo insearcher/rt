@@ -9,7 +9,7 @@ static void	fill_constant_screen_gpu_mem(t_rt_main *rt, cl_int2 screen_size)
 {
 	char			*texture[4];
 
-	texture[0] = "./textures/brick.jpg";
+	texture[0] = "./textures/nice.png";
 	texture[1] = "./textures/texture.png";
 	texture[2] = "./textures/brick.jpg";
 	texture[3] = "./textures/marble.png";
