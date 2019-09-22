@@ -23,17 +23,23 @@ static int	rt_jtoc_get_clipping_planes(t_clipping *clipping_planes, t_jnode *n)
 int			rt_jtoc_get_camera(t_camera *camera, t_jnode *n)
 {
 	t_jnode		*tmp;
+	int			i;
 
+	ft_bzero(camera, sizeof(t_camera));
 	if (!(tmp = jtoc_node_get_by_path(n, "fov")) || tmp->type != fractional)
 		return (rt_jtoc_sdl_log_error("FOV ERROR", -1));
-	ft_bzero(camera, sizeof(t_camera));
 	camera->fov = jtoc_get_float(tmp);
-	if (!(tmp = jtoc_node_get_by_path(n, "quality")) || tmp->type != fractional)
-		return (rt_jtoc_sdl_log_error("QUALITY ERROR", -1));
-	camera->quality = jtoc_get_float(tmp);
 	if (rt_jtoc_get_clipping_planes(&(camera->clipping_planes), n))
 		return (rt_jtoc_sdl_log_error("CLIPPING_PLANES ERROR", -1));
 	if (rt_jtoc_get_transform(&(camera->transform), n))
 		return (rt_jtoc_sdl_log_error("TRANSFORM ERROR", -1));
+
+	if (!(tmp = jtoc_node_get_by_path(n, "id")) || tmp->type != integer)
+		return (rt_jtoc_sdl_log_error("CAMERA ID ERROR", -1));
+	i = jtoc_get_int(tmp);
+	if (i <= 0)
+		return (rt_jtoc_sdl_log_error("CAMERA ID ERROR", -1));
+	camera->transform.id = i;
+
 	return (FUNCTION_SUCCESS);
 }

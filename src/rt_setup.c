@@ -9,7 +9,7 @@ static void	fill_constant_screen_gpu_mem(t_rt_main *rt, cl_int2 screen_size)
 {
 	char			*texture[4];
 
-	texture[0] = "./textures/earth.jpg";
+	texture[0] = "./textures/brick.jpg";
 	texture[1] = "./textures/texture.png";
 	texture[2] = "./textures/brick.jpg";
 	texture[3] = "./textures/marble.png";
@@ -51,17 +51,18 @@ t_rt_main	*setup_rt(cl_int2 screen_size)
 	rt = (t_rt_main *)ft_memalloc(sizeof(t_rt_main));
 	rt->screen_size = screen_size;
 	rt->cl = cl_setup((char *[]){
-							  "src/cl/render.c",
+							  "src/cl/render_rm.c",
 							  "src/cl/raymarch.c",
 							  "src/cl/sdf.c",
-							  "src/cl/ray.c",
+							  "src/cl/get_lighting.c",
+							  "src/cl/get_ray_direction_and_clip_ratio.c",
 							  "src/cl/uv_mapping.cl",
 							  "src/cl/choose_texture_for_object.cl",
+							  "src/cl/ray_trace/render_rt.c",
 							  NULL},
-					  (char *[]){"render", NULL});
-	rt->scenes = rt_jtoc_scenes_setup((char *[]){
-			"json/scenes/test_scene.json",
-			NULL});
+					  (char *[]){"ray_march_render", "ray_trace_render", NULL});
+	rt_jtoc_scene_setup(rt, "json/scenes/scene_1.json");
+//	rt_jtoc_scene_setup(rt, "json/scenes/test_scene.json");
 	fill_constant_screen_gpu_mem(rt, screen_size);
 	rt->params |= RT_RENDER_2;
 	return (rt);

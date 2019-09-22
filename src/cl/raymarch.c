@@ -52,11 +52,20 @@ static float	sdf(float3 origin, __global t_object *obj)
 		case o_plane:
 			distance = sdf_plane(local_pos, obj->transform.up, obj->params.plane.distance);
 			break;
+		case o_mandelbulb:
+			distance = sdf_mandelbulb(local_pos, obj->params.mandelbulb.power,
+					obj->params.mandelbulb.iteration, obj->params.mandelbulb.breakout);
+			break;
+		case o_mandelbox:
+			distance = sdf_mandelbox(local_pos, obj->params.mandelbox.scale, obj->params.mandelbox.fixedradius,
+									 obj->params.mandelbox.minradius, obj->params.mandelbox.cube_size,
+									 obj->params.mandelbox.iteration);
+			break;
 	}
 	return (distance);
 }
 
-static float	sceneSDF(float3 O, __global t_scene *scene, t_raycast_hit *rh)
+static float	sceneSDF(float3 O, t_scene *scene, t_raycast_hit *rh)
 {
 	float		dist_to_obj = 1000000.f;
 	float		tmp_dist_to_obj;
@@ -83,7 +92,7 @@ static void	get_normal(float3 pos, float basic_dist, t_raycast_hit *rh)
 									(float3){basic_dist, basic_dist, basic_dist});
 }
 
-char	raymarch(float3 origin, float3 direction, float distance, __global t_scene *scene, t_raycast_hit *rh)
+char	raymarch(float3 origin, float3 direction, float distance, t_scene *scene, t_raycast_hit *rh)
 {
 	float	intersect_dist = rh->clip_ratio;
 	float	dist_to_obj;

@@ -1,7 +1,7 @@
 #ifndef RT_JTOC_H
 # define RT_JTOC_H
 
-t_scene			*rt_jtoc_scenes_setup(char **jsons);
+int				rt_jtoc_scene_setup(t_rt_main *rt, const char *json);
 int				rt_jtoc_get_float2(cl_float2 *vec, t_jnode *n);
 int				rt_jtoc_get_float3(cl_float3 *vec, t_jnode *n);
 int				rt_jtoc_get_float4(cl_float4 *vec, t_jnode *n);
@@ -19,5 +19,7 @@ int				rt_jtoc_get_plane(t_object *obj, t_jnode *n);
 int				rt_jtoc_get_cone(t_object *obj, t_jnode *n);
 int				rt_jtoc_get_cylinder(t_object *obj, t_jnode *n);
 int				rt_jtoc_get_link(t_object *obj, t_jnode *n);
+int				rt_jtoc_get_mandelbulb(t_object *obj, t_jnode *n);
+int				rt_jtoc_get_mandelbox(t_object *obj, t_jnode *n);
 
 # endif
