@@ -76,18 +76,19 @@ static float3 refract(const float3 I, const float3 N, const float refractive_ind
 
 static float3	render_color(t_scene *scene, int2 pixel, int2 screen, __global int *texture,
 							  __global int *texture_w, __global int *texture_h, __global int *prev_texture_size,
-							  float3 ray_direction, t_raycast_hit ray_hit, unsigned int *seed0, unsigned int *seed1)
+							  float3 ray_direction, unsigned int *seed0, unsigned int *seed1)
 {
 	float3			color;
+	t_raycast_hit	ray_hit;
 
 	if (!raymarch(scene->camera.transform.pos, ray_direction, 0, scene, &ray_hit))
 	{
 		color = get_skybox_color(ray_direction);
 		return (color);
 	}
-/*	if(choose_texture_for_object(ray_hit, texture, &color, texture_w, texture_h, prev_texture_size))
+	if(choose_texture_for_object(ray_hit, texture, &color, texture_w, texture_h, prev_texture_size))
 		color = ray_hit.hit->material.color.xyz;
-	color = get_lighting(scene, color, ray_hit);*/
+	color = get_lighting(scene, color, ray_hit);
 	return (color);
 }
 
@@ -159,15 +160,14 @@ static float	reverse(int n)
 static float3	get_pixel_color(t_scene *scene, int2 pixel, int2 screen, int2 rands, __global int *texture, __global int *texture_w, __global int *texture_h, __global int *prev_texture_size)
 {
 	int				fsaa = 0; //IN SCENE
-	t_raycast_hit	ray_hit;
 	float3			ray_direction;
 	float3			color = float3(0.f);
 	unsigned int	seed0, seed1;
 
-	get_ray_direction_and_clip_ratio(&ray_direction, &ray_hit.clip_ratio, pixel, screen,
-									 scene->camera.fov, scene->camera.transform);
+	get_cam_ray_direction(&ray_direction, pixel, screen,
+			scene->camera.fov, scene->camera.transform);
 //	if (scene->params & RT_PATH_TRACE)
-/*		for (int i = -fsaa / 2; i <= fsaa / 2; i++)
+		for (int i = -fsaa / 2; i <= fsaa / 2; i++)
 		{
 			for (int j = -fsaa / 2; j <= fsaa / 2; j++)
 			{
@@ -177,19 +177,17 @@ static float3	get_pixel_color(t_scene *scene, int2 pixel, int2 screen, int2 rand
 
 				seed0 = pixel.x % screen.x + (rands.x * screen.x / 10);
 				seed1 = pixel.y % screen.y + (rands.y * screen.y / 10);
-				int N = 2;
+				int N = 1;
 				for (int k = 0; k < N; k++)
 				{
 					get_random(&seed0, &seed1);
 					get_random(&seed1, &seed0);
 					color += render_color(scene, pixel, screen, texture, texture_w, texture_h, prev_texture_size,
-							ray_dir_aa, ray_hit, &seed0, &seed1) / N;*/
-					color += render_color(scene, pixel, screen, texture, texture_w, texture_h, prev_texture_size,
-										  ray_direction, ray_hit, &seed0, &seed1);
-/*				}
+							ray_dir_aa, &seed0, &seed1) / N;
+				}
 			}
-		}*/
-//	color = color / (float)((fsaa + 1) * (fsaa + 1));
+		}
+	color = color / (float)((fsaa + 1) * (fsaa + 1));
 //	color = pow(color, 0.4545f);
 	return (color);
 }
@@ -206,19 +204,17 @@ __kernel void	ray_march_render(__global char *image, t_scene scene, __global t_o
 	pixel = (int2)(gid % screen.x, gid / screen.x);
 	scene.objects = objects;
 	scene.lights = lights;
-//	if (scene.quality == 100)
-//	{
+	if (scene.quality == 100)
+	{
 		color = get_pixel_color(&scene, pixel, screen, rands, texture, texture_w, texture_h, prev_texture_size);
-//		color = get_skybox_color(float3(0.5));
 		put_pixel(image, pixel, screen, color);
-//	}
-/*	else //quality processed in jtoc, therefore quality always <= 100
+	}
+	else //quality processed in jtoc, therefore quality always <= 100
 	{
 		scene.quality = 31 - (int)(scene.quality / 3.3);
 		if (pixel.x % scene.quality || pixel.y % scene.quality)
 			return;
 		color = get_pixel_color(&scene, pixel, screen, rands, texture, texture_w, texture_h, prev_texture_size);
-		color =  get_skybox_color(float3(1.f));
 		put_pixel_with_lowering_quality(image, pixel, screen, color, scene.quality);
-	}*/
+	}
 }

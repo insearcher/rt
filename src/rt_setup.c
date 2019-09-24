@@ -55,7 +55,7 @@ t_rt_main	*setup_rt(cl_int2 screen_size)
 							  "src/cl/raymarch.c",
 							  "src/cl/sdf.c",
 							  "src/cl/get_lighting.c",
-							  "src/cl/get_ray_direction_and_clip_ratio.c",
+							  "src/cl/get_cam_ray_direction.c",
 							  "src/cl/uv_mapping.cl",
 							  "src/cl/choose_texture_for_object.cl",
 							  "src/cl/gauss_blur.c",

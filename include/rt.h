@@ -25,18 +25,20 @@ typedef struct			s_scene
 {
 	t_camera			camera;
 # ifndef OPENCL___
-	cl_float3			ambient;
 	t_object			*objects;
 	t_light				*lights;
+	cl_float3			ambient;
 	cl_uint				objects_count;
 	cl_uint				lights_count;
 	cl_int				quality;
 	cl_int				fsaa;
 	cl_int				params;
 # else
-	float3				ambient;
 	__global t_object	*objects;
+	int					trash1;
 	__global t_light	*lights;
+	int					trash2;
+	float3				ambient;
 	uint				objects_count;
 	uint				lights_count;
 	int					quality;

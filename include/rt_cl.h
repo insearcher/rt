@@ -40,7 +40,7 @@ float2	uv_mapping_for_torus(t_raycast_hit rh);
 float2	uv_mapping_for_cube(t_raycast_hit rh);
 
 int		raymarch(float3 origin, float3 direction, float distance, t_scene *scene, t_raycast_hit *rh);
-void	get_ray_direction_and_clip_ratio(float3 *ray_direction, float *clip_ratio, int2 coord, int2 screen, float fov, t_transform transform);
+void	get_cam_ray_direction(float3 *ray_direction, int2 coord, int2 screen, float fov, t_transform transform);
 float3	get_lighting(t_scene *scene, float3 color, t_raycast_hit ray_hit);
 
 #endif

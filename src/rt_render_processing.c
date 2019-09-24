@@ -32,11 +32,9 @@ void	render_processing(t_rt_main *rt, size_t *global_size)
 //	rt->scenes[0].objects[0].params.mandelbulb.power = 10 + 10 * (sin(clock() / (CLOCKS_PER_SEC * 10.0f)) + 1); //для изменения фрактала со временем
 	kernel = cl_get_kernel_by_name(rt->cl, "ray_march_render");
 
-
 	cl_int2	rands;
 	rands.x = rand();
 	rands.y = rand();
-
 
 	clSetKernelArg(*kernel, 0, sizeof(cl_mem), &rt->gpu_mem->cl_image);
 	clSetKernelArg(*kernel, 1, sizeof(t_scene), rt->scene);

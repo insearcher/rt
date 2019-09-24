@@ -244,7 +244,7 @@ int main()
 	SDL_Log("%d", rt->scene->objects_count);
 	SDL_Log("%d", rt->scene->lights_count);
 	SDL_Log("%d", rt->scene->objects[0].transform.id);
-//	ui_main_run_program(ui);
+	ui_main_run_program(ui);
 	return 0;
 }
 #else

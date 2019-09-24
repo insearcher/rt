@@ -94,7 +94,6 @@ static void	get_normal(float3 pos, float basic_dist, t_raycast_hit *rh)
 
 int			raymarch(float3 origin, float3 direction, float distance, t_scene *scene, t_raycast_hit *rh)
 {
-//	float	intersect_dist = rh->clip_ratio; //TODO intersect dist and cond must be different for path trace and not past trace
 	float	intersect_dist = 0;
 	float	dist_to_obj;
 	int		max_steps = 500;
@@ -122,7 +121,6 @@ int			raymarch(float3 origin, float3 direction, float distance, t_scene *scene, 
 			return (1);
 		}
 		intersect_dist += dist_to_obj;
-//		cond = intersect_dist > scene->camera.clipping_planes.far * rh->clip_ratio || intersect_dist > distance * rh->clip_ratio;
 		cond = intersect_dist > scene->camera.clipping_planes.far || intersect_dist > distance;
 		if (cond)
 			return (0);
