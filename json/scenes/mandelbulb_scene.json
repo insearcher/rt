@@ -1,8 +1,9 @@
 {
+  "quality": 100,
   "camera":
   {
+    "id": 1,
     "fov": 90.0,
-    "quality": 1.0,
     "clipping_planes":
     {
       "near": 0.01,
@@ -127,6 +128,7 @@
     {
       "type": "mandelbulb",
       "layer": "ignore_raycast_layer",
+      "texture": "none",
       "power": 8.0,
       "iteration": 15,
       "breakout": 3,

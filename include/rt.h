@@ -55,6 +55,8 @@ typedef struct			s_static_gpu_mem
 
 typedef struct 			s_obj_texture
 {
+	char				**textures_path;
+	unsigned int		textures_count;
 	int 				w;
 	int 				h;
 	int 				*texture;
@@ -67,7 +69,7 @@ typedef struct 			s_obj_texture
 
 typedef struct			s_rt_main
 {
-	t_obj_texture		texture;
+	t_obj_texture		*texture;
 	t_cl				*cl;
 	t_scene				*scene;
 	size_t				systems_count;

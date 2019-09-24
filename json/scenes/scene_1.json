@@ -129,6 +129,7 @@
     {
       "type": "plane",
       "layer": "ignore_raycast_layer",
+      "texture": "none",
       "distance": 100.0,
       "color": {
         "x": 0.0,
@@ -162,6 +163,7 @@
     {
       "type": "sphere",
       "layer": "default_layer",
+      "texture": "none",
       "radius": 3.0,
       "color":
       {
@@ -201,6 +203,7 @@
     {
       "type": "sphere",
       "layer": "default_layer",
+      "texture": "none",
       "radius": 2.0,
       "color":
       {
@@ -240,12 +243,13 @@
     {
       "type": "sphere",
       "layer": "default_layer",
+      "texture": "none",
       "radius": 1.0,
       "color":
       {
         "x": 0.0,
         "y": 0.0,
-        "z": 0.0,
+        "z": 1.0,
         "w": 0.0
       },
       "transform":
@@ -279,6 +283,7 @@
     {
       "type": "box",
       "layer": "default_layer",
+      "texture": "none",
       "bounds":
       {
         "x": 1.0,
@@ -323,6 +328,7 @@
     {
       "type": "box",
       "layer": "default_layer",
+      "texture": "none",
       "bounds":
       {
         "x": 0.5,
@@ -367,6 +373,7 @@
     {
       "type": "box",
       "layer": "default_layer",
+      "texture": "none",
       "bounds":
       {
         "x": 0.25,
@@ -411,6 +418,7 @@
     {
       "type": "round_box",
       "layer": "default_layer",
+      "texture": "none",
       "bounds":
       {
         "x": 1.0,
@@ -456,6 +464,7 @@
     {
       "type": "round_box",
       "layer": "default_layer",
+      "texture": "none",
       "bounds":
       {
         "x": 0.5,
@@ -501,6 +510,7 @@
     {
       "type": "round_box",
       "layer": "default_layer",
+      "texture": "none",
       "bounds":
       {
         "x": 0.25,
@@ -547,6 +557,7 @@
       "type": "torus",
       "id": 2,
       "layer": "default_layer",
+      "texture": "none",
       "radius": 3.0,
       "inner_radius": 0.25,
       "color":
@@ -588,6 +599,7 @@
       "type": "torus",
       "id": 3,
       "layer": "default_layer",
+      "texture": "none",
       "radius": 2.0,
       "inner_radius": 0.25,
       "color":
@@ -629,6 +641,7 @@
       "type": "torus",
       "id": 4,
       "layer": "default_layer",
+      "texture": "none",
       "radius": 1.0,
       "inner_radius": 0.25,
       "color":
@@ -669,6 +682,7 @@
     {
       "type": "sphere",
       "layer": "default_layer",
+      "texture": "none",
       "radius": 0.5,
       "color": {
         "x": 0.0,
@@ -702,6 +716,7 @@
     {
       "type": "cone",
       "layer": "default_layer",
+      "texture": "none",
       "params":
       {
         "x": 20.0,
@@ -745,6 +760,7 @@
     {
       "type": "cylinder",
       "layer": "default_layer",
+      "texture": "none",
       "params":
       {
         "x": 0.0,
@@ -789,6 +805,7 @@
     {
       "type": "link",
       "layer": "default_layer",
+      "texture": "none",
       "le": 3.0,
       "r1": 2.0,
       "r2": 1.0,
