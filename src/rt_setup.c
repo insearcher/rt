@@ -51,20 +51,19 @@ t_rt_main	*setup_rt(cl_int2 screen_size)
 	rt = (t_rt_main *)ft_memalloc(sizeof(t_rt_main));
 	rt->screen_size = screen_size;
 	rt->cl = cl_setup((char *[]){
-							  "src/cl/render_rm.c",
+							  "src/cl/render.c",
 							  "src/cl/raymarch.c",
 							  "src/cl/sdf.c",
 							  "src/cl/get_lighting.c",
 							  "src/cl/get_ray_direction_and_clip_ratio.c",
 							  "src/cl/uv_mapping.cl",
 							  "src/cl/choose_texture_for_object.cl",
-							  "src/cl/ray_trace/render_rt.c",
 							  "src/cl/gauss_blur.c",
 							  NULL},
-					  (char *[]){"ray_march_render", "ray_trace_render", "gauss_blur_x", "gauss_blur_y", NULL});
-	rt_jtoc_scene_setup(rt, "json/scenes/test_scene.json");
+					  (char *[]){"ray_march_render", "gauss_blur_x", "gauss_blur_y", NULL});
+	rt_jtoc_scene_setup(rt, "json/scenes/test1.json");
 //	rt_jtoc_scene_setup(rt, "json/scenes/test_scene.json");
 	fill_constant_screen_gpu_mem(rt, screen_size);
-	rt->params |= RT_RENDER_2;
+	rt->scene->params |= RT_PATH_TRACE;
 	return (rt);
 }

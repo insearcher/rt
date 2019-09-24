@@ -45,8 +45,8 @@ int	rt_jtoc_get_object_layer(t_object *obj, t_jnode *n)
 
 int	rt_jtoc_check_and_get_id_for_objs(t_object *obj, t_jnode *n, t_scene *scene, cl_uint objs_num)
 {
-	t_jnode	*tmp;
-	int		id;
+	t_jnode		*tmp;
+	cl_uint		id;
 
 	id = 0;
 	if ((tmp = jtoc_node_get_by_path(n, "id")) && tmp->type == integer)
@@ -54,7 +54,7 @@ int	rt_jtoc_check_and_get_id_for_objs(t_object *obj, t_jnode *n, t_scene *scene,
 		id = jtoc_get_int(tmp);
 		if (id <= 0)
 			return (FUNCTION_FAILURE);
-		if (scene->camera.transform.id == id)
+		if (scene->camera.transform.id == (cl_uint)id)
 			return (rt_jtoc_sdl_log_error("THAT ID ALREADY EXISTS IN CAMERA", id));
 		if (rt_find_light_by_id(scene->lights, scene->lights_count, id))
 			return (rt_jtoc_sdl_log_error("THAT ID ALREADY EXISTS IN LIGHTS", id));
@@ -62,7 +62,7 @@ int	rt_jtoc_check_and_get_id_for_objs(t_object *obj, t_jnode *n, t_scene *scene,
 			if (rt_find_object_by_id(scene->objects, objs_num - 1, id) != NULL)
 				return (rt_jtoc_sdl_log_error("THAT ID ALREADY EXISTS IN OBJECTS", id));
 	}
-	obj->transform.id = id;
+	obj->transform.id = (cl_uint)id;
 	return (FUNCTION_SUCCESS);
 }
 

@@ -150,12 +150,12 @@ int main()
 	ps->rbs[0].rot.raw_vel = (cl_float3){{0, 0, 0}};
 	ps->rbs[0].transform = rt_find_transform_by_id(rt->scene, 1);
 
-	t_object *objs = rt->scene->objects;
+/*	t_object *objs = rt->scene->objects;
 	objs[0].material.luminosity = (cl_float3){{.0f, .0f, 0.f}};
 	objs[1].material.luminosity = (cl_float3){{.0f, .0f, 0.f}};
 	objs[2].material.luminosity = (cl_float3){{.0f, .0f, 0.f}};
 	objs[3].material.luminosity = (cl_float3){{.0f, .0f, 0.f}};
-	objs[4].material.luminosity = (cl_float3){{1.f, 1.f, 1.f}};
+	objs[4].material.luminosity = (cl_float3){{1.f, 1.f, 1.f}};*/
 
 //
 // mandelbumb
@@ -241,7 +241,10 @@ int main()
 
 	ui_event_add_listener(((t_ui_win *)(ui->windows->content))->events->on_pointer_left_button_pressed, rt_raycast);
 
-	ui_main_run_program(ui);
+	SDL_Log("%d", rt->scene->objects_count);
+	SDL_Log("%d", rt->scene->lights_count);
+	SDL_Log("%d", rt->scene->objects[0].transform.id);
+//	ui_main_run_program(ui);
 	return 0;
 }
 #else

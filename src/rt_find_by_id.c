@@ -1,6 +1,6 @@
 #include "rt.h"
 
-t_object	*rt_find_object_by_id(t_object *objs, cl_uint objs_count, cl_int id)
+t_object	*rt_find_object_by_id(t_object *objs, cl_uint objs_count, cl_uint id)
 {
 	cl_uint	i;
 
@@ -13,15 +13,15 @@ t_object	*rt_find_object_by_id(t_object *objs, cl_uint objs_count, cl_int id)
 	return (NULL);
 }
 
-t_transform	*rt_find_transform_by_id(t_scene *scene, cl_int id)
+t_transform	*rt_find_transform_by_id(t_scene *scene, cl_uint id)
 {
-	cl_uint		i;
+	cl_uint	i;
 	t_object	*objs;
 	t_light		*lights;
 
 	objs = scene->objects;
 	lights = scene->lights;
-	if (scene->camera.transform.id ==id)
+	if (scene->camera.transform.id == id)
 		return (&scene->camera.transform);
 	i = -1;
 	while (++i < scene->lights_count)
@@ -38,7 +38,7 @@ t_transform	*rt_find_transform_by_id(t_scene *scene, cl_int id)
 	return (NULL);
 }
 
-t_light	*rt_find_light_by_id(t_light *lights, cl_uint lights_count, cl_int id)
+t_light	*rt_find_light_by_id(t_light *lights, cl_uint lights_count, cl_uint id)
 {
 	cl_uint	i;
 
