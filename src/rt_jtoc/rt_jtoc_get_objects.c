@@ -82,9 +82,8 @@ int	rt_jtoc_check_and_get_id_for_objs(t_object *obj, t_jnode *n, t_scene *scene,
 	t_jnode	*tmp;
 	int		id;
 
-	id = 0;
-	if ((tmp = jtoc_node_get_by_path(n, "id")) && tmp->type == integer)
-	{
+	if (!(tmp = jtoc_node_get_by_path(n, "id")) || tmp->type != integer)
+		return (rt_jtoc_sdl_log_error("Tbl PUDOP", -1));
 		id = jtoc_get_int(tmp);
 		if (id <= 0)
 			return (FUNCTION_FAILURE);
@@ -95,7 +94,6 @@ int	rt_jtoc_check_and_get_id_for_objs(t_object *obj, t_jnode *n, t_scene *scene,
 		if (objs_num != 0)
 			if (rt_find_object_by_id(scene->objects, objs_num - 1, id) != NULL)
 				return (rt_jtoc_sdl_log_error("THAT ID ALREADY EXISTS IN OBJECTS", id));
-	}
 	obj->transform.id = id;
 	return (FUNCTION_SUCCESS);
 }
