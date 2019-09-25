@@ -2,17 +2,18 @@
 #include "rt_jtoc.h"
 #include "rt_raycast.h"
 
-int 		rt_jtoc_compare_str_with_texture_name(char **texture_name, char *str)
+int 		rt_jtoc_compare_str_with_texture_name(t_obj_texture *texture, char *str)
 {
 	int i;
+	int cache_counter;
+	char **texture_name;
 
 	i = 0;
-	while (texture_name[i] != NULL)
-	{
+	cache_counter = texture->textures_count;
+	texture_name = texture->textures_path;
+	while (++i < cache_counter)
 		if (ft_strstr(texture_name[i], str))
 			return (i);
-		i++;
-	}
 	return (-2);
 }
 int 		rt_jtoc_get_object_texture(t_object *obj, t_obj_texture *texture, t_jnode *n)
@@ -28,7 +29,7 @@ int 		rt_jtoc_get_object_texture(t_object *obj, t_obj_texture *texture, t_jnode 
 	if (!(ft_strcmp(str, "none")))
 		id = -1;
 	else
-		id = rt_jtoc_compare_str_with_texture_name(texture->textures_path, str);
+		id = rt_jtoc_compare_str_with_texture_name(texture, str);
 	if (id == -2)
 		return (rt_jtoc_sdl_log_error("TEXTURE NAME ERROR OR TEXTURE NAME IS MISSING", -1));
 	obj->material.texture_id = id;
