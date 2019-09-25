@@ -3,9 +3,19 @@
 #define STB_IMAGE_IMPLEMENTATION
 # include "stb_image.h"
 
+static int				sdl_log_error(const char *p, const int id)
+{
+	SDL_Log("%s ----> ERROR <---- %s", KRED, KNRM);
+	SDL_Log("INCORRECT: %s%s%s%s%s",
+			p,
+			id < 0 ? "" : " IN ID = ",
+			KGRN,
+			id < 0 ? "" : ft_itoa(id),
+			KNRM);
+	return (FUNCTION_FAILURE);
+}
 
-void
-find_textures_size(t_rt_main *rt, char **texture_file, int number_of_texture)
+void	find_textures_size(t_rt_main *rt, char **texture_file, int number_of_texture)
 {
 	unsigned char	*tex_data;
 	int 			bpp;
@@ -19,7 +29,10 @@ find_textures_size(t_rt_main *rt, char **texture_file, int number_of_texture)
 	{
 		if (!(tex_data = stbi_load(texture_file[i], &texture_w,
 								   &texture_h, &bpp, 4)))
-			return ;
+		{
+			sdl_log_error("TEXTURE ERROR OR TEXTURE PATH NOT FOUND", i);
+			exit(-1);
+		}
 		rt->texture->texture_w[i] = texture_w;
 		rt->texture->texture_h[i] = texture_h - 1;
 		rt->texture->texture_size += (texture_w * texture_h);
@@ -42,7 +55,10 @@ void		get_textures(t_rt_main *rt, char **texture_file, int number_of_texture)
 	{
 		if (!(tex_data = stbi_load(texture_file[i], &rt->texture->w,
 								   &rt->texture->h, &rt->texture->bpp, 4)))
-			return;
+		{
+			sdl_log_error("TEXTURE ERROR OR TEXTURE PATH NOT FOUND", i);
+			exit(-1);
+		}
 		y = -1;
 		while (++y < rt->texture->h)
 		{
