@@ -79,15 +79,15 @@ int	rt_jtoc_get_object_layer(t_object *obj, t_jnode *n)
 
 int	rt_jtoc_check_and_get_id_for_objs(t_object *obj, t_jnode *n, t_scene *scene, cl_uint objs_num)
 {
-	t_jnode	*tmp;
-	int		id;
+	t_jnode		*tmp;
+	cl_uint		id;
 
 	if (!(tmp = jtoc_node_get_by_path(n, "id")) || tmp->type != integer)
 		return (rt_jtoc_sdl_log_error("Tbl PUDOP", -1));
 		id = jtoc_get_int(tmp);
 		if (id <= 0)
 			return (FUNCTION_FAILURE);
-		if (scene->camera.transform.id == id)
+		if (scene->camera.transform.id == (cl_uint)id)
 			return (rt_jtoc_sdl_log_error("THAT ID ALREADY EXISTS IN CAMERA", id));
 		if (rt_find_light_by_id(scene->lights, scene->lights_count, id))
 			return (rt_jtoc_sdl_log_error("THAT ID ALREADY EXISTS IN LIGHTS", id));

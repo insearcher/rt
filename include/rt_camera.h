@@ -45,12 +45,8 @@ typedef struct			s_camera
 
 # ifndef OPENCL___
 	cl_float			fov;
-	cl_int				mx;
-	cl_int				my;
 # else
 	float				fov;
-	int					mx;
-	int					my;
 # endif
 
 }						t_camera;

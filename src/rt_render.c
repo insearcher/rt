@@ -12,6 +12,7 @@
 
 #include "rt.h"
 
+
 int		rt_render(t_ui_main *ui, void *el_v)
 {
 	t_rt_main	*rt;
@@ -19,11 +20,12 @@ int		rt_render(t_ui_main *ui, void *el_v)
 	void		*pixels;
 	int			pitch;
 	size_t		global_size;
+	static int i;
 
 	rt = ui->data;
-	if (!((t_physics_system *)rt->systems[1])->change_indicator)
+	if (!((t_physics_system *)rt->systems[1])->change_indicator && i != 0)
 		return (1);
-
+	i = 1;
 	el = (t_ui_el *)el_v;
 	rt->screen_size.x = el->rect.w;
 	rt->screen_size.y = el->rect.h;

@@ -22,13 +22,11 @@ typedef struct			s_raycast_hit
 	cl_float3			normal;
 	cl_float3			point;
 	cl_float			distance;
-	cl_float			clip_ratio;
 # else
 	__global t_object	*hit;
 	float3				normal;
 	float3				point;
 	float				distance;
-	float				clip_ratio;
 # endif
 }						t_raycast_hit;
 
