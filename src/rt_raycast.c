@@ -108,15 +108,15 @@ static float sceneSDF(cl_float3 O, t_scene *scene, t_raycast_hit *rh, cl_uint ma
 	float dist_to_obj = 1000000.f;
 	float tmp_dist_to_obj;
 
-	for (uint i = 0; i < scene->objects_count; i++)
+	for (uint i = 0; i < scene->objects->size; i++)
 	{
-		if (!(scene->objects[i].layer & mask))
+		if (!((((t_object *)vec_at(scene->objects, i))->layer) & mask))
 			continue;
-		tmp_dist_to_obj = sdf(O, &scene->objects[i]);
+		tmp_dist_to_obj = sdf(O, vec_at(scene->objects, i));
 		if (tmp_dist_to_obj < dist_to_obj && tmp_dist_to_obj > -F_EPS)
 		{
 			dist_to_obj = tmp_dist_to_obj;
-			rh->hit = &scene->objects[i];
+			rh->hit = vec_at(scene->objects, i);
 		}
 	}
 	return (dist_to_obj);

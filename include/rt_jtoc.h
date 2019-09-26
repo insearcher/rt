@@ -1,15 +1,12 @@
 #ifndef RT_JTOC_H
 # define RT_JTOC_H
 
-typedef struct 		s_cur_obj
-{
-	t_object		*obj;
-	cl_uint			numb_of_obj;
-}					t_cur_obj;
+#include "rt.h"
 
 int				rt_jtoc_textures_setup(t_rt_main *rt, const char *json);
-int				rt_jtoc_scene_setup(t_rt_main *rt, t_obj_texture *texture,
-				const char *json);
+int				rt_jtoc_scene_setup(t_rt_main *rt, const char *json);
+int				rt_jtoc_ps_setup(t_scene *scene, t_physics_system *ps, const char *path);
+
 int				rt_jtoc_get_float2(cl_float2 *vec, t_jnode *n);
 int				rt_jtoc_get_float3(cl_float3 *vec, t_jnode *n);
 int				rt_jtoc_get_float4(cl_float4 *vec, t_jnode *n);

@@ -47,11 +47,11 @@ int 	rt_jtoc_get_textures(const char *path, t_obj_texture *texture)
 
 	if (!(root = jtoc_read(path)))
 		return (rt_jtoc_sdl_log_error("JSON PATH ERROR", -1));
-
 	if (!(tmp = jtoc_node_get_by_path(root, "textures")) || tmp->type != array)
 		return (rt_jtoc_sdl_log_error("TEXTURE TYPE ERROR OR TEXTURE IS MISSING", -1));
 	if (rt_jtoc_get_textures_by_path(texture, tmp))
 		return (rt_jtoc_sdl_log_error("SYKA ERROR", -1));
+	jtoc_node_clear(root);
 	return (FUNCTION_SUCCESS);
 }
 

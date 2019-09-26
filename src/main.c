@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <rt_jtoc.h>
 #include "rt.h"
 #include "rt_raycast.h"
 #include "rt_input_system.h"
@@ -122,9 +123,11 @@ int main()
 
 	rt_screen_size = modification_rt_elem_and_get_screen_size(ui);
 
-	rt = setup_rt(rt_screen_size);
+	rt = rt_setup(rt_screen_size, "json/textures.json", "json/scenes/test1.json");
 	ui->data = (void *)rt;
-	rt->scene->params = 0;
+//	rt->params |= RT_GAUSS_BLUR;
+	rt->scene->params |= RT_PATH_TRACE;
+//	rt->scene->params |= RT_PHONG;
 
 
 //TODO NEEDED FOR PLANE (NOW PLANE IN JSON DOESN'T WORK CORRECTLY) (MAKSON WHAT IT TAKOE WOBSHE?)
@@ -151,22 +154,21 @@ int main()
 //	rt->scenes[0].objects[0].params.mandelbumb.power = 2;
 
 	t_physics_system	*ps = ft_memalloc(sizeof(t_physics_system));
-	ps->system.parent = ps;
-	ps->rbs_count = 1;
+	rt_jtoc_ps_setup(rt->scene, ps, "json/ps.json");
 //	ps->rbs_count = 1;
-	ps->rbs = (t_rb *)malloc(sizeof(t_rb) * ps->rbs_count);
+//	ps->rbs = (t_rb *)malloc(sizeof(t_rb) * ps->rbs_count);
 
-	ps->rbs[0].move.speed = 10000;
-	ps->rbs[0].move.speed_mult = 4;
-	ps->rbs[0].move.braking_coef = 0.025f;
-	ps->rbs[0].move.vel = (cl_float3){{0, 0, 0}};
-	ps->rbs[0].move.raw_vel = (cl_float3){{0, 0, 0}};
-
-	ps->rbs[0].rot.speed = 100000;
-	ps->rbs[0].rot.braking_coef = .04f;
-	ps->rbs[0].rot.vel = (cl_float3){{0, 0, 0}};
-	ps->rbs[0].rot.raw_vel = (cl_float3){{0, 0, 0}};
-	ps->rbs[0].transform = rt_find_transform_by_id(rt->scene, 1);
+//	ps->rbs[0].move.speed = 10000;
+//	ps->rbs[0].move.speed_mult = 4;
+//	ps->rbs[0].move.braking_coef = 0.025f;
+//	ps->rbs[0].move.vel = (cl_float3){{0, 0, 0}};
+//	ps->rbs[0].move.raw_vel = (cl_float3){{0, 0, 0}};
+//
+//	ps->rbs[0].rot.speed = 100000;
+//	ps->rbs[0].rot.braking_coef = .04f;
+//	ps->rbs[0].rot.vel = (cl_float3){{0, 0, 0}};
+//	ps->rbs[0].rot.raw_vel = (cl_float3){{0, 0, 0}};
+//	ps->rbs[0].transform = rt_find_transform_by_id(rt->scene, 1);
 
 /*	t_object *objs = rt->scene->objects;
 	objs[0].material.luminosity = (cl_float3){{.0f, .0f, 0.f}};
@@ -248,7 +250,7 @@ int main()
 	t_input_system		*is = ft_memalloc(sizeof(t_input_system));
 	is->system.parent = is;
 	is->state = ui->state;
-	is->active = &ps->rbs[0];
+	is->active = vec_at(&ps->rbs, 0);
 	system_setup(&is->system, "input", is_func, 3);
 	system_start(&is->system);
 
@@ -259,9 +261,6 @@ int main()
 
 	ui_event_add_listener(((t_ui_win *)(ui->windows->content))->events->on_pointer_left_button_pressed, rt_raycast);
 
-	SDL_Log("%d", rt->scene->objects_count);
-	SDL_Log("%d", rt->scene->lights_count);
-	SDL_Log("%d", rt->scene->objects[0].transform.id);
 	ui_main_run_program(ui);
 	return 0;
 }

@@ -1,27 +1,47 @@
 #include "rt_cl.h"
 
-static float	sdf(float3 origin, __global t_object *obj)
+static float	sdf(float3 origin, float3 direction, __global t_object *obj,
+float3 *lp)
 {
-	float3 gup = (float3){0, 1, 0};
+	float3	gright = (float3){1, 0, 0};
+	float3	gup = (float3){0, 1, 0};
 	float	distance = 0.0f;
 	float3	local_pos;
 
 	local_pos = origin - obj->transform.pos;
+	float3 cr = cross(gup, obj->transform.up);
 	float cos = dot(gup, obj->transform.up);
-	float sin = length(cross(gup, obj->transform.up));
-	float3 a = fast_normalize(cross(gup, obj->transform.up));
-	if (fabs(a.x) < RM_FLT_EPSILON && fabs(a.y) < RM_FLT_EPSILON && fabs(a.z) < RM_FLT_EPSILON)
-		a = (float3){1, 0, 0};
-	float3 new_local_pos = (float3){
-		dot((float3){
-			cos + (1 - cos) * a.x * a.x, (1 - cos) * a.x * a.y - sin * a.z, (1 - cos) * a.x * a.z + sin * a.y
-			}, local_pos),
-		dot((float3){
-			(1 - cos) * a.x * a.y + sin * a.z, cos + (1 - cos) * a.y * a.y, (1 - cos) * a.y * a.z - sin * a.x
-			}, local_pos),
-		dot((float3){
-			(1 - cos) * a.x * a.z - sin * a.y, (1 - cos) * a.y * a.z + sin * a.x, cos + (1 - cos) * a.z * a.z
-			}, local_pos)};
+	float sin = length(cr);
+	float3 a = normalize(cr);
+	if (fabs(a.x) < RM_FLT_EPSILON && fabs(a.y) < RM_FLT_EPSILON && fabs(a.z)< RM_FLT_EPSILON)
+	{
+		cr = cross(gright, obj->transform.right);
+		cos = dot(gright, obj->transform.right);
+		sin = length(cr);
+		a = normalize(cr);
+		if (fabs(a.x) < RM_FLT_EPSILON && fabs(a.y) < RM_FLT_EPSILON && fabs(a.z)< RM_FLT_EPSILON)
+		{
+			a = gup;
+		}
+	}
+	float3 x = (float3)
+	{
+		cos + (1 - cos) * a.x * a.x, (1 - cos) * a.x * a.y - sin * a.z, (1 - cos) * a.x * a.z + sin * a.y
+	};
+	float3 y = (float3)
+	{
+		(1 - cos) * a.x * a.y + sin * a.z, cos + (1 - cos) * a.y * a.y, (1 - cos) * a.y * a.z - sin * a.x
+	};
+	float3 z = (float3)
+	{
+		(1 - cos) * a.x * a.z - sin * a.y, (1 - cos) * a.y * a.z + sin * a.x, cos + (1 - cos) * a.z * a.z
+	};
+	float3 new_local_pos = (float3)
+	{
+		dot(x, local_pos),
+		dot(y, local_pos),
+		dot(z, local_pos)
+	};
 	local_pos = new_local_pos;
 	switch (obj->type)
 	{
@@ -62,34 +82,49 @@ static float	sdf(float3 origin, __global t_object *obj)
 									 obj->params.mandelbox.iteration);
 			break;
 	}
+	if (lp)
+	{
+		float3 new_direction = (float3){
+				dot(x, direction),
+				dot(y, direction),
+				dot(z, direction)};
+		*lp = new_local_pos + new_direction * distance;
+	}
 	return (distance);
 }
 
-static float	sceneSDF(float3 O, __global t_scene *scene, t_raycast_hit *rh)
+static float	sceneSDF(float3 origin, float3 direction, __global t_scene
+*scene,	t_raycast_hit *rh)
 {
 	float		dist_to_obj = 1000000.f;
 	float		tmp_dist_to_obj;
 	bool		cond;
+	float3		lp;
 
 	for (uint i = 0; i < scene->objects_count; i++)
 	{
-		tmp_dist_to_obj = sdf(O, &scene->objects[i]);
+		tmp_dist_to_obj = sdf(origin, direction, &scene->objects[i], &lp);
 		cond = tmp_dist_to_obj < dist_to_obj && tmp_dist_to_obj > -F_EPS;
 		if (cond)
 		{
 			dist_to_obj = tmp_dist_to_obj;
 			rh->hit = &scene->objects[i];
+			rh->local_point = lp;
 		}
 	}
 	return (dist_to_obj);
 }
 
-static void	get_normal(float3 pos, float basic_dist, t_raycast_hit *rh)
+static void	get_normal(float3 pos, float3 direction, float basic_dist,
+						  t_raycast_hit *rh)
 {
-	rh->normal = fast_normalize((float3){sdf((float3){pos.x + F_EPS, pos.y, pos.z}, rh->hit),
-							sdf((float3){pos.x, pos.y + F_EPS, pos.z}, rh->hit),
-							sdf((float3){pos.x, pos.y, pos.z + F_EPS}, rh->hit)} -
-									(float3){basic_dist, basic_dist, basic_dist});
+	rh->normal = normalize((float3){sdf((float3){pos.x + F_EPS, pos.y, pos
+			.z}, direction, rh->hit, 0),
+									sdf((float3){pos.x, pos.y + F_EPS, pos.z},
+										direction, rh->hit, 0),
+									sdf((float3){pos.x, pos.y, pos.z + F_EPS},
+										direction, rh->hit, 0)} -
+						   (float3){basic_dist, basic_dist, basic_dist});
 }
 
 int			raymarch(float3 origin, float3 direction, float distance, __global t_scene *scene, t_raycast_hit *rh)
@@ -106,7 +141,7 @@ int			raymarch(float3 origin, float3 direction, float distance, __global t_scene
 	for (int i = 0; i < max_steps; i++)
 	{
 		cur_ray_point = mad(direction, intersect_dist, origin);
-		dist_to_obj = sceneSDF(cur_ray_point, scene, rh);
+		dist_to_obj = sceneSDF(cur_ray_point, direction, scene, rh);
 		if (dist_to_obj < -F_EPS)
 		{
 			rh->point = cur_ray_point;
@@ -117,7 +152,7 @@ int			raymarch(float3 origin, float3 direction, float distance, __global t_scene
 		{
 			rh->point = cur_ray_point;
 			rh->distance = intersect_dist;
-			get_normal(cur_ray_point, dist_to_obj, rh);
+			get_normal(cur_ray_point, direction, dist_to_obj, rh);
 			return (1);
 		}
 		intersect_dist += dist_to_obj;

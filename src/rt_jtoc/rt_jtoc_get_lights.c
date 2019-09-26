@@ -20,7 +20,7 @@ int		check_lights_and_get_lights_count(unsigned int *lights_num, t_jnode *n)
 	return (FUNCTION_SUCCESS);
 }
 
-int		rt_jtoc_check_and_get_id_for_lights(t_scene *scene, t_jnode *n, t_light *lights, int cur_light)
+int		rt_jtoc_check_and_get_id_for_light(t_scene *scene, t_jnode *n, t_light *light)
 {
 	t_jnode		*tmp;
 	cl_uint		id;
@@ -32,108 +32,92 @@ int		rt_jtoc_check_and_get_id_for_lights(t_scene *scene, t_jnode *n, t_light *li
 		return (rt_jtoc_sdl_log_error("ID ERROR", -1));
 	if (scene->camera.transform.id == (cl_uint)id)
 		return (rt_jtoc_sdl_log_error("THAT ID ALREADY EXISTS IN CAMERA", id));
-	if (cur_light != 0)
-		if (rt_find_light_by_id(lights, cur_light - 1, id) != NULL)
-			return (rt_jtoc_sdl_log_error("THAT ID ALREADY EXISTS IN LIGHTS", id));
-	lights[cur_light].transform.id = (cl_uint)id;
+	if (rt_find_light_by_id(scene->lights, id) != NULL)
+		return (rt_jtoc_sdl_log_error("THAT ID ALREADY EXISTS IN LIGHTS", id));
+	light->transform.id = (cl_uint)id;
 	return (FUNCTION_SUCCESS);
 }
 
-int		get_directional_lights(t_scene *scene, t_light *lights, int *cur_light, t_jnode *n)
+int		get_directional_lights(t_scene *scene, t_jnode *n)
 {
+	t_light	light;
 	t_jnode	*tmp;
 	t_jnode	*tmp2;
-	int		i;
 
 	if (n == NULL)
 		return (FUNCTION_SUCCESS);
-	i = *cur_light;
 	tmp = n->down;
 	while (tmp)
 	{
 		if (tmp->type != object)
 			return (rt_jtoc_sdl_log_error("TYPE ERROR", -1));
-		lights[i].type = directional;
-
+		ft_bzero(&light, sizeof(t_light));
+		light.type = directional;
 		if (!(tmp2 = jtoc_node_get_by_path(tmp, "color")) || tmp2->type != object)
 			return (rt_jtoc_sdl_log_error("COLOR TYPE ERROR OR COLOR IS MISSING", -1));
-		if (rt_jtoc_get_float3(&(lights[i].params.directional.color), tmp2))
+		if (rt_jtoc_get_float3(&light.params.directional.color, tmp2))
 			return (rt_jtoc_sdl_log_error("COLOR ERROR", -1));
-
-		if (rt_jtoc_get_transform(&(lights[i].transform), tmp))
+		if (rt_jtoc_get_transform(&light.transform, tmp))
 			return (rt_jtoc_sdl_log_error("TRANSFORM ERROR", -1));
-
-		if (rt_jtoc_check_and_get_id_for_lights(scene, tmp, lights, *cur_light))
+		if (rt_jtoc_check_and_get_id_for_light(scene, tmp, &light))
 			return (rt_jtoc_sdl_log_error("ID ERROR", -1));
-
-		i++;
+		vec_push_back(scene->lights, &light);
 		tmp = tmp->right;
 	}
-	*cur_light = i;
 	return (FUNCTION_SUCCESS);
 }
 
-int		get_point_lights(t_scene *scene, t_light *lights, int *cur_light, t_jnode *n)
+int		get_point_lights(t_scene *scene, t_jnode *n)
 {
+	t_light	light;
 	t_jnode	*tmp;
 	t_jnode	*tmp2;
-	int		i;
 
 	if (n == NULL)
 		return (FUNCTION_SUCCESS);
-	i = *cur_light;
 	tmp = n->down;
 	while (tmp)
 	{
 		if (tmp->type != object)
 			return (rt_jtoc_sdl_log_error("TYPE ERROR", -1));
-
-		lights[i].type = point;
-
+		ft_bzero(&light, sizeof(t_light));
+		light.type = point;
 		if (!(tmp2 = jtoc_node_get_by_path(tmp, "color")) || tmp2->type != object)
 			return (rt_jtoc_sdl_log_error("COLOR TYPE ERROR OR COLOR IS MISSING", -1));
-		if (rt_jtoc_get_float3(&(lights[i].params.point.color), tmp2))
+		if (rt_jtoc_get_float3(&light.params.point.color, tmp2))
 			return (rt_jtoc_sdl_log_error("COLOR ERROR", -1));
-
-		if (rt_jtoc_get_transform(&(lights[i].transform), tmp))
+		if (rt_jtoc_get_transform(&light.transform, tmp))
 			return (rt_jtoc_sdl_log_error("TRANSFORM ERROR", -1));
-
 		if (!(tmp2 = jtoc_node_get_by_path(tmp, "distance")) || tmp2->type != fractional)
 			return (rt_jtoc_sdl_log_error("DISTANCE TYPE ERROR OR DISTANCE IS MISSING", -1));
-		lights[i].params.point.distance = jtoc_get_float(tmp2);
-
-		if (rt_jtoc_check_and_get_id_for_lights(scene, tmp, lights, *cur_light))
+		light.params.point.distance = jtoc_get_float(tmp2);
+		if (rt_jtoc_check_and_get_id_for_light(scene, tmp, &light))
 			return (rt_jtoc_sdl_log_error("ID ERROR", -1));
-
-		i++;
+		vec_push_back(scene->lights, &light);
 		tmp = tmp->right;
 	}
-	*cur_light = i;
 	return (FUNCTION_SUCCESS);
 }
 
 int	rt_jtoc_get_lights(t_scene *scene, t_jnode *n)
 {
 	t_jnode	*tmp;
-	t_light	*lights;
-	int		cur_light;
+	uint	c;
 
-	scene->lights_count = 0;
-	if (check_lights_and_get_lights_count(&(scene->lights_count), n))
+	c = 0;
+	if (check_lights_and_get_lights_count(&c, n))
 		return (rt_jtoc_sdl_log_error("LIGHTS IS NOT SET OR LIGHT TYPE ERROR", -1));
 	if ((tmp = jtoc_node_get_by_path(n, "ambient")) && tmp->type == object)
 		if (rt_jtoc_get_float3(&(scene->ambient), tmp))
 			return (rt_jtoc_sdl_log_error("AMBIENT ERROR", -1));
-
-	if (scene->lights_count != 0)
+	if (!(scene->lights = vec_init(c, sizeof(t_light))))
+		return (FUNCTION_FAILURE);
+	if (scene->lights->capacity != 0)
 	{
-		lights = (t_light *)ft_x_memalloc(sizeof(t_light) * scene->lights_count);
-		cur_light = 0;
-		if (get_directional_lights(scene, lights, &cur_light, jtoc_node_get_by_path(n, "directional_lights")))
+		if (get_directional_lights(scene, jtoc_node_get_by_path(n, "directional_lights")))
 			return (rt_jtoc_sdl_log_error("DIRECTIONAL LIGHTS ERROR", -1));
-		if (get_point_lights(scene, lights, &cur_light, jtoc_node_get_by_path(n, "point_lights")))
+		if (get_point_lights(scene, jtoc_node_get_by_path(n, "point_lights")))
 			return (rt_jtoc_sdl_log_error("POINT LIGHTS ERROR", -1));
-		scene->lights = lights;
 	}
 	return (FUNCTION_SUCCESS);
 }

@@ -12,6 +12,9 @@
      },
      {
        "path": "./textures/marble.png"
+     },
+     {
+       "path": "./textures/milky_way.jpg"
      }
    ]
 }
