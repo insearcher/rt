@@ -81,7 +81,10 @@ typedef struct			s_rt_main
 	cl_int2				screen_size;
 }						t_rt_main;
 
-t_rt_main				*setup_rt(cl_int2 screen_size);
+t_rt_main				*rt_setup(cl_int2 screen_size,
+							const char *textures_path,
+							const char *scene_path);
+
 int						rt_render(t_ui_main *ui, void *a);
 void					render_processing(t_rt_main *rt, size_t *global_size);
 void					post_processing(t_rt_main *rt, size_t *global_size);

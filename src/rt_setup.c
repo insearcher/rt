@@ -38,7 +38,9 @@ static void	fill_constant_screen_gpu_mem(t_rt_main *rt, cl_int2 screen_size)
 						 sizeof(int) * 100, &rt->texture->prev_texture_size, 0, NULL, NULL);
 }
 
-t_rt_main	*setup_rt(cl_int2 screen_size)
+t_rt_main	*rt_setup(cl_int2 screen_size,
+		const char *textures_path,
+		const char *scene_path)
 {
 	t_rt_main	*rt;
 
@@ -55,12 +57,8 @@ t_rt_main	*setup_rt(cl_int2 screen_size)
 							  "src/cl/gauss_blur.c",
 							  NULL},
 					  (char *[]){"ray_march_render", "gauss_blur_x", "gauss_blur_y", NULL});
-	rt_jtoc_textures_setup(rt, "json/textures.json");
-//	rt_jtoc_scene_setup(rt, rt->texture, "json/scenes/scene_1.json");
-//	rt_jtoc_scene_setup(rt, rt->texture, "json/scenes/test1.json");
-//	rt_jtoc_scene_setup(rt, rt->texture,"json/scenes/mandelbox_scene.json");
-	rt_jtoc_scene_setup(rt, rt->texture,"json/scenes/mandelbulb_scene.json");
-//	rt_jtoc_scene_setup(rt, rt->texture, "json/scenes/test_scene.json");
+	rt_jtoc_textures_setup(rt, textures_path);
+	rt_jtoc_scene_setup(rt, rt->texture, scene_path);
 	fill_constant_screen_gpu_mem(rt, screen_size);
 	return (rt);
 }
