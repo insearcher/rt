@@ -22,20 +22,20 @@ int		check_lights_and_get_lights_count(unsigned int *lights_num, t_jnode *n)
 
 int		rt_jtoc_check_and_get_id_for_lights(t_scene *scene, t_jnode *n, t_light *lights, int cur_light)
 {
-	t_jnode	*tmp;
-	int		id;
+	t_jnode		*tmp;
+	cl_uint		id;
 
 	if (!(tmp = jtoc_node_get_by_path(n, "id")) || tmp->type != integer)
 		return (FUNCTION_SUCCESS);
 	id = jtoc_get_int(tmp);
 	if (id <= 0)
 		return (rt_jtoc_sdl_log_error("ID ERROR", -1));
-	if (scene->camera.transform.id == id)
+	if (scene->camera.transform.id == (cl_uint)id)
 		return (rt_jtoc_sdl_log_error("THAT ID ALREADY EXISTS IN CAMERA", id));
 	if (cur_light != 0)
 		if (rt_find_light_by_id(lights, cur_light - 1, id) != NULL)
 			return (rt_jtoc_sdl_log_error("THAT ID ALREADY EXISTS IN LIGHTS", id));
-	lights[cur_light].transform.id = id;
+	lights[cur_light].transform.id = (cl_uint)id;
 	return (FUNCTION_SUCCESS);
 }
 

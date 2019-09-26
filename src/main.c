@@ -15,6 +15,20 @@
 #include "rt_raycast.h"
 #include "rt_input_system.h"
 
+int	rt_free_gpu_mem(t_ui_main *m, void *a1)
+{
+	t_rt_main	*rt;
+
+	(void)a1;
+	rt = (t_rt_main *)m->data;
+	clReleaseMemObject(rt->gpu_mem->cl_aux);
+	clReleaseMemObject(rt->gpu_mem->cl_image);
+	clReleaseMemObject(rt->gpu_mem->cl_prev_texture_size);
+	clReleaseMemObject(rt->gpu_mem->cl_texture);
+	clReleaseMemObject(rt->gpu_mem->cl_texture_h);
+	clReleaseMemObject(rt->gpu_mem->cl_texture_w);
+	return (1);
+}
 
 /*static void	transform_setup_default(t_transform *transform)
 {
@@ -99,6 +113,7 @@ int main()
 	ui = ui_main_init();
 	ui_sdl_init();
 	ui_main_add_function_by_id(ui, rt_render, "rt_render");
+	ui_main_add_function_by_id(ui, rt_free_gpu_mem, "rt_free_gpu_mem");
 	ui_main_fill_default_functions(ui);
 	ui_jtoc_main_from_json(ui, "json/interface/main.json");
 
@@ -106,6 +121,9 @@ int main()
 
 	rt = setup_rt(rt_screen_size);
 	ui->data = (void *)rt;
+//	rt->params |= RT_GAUSS_BLUR;
+	rt->scene->params |= RT_PATH_TRACE;
+//	rt->scene->params |= RT_PHONG;
 
 
 //TODO NEEDED FOR PLANE (NOW PLANE IN JSON DOESN'T WORK CORRECTLY) (MAKSON WHAT IT TAKOE WOBSHE?)
@@ -133,7 +151,7 @@ int main()
 
 	t_physics_system	*ps = ft_memalloc(sizeof(t_physics_system));
 	ps->system.parent = ps;
-	ps->rbs_count = 5;
+	ps->rbs_count = 1;
 //	ps->rbs_count = 1;
 	ps->rbs = (t_rb *)malloc(sizeof(t_rb) * ps->rbs_count);
 
@@ -148,6 +166,13 @@ int main()
 	ps->rbs[0].rot.vel = (cl_float3){{0, 0, 0}};
 	ps->rbs[0].rot.raw_vel = (cl_float3){{0, 0, 0}};
 	ps->rbs[0].transform = rt_find_transform_by_id(rt->scene, 1);
+
+/*	t_object *objs = rt->scene->objects;
+	objs[0].material.luminosity = (cl_float3){{.0f, .0f, 0.f}};
+	objs[1].material.luminosity = (cl_float3){{.0f, .0f, 0.f}};
+	objs[2].material.luminosity = (cl_float3){{.0f, .0f, 0.f}};
+	objs[3].material.luminosity = (cl_float3){{.0f, .0f, 0.f}};
+	objs[4].material.luminosity = (cl_float3){{1.f, 1.f, 1.f}};*/
 
 //
 // mandelbumb
@@ -164,7 +189,7 @@ int main()
 //
 //	ps->rbs[1].transform = &rt->scenes[0].objects[0].transform;
 //
-	ps->rbs[1].move.speed = 10000;
+/*	ps->rbs[1].move.speed = 10000;
 	ps->rbs[1].move.speed_mult = 4;
 	ps->rbs[1].move.braking_coef = 0.025f;
 	ps->rbs[1].move.vel = (cl_float3){{0, 0, 0}};
@@ -212,7 +237,7 @@ int main()
 	ps->rbs[4].rot.braking_coef = .04f;
 	ps->rbs[4].rot.vel = (cl_float3){{1, 1, 1}};
 	ps->rbs[4].rot.raw_vel = (cl_float3){{1, 1, 1}};
-	ps->rbs[4].transform = rt_find_transform_by_id(rt->scene, 5);
+	ps->rbs[4].transform = rt_find_transform_by_id(rt->scene, 5);*/
 
 	system_setup(&ps->system, "physics", &ps_func, 5);
 	ps->change_indicator = 1;
@@ -233,6 +258,9 @@ int main()
 
 	ui_event_add_listener(((t_ui_win *)(ui->windows->content))->events->on_pointer_left_button_pressed, rt_raycast);
 
+	SDL_Log("%d", rt->scene->objects_count);
+	SDL_Log("%d", rt->scene->lights_count);
+	SDL_Log("%d", rt->scene->objects[0].transform.id);
 	ui_main_run_program(ui);
 	return 0;
 }

@@ -1,7 +1,15 @@
 #ifndef RT_JTOC_H
 # define RT_JTOC_H
 
-int				rt_jtoc_scene_setup(t_rt_main *rt, const char *json);
+typedef struct 		s_cur_obj
+{
+	t_object		*obj;
+	cl_uint			numb_of_obj;
+}					t_cur_obj;
+
+int				rt_jtoc_textures_setup(t_rt_main *rt, const char *json);
+int				rt_jtoc_scene_setup(t_rt_main *rt, t_obj_texture *texture,
+				const char *json);
 int				rt_jtoc_get_float2(cl_float2 *vec, t_jnode *n);
 int				rt_jtoc_get_float3(cl_float3 *vec, t_jnode *n);
 int				rt_jtoc_get_float4(cl_float4 *vec, t_jnode *n);
@@ -10,7 +18,8 @@ int				rt_jtoc_get_camera(t_camera *camera, t_jnode *n);
 int				rt_jtoc_get_transform(t_transform *transform, t_jnode *n);
 int				rt_jtoc_get_objects_num_in_arr(unsigned int *objects_num, t_jnode *n);
 int				rt_jtoc_get_lights(t_scene *scene, t_jnode *n);
-int				rt_jtoc_get_objects(t_scene *scene, t_jnode *n);
+int				rt_jtoc_get_objects(t_scene *scene, t_jnode *n,
+				t_obj_texture *texture);
 int				rt_jtoc_get_sphere(t_object *obj, t_jnode *n);
 int				rt_jtoc_get_box(t_object *obj, t_jnode *n);
 int				rt_jtoc_get_round_box(t_object *obj, t_jnode *n);

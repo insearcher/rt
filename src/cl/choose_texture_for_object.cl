@@ -37,31 +37,18 @@ int		choose_texture_for_object(t_raycast_hit rh,  __global int *texture,
 
 	uv = (float2){-1.f, -1.f};
 	found_texture_for_obj = 1;
+	if (rh.hit->material.texture_id == -1)
+		return (found_texture_for_obj);
 	if (rh.hit->type == o_sphere)
-	{
 		uv = uv_mapping_for_sphere(rh);
-		rh.hit->material.texture_id = 0;
-	}
 	else if (rh.hit->type == o_cylinder)
-	{
 		uv = uv_mapping_for_cylinder(rh);
-		rh.hit->material.texture_id = 3;
-	}
 	else if (rh.hit->type == o_plane)
-	{
 		uv = uv_mapping_for_plane(rh);
-		rh.hit->material.texture_id = 1;
-	}
 	else if (rh.hit->type == o_torus)
-	{
 		uv = uv_mapping_for_torus(rh);
-		rh.hit->material.texture_id = 3;
-	}
 	else if (rh.hit->type == o_box)
-	{
 		uv = uv_mapping_for_cube(rh);
-		rh.hit->material.texture_id = 2;
-	}
 	if (uv.x != -1.f && uv.y != -1.f)
 	{
 		found_texture_for_obj = 0;

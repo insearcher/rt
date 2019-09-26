@@ -39,7 +39,7 @@ int			rt_jtoc_get_rigid_bodies(t_scene *scene, t_jnode *n)
 	return (FUNCTION_SUCCESS);
 }*/
 
-static int	rt_jtoc_get_scene(const char *path, t_scene *scene)
+static int	rt_jtoc_get_scene(const char *path, t_scene *scene, t_obj_texture *texture)
 {
 	t_jnode	*root;
 	t_jnode	*tmp;
@@ -59,7 +59,7 @@ static int	rt_jtoc_get_scene(const char *path, t_scene *scene)
 
 	if (!(tmp = jtoc_node_get_by_path(root, "objects")) || tmp->type != array)
 		return (rt_jtoc_sdl_log_error("OBJECTS TYPE ERROR OR OBJECTS AREN'T SET", -1));
-	if (rt_jtoc_get_objects(scene, tmp))
+	if (rt_jtoc_get_objects(scene, tmp, texture))
 		return (rt_jtoc_sdl_log_error("OBJECTS ERROR", -1));
 
 	if (!(tmp = jtoc_node_get_by_path(root, "quality")) || tmp->type != integer)
@@ -75,14 +75,14 @@ static int	rt_jtoc_get_scene(const char *path, t_scene *scene)
 	return (FUNCTION_SUCCESS);
 }
 
-int		rt_jtoc_scene_setup(t_rt_main *rt, const char *json)
+int rt_jtoc_scene_setup(t_rt_main *rt, t_obj_texture *texture, const char *json)
 {
 	int		i;
 	t_scene	*scene;
 
 	scene = (t_scene *)ft_x_memalloc(sizeof(t_scene));
 	i = -1;
-	if (rt_jtoc_get_scene(json, scene))
+	if (rt_jtoc_get_scene(json, scene, texture))
 	{
 		rt_jtoc_sdl_log_error("SCENE ERROR", i);
 		exit(-1);

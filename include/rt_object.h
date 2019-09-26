@@ -184,11 +184,13 @@ typedef struct			s_omaterial
 	int 				texture_id;
 	cl_float2			offset; // смещение текстуры
 	cl_float2 			tiling; // размер текстуры
+	cl_float3			luminosity;
 # else
 	float4				color;
 	int					texture_id;
 	float2				offset;
 	float2				tiling;
+	float3				luminosity;
 # endif
 }						t_omaterial;
 

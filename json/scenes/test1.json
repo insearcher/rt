@@ -6,16 +6,16 @@
     "fov": 90.0,
     "clipping_planes":
     {
-      "near": 0.01,
-      "far": 500.0
+      "near": 0.5,
+      "far": 2000.0
     },
     "transform":
     {
       "pos":
       {
-        "x": 5.0,
-        "y": 5.0,
-        "z": 9.0
+        "x": 0.0,
+        "y": 10.0,
+        "z": 50.0
       },
       "right":
       {
@@ -41,18 +41,18 @@
   {
     "ambient":
     {
-      "x": 0.1,
-      "y": 0.1,
-      "z": 0.1
+      "x": 0.7,
+      "y": 0.7,
+      "z": 0.7
     },
     "directional_lights":
     [
       {
         "color":
         {
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0
+          "x": 0.3,
+          "y": 0.3,
+          "z": 0.3
         },
         "transform":
         {
@@ -82,77 +82,108 @@
           }
         }
       }
-    ],
-    "point_lights":
-    [
-      {
-        "color":
-        {
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0
-        },
-        "transform":
-        {
-          "pos":
-          {
-            "x": 0.0,
-            "y": 0.0,
-            "z": 0.0
-          }
-        },
-        "distance": 100.0
-      },
-      {
-        "color":
-        {
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.5
-        },
-        "transform":
-        {
-          "pos":
-          {
-            "x": 30.0,
-            "y": 10.0,
-            "z": 0.0
-          }
-        },
-        "distance": 100.0
-      }
     ]
   },
   "objects":
   [
     {
-      "type": "mandelbox",
-      "layer": "ignore_raycast_layer",
-      "texture": "none",
-      "scale": -1.73,
-      "fixedradius": 1.0,
-      "minradius": 0.5,
-      "iteration": 10,
-      "cube_size":
-      {
-        "x": 0.5,
-        "y": 0.5,
-        "z": 0.5
-      },
+      "type": "sphere",
+      "layer": "default_layer",
+      "radius": 10.0,
       "color":
       {
-        "x": 0.0,
+        "x": 1.0,
         "y": 0.0,
         "z": 1.0,
-        "w": 1.0
+        "w": 0.0
       },
       "transform":
       {
         "pos":
         {
-          "x": 5.0,
+          "x": 0.0,
+          "y": 10.0,
+          "z": 0.0
+        },
+        "right":
+        {
+          "x": 1.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "up":
+        {
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "forward":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 1.0
+        }
+      }
+    },
+    {
+      "id": 2,
+      "type": "sphere",
+      "layer": "default_layer",
+      "radius": 0.75,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 1.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 0.0,
+          "y": 10.0,
+          "z": 45.0
+        },
+        "right":
+        {
+          "x": 1.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "up":
+        {
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "forward":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 1.0
+        }
+      }
+    },
+    {
+      "id": 3,
+      "type": "sphere",
+      "layer": "default_layer",
+      "radius": 10.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 1.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": -20.0,
           "y": 5.0,
-          "z": 5.0
+          "z": 0.0
         },
         "right":
         {

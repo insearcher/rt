@@ -23,48 +23,49 @@ float3	repeatSDF(float3 pos, float3 c, float rx, float ry, float rz)
 
 float	sdf_sphere(float3 pos, float radius)
 {
-	return (length(pos) - radius);
+//	return sin(pow(((mv_length(posc) - radius)), 2)); fun
+	return (fast_length(pos) - radius);
 }
 
 float	sdf_box(float3 pos, float3 bounds)
 {
 	float3 d = fabs(pos) - bounds;
-	return length(fmax(d, 0.f)) + fmin(fmax(d.x, fmax(d.y, d.z)), 0);
+	return fast_length(fmax(d, 0.f)) + fmin(fmax(d.x, fmax(d.y, d.z)), 0);
 }
 
 float	sdf_round_box(float3 pos, float3 bounds, float r)
 {
 	float3 d = fabs(pos) - bounds;
-	return length(fmax(d, 0.f)) - r + fmin(fmax(d.x, fmax(d.y, d.z)), 0);
+	return fast_length(fmax(d, 0.f)) - r + fmin(fmax(d.x, fmax(d.y, d.z)), 0);
 }
 
 float	sdf_torus(float3 pos, float radius, float inner_radius)
 {
-	float2 q = (float2)(length(pos.xz) - radius, pos.y);
-	return length(q) - inner_radius;
+	float2 q = (float2)(fast_length(pos.xz) - radius, pos.y);
+	return fast_length(q) - inner_radius;
 }
 
 float	sdf_capped_torus(float3 pos, float2 sc, float ra, float rb)
 {
 	pos.x = fabs(pos.x);
-	float k = (sc.y * pos.x > sc.x * pos.y) ? dot(pos.xy, sc) : length(pos.xy);
+	float k = (sc.y * pos.x > sc.x * pos.y) ? dot(pos.xy, sc) : fast_length(pos.xy);
 	return sqrt(dot(pos, pos) + ra * ra - 2.0f * ra * k) - rb;
 }
 
 float	sdf_link(float3 pos, float le, float r1, float r2)
 {
 	float3 q = (float3)(pos.x, fmax(fabs(pos.y) - le, 0.0f), pos.z);
-	return length((float2)(length(q.xy) - r1, q.z)) - r2;
+	return fast_length((float2)(fast_length(q.xy) - r1, q.z)) - r2;
 }
 
 float	sdf_cylinder(float3 pos, float3 c)
 {
-	return length(pos.xz - c.xy) - c.z;
+	return fast_length(pos.xz - c.xy) - c.z;
 }
 
 float	sdf_cone(float3 pos, float2 c)
 {
-	float q = length(pos.xy);
+	float q = fast_length(pos.xy);
 	return dot(normalize(c), (float2)(q, pos.z));
 }
 
@@ -108,7 +109,7 @@ float	sdf_plane(float3 pos, float3 n, float d)
 ////		dz = 8.0f * pow(m,3.5) * dz + 1.0f;
 ////		dz = 8.0f * powf(m,3.5f) * dz + 1.0f;
 //
-//		float r = length(w);
+//		float r = fast_length(w);
 //		float b = 8.0f * acos(w.y / r);
 //		float a = 8.0f * atan2(w.x, w.z);
 //		w = p + pow(r, 8.0f) * (float3)(sin(b) * sin(a), cos(b), sin(b) * cos(a));
@@ -167,7 +168,7 @@ float	sdf_mandelbox(float3 pos, float scale, float fixedradius,
 		z= scale * z + offset;
 		dr = dr * fabs(scale) + 1.0f;
 	}
-	float r = length(z);
+	float r = fast_length(z);
 	return (r / fabs(dr));
 }
 
@@ -179,7 +180,7 @@ float	sdf_mandelbulb(float3 pos, float power, int iter, int breakout)
 
 	for (int i = 0; i < iter; i++)
 	{
-		r = length(z);
+		r = fast_length(z);
 		if (r > breakout)
 			break ;
 
@@ -188,7 +189,7 @@ float	sdf_mandelbulb(float3 pos, float power, int iter, int breakout)
 		float zr = pow(r, power);
 		dr = pow(r, power - 1) * power * dr + 1;
 
-		z = zr * (float3)(sin(theta) * cos(phi), sin(phi) * sin(theta), cos(theta));
+		z = zr * (float3)(half_sin(theta) * half_cos(phi), half_sin(phi) * half_sin(theta), half_cos(theta));
 		z += pos;
 	}
 	return ((0.5 * log(r) * r / dr));

@@ -1,4 +1,4 @@
-float3	get_lighting(t_scene *scene, float3 color, t_raycast_hit ray_hit)
+float3	get_lighting(__global t_scene *scene, float3 color, t_raycast_hit ray_hit)
 {
 	float3			diffuse;
 	t_transform		tmp_transform;
@@ -12,7 +12,6 @@ float3	get_lighting(t_scene *scene, float3 color, t_raycast_hit ray_hit)
 
 		float NoL, a, mult;
 		float3 LDirectional, dir, ndir;
-		ray_hit_light.clip_ratio = ray_hit.clip_ratio;
 
 		switch (scene->lights[i].type)
 		{

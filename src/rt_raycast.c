@@ -108,7 +108,7 @@ static float sceneSDF(cl_float3 O, t_scene *scene, t_raycast_hit *rh, cl_uint ma
 	float dist_to_obj = 1000000.f;
 	float tmp_dist_to_obj;
 
-	for (size_t i = 0; i < scene->objects_count; i++)
+	for (uint i = 0; i < scene->objects_count; i++)
 	{
 		if (!(scene->objects[i].layer & mask))
 			continue;

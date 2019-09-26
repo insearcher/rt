@@ -1,8 +1,9 @@
 {
+  "quality": 100,
   "camera":
   {
+    "id": 1,
     "fov": 90.0,
-    "quality": 1.0,
     "clipping_planes":
     {
       "near": 0.01,
@@ -40,18 +41,18 @@
   {
     "ambient":
     {
-      "x": 0.1,
-      "y": 0.1,
-      "z": 0.1
+      "x": 0.3,
+      "y": 0.3,
+      "z": 0.3
     },
     "directional_lights":
     [
       {
         "color":
         {
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
         },
         "transform":
         {
@@ -81,52 +82,15 @@
           }
         }
       }
-    ],
-    "point_lights":
-    [
-      {
-        "color":
-        {
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0
-        },
-        "transform":
-        {
-          "pos":
-          {
-            "x": 0.0,
-            "y": 0.0,
-            "z": 0.0
-          }
-        },
-        "distance": 100.0
-      },
-      {
-        "color":
-        {
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.5
-        },
-        "transform":
-        {
-          "pos":
-          {
-            "x": 30.0,
-            "y": 10.0,
-            "z": 0.0
-          }
-        },
-        "distance": 100.0
-      }
     ]
   },
   "objects":
   [
     {
+      "id": 2,
       "type": "mandelbulb",
       "layer": "ignore_raycast_layer",
+      "texture": "none",
       "power": 8.0,
       "iteration": 15,
       "breakout": 3,

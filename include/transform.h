@@ -16,13 +16,13 @@
 typedef struct		s_transform
 {
 # ifndef OPENCL___
-	cl_int			id;
+	cl_uint			id;
 	cl_float3		pos;
 	cl_float3		right;
 	cl_float3		up;
 	cl_float3		forward;
 # else
-	int				id;
+	uint			id;
 	float3			pos;
 	float3			right;
 	float3			up;
