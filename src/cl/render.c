@@ -74,7 +74,7 @@ static float3 refract(const float3 I, const float3 N, const float refractive_ind
 	return  (n * I + (n * cosI - cosT) * N);
 }
 
-static float3	render_color(t_scene *scene, int2 pixel, int2 screen, __global int *texture,
+static float3	render_color(__global t_scene *scene, int2 pixel, int2 screen, __global int *texture,
 		__global int *texture_w, __global int *texture_h, __global int *prev_texture_size,
 		float3 ray_direction)
 {
@@ -91,7 +91,7 @@ static float3	render_color(t_scene *scene, int2 pixel, int2 screen, __global int
 	return (color);
 }
 
-static float3	render_color_by_fong(t_scene *scene, int2 pixel, int2 screen, __global int *texture,
+static float3	render_color_by_fong(__global t_scene *scene, int2 pixel, int2 screen, __global int *texture,
 							  __global int *texture_w, __global int *texture_h, __global int *prev_texture_size,
 							  float3 ray_direction)
 {
@@ -109,7 +109,7 @@ static float3	render_color_by_fong(t_scene *scene, int2 pixel, int2 screen, __gl
 	return (color);
 }
 
-static float3	render_color_by_path_trace(t_scene *scene, int2 pixel, int2 screen, __global int *texture,
+static float3	render_color_by_path_trace(__global t_scene *scene, int2 pixel, int2 screen, __global int *texture,
 					  __global int *texture_w, __global int *texture_h, __global int *prev_texture_size,
 					  float3 ray_direction, unsigned int* seed0, unsigned int* seed1)
 {
@@ -180,16 +180,17 @@ static float	reverse(int n)
 
 //TODO fsaa and N
 
-static float3	get_pixel_color(t_scene *scene, int2 pixel, int2 screen, int2 rands, __global int *texture,
+static float3	get_pixel_color(__global t_scene *scene, int2 pixel, int2 screen, int2 rands, __global int *texture,
 		__global int *texture_w, __global int *texture_h, __global int *prev_texture_size)
 {
 	int				fsaa = 0; //TODO IN JSON
 	float3			ray_direction;
 	float3			color = float3(0.f);
 	unsigned int	seed0, seed1;
+	t_camera		camera = scene->camera;
 
 	get_cam_ray_direction(&ray_direction, pixel, screen,
-			scene->camera.fov, scene->camera.transform);
+			camera.fov, camera.transform);
 	if (scene->params & RT_PATH_TRACE)
 	{
 		#pragma unroll
@@ -198,11 +199,11 @@ static float3	get_pixel_color(t_scene *scene, int2 pixel, int2 screen, int2 rand
 			for (int j = -fsaa / 2; j <= fsaa / 2; j++)
 			{
 				float3 ray_dir_aa = fast_normalize(ray_direction +
-						(float) j * reverse(fsaa) / screen.y * scene->camera.transform.up +
-						(float) i * reverse(fsaa) / screen.x * scene->camera.transform.right);
+						(float) j * reverse(fsaa) / screen.y * camera.transform.up +
+						(float) i * reverse(fsaa) / screen.x * camera.transform.right);
 				seed0 = pixel.x % screen.x + (rands.x * screen.x / 10);
 				seed1 = pixel.y % screen.y + (rands.y * screen.y / 10);
-				int N = 8; //TODO IN JSON
+				int N = 2; //TODO IN JSON
 				for (int k = 0; k < N; k++)
 				{
 					get_random(&seed0, &seed1);
@@ -221,8 +222,8 @@ static float3	get_pixel_color(t_scene *scene, int2 pixel, int2 screen, int2 rand
 			for (int j = -fsaa / 2; j <= fsaa / 2; j++)
 			{
 				float3 ray_dir_aa = fast_normalize(ray_direction +
-						(float)j * reverse(fsaa) / screen.y * scene->camera.transform.up +
-						(float)i * reverse(fsaa) / screen.x * scene->camera.transform.right);
+						(float)j * reverse(fsaa) / screen.y * camera.transform.up +
+						(float)i * reverse(fsaa) / screen.x * camera.transform.right);
 				color += render_color_by_fong(scene, pixel, screen, texture, texture_w,
 						texture_h, prev_texture_size, ray_dir_aa);
 			}
@@ -236,19 +237,19 @@ static float3	get_pixel_color(t_scene *scene, int2 pixel, int2 screen, int2 rand
 			for (int j = -fsaa / 2; j <= fsaa / 2; j++)
 			{
 				float3 ray_dir_aa = fast_normalize(ray_direction +
-						(float)j * reverse(fsaa) / screen.y * scene->camera.transform.up +
-						(float)i * reverse(fsaa) / screen.x * scene->camera.transform.right);
+						(float)j * reverse(fsaa) / screen.y * camera.transform.up +
+						(float)i * reverse(fsaa) / screen.x * camera.transform.right);
 				color += render_color(scene, pixel, screen, texture, texture_w,
 						texture_h, prev_texture_size, ray_dir_aa);
 			}
 		}
 	}
-	color = color / (float) ((fsaa + 1) * (fsaa + 1));
+	color = color / (float)((fsaa + 1) * (fsaa + 1));
 //	color = pow(color, 0.4545f);
 	return (color);
 }
 
-__kernel void	ray_march_render(__global char *image, t_scene scene, __global t_object *objects,
+__kernel void	ray_march_render(__global char *image, __global t_scene *scene, __global t_object *objects,
 		__global t_light *lights, int2 screen, __global int *texture, __global int *texture_w,
 		__global int *texture_h, __global int *prev_texture_size, int2 rands)
 {
@@ -258,19 +259,19 @@ __kernel void	ray_march_render(__global char *image, t_scene scene, __global t_o
 
 	gid = get_global_id(0);
 	pixel = (int2)(gid % screen.x, gid / screen.x);
-	scene.objects = objects;
-	scene.lights = lights;
-	if (scene.quality == 100)
+	scene->objects = objects;
+	scene->lights = lights;
+	if (scene->quality == 100)
 	{
-		color = get_pixel_color(&scene, pixel, screen, rands, texture, texture_w, texture_h, prev_texture_size);
+		color = get_pixel_color(scene, pixel, screen, rands, texture, texture_w, texture_h, prev_texture_size);
 		put_pixel(image, pixel, screen, color);
 	}
 	else //quality processed in jtoc, therefore quality always <= 100
 	{
-		scene.quality = 31 - (int)(scene.quality / 3.3);
-		if (pixel.x % scene.quality || pixel.y % scene.quality)
+		scene->quality = 31 - (int)(scene->quality / 3.3);
+		if (pixel.x % scene->quality || pixel.y % scene->quality)
 			return;
-		color = get_pixel_color(&scene, pixel, screen, rands, texture, texture_w, texture_h, prev_texture_size);
-		put_pixel_with_lowering_quality(image, pixel, screen, color, scene.quality);
+		color = get_pixel_color(scene, pixel, screen, rands, texture, texture_w, texture_h, prev_texture_size);
+		put_pixel_with_lowering_quality(image, pixel, screen, color, scene->quality);
 	}
 }

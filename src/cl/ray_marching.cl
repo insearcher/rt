@@ -14,7 +14,7 @@ static float	SDF(float3 ray_point, t_object3d *obj)
 	return (dist_to_obj);
 }
 
-static float	sceneSDF(float3 O, t_scene *scene, t_object3d *closest_obj)
+static float	sceneSDF(float3 O, __global t_scene *scene, t_object3d *closest_obj)
 {
 	float		dist_to_obj = 1000000.f;
 	t_object3d	object;
@@ -44,7 +44,7 @@ static void		get_normal(float3 pos, float basic_dist, float3 *normal, t_object3d
 }
 
 static float	find_intersect_and_normal(float3 start_ray, float3 dir_ray,
-		t_scene *scene, t_object3d *closest_obj, float3 *normal)
+		__global t_scene *scene, t_object3d *closest_obj, float3 *normal)
 {
 	float		intersect_dist = 0.f;
 	float		dist_to_obj;
@@ -68,7 +68,7 @@ static float	find_intersect_and_normal(float3 start_ray, float3 dir_ray,
 	return (-1);
 }
 
-float3	ray_marching(float3 start_ray, float3 dir_ray, t_scene *scene)
+float3	ray_marching(float3 start_ray, float3 dir_ray, __global t_scene *scene)
 {
 	float3	color;
 	float		intersect_dist = 0;

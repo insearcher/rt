@@ -56,12 +56,11 @@ t_rt_main	*setup_rt(cl_int2 screen_size)
 							  NULL},
 					  (char *[]){"ray_march_render", "gauss_blur_x", "gauss_blur_y", NULL});
 	rt_jtoc_textures_setup(rt, "json/textures.json");
-//	rt_jtoc_scene_setup(rt, "json/scenes/scene_1.json");
-//	rt_jtoc_scene_setup(rt, "json/scenes/test1.json");
-//	rt_jtoc_scene_setup(rt, "json/scenes/test_scene.json");
+//	rt_jtoc_scene_setup(rt, rt->texture, "json/scenes/scene_1.json");
+//	rt_jtoc_scene_setup(rt, rt->texture, "json/scenes/test1.json");
 //	rt_jtoc_scene_setup(rt, rt->texture,"json/scenes/mandelbox_scene.json");
-//	rt_jtoc_scene_setup(rt, rt->texture,"json/scenes/mandelbulb_scene.json");
-	rt_jtoc_scene_setup(rt, rt->texture, "json/scenes/test_scene.json");
+	rt_jtoc_scene_setup(rt, rt->texture,"json/scenes/mandelbulb_scene.json");
+//	rt_jtoc_scene_setup(rt, rt->texture, "json/scenes/test_scene.json");
 	fill_constant_screen_gpu_mem(rt, screen_size);
 	return (rt);
 }

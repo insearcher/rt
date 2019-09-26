@@ -20,12 +20,19 @@ static void	create_buffers_for_render(t_rt_main *rt, cl_mem *cl_scene,
 						 rt->scene[0].lights, 0, NULL, NULL);
 }
 
+int time1;
+int time2;
+
 void	render_processing(t_rt_main *rt, size_t *global_size)
 {
 	cl_kernel	*kernel;
 	cl_mem		cl_scene;
 	cl_mem		cl_objects;
 	cl_mem		cl_lights;
+
+	time2 = SDL_GetTicks();
+	SDL_Log("TICK: %d", time2 - time1);
+	time1 = time2;
 
 	create_buffers_for_render(rt, &cl_scene, &cl_objects, &cl_lights);
 
@@ -38,7 +45,7 @@ void	render_processing(t_rt_main *rt, size_t *global_size)
 	rands.y = rand();
 
 	clSetKernelArg(*kernel, 0, sizeof(cl_mem), &rt->gpu_mem->cl_image);
-	clSetKernelArg(*kernel, 1, sizeof(t_scene), rt->scene);
+	clSetKernelArg(*kernel, 1, sizeof(cl_mem), &cl_scene);
 	clSetKernelArg(*kernel, 2, sizeof(cl_mem), &cl_objects);
 	clSetKernelArg(*kernel, 3, sizeof(cl_mem), &cl_lights);
 	clSetKernelArg(*kernel, 4, sizeof(cl_int2), &rt->screen_size);

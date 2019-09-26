@@ -1,4 +1,4 @@
-float3	get_lighting(t_scene *scene, float3 color, t_raycast_hit ray_hit)
+float3	get_lighting(__global t_scene *scene, float3 color, t_raycast_hit ray_hit)
 {
 	float3			diffuse;
 	t_transform		tmp_transform;
