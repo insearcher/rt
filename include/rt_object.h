@@ -181,7 +181,7 @@ typedef struct			s_omaterial
 {
 # ifndef OPENCL___
 	cl_float4			color;
-	int 				texture_id;
+	cl_int 				texture_id;
 	cl_float2			offset; // смещение текстуры
 	cl_float2 			tiling; // размер текстуры
 	cl_float3			luminosity;
