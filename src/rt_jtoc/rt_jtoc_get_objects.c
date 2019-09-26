@@ -8,11 +8,11 @@ int 		rt_jtoc_compare_str_with_texture_name(t_obj_texture *texture, char *str)
 	int cache_counter;
 	char **texture_name;
 
-	i = 0;
+	i = -1;
 	cache_counter = texture->textures_count;
 	texture_name = texture->textures_path;
 	while (++i < cache_counter)
-		if (ft_strstr(texture_name[i], str))
+		if (!ft_strcmp(texture_name[i], str))
 			return (i);
 	return (-2);
 }

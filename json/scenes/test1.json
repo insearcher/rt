@@ -128,7 +128,7 @@
     {
       "id": 3,
       "type": "sphere",
-      "texture": "none",
+      "texture": "./textures/nice.jpg",
       "layer": "default_layer",
       "radius": 10.0,
       "color":

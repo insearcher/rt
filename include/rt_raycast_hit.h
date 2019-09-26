@@ -20,11 +20,13 @@ typedef struct			s_raycast_hit
 # ifndef OPENCL___
 	cl_float3			normal;
 	cl_float3			point;
+	cl_float3			local_point;
 	cl_float			distance;
 	t_object			*hit;
 # else
 	float3				normal;
 	float3				point;
+	float3				local_point;
 	float				distance;
 	__global t_object	*hit;
 # endif
