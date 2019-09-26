@@ -123,7 +123,7 @@ int main()
 	ui->data = (void *)rt;
 //	rt->params |= RT_GAUSS_BLUR;
 //	rt->scene->params |= RT_PATH_TRACE;
-//	rt->scene->params |= RT_PHONG;
+	rt->scene->params |= RT_PHONG;
 
 
 //TODO NEEDED FOR PLANE (NOW PLANE IN JSON DOESN'T WORK CORRECTLY) (MAKSON WHAT IT TAKOE WOBSHE?)

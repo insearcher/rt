@@ -63,6 +63,5 @@ t_rt_main	*setup_rt(cl_int2 screen_size)
 //	rt_jtoc_scene_setup(rt, rt->texture,"json/scenes/mandelbulb_scene.json");
 	rt_jtoc_scene_setup(rt, rt->texture, "json/scenes/test_scene.json");
 	fill_constant_screen_gpu_mem(rt, screen_size);
-	rt->params |= RT_RENDER_2;
 	return (rt);
 }
