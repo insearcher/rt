@@ -14,6 +14,7 @@
 #include "rt.h"
 #include "rt_raycast.h"
 #include "rt_input_system.h"
+#include "interface.h"
 
 int	rt_free_gpu_mem(t_ui_main *m, void *a1)
 {
@@ -115,15 +116,15 @@ int main()
 	ui_main_add_function_by_id(ui, rt_render, "rt_render");
 	ui_main_add_function_by_id(ui, rt_free_gpu_mem, "rt_free_gpu_mem");
 	ui_main_fill_default_functions(ui);
+	rt_uix_add_functions(ui);
+	ui_main_fill_default_fonts(ui);
 	ui_jtoc_main_from_json(ui, "json/interface/main.json");
 
 	rt_screen_size = modification_rt_elem_and_get_screen_size(ui);
 
 	rt = setup_rt(rt_screen_size);
 	ui->data = (void *)rt;
-//	rt->params |= RT_GAUSS_BLUR;
-	rt->scene->params |= RT_PATH_TRACE;
-//	rt->scene->params |= RT_PHONG;
+	rt->scene->params = 0;
 
 
 //TODO NEEDED FOR PLANE (NOW PLANE IN JSON DOESN'T WORK CORRECTLY) (MAKSON WHAT IT TAKOE WOBSHE?)

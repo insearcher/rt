@@ -92,7 +92,7 @@
       "layer": "ignore_raycast_layer",
       "texture": "none",
       "power": 8.0,
-      "iteration": 15,
+      "iteration": 64,
       "breakout": 3,
       "color":
       {

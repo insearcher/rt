@@ -18,9 +18,9 @@
 # include "rt_raycast_hit.h"
 # include "transform.h"
 
-#define RT_PATH_TRACE	(1 << 0)
-#define RT_PHONG		(1 << 1)
-#define RT_GAUSS_BLUR	(1 << 2)
+#define RT_PATH_TRACE	(1 << 1)
+#define RT_PHONG		(1 << 2)
+#define RT_GAUSS_BLUR	(1 << 1)
 
 typedef struct			s_scene
 {
@@ -87,6 +87,7 @@ typedef struct			s_rt_main
 
 t_rt_main				*setup_rt(cl_int2 screen_size);
 int						rt_render(t_ui_main *ui, void *a);
+int						rt_render_update(t_ui_main *ui, void *el_v);
 void					render_processing(t_rt_main *rt, size_t *global_size);
 void					post_processing(t_rt_main *rt, size_t *global_size);
 int						*get_texture(t_rt_main *rt);
