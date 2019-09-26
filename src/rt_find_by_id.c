@@ -1,52 +1,55 @@
 #include "rt.h"
 
-t_object	*rt_find_object_by_id(t_object *objs, cl_uint objs_count, cl_uint id)
-{
-	cl_uint	i;
-
-	i = -1;
-	while (++i < objs_count)
-	{
-		if (objs[i].transform.id == id)
-			return (&(objs[i]));
-	}
-	return (NULL);
-}
-
 t_transform	*rt_find_transform_by_id(t_scene *scene, cl_uint id)
 {
-	cl_uint	i;
-	t_object	*objs;
-	t_light		*lights;
+	t_transform	*res;
+	cl_uint		i;
 
-	objs = scene->objects;
-	lights = scene->lights;
 	if (scene->camera.transform.id == id)
 		return (&scene->camera.transform);
 	i = -1;
-	while (++i < scene->lights_count)
+	while (++i < scene->objects->size)
 	{
-		if (lights[i].transform.id == id)
-			return (&lights[i].transform);
+		res = &((t_object *)vec_at(scene->objects, i))->transform;
+		if (res->id == id)
+			return (res);
 	}
 	i = -1;
-	while (++i < scene->objects_count)
+	while (++i < scene->lights->size)
 	{
-		if (objs[i].transform.id == id)
-			return (&objs[i].transform);
+		res = &((t_light *)vec_at(scene->lights, i))->transform;
+		if (res->id == id)
+			return (res);
 	}
 	return (NULL);
 }
 
-t_light	*rt_find_light_by_id(t_light *lights, cl_uint lights_count, cl_uint id)
+t_object	*rt_find_object_by_id(t_vec *objects, cl_uint id)
 {
+	t_object	*res;
+	cl_uint		i;
+
+	i = -1;
+	while (++i < objects->size)
+	{
+		res = (t_object *)vec_at(objects, i);
+		if (res->transform.id == id)
+			return (res);
+	}
+	return (NULL);
+}
+
+t_light		*rt_find_light_by_id(t_vec *lights, cl_uint id)
+{
+	t_light	*res;
 	cl_uint	i;
 
 	i = -1;
-	while (++i < lights_count)
+	while (++i < lights->size)
 	{
-		if (lights[i].transform.id == id)
-			return (&(lights[i]));
+		res = (t_light *)vec_at(lights, i);
+		if (res->transform.id == id)
+			return (res);
 	}
 	return (NULL);
 }

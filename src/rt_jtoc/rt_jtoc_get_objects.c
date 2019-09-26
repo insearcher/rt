@@ -77,59 +77,58 @@ int	rt_jtoc_get_object_layer(t_object *obj, t_jnode *n)
 	return (FUNCTION_SUCCESS);
 }
 
-int	rt_jtoc_check_and_get_id_for_objs(t_object *obj, t_jnode *n, t_scene *scene, cl_uint objs_num)
+int	rt_jtoc_check_and_get_id_for_object(t_scene *scene, t_jnode *n, t_object *object)
 {
 	t_jnode		*tmp;
 	cl_uint		id;
 
 	if (!(tmp = jtoc_node_get_by_path(n, "id")) || tmp->type != integer)
-		return (rt_jtoc_sdl_log_error("Tbl PUDOP", -1));
+		return (rt_jtoc_sdl_log_error("ID ERROR", -1));
 		id = jtoc_get_int(tmp);
 		if (id <= 0)
 			return (FUNCTION_FAILURE);
 		if (scene->camera.transform.id == (cl_uint)id)
 			return (rt_jtoc_sdl_log_error("THAT ID ALREADY EXISTS IN CAMERA", id));
-		if (rt_find_light_by_id(scene->lights, scene->lights_count, id))
+		if (rt_find_light_by_id(scene->lights, id))
 			return (rt_jtoc_sdl_log_error("THAT ID ALREADY EXISTS IN LIGHTS", id));
-		if (objs_num != 0)
-			if (rt_find_object_by_id(scene->objects, objs_num - 1, id) != NULL)
-				return (rt_jtoc_sdl_log_error("THAT ID ALREADY EXISTS IN OBJECTS", id));
-	obj->transform.id = id;
+		if (rt_find_object_by_id(scene->objects, id))
+			return (rt_jtoc_sdl_log_error("THAT ID ALREADY EXISTS IN OBJECTS", id));
+	object->transform.id = id;
 	return (FUNCTION_SUCCESS);
 }
 
-int rt_jtoc_get_object(t_cur_obj *cur_obj, t_jnode *n, t_scene *scene, t_obj_texture *texture)
+int rt_jtoc_get_object(t_object *obj, t_jnode *n, t_scene *scene, t_obj_texture *texture)
 {
 	t_jnode	*tmp;
 	int		err;
 
-	ft_bzero(cur_obj->obj, sizeof(t_object));
-	if (rt_jtoc_get_object_type(cur_obj->obj, n))
+	ft_bzero(obj, sizeof(t_object));
+	if (rt_jtoc_get_object_type(obj, n))
 		return (rt_jtoc_sdl_log_error("NOT VALID TYPE", -1));
-	if (rt_jtoc_get_object_layer(cur_obj->obj, n))
+	if (rt_jtoc_get_object_layer(obj, n))
 		return (rt_jtoc_sdl_log_error("NOT VALID LAYER", -1));
-	if (rt_jtoc_get_object_texture(cur_obj->obj, texture , n))
+	if (rt_jtoc_get_object_texture(obj, texture , n))
 		return(rt_jtoc_sdl_log_error("NOT VALID TEXTURE", -1));
-	if (rt_jtoc_get_transform(&cur_obj->obj->transform, n))
+	if (rt_jtoc_get_transform(&obj->transform, n))
 		return (rt_jtoc_sdl_log_error("TRANSFORM ERROR", -1));
 	if (!(tmp = jtoc_node_get_by_path(n, "color")) || tmp->type != object)
 		return (rt_jtoc_sdl_log_error("COLOR TYPE ERROR OR COLOR IS MISSING", -1));
-	if (rt_jtoc_get_float4(&cur_obj->obj->material.color, tmp))
+	if (rt_jtoc_get_float4(&obj->material.color, tmp))
 		return (rt_jtoc_sdl_log_error("COLOR ERROR", -1));
-	if (rt_jtoc_check_and_get_id_for_objs(cur_obj->obj, n, scene, cur_obj->numb_of_obj))
+	if (rt_jtoc_check_and_get_id_for_object(scene, n, obj))
 		return (rt_jtoc_sdl_log_error("ID ERROR", -1));
 
 	err = 0;
-	err = cur_obj->obj->type == o_sphere ? rt_jtoc_get_sphere(cur_obj->obj, n) : err;
-	err = cur_obj->obj->type == o_box ? rt_jtoc_get_box(cur_obj->obj, n) : err;
-	err = cur_obj->obj->type == o_round_box ? rt_jtoc_get_round_box(cur_obj->obj, n) : err;
-	err = cur_obj->obj->type == o_torus ? rt_jtoc_get_torus(cur_obj->obj, n) : err;
-	err = cur_obj->obj->type == o_plane ? rt_jtoc_get_plane(cur_obj->obj, n) : err;
-	err = cur_obj->obj->type == o_cone ? rt_jtoc_get_cone(cur_obj->obj, n) : err;
-	err = cur_obj->obj->type == o_cylinder ? rt_jtoc_get_cylinder(cur_obj->obj, n) : err;
-	err = cur_obj->obj->type == o_link ? rt_jtoc_get_link(cur_obj->obj, n) : err;
-	err = cur_obj->obj->type == o_mandelbulb ? rt_jtoc_get_mandelbulb(cur_obj->obj, n) : err;
-	err = cur_obj->obj->type == o_mandelbox ? rt_jtoc_get_mandelbox(cur_obj->obj, n) : err;
+	err = obj->type == o_sphere ? rt_jtoc_get_sphere(obj, n) : err;
+	err = obj->type == o_box ? rt_jtoc_get_box(obj, n) : err;
+	err = obj->type == o_round_box ? rt_jtoc_get_round_box(obj, n) : err;
+	err = obj->type == o_torus ? rt_jtoc_get_torus(obj, n) : err;
+	err = obj->type == o_plane ? rt_jtoc_get_plane(obj, n) : err;
+	err = obj->type == o_cone ? rt_jtoc_get_cone(obj, n) : err;
+	err = obj->type == o_cylinder ? rt_jtoc_get_cylinder(obj, n) : err;
+	err = obj->type == o_link ? rt_jtoc_get_link(obj, n) : err;
+	err = obj->type == o_mandelbulb ? rt_jtoc_get_mandelbulb(obj, n) : err;
+	err = obj->type == o_mandelbox ? rt_jtoc_get_mandelbox(obj, n) : err;
 	if (err != 0)
 		return (FUNCTION_FAILURE);
 
@@ -139,26 +138,23 @@ int rt_jtoc_get_object(t_cur_obj *cur_obj, t_jnode *n, t_scene *scene, t_obj_tex
 int rt_jtoc_get_objects(t_scene *scene, t_jnode *n, t_obj_texture *texture)
 {
 	t_jnode		*tmp;
-	t_object	*objects;
-	t_cur_obj	*cur_obj;
+	t_object	obj;
+	uint		c;
 	int			i;
 
-	scene->objects_count = 0;
-	if (rt_jtoc_get_objects_num_in_arr(&scene->objects_count, n))
+	c = 0;
+	if (rt_jtoc_get_objects_num_in_arr(&c, n) ||
+		!(scene->objects = vec_init(c, sizeof(t_object))))
 		return (FUNCTION_FAILURE);
-	objects = ft_x_memalloc(sizeof(t_object) * scene->objects_count);
-	cur_obj = ft_x_memalloc(sizeof(t_cur_obj));
-	scene->objects = objects;
 	tmp = n->down;
 	i = 0;
 	while (tmp)
 	{
 		if (tmp->type != object)
 			return (rt_jtoc_sdl_log_error("OBJECT TYPE ERROR", i));
-		cur_obj->numb_of_obj = i;
-		cur_obj->obj = &(objects[i]);
-		if (rt_jtoc_get_object(cur_obj, tmp, scene, texture))
+		if (rt_jtoc_get_object(&obj, tmp, scene, texture))
 			return (rt_jtoc_sdl_log_error("OBJECT DATA ERROR", i));
+		vec_push_back(scene->objects, &obj);
 		i++;
 		tmp = tmp->right;
 	}

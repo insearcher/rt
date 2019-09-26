@@ -249,8 +249,10 @@ static float3	get_pixel_color(__global t_scene *scene, int2 pixel, int2 screen, 
 	return (color);
 }
 
-__kernel void	ray_march_render(__global char *image, __global t_scene *scene, __global t_object *objects,
-		__global t_light *lights, int2 screen, __global int *texture, __global int *texture_w,
+__kernel void	ray_march_render(__global char *image, __global t_scene *scene,
+		__global t_object *objects, int objects_count,
+		__global t_light *lights, int lights_count,
+		int2 screen, __global int *texture, __global int *texture_w,
 		__global int *texture_h, __global int *prev_texture_size, int2 rands)
 {
 	int				gid;
@@ -260,7 +262,9 @@ __kernel void	ray_march_render(__global char *image, __global t_scene *scene, __
 	gid = get_global_id(0);
 	pixel = (int2)(gid % screen.x, gid / screen.x);
 	scene->objects = objects;
+	scene->objects_count = objects_count;
 	scene->lights = lights;
+	scene->lights_count = lights_count;
 	if (scene->quality == 100)
 	{
 		color = get_pixel_color(scene, pixel, screen, rands, texture, texture_w, texture_h, prev_texture_size);

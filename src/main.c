@@ -258,9 +258,6 @@ int main()
 
 	ui_event_add_listener(((t_ui_win *)(ui->windows->content))->events->on_pointer_left_button_pressed, rt_raycast);
 
-	SDL_Log("%d", rt->scene->objects_count);
-	SDL_Log("%d", rt->scene->lights_count);
-	SDL_Log("%d", rt->scene->objects[0].transform.id);
 	ui_main_run_program(ui);
 	return 0;
 }
