@@ -61,9 +61,9 @@ t_rt_main	*setup_rt(cl_int2 screen_size)
 							  "src/cl/gauss_blur.c",
 							  NULL},
 					  (char *[]){"ray_march_render", "gauss_blur_x", "gauss_blur_y", NULL});
-	rt_jtoc_scene_setup(rt, "json/scenes/test1.json");
+	rt_jtoc_scene_setup(rt, "json/scenes/scene_1.json");
+//	rt_jtoc_scene_setup(rt, "json/scenes/test1.json");
 //	rt_jtoc_scene_setup(rt, "json/scenes/test_scene.json");
 	fill_constant_screen_gpu_mem(rt, screen_size);
-	rt->scene->params |= RT_PATH_TRACE;
 	return (rt);
 }

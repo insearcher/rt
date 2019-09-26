@@ -19,6 +19,7 @@
 # include "transform.h"
 
 #define RT_PATH_TRACE	(1 << 0)
+#define RT_PHONG		(1 << 1)
 #define RT_GAUSS_BLUR	(1 << 2)
 
 typedef struct			s_scene

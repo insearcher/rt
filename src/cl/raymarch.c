@@ -9,7 +9,7 @@ static float	sdf(float3 origin, __global t_object *obj)
 	local_pos = origin - obj->transform.pos;
 	float cos = dot(gup, obj->transform.up);
 	float sin = length(cross(gup, obj->transform.up));
-	float3 a = normalize(cross(gup, obj->transform.up));
+	float3 a = fast_normalize(cross(gup, obj->transform.up));
 	if (fabs(a.x) < RM_FLT_EPSILON && fabs(a.y) < RM_FLT_EPSILON && fabs(a.z) < RM_FLT_EPSILON)
 		a = (float3){1, 0, 0};
 	float3 new_local_pos = (float3){
@@ -86,7 +86,7 @@ static float	sceneSDF(float3 O, t_scene *scene, t_raycast_hit *rh)
 
 static void	get_normal(float3 pos, float basic_dist, t_raycast_hit *rh)
 {
-	rh->normal = normalize((float3){sdf((float3){pos.x + F_EPS, pos.y, pos.z}, rh->hit),
+	rh->normal = fast_normalize((float3){sdf((float3){pos.x + F_EPS, pos.y, pos.z}, rh->hit),
 							sdf((float3){pos.x, pos.y + F_EPS, pos.z}, rh->hit),
 							sdf((float3){pos.x, pos.y, pos.z + F_EPS}, rh->hit)} -
 									(float3){basic_dist, basic_dist, basic_dist});
@@ -94,7 +94,7 @@ static void	get_normal(float3 pos, float basic_dist, t_raycast_hit *rh)
 
 int			raymarch(float3 origin, float3 direction, float distance, t_scene *scene, t_raycast_hit *rh)
 {
-	float	intersect_dist = 0;
+	float	intersect_dist = F_EPS;
 	float	dist_to_obj;
 	int		max_steps = 500;
 	float3	cur_ray_point;

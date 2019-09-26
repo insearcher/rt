@@ -75,8 +75,25 @@ static float3 refract(const float3 I, const float3 N, const float refractive_ind
 }
 
 static float3	render_color(t_scene *scene, int2 pixel, int2 screen, __global int *texture,
+		__global int *texture_w, __global int *texture_h, __global int *prev_texture_size,
+		float3 ray_direction)
+{
+	float3			color;
+	t_raycast_hit	ray_hit;
+
+	if (!raymarch(scene->camera.transform.pos, ray_direction, 0, scene, &ray_hit))
+	{
+		color = get_skybox_color(ray_direction);
+		return (color);
+	}
+	if(choose_texture_for_object(ray_hit, texture, &color, texture_w, texture_h, prev_texture_size))
+		color = ray_hit.hit->material.color.xyz;
+	return (color);
+}
+
+static float3	render_color_by_fong(t_scene *scene, int2 pixel, int2 screen, __global int *texture,
 							  __global int *texture_w, __global int *texture_h, __global int *prev_texture_size,
-							  float3 ray_direction, unsigned int *seed0, unsigned int *seed1)
+							  float3 ray_direction)
 {
 	float3			color;
 	t_raycast_hit	ray_hit;
@@ -92,17 +109,20 @@ static float3	render_color(t_scene *scene, int2 pixel, int2 screen, __global int
 	return (color);
 }
 
-/*static float3	render_color(t_scene *scene, int2 pixel, int2 screen, __global int *texture,
+static float3	render_color_by_path_trace(t_scene *scene, int2 pixel, int2 screen, __global int *texture,
 					  __global int *texture_w, __global int *texture_h, __global int *prev_texture_size,
-					  float3 ray_direction, t_raycast_hit ray_hit, unsigned int* seed0, unsigned int* seed1)
+					  float3 ray_direction, unsigned int* seed0, unsigned int* seed1)
 {
+	t_raycast_hit	ray_hit;
 	float3 path_color = (float3)(0.0f, 0.0f, 0.0f);
 	float3 mask = (float3)(1.0f, 1.0f, 1.0f);
 	float3 path_orig = scene->camera.transform.pos;
 	int mirr = 0;
 
-	for (int bounces = 0; bounces < 8; bounces++) {
-		if (!raymarch(path_orig, ray_direction, 0, scene, &ray_hit)) {
+	for (int bounces = 0; bounces < 8; bounces++)
+	{
+		if (!raymarch(path_orig, ray_direction, 0, scene, &ray_hit))
+		{
 			path_color += mask * get_skybox_color(ray_direction);
 			break;
 		}
@@ -135,7 +155,7 @@ static float3	render_color(t_scene *scene, int2 pixel, int2 screen, __global int
 		else if (ray_hit.hit->transform.id == 3)						// ЛИНЗА
 		{
 			newdir = fast_normalize(refract(ray_direction, ray_hit.normal, 1.05f));
-			path_orig = ray_hit.point - ray_hit.normal * F_EPS;
+			path_orig = ray_hit.point - ray_hit.normal * 0.001f;
 			mirr += 1;
 			float	cos_n = fabs(dot(ray_direction, ray_hit.normal));
 			mask *= pow(cos_n, 0.3f);							// аналогично, как и у зеркала
@@ -145,10 +165,11 @@ static float3	render_color(t_scene *scene, int2 pixel, int2 screen, __global int
 			mask *= dot(newdir, ray_hit.normal);
 
 		ray_direction = newdir;
-		mask *= (float3)(ray_hit.hit->material.color.xyz);
+		if(ray_hit.hit->transform.id != 3 && choose_texture_for_object(ray_hit, texture, &mask, texture_w, texture_h, prev_texture_size))
+			mask *= (float3)(ray_hit.hit->material.color.xyz);
 	}
 	return (path_color);
-}*/
+}
 
 static float	reverse(int n)
 {
@@ -157,16 +178,44 @@ static float	reverse(int n)
 	return (0);
 }
 
-static float3	get_pixel_color(t_scene *scene, int2 pixel, int2 screen, int2 rands, __global int *texture, __global int *texture_w, __global int *texture_h, __global int *prev_texture_size)
+//TODO fsaa and N
+
+static float3	get_pixel_color(t_scene *scene, int2 pixel, int2 screen, int2 rands, __global int *texture,
+		__global int *texture_w, __global int *texture_h, __global int *prev_texture_size)
 {
-	int				fsaa = 0; //IN SCENE
+	int				fsaa = 0; //TODO IN JSON
 	float3			ray_direction;
 	float3			color = float3(0.f);
 	unsigned int	seed0, seed1;
 
 	get_cam_ray_direction(&ray_direction, pixel, screen,
 			scene->camera.fov, scene->camera.transform);
-//	if (scene->params & RT_PATH_TRACE)
+	if (scene->params & RT_PATH_TRACE)
+	{
+		#pragma unroll
+		for (int i = -fsaa / 2; i <= fsaa / 2; i++)
+		{
+			for (int j = -fsaa / 2; j <= fsaa / 2; j++)
+			{
+				float3 ray_dir_aa = fast_normalize(ray_direction +
+						(float) j * reverse(fsaa) / screen.y * scene->camera.transform.up +
+						(float) i * reverse(fsaa) / screen.x * scene->camera.transform.right);
+				seed0 = pixel.x % screen.x + (rands.x * screen.x / 10);
+				seed1 = pixel.y % screen.y + (rands.y * screen.y / 10);
+				int N = 8; //TODO IN JSON
+				for (int k = 0; k < N; k++)
+				{
+					get_random(&seed0, &seed1);
+					get_random(&seed1, &seed0);
+					color += render_color_by_path_trace(scene, pixel, screen, texture, texture_w, texture_h, prev_texture_size,
+							ray_dir_aa, &seed0, &seed1) / N;
+				}
+			}
+		}
+	}
+	else if (scene->params & RT_PHONG)
+	{
+		#pragma unroll
 		for (int i = -fsaa / 2; i <= fsaa / 2; i++)
 		{
 			for (int j = -fsaa / 2; j <= fsaa / 2; j++)
@@ -174,20 +223,27 @@ static float3	get_pixel_color(t_scene *scene, int2 pixel, int2 screen, int2 rand
 				float3 ray_dir_aa = fast_normalize(ray_direction +
 						(float)j * reverse(fsaa) / screen.y * scene->camera.transform.up +
 						(float)i * reverse(fsaa) / screen.x * scene->camera.transform.right);
-
-				seed0 = pixel.x % screen.x + (rands.x * screen.x / 10);
-				seed1 = pixel.y % screen.y + (rands.y * screen.y / 10);
-				int N = 1;
-				for (int k = 0; k < N; k++)
-				{
-					get_random(&seed0, &seed1);
-					get_random(&seed1, &seed0);
-					color += render_color(scene, pixel, screen, texture, texture_w, texture_h, prev_texture_size,
-							ray_dir_aa, &seed0, &seed1) / N;
-				}
+				color += render_color_by_fong(scene, pixel, screen, texture, texture_w,
+						texture_h, prev_texture_size, ray_dir_aa);
 			}
 		}
-	color = color / (float)((fsaa + 1) * (fsaa + 1));
+	}
+	else
+	{
+		#pragma unroll
+		for (int i = -fsaa / 2; i <= fsaa / 2; i++)
+		{
+			for (int j = -fsaa / 2; j <= fsaa / 2; j++)
+			{
+				float3 ray_dir_aa = fast_normalize(ray_direction +
+						(float)j * reverse(fsaa) / screen.y * scene->camera.transform.up +
+						(float)i * reverse(fsaa) / screen.x * scene->camera.transform.right);
+				color += render_color(scene, pixel, screen, texture, texture_w,
+						texture_h, prev_texture_size, ray_dir_aa);
+			}
+		}
+	}
+	color = color / (float) ((fsaa + 1) * (fsaa + 1));
 //	color = pow(color, 0.4545f);
 	return (color);
 }
