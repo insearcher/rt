@@ -22,6 +22,10 @@
           [
               {
                   "event_name": "onClose",
+                  "func_name": "rt_free_gpu_mem"
+              },
+              {
+                  "event_name": "onClose",
                   "func_name": "ui_main_event_close_program"
               }
           ],

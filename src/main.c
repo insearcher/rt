@@ -15,6 +15,20 @@
 #include "rt_raycast.h"
 #include "rt_input_system.h"
 
+int	rt_free_gpu_mem(t_ui_main *m, void *a1)
+{
+	t_rt_main	*rt;
+
+	(void)a1;
+	rt = (t_rt_main *)m->data;
+	clReleaseMemObject(rt->gpu_mem->cl_aux);
+	clReleaseMemObject(rt->gpu_mem->cl_image);
+	clReleaseMemObject(rt->gpu_mem->cl_prev_texture_size);
+	clReleaseMemObject(rt->gpu_mem->cl_texture);
+	clReleaseMemObject(rt->gpu_mem->cl_texture_h);
+	clReleaseMemObject(rt->gpu_mem->cl_texture_w);
+	return (1);
+}
 
 /*static void	transform_setup_default(t_transform *transform)
 {
@@ -99,6 +113,7 @@ int main()
 	ui = ui_main_init();
 	ui_sdl_init();
 	ui_main_add_function_by_id(ui, rt_render, "rt_render");
+	ui_main_add_function_by_id(ui, rt_free_gpu_mem, "rt_free_gpu_mem");
 	ui_main_fill_default_functions(ui);
 	ui_jtoc_main_from_json(ui, "json/interface/main.json");
 
@@ -107,6 +122,8 @@ int main()
 	rt = setup_rt(rt_screen_size);
 	ui->data = (void *)rt;
 //	rt->params |= RT_GAUSS_BLUR;
+//	rt->scene->params |= RT_PATH_TRACE;
+//	rt->scene->params |= RT_PHONG;
 
 
 //TODO NEEDED FOR PLANE (NOW PLANE IN JSON DOESN'T WORK CORRECTLY) (MAKSON WHAT IT TAKOE WOBSHE?)
