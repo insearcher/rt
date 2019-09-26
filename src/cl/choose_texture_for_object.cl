@@ -8,6 +8,7 @@ void	normalize_coord_for_texture(t_raycast_hit rh, float2 uv, float3 *color,
 	int coord;
 	int coord_x;
 	int coord_y;
+	float tmp_division;
 
 	rh.hit->material.offset.x = 0.f;
 	rh.hit->material.offset.y = 0.f;
@@ -24,9 +25,10 @@ void	normalize_coord_for_texture(t_raycast_hit rh, float2 uv, float3 *color,
 	color->x = (RED(texture[coord]));
 	color->y = (GREEN(texture[coord]));
 	color->z = (BLUE(texture[coord]));
-	color->x /= 255;
-	color->y /= 255;
-	color->z /= 255;
+	tmp_division = 0.00392156862; // 1/255
+	color->x *= tmp_division;
+	color->y *= tmp_division;
+	color->z *= tmp_division;
 }
 
 int		choose_texture_for_object(t_raycast_hit rh,  __global int *texture,
