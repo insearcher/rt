@@ -70,19 +70,19 @@ static int	rt_jtoc_get_scene(const char *path, t_scene *scene, t_obj_texture *te
 
 /*	if ((tmp = jtoc_node_get_by_path(root, "rigid_bodies")) && tmp->type == array)
 		if (rt_jtoc_get_rigid_bodies(scene, tmp))
-			return (rt_jtoc_sdl_log_error("RIGID BODIES ERROR", -1));
-	jtoc_node_clear(root);*/
+			return (rt_jtoc_sdl_log_error("RIGID BODIES ERROR", -1));*/
+	jtoc_node_clear(root);
 	return (FUNCTION_SUCCESS);
 }
 
-int rt_jtoc_scene_setup(t_rt_main *rt, t_obj_texture *texture, const char *json)
+int rt_jtoc_scene_setup(t_rt_main *rt, const char *json)
 {
 	int		i;
 	t_scene	*scene;
 
 	scene = (t_scene *)ft_x_memalloc(sizeof(t_scene));
 	i = -1;
-	if (rt_jtoc_get_scene(json, scene, texture))
+	if (rt_jtoc_get_scene(json, scene, rt->texture))
 	{
 		rt_jtoc_sdl_log_error("SCENE ERROR", i);
 		exit(-1);

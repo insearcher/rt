@@ -32,7 +32,7 @@ typedef struct		s_move_params
 {
 	cl_float3		vel;
 	cl_float3		raw_vel;
-	cl_float		braking_coef;
+	cl_float		acc;
 	cl_float		speed;
 	cl_float		speed_mult;
 }					t_move_params;
@@ -49,8 +49,7 @@ typedef struct		s_rb
 typedef struct		s_physics_system
 {
 	t_system		system;
-	t_rb			*rbs;
-	size_t			rbs_count;
+	t_vec			rbs;
 	int				change_indicator;
 }					t_physics_system;
 

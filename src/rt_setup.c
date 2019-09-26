@@ -58,7 +58,7 @@ t_rt_main	*rt_setup(cl_int2 screen_size,
 							  NULL},
 					  (char *[]){"ray_march_render", "gauss_blur_x", "gauss_blur_y", NULL});
 	rt_jtoc_textures_setup(rt, textures_path);
-	rt_jtoc_scene_setup(rt, rt->texture, scene_path);
+	rt_jtoc_scene_setup(rt, scene_path);
 	fill_constant_screen_gpu_mem(rt, screen_size);
 	return (rt);
 }
