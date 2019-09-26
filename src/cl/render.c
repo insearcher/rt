@@ -31,8 +31,39 @@ static void		put_pixel_with_lowering_quality(__global char *image, int2 pixel, i
 	}
 }
 
+static float3	get_skybox_texture(float3 direction, __global int *texture, __global int *texture_w,
+		__global int *texture_h, __global int *prev_texture_size)
+{
+	int coord;
+	int coord_x;
+	int coord_y;
+	float tmp_division;
+	float2 uv;
+	float3 color;
+	float3 vec;
+
+	vec = normalize(direction);
+	uv.x = 0.5f + (atan2(vec.z, vec.x) / TWO_PI);
+	uv.y = 0.5f - (asin(vec.y) / PI);
+	coord_x = int((uv.x) * texture_w[4]);
+	coord_y = int((uv.y) * texture_h[4]);
+	coord_y *= (texture_w[4]);
+	coord = coord_x + coord_y;
+	coord += prev_texture_size[4];
+
+	color.x = (RED(texture[coord]));
+	color.y = (GREEN(texture[coord]));
+	color.z = (BLUE(texture[coord]));
+	tmp_division = 0.00392156862; // 1/255
+	color.x *= tmp_division;
+	color.y *= tmp_division;
+	color.z *= tmp_division;
+	return (color);
+}
+
 static float3	get_skybox_color(float3 direction)
 {
+
 	return (min(1, max(0, (float3){
 			mad(direction.y, -0.7f, 0.6f),
 			mad(direction.y, -0.7f, 0.36f),
@@ -84,6 +115,7 @@ static float3	render_color(__global t_scene *scene, int2 pixel, int2 screen, __g
 	if (!raymarch(scene->camera.transform.pos, ray_direction, 0, scene, &ray_hit))
 	{
 		color = get_skybox_color(ray_direction);
+//		color = get_skybox_texture(ray_direction, texture, texture_w, texture_h, prev_texture_size);
 		return (color);
 	}
 	if(choose_texture_for_object(ray_hit, texture, &color, texture_w, texture_h, prev_texture_size))
@@ -101,6 +133,7 @@ static float3	render_color_by_fong(__global t_scene *scene, int2 pixel, int2 scr
 	if (!raymarch(scene->camera.transform.pos, ray_direction, 0, scene, &ray_hit))
 	{
 		color = get_skybox_color(ray_direction);
+//		color = get_skybox_texture(ray_direction, texture, texture_w, texture_h, prev_texture_size);
 		return (color);
 	}
 	if(choose_texture_for_object(ray_hit, texture, &color, texture_w, texture_h, prev_texture_size))
@@ -231,7 +264,7 @@ static float3	get_pixel_color(__global t_scene *scene, int2 pixel, int2 screen, 
 	}
 	else
 	{
-		#pragma unroll
+//		#pragma unroll
 		for (int i = -fsaa / 2; i <= fsaa / 2; i++)
 		{
 			for (int j = -fsaa / 2; j <= fsaa / 2; j++)
