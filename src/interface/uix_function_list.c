@@ -22,4 +22,6 @@ void	rt_uix_add_functions(t_ui_main *m)
 	ui_main_add_function_by_id(m, rt_uix_choose_path_trace, "choose_path_trace");
 	ui_main_add_function_by_id(m, rt_uix_choose_pong, "choose_pong");
 	ui_main_add_function_by_id(m, rt_uix_switch_gauss_blur, "switch_gauss_blur");
+	ui_main_add_function_by_id(m, rt_uix_show_menu, "show_menu");
+//	ui_main_add_function_by_id(m, rt_uix_hide_menu, "hide_menu");
 }

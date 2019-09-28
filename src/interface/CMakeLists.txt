@@ -6,5 +6,8 @@ target_sources(rt PUBLIC
         uix_function_list.c
         button_selector.c
         uix_render_mode_choose.c
-        uix_posprocessing_choose.c
+        uix_postprocessing_choose.c
+        uix_popup_menu.c
+        uix_init.c
+        uix_fill_scene.c
         )

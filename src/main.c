@@ -116,15 +116,20 @@ int main()
 	ui_sdl_init();
 	ui_main_add_function_by_id(ui, rt_render, "rt_render");
 	ui_main_add_function_by_id(ui, rt_free_gpu_mem, "rt_free_gpu_mem");
-	ui_main_fill_default_functions(ui);
-	rt_uix_add_functions(ui);
-	ui_main_fill_default_fonts(ui);
-	ui_jtoc_main_from_json(ui, "json/interface/main.json");
 
+
+
+	rt_uix_interface_setup(ui, "json/interface/main.json");
 	rt_screen_size = modification_rt_elem_and_get_screen_size(ui);
+//	ui_main_fill_default_functions(ui);
+//	rt_uix_add_functions(ui);
+//	ui_main_fill_default_fonts(ui);
+//	ui_jtoc_main_from_json(ui, "json/interface/main.json");
 
-	rt = rt_setup(rt_screen_size, "json/textures.json", "json/scenes/test1_scene/test1.json");
+	rt = rt_setup(rt_screen_size, "json/textures.json", "json/scenes/mandelbulb_scene/mandelbulb.json");
 	ui->data = (void *)rt;
+
+	rt_uix_scene_setup(ui);
 //	rt->params |= RT_GAUSS_BLUR;
 //	rt->scene->params |= RT_PATH_TRACE;
 //	rt->scene->params |= RT_PHONG;
@@ -154,7 +159,7 @@ int main()
 //	rt->scenes[0].objects[0].params.mandelbumb.power = 2;
 
 	t_physics_system	*ps = ft_memalloc(sizeof(t_physics_system));
-	if (rt_jtoc_ps_setup(rt->scene, ps, "json/scenes/test1_scene/ps.json"))
+	if (rt_jtoc_ps_setup(rt->scene, ps, "json/scenes/mandelbox_scene/ps.json"))
 	{
 		rt_jtoc_sdl_log_error("PATH PS ERROR OR NOT FOUND", -1);
 		exit (0);
