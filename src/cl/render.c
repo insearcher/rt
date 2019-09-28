@@ -115,7 +115,7 @@ static float3	render_color(__global t_scene *scene, int2 pixel, int2 screen, __g
 	if (!raymarch(scene->camera.transform.pos, ray_direction, 0, scene, &ray_hit))
 	{
 		color = get_skybox_color(ray_direction);
-//		color = get_skybox_texture(ray_direction, texture, texture_w, texture_h, prev_texture_size);
+		color = get_skybox_texture(ray_direction, texture, texture_w, texture_h, prev_texture_size);
 		return (color);
 	}
 	if(choose_texture_for_object(ray_hit, texture, &color, texture_w, texture_h, prev_texture_size))
@@ -133,7 +133,7 @@ static float3	render_color_by_fong(__global t_scene *scene, int2 pixel, int2 scr
 	if (!raymarch(scene->camera.transform.pos, ray_direction, 0, scene, &ray_hit))
 	{
 		color = get_skybox_color(ray_direction);
-//		color = get_skybox_texture(ray_direction, texture, texture_w, texture_h, prev_texture_size);
+		color = get_skybox_texture(ray_direction, texture, texture_w, texture_h, prev_texture_size);
 		return (color);
 	}
 	if(choose_texture_for_object(ray_hit, texture, &color, texture_w, texture_h, prev_texture_size))
@@ -264,7 +264,7 @@ static float3	get_pixel_color(__global t_scene *scene, int2 pixel, int2 screen, 
 	}
 	else
 	{
-//		#pragma unroll
+		#pragma unroll
 		for (int i = -fsaa / 2; i <= fsaa / 2; i++)
 		{
 			for (int j = -fsaa / 2; j <= fsaa / 2; j++)
