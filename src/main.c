@@ -123,10 +123,10 @@ int main()
 
 	rt_screen_size = modification_rt_elem_and_get_screen_size(ui);
 
-	rt = rt_setup(rt_screen_size, "json/textures.json", "json/scenes/test1.json");
+	rt = rt_setup(rt_screen_size, "json/textures.json", "json/scenes/test1_scene/test1.json");
 	ui->data = (void *)rt;
 //	rt->params |= RT_GAUSS_BLUR;
-	rt->scene->params |= RT_PATH_TRACE;
+//	rt->scene->params |= RT_PATH_TRACE;
 //	rt->scene->params |= RT_PHONG;
 
 
@@ -154,7 +154,11 @@ int main()
 //	rt->scenes[0].objects[0].params.mandelbumb.power = 2;
 
 	t_physics_system	*ps = ft_memalloc(sizeof(t_physics_system));
-	rt_jtoc_ps_setup(rt->scene, ps, "json/ps.json");
+	if (rt_jtoc_ps_setup(rt->scene, ps, "json/scenes/test1_scene/ps.json"))
+	{
+		rt_jtoc_sdl_log_error("PATH PS ERROR OR NOT FOUND", -1);
+		exit (0);
+	}
 //	ps->rbs_count = 1;
 //	ps->rbs = (t_rb *)malloc(sizeof(t_rb) * ps->rbs_count);
 
