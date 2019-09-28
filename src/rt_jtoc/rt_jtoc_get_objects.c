@@ -99,9 +99,9 @@ int	rt_jtoc_check_and_get_id_for_object(t_scene *scene, t_jnode *n, t_object *ob
 int rt_jtoc_get_type_name(int type, int id, char *str)
 {
 	char *tmp_id;
-	char tmp_str[30];
+	char tmp_str[15];
 
-	ft_bzero(tmp_str, 30);
+	ft_bzero(tmp_str, 15);
 	tmp_id = ft_itoa(id);
 	if (type == o_sphere)
 		ft_strcat(ft_strcat(str,"Sphere"), tmp_id);
@@ -163,7 +163,7 @@ int rt_jtoc_get_type_name(int type, int id, char *str)
 //}
 
 
-int	rt_jtoc_compare_name(t_object *obj, int i, char str[1000][30], int name)
+int	rt_jtoc_compare_name(t_object *obj, int i, char str[1000][15], int name)
 {
 	int		tmp;
 	tmp = i;
@@ -178,7 +178,7 @@ int	rt_jtoc_compare_name(t_object *obj, int i, char str[1000][30], int name)
 		return (FUNCTION_SUCCESS);
 	else
 	{
-		ft_bzero(str[i], 30);
+		ft_bzero(str[i], 15);
 		rt_jtoc_get_type_name(obj->type, name, str[i]);
 		obj->local_name = str[i];
 		name++;
@@ -193,14 +193,14 @@ int rt_jtoc_get_object_name(t_object *obj, t_jnode *n)
 	char		*str;
 	int			name;
 	static int	i = 0;
-	static char tmp_str[1000][30];
+	static char tmp_str[1000][15];
 
-	if (!(str = (char *)ft_x_memalloc(sizeof(char) * 30)))
+	if (!(str = (char *)ft_x_memalloc(sizeof(char) * 16)))
 		return (FUNCTION_FAILURE);
 	name = 0;
 	if ((tmp = jtoc_node_get_by_path(n, "name")) && tmp->type == string)
 	{
-		ft_strncpy(str, jtoc_get_string(tmp), 30);
+		ft_strncpy(str, jtoc_get_string(tmp), 15);
 		obj->local_name = str;
 	}
 	else
