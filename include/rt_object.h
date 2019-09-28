@@ -196,11 +196,21 @@ typedef struct			s_omaterial
 
 typedef struct			s_object
 {
+# ifndef OPENCL___
 	t_transform			transform;
 	union u_oparams		params;
 	enum e_object_type	type;
 	t_omaterial			material;
+	char				*local_name;
 	int					layer;
+# else
+	t_transform			transform;
+	union u_oparams		params;
+	enum e_object_type	type;
+	t_omaterial			material;
+	int2				local_name;
+	int					layer;
+# endif
 }						t_object;
 
 #endif

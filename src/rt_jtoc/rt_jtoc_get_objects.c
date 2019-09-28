@@ -6,13 +6,11 @@ int 		rt_jtoc_compare_str_with_texture_name(t_obj_texture *texture, char *str)
 {
 	int i;
 	int cache_counter;
-	char **texture_name;
 
 	i = -1;
 	cache_counter = texture->textures_count;
-	texture_name = texture->textures_path;
 	while (++i < cache_counter)
-		if (!ft_strcmp(texture_name[i], str))
+		if ((ft_strstr(texture->textures_path[i], str)))
 			return (i);
 	return (-2);
 }
@@ -66,6 +64,7 @@ int	rt_jtoc_get_object_layer(t_object *obj, t_jnode *n)
 	t_jnode	*tmp;
 	char	*str;
 
+
 	if (!(tmp = jtoc_node_get_by_path(n, "layer")) || tmp->type != string)
 		return (rt_jtoc_sdl_log_error("LAYER ERROR OR LAYER IS MISSING", -1));
 	str = jtoc_get_string(tmp);
@@ -97,6 +96,125 @@ int	rt_jtoc_check_and_get_id_for_object(t_scene *scene, t_jnode *n, t_object *ob
 	return (FUNCTION_SUCCESS);
 }
 
+int rt_jtoc_get_type_name(int type, int id, char *str)
+{
+	char *tmp_id;
+	char tmp_str[30];
+
+	ft_bzero(tmp_str, 30);
+	tmp_id = ft_itoa(id);
+	if (type == o_sphere)
+		ft_strcat(ft_strcat(str,"Sphere"), tmp_id);
+	else if (type == o_box)
+		ft_strcat(ft_strcat(str,"Box"), tmp_id);
+	else if (type == o_round_box)
+		ft_strcat(ft_strcat(str,"Round Box"), tmp_id);
+	else if (type == o_torus)
+		ft_strcat(ft_strcat(str,"Torus"), tmp_id);
+	else if (type == o_capped_torus)
+		ft_strcat(ft_strcat(str,"Capped Torus"), tmp_id);
+	else if (type == o_link)
+		ft_strcat(ft_strcat(str,"Link"), tmp_id);
+	else if (type == o_cylinder)
+		ft_strcat(ft_strcat(str,"Cylinder"), tmp_id);
+	else if (type == o_cone)
+		ft_strcat(ft_strcat(str,"Cone"), tmp_id);
+	else if (type == o_plane)
+		ft_strcat(ft_strcat(str,"Plane"), tmp_id);
+	else if (type == o_mandelbulb)
+		ft_strcat(ft_strcat(str,"Mandelbulb"), tmp_id);
+	else if (type == o_mandelbox)
+		ft_strcat(ft_strcat(str,"Mandelbox"), tmp_id);
+	free(tmp_id);
+	return (FUNCTION_SUCCESS);
+}
+
+//int rt_jtoc_get_type_name(int type, int id, char *str) юзать если объявлять str на стеке
+//{
+//	char *tmp_id;
+//	char tmp_str[30];
+//
+//	ft_bzero(tmp_str, 30);
+//	tmp_id = ft_itoa(id);
+//	if (type == o_sphere)
+//		ft_strcat(str, ft_strcat(ft_strcat(tmp_str,"Sphere"), tmp_id));
+//	else if (type == o_box)
+//		ft_strcat(str, ft_strcat(ft_strcat(tmp_str,"Box"), tmp_id));
+//	else if (type == o_round_box)
+//		ft_strcat(str, ft_strcat(ft_strcat(tmp_str,"Round Box"), tmp_id));
+//	else if (type == o_torus)
+//		ft_strcat(str, ft_strcat(ft_strcat(tmp_str,"Torus"), tmp_id));
+//	else if (type == o_capped_torus)
+//		ft_strcat(str, ft_strcat(ft_strcat(tmp_str,"Capped Torus"), tmp_id));
+//	else if (type == o_link)
+//		ft_strcat(str, ft_strcat(ft_strcat(tmp_str,"Link"), tmp_id));
+//	else if (type == o_cylinder)
+//		ft_strcat(str, ft_strcat(ft_strcat(tmp_str,"Cylinder"), tmp_id));
+//	else if (type == o_cone)
+//		ft_strcat(str, ft_strcat(ft_strcat(tmp_str,"Cone"), tmp_id));
+//	else if (type == o_plane)
+//		ft_strcat(str, ft_strcat(ft_strcat(tmp_str,"Plane"), tmp_id));
+//	else if (type == o_mandelbulb)
+//		ft_strcat(str, ft_strcat(ft_strcat(tmp_str,"Mandelbulb"), tmp_id));
+//	else if (type == o_mandelbox)
+//		ft_strcat(str, ft_strcat(ft_strcat(tmp_str,"Mandelbox"), tmp_id));
+//	free(tmp_id);
+//	return (FUNCTION_SUCCESS);
+//}
+
+
+int	rt_jtoc_compare_name(t_object *obj, int i, char str[1000][30], int name)
+{
+	int		tmp;
+	tmp = i;
+	while (tmp > 0)
+	{
+		if (ft_strcmp(obj->local_name, str[tmp - 1]) == 0)
+			break;
+		else
+			tmp--;
+	}
+	if (tmp == 0)
+		return (FUNCTION_SUCCESS);
+	else
+	{
+		ft_bzero(str[i], 30);
+		rt_jtoc_get_type_name(obj->type, name, str[i]);
+		obj->local_name = str[i];
+		name++;
+		rt_jtoc_compare_name(obj, i, str, name);
+	}
+	return (FUNCTION_SUCCESS);
+}
+
+int rt_jtoc_get_object_name(t_object *obj, t_jnode *n)
+{
+	t_jnode		*tmp;
+	char		*str;
+	int			name;
+	static int	i = 0;
+	static char tmp_str[1000][30];
+
+	if (!(str = (char *)ft_x_memalloc(sizeof(char) * 30)))
+		return (FUNCTION_FAILURE);
+	name = 0;
+	if ((tmp = jtoc_node_get_by_path(n, "name")) && tmp->type == string)
+	{
+		ft_strncpy(str, jtoc_get_string(tmp), 30);
+		obj->local_name = str;
+	}
+	else
+	{
+		rt_jtoc_get_type_name(obj->type, name, str);
+		obj->local_name = str;
+	}
+	ft_strcpy(tmp_str[i], str);
+	rt_jtoc_compare_name(obj, i, tmp_str, name);
+	obj->local_name = tmp_str[i];
+	i++;
+	return (FUNCTION_SUCCESS);
+}
+
 int rt_jtoc_get_object(t_object *obj, t_jnode *n, t_scene *scene, t_obj_texture *texture)
 {
 	t_jnode	*tmp;
@@ -117,6 +235,7 @@ int rt_jtoc_get_object(t_object *obj, t_jnode *n, t_scene *scene, t_obj_texture 
 		return (rt_jtoc_sdl_log_error("COLOR ERROR", -1));
 	if (rt_jtoc_check_and_get_id_for_object(scene, n, obj))
 		return (rt_jtoc_sdl_log_error("ID ERROR", -1));
+	rt_jtoc_get_object_name(obj, n);
 
 	err = 0;
 	err = obj->type == o_sphere ? rt_jtoc_get_sphere(obj, n) : err;
@@ -146,6 +265,8 @@ int rt_jtoc_get_objects(t_scene *scene, t_jnode *n, t_obj_texture *texture)
 	if (rt_jtoc_get_objects_num_in_arr(&c, n) ||
 		!(scene->objects = vec_init(c, sizeof(t_object))))
 		return (FUNCTION_FAILURE);
+	if (c >= 1000)
+		return (rt_jtoc_sdl_log_error("OBJECT OVER 1000", -1));
 	tmp = n->down;
 	i = 0;
 	while (tmp)
@@ -155,6 +276,7 @@ int rt_jtoc_get_objects(t_scene *scene, t_jnode *n, t_obj_texture *texture)
 		if (rt_jtoc_get_object(&obj, tmp, scene, texture))
 			return (rt_jtoc_sdl_log_error("OBJECT DATA ERROR", i));
 		vec_push_back(scene->objects, &obj);
+		SDL_Log("%s", obj.local_name);
 		i++;
 		tmp = tmp->right;
 	}
