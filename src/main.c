@@ -120,7 +120,7 @@ int main()
 
 	rt_screen_size = modification_rt_elem_and_get_screen_size(ui);
 
-	rt = rt_setup(rt_screen_size, "json/textures.json", "json/scenes/scene1/mandelbox.json");
+	rt = rt_setup(rt_screen_size, "json/textures.json", "json/scenes/scene2/mandelbulb.json");
 	ui->data = (void *)rt;
 //	rt->params |= RT_GAUSS_BLUR;
 //	rt->scene->params |= RT_PATH_TRACE;

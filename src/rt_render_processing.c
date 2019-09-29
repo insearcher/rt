@@ -41,6 +41,7 @@ void	render_processing(t_rt_main *rt, size_t *global_size, cl_int path_trace_cou
 	kernel = cl_get_kernel_by_name(rt->cl, "ray_march_render");
 
 	cl_int2	rands;
+	srand(time1);
 	rands.x = rand();
 	rands.y = rand();
 

@@ -20,21 +20,24 @@ int		rt_render(t_ui_main *ui, void *el_v)
 	void		*pixels;
 	int			pitch;
 	size_t		global_size;
-	static cl_int	path_trace_count;
+	static int	start_flag;
+	static cl_int	path_trace_count = 1;
 
 	el = (t_ui_el *)el_v;
-	SDL_Log("%d", path_trace_count);
+	SDL_Log("count: %d", path_trace_count);
 	rt = ui->data;
 	if (!(rt->scene->params & RT_PATH_TRACE))
 	{
-		if (!((t_physics_system *) rt->systems[1])->change_indicator && path_trace_count != 0)
+		if (!((t_physics_system *) rt->systems[1])->change_indicator && start_flag != 0)
 			return (1);
-		path_trace_count = 1;
 	}
-	else if (!((t_physics_system *) rt->systems[1])->change_indicator)
+	else if (!((t_physics_system *) rt->systems[1])->change_indicator && start_flag != 0)
 		path_trace_count++;
 	else
-		path_trace_count = 0;
+	{
+		path_trace_count = 1;
+	}
+	start_flag = 1;
 
 	rt->screen_size.x = el->rect.w;
 	rt->screen_size.y = el->rect.h;
@@ -49,7 +52,7 @@ int		rt_render(t_ui_main *ui, void *el_v)
 	SDL_UnlockTexture(el->sdl_textures->content);
 	SDL_RenderCopy(el->sdl_renderer, el->sdl_textures->content, NULL, NULL);
 
-	path_trace_count++;
+//	path_trace_count++;
 
 	return (1);
 }

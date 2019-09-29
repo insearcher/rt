@@ -1,6 +1,7 @@
 #include "rt_cl.h"
 
-static void		put_pixel(__global char *image, int2 pixel, int2 screen, float3 color, int count, __global float3 *color_buf)
+static void		put_pixel(__global char *image, int2 pixel, int2 screen, float3 color, int count,
+        __global float3 *color_buf, int params)
 {
 	int a;
 	int b;
@@ -8,39 +9,31 @@ static void		put_pixel(__global char *image, int2 pixel, int2 screen, float3 col
 	pixel.y = screen.y - pixel.y - 1;
 	if (pixel.x >= 0 && pixel.x < screen.x && pixel.y >= 0 && pixel.y < screen.y)
 	{
+		color *= float3(255.f);
 		b = pixel.y * screen.x + pixel.x;
 		a = 4 * b;
-		if (count == 0)
+		if (params & RT_PATH_TRACE)
 		{
-			color *= 255;
-			color_buf[b] = color;
-		}
-		else
-		{
-			color_buf[b] += color * 255;
-			if (count >= 3)
-				color = color_buf[b] / count * float3(1.75f);
+			if (count == 1)
+			{
+				color_buf[b] = float3(0.f);
+			}
 			else
-				color = color_buf[b] / count;
+			{
+				color_buf[b] += color;
+				color = color_buf[b] / (count - 1);
+			}
 		}
-		int r, g, b;
-		r = (int)color.x > 255 ? 255 : (int)color.x;
-		g = (int)color.y > 255 ? 255 : (int)color.y;
-		b = (int)color.z > 255 ? 255 : (int)color.z;
-/*		image[a] = color.x;
-		image[a + 1] = color.y;
-		image[a + 2] = color.z;
-		image[a + 3] = 0;*/
-
-		image[a] = r;
-		image[a + 1] = g;
-		image[a + 2] = b;
+		image[a] = int(color.x);
+		image[a + 1] = int(color.y);
+		image[a + 2] = int(color.z);
 		image[a + 3] = 0;
 	}
 }
 
+
 static void		put_pixel_with_lowering_quality(__global char *image, int2 pixel, int2 screen,
-		float3 color, int quality, int count, __global float3 *color_buf)
+		float3 color, int quality, int count, __global float3 *color_buf, int params)
 {
 	int2 cur_pixel;
 
@@ -49,7 +42,7 @@ static void		put_pixel_with_lowering_quality(__global char *image, int2 pixel, i
 		for (int j = 0; j < quality; ++j)
 		{
 			cur_pixel = (int2)(pixel.x + i, pixel.y + j);
-			put_pixel(image, cur_pixel, screen, color, count, color_buf);
+			put_pixel(image, cur_pixel, screen, color, count, color_buf, params);
 		}
 	}
 }
@@ -326,7 +319,7 @@ __kernel void	ray_march_render(__global char *image, __global t_scene *scene,
 	if (scene->quality == 100)
 	{
 		color = get_pixel_color(scene, pixel, screen, rands, texture, texture_w, texture_h, prev_texture_size);
-		put_pixel(image, pixel, screen, color, path_trace_count, color_buf);
+		put_pixel(image, pixel, screen, color, path_trace_count, color_buf, scene->params);
 	}
 	else //quality processed in jtoc, therefore quality always <= 100
 	{
@@ -334,6 +327,6 @@ __kernel void	ray_march_render(__global char *image, __global t_scene *scene,
 		if (pixel.x % scene->quality || pixel.y % scene->quality)
 			return;
 		color = get_pixel_color(scene, pixel, screen, rands, texture, texture_w, texture_h, prev_texture_size);
-		put_pixel_with_lowering_quality(image, pixel, screen, color, scene->quality, path_trace_count, color_buf);
+		put_pixel_with_lowering_quality(image, pixel, screen, color, scene->quality, path_trace_count, color_buf, scene->params);
 	}
 }
