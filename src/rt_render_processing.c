@@ -23,12 +23,12 @@ static void	create_buffers_for_render(t_rt_main *rt, cl_mem *cl_scene,
 int time1;
 int time2;
 
-void	render_processing(t_rt_main *rt, size_t *global_size)
+void	render_processing(t_rt_main *rt, size_t *global_size, cl_int path_trace_count)
 {
-	cl_kernel	*kernel;
-	cl_mem		cl_scene;
-	cl_mem		cl_objects;
-	cl_mem		cl_lights;
+	cl_kernel		*kernel;
+	cl_mem			cl_scene;
+	cl_mem			cl_objects;
+	cl_mem			cl_lights;
 
 	time2 = SDL_GetTicks();
 	SDL_Log("TICK: %d", time2 - time1);
@@ -55,7 +55,9 @@ void	render_processing(t_rt_main *rt, size_t *global_size)
 	clSetKernelArg(*kernel, 8, sizeof(cl_mem), &rt->gpu_mem->cl_texture_w);
 	clSetKernelArg(*kernel, 9, sizeof(cl_mem), &rt->gpu_mem->cl_texture_h);
 	clSetKernelArg(*kernel, 10, sizeof(cl_mem), &rt->gpu_mem->cl_prev_texture_size);
-	clSetKernelArg(*kernel, 11, sizeof(cl_int2), &rands);
+	clSetKernelArg(*kernel, 11, sizeof(cl_int), &path_trace_count);
+	clSetKernelArg(*kernel, 12, sizeof(cl_mem), &rt->gpu_mem->cl_pt_color_buf);
+	clSetKernelArg(*kernel, 13, sizeof(cl_int2), &rands);
 
 	clEnqueueNDRangeKernel(*rt->cl->queue, *kernel, 1, NULL, global_size, NULL, 0, NULL, NULL);
 

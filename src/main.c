@@ -120,11 +120,11 @@ int main()
 
 	rt_screen_size = modification_rt_elem_and_get_screen_size(ui);
 
-	rt = rt_setup(rt_screen_size, "json/textures.json", "json/scenes/test1.json");
+	rt = rt_setup(rt_screen_size, "json/textures.json", "json/scenes/scene1/mandelbox.json");
 	ui->data = (void *)rt;
 //	rt->params |= RT_GAUSS_BLUR;
 //	rt->scene->params |= RT_PATH_TRACE;
-	rt->scene->params |= RT_PHONG;
+//	rt->scene->params |= RT_PHONG;
 
 
 //TODO NEEDED FOR PLANE (NOW PLANE IN JSON DOESN'T WORK CORRECTLY) (MAKSON WHAT IT TAKOE WOBSHE?)
@@ -151,7 +151,8 @@ int main()
 //	rt->scenes[0].objects[0].params.mandelbumb.power = 2;
 
 	t_physics_system	*ps = ft_memalloc(sizeof(t_physics_system));
-	rt_jtoc_ps_setup(rt->scene, ps, "json/ps.json");
+	if (rt_jtoc_ps_setup(rt->scene, ps, "json/default_ps.json"))
+		exit(0);
 //	ps->rbs_count = 1;
 //	ps->rbs = (t_rb *)malloc(sizeof(t_rb) * ps->rbs_count);
 
@@ -258,6 +259,15 @@ int main()
 
 	ui_event_add_listener(((t_ui_win *)(ui->windows->content))->events->on_pointer_left_button_pressed, rt_raycast);
 
+	SDL_Log("%d", rt->scene->params);
+
+	((t_object *)rt->scene->objects->storage)->material.luminosity.x = 0.0f;
+	((t_object *)rt->scene->objects->storage)->material.luminosity.y = 0.0f;
+	((t_object *)rt->scene->objects->storage)->material.luminosity.z = 0.0f;
+
+	SDL_Log("%f", ((t_object *)rt->scene->objects->storage)->material.luminosity.x);
+	SDL_Log("%f", ((t_object *)rt->scene->objects->storage)->material.luminosity.y);
+	SDL_Log("%f", ((t_object *)rt->scene->objects->storage)->material.luminosity.z);
 	ui_main_run_program(ui);
 	return 0;
 }

@@ -1,14 +1,17 @@
 #include "rt_cl.h"
 
-static float	sdf(float3 origin, float3 direction, __global t_object *obj,
-float3 *lp)
+static float	sdf(float3 origin, float3 direction, __global t_object *obj, float3 *lp, int scene_params)
 {
 	float3	gright = (float3){1, 0, 0};
 	float3	gup = (float3){0, 1, 0};
 	float	distance = 0.0f;
 	float3	local_pos;
 
-	local_pos = origin - obj->transform.pos;
+	if (scene_params & RT_REPETITION)
+		local_pos = repeatSDF(origin, obj->transform.pos, 0, 0, 0);
+	else
+		local_pos = origin - obj->transform.pos;
+
 	float3 cr = cross(gup, obj->transform.up);
 	float cos = dot(gup, obj->transform.up);
 	float sin = length(cr);
@@ -93,8 +96,7 @@ float3 *lp)
 	return (distance);
 }
 
-static float	sceneSDF(float3 origin, float3 direction, __global t_scene
-*scene,	t_raycast_hit *rh)
+static float	sceneSDF(float3 origin, float3 direction, __global t_scene *scene, t_raycast_hit *rh)
 {
 	float		dist_to_obj = 1000000.f;
 	float		tmp_dist_to_obj;
@@ -103,7 +105,7 @@ static float	sceneSDF(float3 origin, float3 direction, __global t_scene
 
 	for (uint i = 0; i < scene->objects_count; i++)
 	{
-		tmp_dist_to_obj = sdf(origin, direction, &scene->objects[i], &lp);
+		tmp_dist_to_obj = sdf(origin, direction, &scene->objects[i], &lp, scene->params);
 		cond = tmp_dist_to_obj < dist_to_obj && tmp_dist_to_obj > -F_EPS;
 		if (cond)
 		{
@@ -116,14 +118,14 @@ static float	sceneSDF(float3 origin, float3 direction, __global t_scene
 }
 
 static void	get_normal(float3 pos, float3 direction, float basic_dist,
-						  t_raycast_hit *rh)
+		t_raycast_hit *rh, int params)
 {
 	rh->normal = normalize((float3){sdf((float3){pos.x + F_EPS, pos.y, pos
-			.z}, direction, rh->hit, 0),
+			.z}, direction, rh->hit, 0, params),
 									sdf((float3){pos.x, pos.y + F_EPS, pos.z},
-										direction, rh->hit, 0),
+										direction, rh->hit, 0, params),
 									sdf((float3){pos.x, pos.y, pos.z + F_EPS},
-										direction, rh->hit, 0)} -
+										direction, rh->hit, 0, params)} -
 						   (float3){basic_dist, basic_dist, basic_dist});
 }
 
@@ -152,7 +154,7 @@ int			raymarch(float3 origin, float3 direction, float distance, __global t_scene
 		{
 			rh->point = cur_ray_point;
 			rh->distance = intersect_dist;
-			get_normal(cur_ray_point, direction, dist_to_obj, rh);
+			get_normal(cur_ray_point, direction, dist_to_obj, rh, scene->params);
 			return (1);
 		}
 		intersect_dist += dist_to_obj;

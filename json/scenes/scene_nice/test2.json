@@ -1,0 +1,98 @@
+{
+  "quality": 100,
+  "smoothing": 0,
+  "path_trace_number": 1,
+  "path_trace_bounces": 2,
+  "params":
+  [
+    "path_trace"
+  ],
+  "camera":
+  {
+    "id": 1,
+    "fov": 90.0,
+    "clipping_planes":
+    {
+      "near": 0.5,
+      "far": 500.0
+    },
+    "transform":
+    {
+      "pos":
+      {
+        "x": 5.0,
+        "y": 10.0,
+        "z": 5.0
+      },
+      "eulers":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    }
+  },
+  "lights":
+  {
+    "ambient":
+    {
+      "x": 0.3,
+      "y": 0.3,
+      "z": 0.3
+    },
+    "directional_lights":
+    [
+      {
+        "color":
+        {
+          "x": 0.7,
+          "y": 0.7,
+          "z": 0.7
+        },
+        "transform":
+        {
+          "pos":
+          {
+            "x": 10.0,
+            "y": 10.0,
+            "z": 10.0
+          },
+          "eulers":
+          {
+            "x": 0.5,
+            "y": 0.5,
+            "z": 0.5
+          }
+        }
+      }
+    ]
+  },
+  "objects":
+  [
+    {
+      "id": 3,
+      "type": "sphere",
+      "layer": "default_layer",
+      "texture": "./textures/nice.jpg",
+      "radius": 10.0,
+      "color": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform": {
+        "pos": {
+          "x": 30.0,
+          "y": 30.0,
+          "z": 30.0
+        },
+        "eulers": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 180.0
+        }
+      }
+    }
+  ]
+}

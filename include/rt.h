@@ -18,9 +18,13 @@
 # include "rt_raycast_hit.h"
 # include "transform.h"
 
+//RT PARAMS
+#define RT_GAUSS_BLUR	(1 << 0)
+
+//SCENE PARAMS
 #define RT_PATH_TRACE	(1 << 0)
 #define RT_PHONG		(1 << 1)
-#define RT_GAUSS_BLUR	(1 << 2)
+#define RT_REPETITION	(1 << 2)
 
 typedef struct			s_scene
 {
@@ -31,6 +35,8 @@ typedef struct			s_scene
 	cl_float3			ambient;
 	cl_int				quality;
 	cl_int				fsaa;
+	cl_int				path_trace_number;
+	cl_int				path_trace_bounces;
 	cl_int				params;
 # else
 	__global t_object	*objects;
@@ -40,6 +46,8 @@ typedef struct			s_scene
 	float3				ambient;
 	int					quality;
 	int					fsaa; // TODO IN JTOC IT MUST BECOME EVEN
+	int					path_trace_number;
+	int					path_trace_bounces;
 	int					params;
 # endif
 }						t_scene;
@@ -49,6 +57,7 @@ typedef struct			s_static_gpu_mem
 {
 	cl_mem 				cl_image;
 	cl_mem 				cl_aux;
+	cl_mem 				cl_pt_color_buf;
 	cl_mem 				cl_texture;
 	cl_mem				cl_texture_w;
 	cl_mem				cl_texture_h;
@@ -86,7 +95,7 @@ t_rt_main				*rt_setup(cl_int2 screen_size,
 							const char *scene_path);
 
 int						rt_render(t_ui_main *ui, void *a);
-void					render_processing(t_rt_main *rt, size_t *global_size);
+void					render_processing(t_rt_main *rt, size_t *global_size, cl_int path_trace_count);
 void					post_processing(t_rt_main *rt, size_t *global_size);
 int						*get_texture(t_rt_main *rt);
 

@@ -21,6 +21,9 @@ static void	fill_constant_screen_gpu_mem(t_rt_main *rt, cl_int2 screen_size)
 	rt->gpu_mem->cl_texture = clCreateBuffer(*rt->cl->context,
 										 CL_MEM_READ_ONLY, 4 * rt->texture->texture_size,
 										 NULL, NULL);
+	rt->gpu_mem->cl_pt_color_buf = clCreateBuffer(*rt->cl->context,
+										 CL_MEM_READ_WRITE, sizeof(cl_float3) * screen_size.x * screen_size.y,
+										 NULL, NULL);
 	clEnqueueWriteBuffer(*rt->cl->queue, rt->gpu_mem->cl_texture, CL_TRUE, 0,
 			4 * rt->texture->texture_size,
 			rt->texture->texture, 0, NULL, NULL);

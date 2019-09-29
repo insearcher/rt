@@ -1,5 +1,12 @@
 {
+  "smoothing": 0,
+  "path_trace_number": 1,
+  "path_trace_bounces": 2,
   "quality": 100,
+  "params":
+  [
+    "path_trace"
+  ],
   "camera":
   {
     "id": 1,
@@ -17,23 +24,11 @@
         "y": 30.0,
         "z": 5.0
       },
-      "right":
+      "eulers":
       {
-        "x": -1.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "up":
-      {
-        "x": 0.0,
-        "y": 1.0,
-        "z": 0.0
-      },
-      "forward":
-      {
-        "x": 0.0,
-        "y": 0.0,
-        "z": -1.0
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
       }
     }
   },
@@ -62,22 +57,10 @@
             "y": 0.0,
             "z": 0.0
           },
-          "right":
+          "eulers":
           {
-            "x": 1.0,
+            "x": 0.0,
             "y": 0.0,
-            "z": 0.0
-          },
-          "up":
-          {
-            "x": 0.0,
-            "y": 1.0,
-            "z": 0.0
-          },
-          "forward":
-          {
-            "x": 0.0,
-            "y": -1.0,
             "z": 0.0
           }
         }
@@ -87,13 +70,13 @@
   "objects":
   [
     {
-      "id": 2,
+      "id": 3,
       "type": "mandelbulb",
       "layer": "ignore_raycast_layer",
       "texture": "none",
       "power": 8.0,
-      "iteration": 15,
-      "breakout": 3,
+      "iteration": 128,
+      "breakout": 8,
       "color":
       {
         "x": 0.0,
@@ -109,23 +92,11 @@
           "y": 30.0,
           "z": 0.0
         },
-        "right":
-        {
-          "x": 1.0,
-          "y": 0.0,
-          "z": 0.0
-        },
-        "up":
-        {
-          "x": 0.0,
-          "y": 1.0,
-          "z": 0.0
-        },
-        "forward":
+        "eulers":
         {
           "x": 0.0,
           "y": 0.0,
-          "z": 1.0
+          "z": 0.0
         }
       }
     }

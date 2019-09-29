@@ -1,23 +1,46 @@
 #include "rt_cl.h"
 
-static void		put_pixel(__global char *image, int2 pixel, int2 screen, float3 color)
+static void		put_pixel(__global char *image, int2 pixel, int2 screen, float3 color, int count, __global float3 *color_buf)
 {
-    int a;
+	int a;
+	int b;
 
-    pixel.y = screen.y - pixel.y - 1;
-    if (pixel.x >= 0 && pixel.x < screen.x && pixel.y >= 0 && pixel.y < screen.y)
-    {
-        a = 4 * (pixel.y * screen.x + pixel.x);
-        color *= 255;
-        image[a] = color.x;
-        image[a + 1] = color.y;
-        image[a + 2] = color.z;
-        image[a + 3] = 0;
-    }
+	pixel.y = screen.y - pixel.y - 1;
+	if (pixel.x >= 0 && pixel.x < screen.x && pixel.y >= 0 && pixel.y < screen.y)
+	{
+		b = pixel.y * screen.x + pixel.x;
+		a = 4 * b;
+		if (count == 0)
+		{
+			color *= 255;
+			color_buf[b] = color;
+		}
+		else
+		{
+			color_buf[b] += color * 255;
+			if (count >= 3)
+				color = color_buf[b] / count * float3(1.75f);
+			else
+				color = color_buf[b] / count;
+		}
+		int r, g, b;
+		r = (int)color.x > 255 ? 255 : (int)color.x;
+		g = (int)color.y > 255 ? 255 : (int)color.y;
+		b = (int)color.z > 255 ? 255 : (int)color.z;
+/*		image[a] = color.x;
+		image[a + 1] = color.y;
+		image[a + 2] = color.z;
+		image[a + 3] = 0;*/
+
+		image[a] = r;
+		image[a + 1] = g;
+		image[a + 2] = b;
+		image[a + 3] = 0;
+	}
 }
 
 static void		put_pixel_with_lowering_quality(__global char *image, int2 pixel, int2 screen,
-		float3 color, int quality)
+		float3 color, int quality, int count, __global float3 *color_buf)
 {
 	int2 cur_pixel;
 
@@ -26,7 +49,7 @@ static void		put_pixel_with_lowering_quality(__global char *image, int2 pixel, i
 		for (int j = 0; j < quality; ++j)
 		{
 			cur_pixel = (int2)(pixel.x + i, pixel.y + j);
-			put_pixel(image, cur_pixel, screen, color);
+			put_pixel(image, cur_pixel, screen, color, count, color_buf);
 		}
 	}
 }
@@ -69,6 +92,7 @@ static float3	get_skybox_color(float3 direction)
 			mad(direction.y, -0.7f, 0.36f),
 			mad(direction.y, -0.7f, 0.3f)
 	})));
+//	return float3(1.0);
 }
 
 static float get_random(unsigned int *seed0, unsigned int *seed1)
@@ -114,8 +138,8 @@ static float3	render_color(__global t_scene *scene, int2 pixel, int2 screen, __g
 
 	if (!raymarch(scene->camera.transform.pos, ray_direction, 0, scene, &ray_hit))
 	{
-		color = get_skybox_color(ray_direction);
-//		color = get_skybox_texture(ray_direction, texture, texture_w, texture_h, prev_texture_size);
+//		color = get_skybox_color(ray_direction);
+		color = get_skybox_texture(ray_direction, texture, texture_w, texture_h, prev_texture_size);
 		return (color);
 	}
 	if(choose_texture_for_object(ray_hit, texture, &color, texture_w, texture_h, prev_texture_size))
@@ -132,8 +156,8 @@ static float3	render_color_by_fong(__global t_scene *scene, int2 pixel, int2 scr
 
 	if (!raymarch(scene->camera.transform.pos, ray_direction, 0, scene, &ray_hit))
 	{
-		color = get_skybox_color(ray_direction);
-//		color = get_skybox_texture(ray_direction, texture, texture_w, texture_h, prev_texture_size);
+//		color = get_skybox_color(ray_direction);
+		color = get_skybox_texture(ray_direction, texture, texture_w, texture_h, prev_texture_size);
 		return (color);
 	}
 	if(choose_texture_for_object(ray_hit, texture, &color, texture_w, texture_h, prev_texture_size))
@@ -152,10 +176,12 @@ static float3	render_color_by_path_trace(__global t_scene *scene, int2 pixel, in
 	float3 path_orig = scene->camera.transform.pos;
 	int mirr = 0;
 
-	for (int bounces = 0; bounces < 8; bounces++)
+	int bounces_end = scene->path_trace_bounces;
+	for (int bounces = 0; bounces < bounces_end; bounces++)
 	{
 		if (!raymarch(path_orig, ray_direction, 0, scene, &ray_hit))
 		{
+//			path_color += mask * get_skybox_texture(ray_direction, texture, texture_w, texture_h, prev_texture_size);
 			path_color += mask * get_skybox_color(ray_direction);
 			break;
 		}
@@ -185,7 +211,7 @@ static float3	render_color_by_path_trace(__global t_scene *scene, int2 pixel, in
 			mask *= pow(cos_n, 0.01f);							// затемнеяет зеркало. чем больше угол между нормалью зеркала и dir и больше параметр, тем темнее
 			mask *= 0.9f;										// затемняет зеркало
 		}
-		else if (ray_hit.hit->transform.id == 3)						// ЛИНЗА
+		else if (ray_hit.hit->transform.id == 2)						// ЛИНЗА
 		{
 			newdir = fast_normalize(refract(ray_direction, ray_hit.normal, 1.05f));
 			path_orig = ray_hit.point - ray_hit.normal * 0.001f;
@@ -198,7 +224,7 @@ static float3	render_color_by_path_trace(__global t_scene *scene, int2 pixel, in
 			mask *= dot(newdir, ray_hit.normal);
 
 		ray_direction = newdir;
-		if(ray_hit.hit->transform.id != 3 && choose_texture_for_object(ray_hit, texture, &mask, texture_w, texture_h, prev_texture_size))
+		if(choose_texture_for_object(ray_hit, texture, &mask, texture_w, texture_h, prev_texture_size))
 			mask *= (float3)(ray_hit.hit->material.color.xyz);
 	}
 	return (path_color);
@@ -211,12 +237,10 @@ static float	reverse(int n)
 	return (0);
 }
 
-//TODO fsaa and N
-
 static float3	get_pixel_color(__global t_scene *scene, int2 pixel, int2 screen, int2 rands, __global int *texture,
 		__global int *texture_w, __global int *texture_h, __global int *prev_texture_size)
 {
-	int				fsaa = 0; //TODO IN JSON
+	int				fsaa = scene->fsaa;
 	float3			ray_direction;
 	float3			color = float3(0.f);
 	unsigned int	seed0, seed1;
@@ -226,6 +250,7 @@ static float3	get_pixel_color(__global t_scene *scene, int2 pixel, int2 screen, 
 			camera.fov, camera.transform);
 	if (scene->params & RT_PATH_TRACE)
 	{
+		int N = scene->path_trace_number;
 		#pragma unroll
 		for (int i = -fsaa / 2; i <= fsaa / 2; i++)
 		{
@@ -236,7 +261,6 @@ static float3	get_pixel_color(__global t_scene *scene, int2 pixel, int2 screen, 
 						(float) i * reverse(fsaa) / screen.x * camera.transform.right);
 				seed0 = pixel.x % screen.x + (rands.x * screen.x / 10);
 				seed1 = pixel.y % screen.y + (rands.y * screen.y / 10);
-				int N = 2; //TODO IN JSON
 				for (int k = 0; k < N; k++)
 				{
 					get_random(&seed0, &seed1);
@@ -286,7 +310,8 @@ __kernel void	ray_march_render(__global char *image, __global t_scene *scene,
 		__global t_object *objects, int objects_count,
 		__global t_light *lights, int lights_count,
 		int2 screen, __global int *texture, __global int *texture_w,
-		__global int *texture_h, __global int *prev_texture_size, int2 rands)
+		__global int *texture_h, __global int *prev_texture_size,
+		int path_trace_count, __global float3 *color_buf, int2 rands)
 {
 	int				gid;
 	int2			pixel;
@@ -301,7 +326,7 @@ __kernel void	ray_march_render(__global char *image, __global t_scene *scene,
 	if (scene->quality == 100)
 	{
 		color = get_pixel_color(scene, pixel, screen, rands, texture, texture_w, texture_h, prev_texture_size);
-		put_pixel(image, pixel, screen, color);
+		put_pixel(image, pixel, screen, color, path_trace_count, color_buf);
 	}
 	else //quality processed in jtoc, therefore quality always <= 100
 	{
@@ -309,6 +334,6 @@ __kernel void	ray_march_render(__global char *image, __global t_scene *scene,
 		if (pixel.x % scene->quality || pixel.y % scene->quality)
 			return;
 		color = get_pixel_color(scene, pixel, screen, rands, texture, texture_w, texture_h, prev_texture_size);
-		put_pixel_with_lowering_quality(image, pixel, screen, color, scene->quality);
+		put_pixel_with_lowering_quality(image, pixel, screen, color, scene->quality, path_trace_count, color_buf);
 	}
 }

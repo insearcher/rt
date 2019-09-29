@@ -130,7 +130,7 @@
       "type": "sphere",
       "texture": "./textures/nice.jpg",
       "layer": "default_layer",
-      "radius": 10.0,
+      "radius": 3.0,
       "color":
       {
         "x": 1.0,
@@ -143,8 +143,8 @@
         "pos":
         {
           "x": -20.0,
-          "y": 5.0,
-          "z": 0.0
+          "y": 10.0,
+          "z": 10.0
         },
         "eulers":
         {
