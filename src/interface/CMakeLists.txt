@@ -10,4 +10,5 @@ target_sources(rt PUBLIC
         uix_popup_menu.c
         uix_init.c
         uix_fill_scene.c
+        uix_fill_default_images.c
         )

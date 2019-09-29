@@ -1437,6 +1437,940 @@
                           "el_id": "default"
                       }
                   ]
+              },
+              {
+                  "id": 42,
+                  "parent": 4,
+                  "pos":
+                  {
+                      "x": 0.0,
+                      "y": 0.05
+                  },
+                  "type":
+                  [
+                      "SCROLL_MENU_ELEM"
+                  ],
+                  "size":
+                  {
+                      "x": 1.0,
+                      "y": 0.1
+                  },
+                  "textures":
+                  [
+                      {
+                          "type": "color",
+                          "color": "454545",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+              {
+                  "id": 420,
+                  "parent": 42,
+                  "params":
+                  [
+                      "EL_IGNOR_RAYCAST"
+                  ],
+                  "pos":
+                  {
+                      "x": 0.01,
+                      "y": 0.01
+                  },
+                  "size":
+                  {
+                      "x": 0.19,
+                      "y": 0.3
+                  },
+                  "text_area":
+                  {
+                      "text": "POS:",
+                      "color": "FFFFFF",
+                      "render_param": "TEXT_IS_BLENDED",
+                      "string_len": 0,
+                      "font": "Diablo"
+                  }
+              },
+              {
+                  "id": 421,
+                  "parent": 42,
+                  "pos":
+                  {
+                      "x": 0.31,
+                      "y": 0.01
+                  },
+                  "size":
+                  {
+                      "x": 0.69,
+                      "y": 0.3
+                  },
+                  "textures":
+                  [
+                      {
+                          "type": "color",
+                          "color": "454545",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+              {
+                  "id": 4210,
+                  "parent": 421,
+                  "params":
+                  [
+                      "EL_IGNOR_RAYCAST"
+                  ],
+                  "pos":
+                  {
+                      "x": 0.0,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.1,
+                      "y": 1.0
+                  },
+                  "text_area":
+                  {
+                      "text": "X:",
+                      "color": "FFFFFF",
+                      "render_param": "TEXT_IS_BLENDED",
+                      "string_len": 0,
+                      "font": "Diablo"
+                  }
+              },
+              {
+                  "id": 4211,
+                  "parent": 421,
+                  "pos":
+                  {
+                      "x": 0.15,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.1,
+                      "y": 1.0
+                  },
+                  "textures":
+                  [
+                      {
+                          "main_id": "left",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+              {
+                  "id": 4212,
+                  "parent": 421,
+                  "pos":
+                  {
+                      "x": 0.25,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.55,
+                      "y": 1.0
+                  },
+                  "textures":
+                  [
+                      {
+                          "type": "color",
+                          "color": "656565",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+              {
+                  "id": 42120,
+                  "parent": 4212,
+                  "params":
+                  [
+                      "EL_IGNOR_RAYCAST"
+                  ],
+                  "pos":
+                  {
+                      "x": 0.1,
+                      "y": 0.01
+                  },
+                  "size":
+                  {
+                      "x": 0.8,
+                      "y": 0.98
+                  },
+                  "text_area":
+                  {
+                      "text": "nun.nun",
+                      "color": "FFFFFF",
+                      "render_param": "TEXT_IS_BLENDED",
+                      "string_len": 0,
+                      "font": "Diablo"
+                  }
+              },
+              {
+                  "id": 4213,
+                  "parent": 421,
+                  "pos":
+                  {
+                      "x": 0.8,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.1,
+                      "y": 1.0
+                  },
+                  "textures":
+                  [
+                      {
+                          "main_id": "right",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+              {
+                  "id": 422,
+                  "parent": 42,
+                  "pos":
+                  {
+                      "x": 0.31,
+                      "y": 0.34
+                  },
+                  "size":
+                  {
+                      "x": 0.69,
+                      "y": 0.3
+                  },
+                  "textures":
+                  [
+                      {
+                          "type": "color",
+                          "color": "454545",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+              {
+                  "id": 4220,
+                  "parent": 422,
+                  "params":
+                  [
+                      "EL_IGNOR_RAYCAST"
+                  ],
+                  "pos":
+                  {
+                      "x": 0.0,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.1,
+                      "y": 1.0
+                  },
+                  "text_area":
+                  {
+                      "text": "Y:",
+                      "color": "FFFFFF",
+                      "render_param": "TEXT_IS_BLENDED",
+                      "string_len": 0,
+                      "font": "Diablo"
+                  }
+              },
+              {
+                  "id": 4221,
+                  "parent": 422,
+                  "pos":
+                  {
+                      "x": 0.15,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.1,
+                      "y": 1.0
+                  },
+                  "textures":
+                  [
+                      {
+                          "main_id": "left",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+              {
+                  "id": 4222,
+                  "parent": 422,
+                  "pos":
+                  {
+                      "x": 0.25,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.55,
+                      "y": 1.0
+                  },
+                  "textures":
+                  [
+                      {
+                          "type": "color",
+                          "color": "656565",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+              {
+                  "id": 42220,
+                  "parent": 4222,
+                  "params":
+                  [
+                      "EL_IGNOR_RAYCAST"
+                  ],
+                  "pos":
+                  {
+                      "x": 0.1,
+                      "y": 0.01
+                  },
+                  "size":
+                  {
+                      "x": 0.8,
+                      "y": 0.98
+                  },
+                  "text_area":
+                  {
+                      "text": "nun.nun",
+                      "color": "FFFFFF",
+                      "render_param": "TEXT_IS_BLENDED",
+                      "string_len": 0,
+                      "font": "Diablo"
+                  }
+              },
+              {
+                  "id": 4223,
+                  "parent": 422,
+                  "pos":
+                  {
+                      "x": 0.8,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.1,
+                      "y": 1.0
+                  },
+                  "textures":
+                  [
+                      {
+                          "main_id": "right",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+              {
+                  "id": 423,
+                  "parent": 42,
+                  "pos":
+                  {
+                      "x": 0.31,
+                      "y": 0.67
+                  },
+                  "size":
+                  {
+                      "x": 0.69,
+                      "y": 0.3
+                  },
+                  "textures":
+                  [
+                      {
+                          "type": "color",
+                          "color": "454545",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+              {
+                  "id": 4230,
+                  "parent": 423,
+                  "params":
+                  [
+                      "EL_IGNOR_RAYCAST"
+                  ],
+                  "pos":
+                  {
+                      "x": 0.0,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.1,
+                      "y": 1.0
+                  },
+                  "text_area":
+                  {
+                      "text": "Z:",
+                      "color": "FFFFFF",
+                      "render_param": "TEXT_IS_BLENDED",
+                      "string_len": 0,
+                      "font": "Diablo"
+                  }
+              },
+              {
+                  "id": 4231,
+                  "parent": 423,
+                  "pos":
+                  {
+                      "x": 0.15,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.1,
+                      "y": 1.0
+                  },
+                  "textures":
+                  [
+                      {
+                          "main_id": "left",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+              {
+                  "id": 4232,
+                  "parent": 423,
+                  "pos":
+                  {
+                      "x": 0.25,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.55,
+                      "y": 1.0
+                  },
+                  "textures":
+                  [
+                      {
+                          "type": "color",
+                          "color": "656565",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+
+              {
+                  "id": 42320,
+                  "parent": 4232,
+                  "params":
+                  [
+                      "EL_IGNOR_RAYCAST"
+                  ],
+                  "pos":
+                  {
+                      "x": 0.1,
+                      "y": 0.01
+                  },
+                  "size":
+                  {
+                      "x": 0.8,
+                      "y": 0.98
+                  },
+                  "text_area":
+                  {
+                      "text": "nun.nun",
+                      "color": "FFFFFF",
+                      "render_param": "TEXT_IS_BLENDED",
+                      "string_len": 0,
+                      "font": "Diablo"
+                  }
+              },
+              {
+                  "id": 4233,
+                  "parent": 423,
+                  "pos":
+                  {
+                      "x": 0.8,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.1,
+                      "y": 1.0
+                  },
+                  "textures":
+                  [
+                      {
+                          "main_id": "right",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+              {
+                  "id": 43,
+                  "parent": 4,
+                  "pos":
+                  {
+                      "x": 0.0,
+                      "y": 0.17
+                  },
+                  "type":
+                  [
+                      "SCROLL_MENU_ELEM"
+                  ],
+                  "size":
+                  {
+                      "x": 1.0,
+                      "y": 0.1
+                  },
+                  "textures":
+                  [
+                      {
+                          "type": "color",
+                          "color": "454545",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+              {
+                  "id": 430,
+                  "parent": 43,
+                  "params":
+                  [
+                      "EL_IGNOR_RAYCAST"
+                  ],
+                  "pos":
+                  {
+                      "x": 0.01,
+                      "y": 0.01
+                  },
+                  "size":
+                  {
+                      "x": 0.19,
+                      "y": 0.3
+                  },
+                  "text_area":
+                  {
+                      "text": "ROT:",
+                      "color": "FFFFFF",
+                      "render_param": "TEXT_IS_BLENDED",
+                      "string_len": 0,
+                      "font": "Diablo"
+                  }
+              },
+              {
+                  "id": 431,
+                  "parent": 43,
+                  "pos":
+                  {
+                      "x": 0.31,
+                      "y": 0.01
+                  },
+                  "size":
+                  {
+                      "x": 0.69,
+                      "y": 0.3
+                  },
+                  "textures":
+                  [
+                      {
+                          "type": "color",
+                          "color": "454545",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+              {
+                  "id": 4310,
+                  "parent": 431,
+                  "params":
+                  [
+                      "EL_IGNOR_RAYCAST"
+                  ],
+                  "pos":
+                  {
+                      "x": 0.0,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.1,
+                      "y": 1.0
+                  },
+                  "text_area":
+                  {
+                      "text": "X:",
+                      "color": "FFFFFF",
+                      "render_param": "TEXT_IS_BLENDED",
+                      "string_len": 0,
+                      "font": "Diablo"
+                  }
+              },
+              {
+                  "id": 4311,
+                  "parent": 431,
+                  "pos":
+                  {
+                      "x": 0.15,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.1,
+                      "y": 1.0
+                  },
+                  "textures":
+                  [
+                      {
+                          "main_id": "left",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+              {
+                  "id": 4312,
+                  "parent": 431,
+                  "pos":
+                  {
+                      "x": 0.25,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.55,
+                      "y": 1.0
+                  },
+                  "textures":
+                  [
+                      {
+                          "type": "color",
+                          "color": "656565",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+              {
+                  "id": 43120,
+                  "parent": 4312,
+                  "params":
+                  [
+                      "EL_IGNOR_RAYCAST"
+                  ],
+                  "pos":
+                  {
+                      "x": 0.1,
+                      "y": 0.01
+                  },
+                  "size":
+                  {
+                      "x": 0.8,
+                      "y": 0.98
+                  },
+                  "text_area":
+                  {
+                      "text": "nun.nun",
+                      "color": "FFFFFF",
+                      "render_param": "TEXT_IS_BLENDED",
+                      "string_len": 0,
+                      "font": "Diablo"
+                  }
+              },
+              {
+                  "id": 4313,
+                  "parent": 431,
+                  "pos":
+                  {
+                      "x": 0.8,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.1,
+                      "y": 1.0
+                  },
+                  "textures":
+                  [
+                      {
+                          "main_id": "right",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+              {
+                  "id": 432,
+                  "parent": 43,
+                  "pos":
+                  {
+                      "x": 0.31,
+                      "y": 0.34
+                  },
+                  "size":
+                  {
+                      "x": 0.69,
+                      "y": 0.3
+                  },
+                  "textures":
+                  [
+                      {
+                          "type": "color",
+                          "color": "454545",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+              {
+                  "id": 4320,
+                  "parent": 432,
+                  "params":
+                  [
+                      "EL_IGNOR_RAYCAST"
+                  ],
+                  "pos":
+                  {
+                      "x": 0.0,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.1,
+                      "y": 1.0
+                  },
+                  "text_area":
+                  {
+                      "text": "Y:",
+                      "color": "FFFFFF",
+                      "render_param": "TEXT_IS_BLENDED",
+                      "string_len": 0,
+                      "font": "Diablo"
+                  }
+              },
+              {
+                  "id": 4321,
+                  "parent": 432,
+                  "pos":
+                  {
+                      "x": 0.15,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.1,
+                      "y": 1.0
+                  },
+                  "textures":
+                  [
+                      {
+                          "main_id": "left",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+              {
+                  "id": 4322,
+                  "parent": 432,
+                  "pos":
+                  {
+                      "x": 0.25,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.55,
+                      "y": 1.0
+                  },
+                  "textures":
+                  [
+                      {
+                          "type": "color",
+                          "color": "656565",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+              {
+                  "id": 43220,
+                  "parent": 4322,
+                  "params":
+                  [
+                      "EL_IGNOR_RAYCAST"
+                  ],
+                  "pos":
+                  {
+                      "x": 0.1,
+                      "y": 0.01
+                  },
+                  "size":
+                  {
+                      "x": 0.8,
+                      "y": 0.98
+                  },
+                  "text_area":
+                  {
+                      "text": "nun.nun",
+                      "color": "FFFFFF",
+                      "render_param": "TEXT_IS_BLENDED",
+                      "string_len": 0,
+                      "font": "Diablo"
+                  }
+              },
+              {
+                  "id": 4323,
+                  "parent": 432,
+                  "pos":
+                  {
+                      "x": 0.8,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.1,
+                      "y": 1.0
+                  },
+                  "textures":
+                  [
+                      {
+                          "main_id": "right",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+              {
+                  "id": 433,
+                  "parent": 43,
+                  "pos":
+                  {
+                      "x": 0.31,
+                      "y": 0.67
+                  },
+                  "size":
+                  {
+                      "x": 0.69,
+                      "y": 0.3
+                  },
+                  "textures":
+                  [
+                      {
+                          "type": "color",
+                          "color": "454545",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+              {
+                  "id": 4330,
+                  "parent": 433,
+                  "params":
+                  [
+                      "EL_IGNOR_RAYCAST"
+                  ],
+                  "pos":
+                  {
+                      "x": 0.0,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.1,
+                      "y": 1.0
+                  },
+                  "text_area":
+                  {
+                      "text": "Z:",
+                      "color": "FFFFFF",
+                      "render_param": "TEXT_IS_BLENDED",
+                      "string_len": 0,
+                      "font": "Diablo"
+                  }
+              },
+              {
+                  "id": 4331,
+                  "parent": 433,
+                  "pos":
+                  {
+                      "x": 0.15,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.1,
+                      "y": 1.0
+                  },
+                  "textures":
+                  [
+                      {
+                          "main_id": "left",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+              {
+                  "id": 4332,
+                  "parent": 433,
+                  "pos":
+                  {
+                      "x": 0.25,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.55,
+                      "y": 1.0
+                  },
+                  "textures":
+                  [
+                      {
+                          "type": "color",
+                          "color": "656565",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+
+              {
+                  "id": 43320,
+                  "parent": 4332,
+                  "params":
+                  [
+                      "EL_IGNOR_RAYCAST"
+                  ],
+                  "pos":
+                  {
+                      "x": 0.1,
+                      "y": 0.01
+                  },
+                  "size":
+                  {
+                      "x": 0.8,
+                      "y": 0.98
+                  },
+                  "text_area":
+                  {
+                      "text": "nun.nun",
+                      "color": "FFFFFF",
+                      "render_param": "TEXT_IS_BLENDED",
+                      "string_len": 0,
+                      "font": "Diablo"
+                  }
+              },
+              {
+                  "id": 4333,
+                  "parent": 433,
+                  "pos":
+                  {
+                      "x": 0.8,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.1,
+                      "y": 1.0
+                  },
+                  "textures":
+                  [
+                      {
+                          "main_id": "right",
+                          "el_id": "default"
+                      }
+                  ]
               }
           ]
       }

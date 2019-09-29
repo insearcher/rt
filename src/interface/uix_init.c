@@ -23,6 +23,7 @@ static void	setup_el_data(t_ui_main *ui)
 void	rt_uix_interface_setup(t_ui_main *ui, const char *json_path)
 {
 	ui_main_fill_default_functions(ui);
+	rt_uix_fill_default_images(ui);
 	rt_uix_add_functions(ui);
 	ui_main_fill_default_fonts(ui);
 	ui_jtoc_main_from_json(ui, json_path);
