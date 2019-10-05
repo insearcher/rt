@@ -13,4 +13,5 @@ target_sources(rt PUBLIC
         uix_fill_default_images.c
         uix_choose_obj_from_scene.c
         rt_uix_update_inspector.c
+        uix_inspector_change_pos_button.c
         )

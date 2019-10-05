@@ -22,7 +22,8 @@
 # define ACTIVE_MENU			1
 # define UNACTIVE_MENU			0
 
-# define INSPECTOR_EL_ID		21
+# define INSPECTOR_EL_ID		210
+# define CHANGE_POS_SPEED		0.05f
 
 int								rt_uix_on_button_exit(t_ui_main *main, void *el_v);
 int								rt_uix_on_button_enter(t_ui_main *main, void *el_v);
@@ -34,6 +35,7 @@ int								rt_uix_choose_pong(t_ui_main *main, void *el_v);
 int								rt_uix_switch_gauss_blur(t_ui_main *main, void *el_v);
 int								rt_uix_show_menu(t_ui_main *main, void *el_v);
 int								rt_uix_choose_obj_from_scene(t_ui_main *main, void *el_v);
+int								rt_uix_inspector_pos_button(t_ui_main *main, void *el_v);
 
 
 void							rt_uix_add_functions(t_ui_main *m);

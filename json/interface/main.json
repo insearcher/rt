@@ -1557,6 +1557,13 @@
                           "main_id": "left",
                           "el_id": "default"
                       }
+                  ],
+                  "events":
+                  [
+                      {
+                          "event_name": "onPointerLeftButtonHold",
+                          "func_name": "change_obj_pos"
+                      }
                   ]
               },
               {
@@ -1625,6 +1632,13 @@
                       {
                           "main_id": "right",
                           "el_id": "default"
+                      }
+                  ],
+                  "events":
+                  [
+                      {
+                          "event_name": "onPointerLeftButtonHold",
+                          "func_name": "change_obj_pos"
                       }
                   ]
               },
@@ -1695,6 +1709,13 @@
                           "main_id": "left",
                           "el_id": "default"
                       }
+                  ],
+                  "events":
+                  [
+                      {
+                          "event_name": "onPointerLeftButtonHold",
+                          "func_name": "change_obj_pos"
+                      }
                   ]
               },
               {
@@ -1763,6 +1784,13 @@
                       {
                           "main_id": "right",
                           "el_id": "default"
+                      }
+                  ],
+                  "events":
+                  [
+                      {
+                          "event_name": "onPointerLeftButtonHold",
+                          "func_name": "change_obj_pos"
                       }
                   ]
               },
@@ -1833,6 +1861,13 @@
                           "main_id": "left",
                           "el_id": "default"
                       }
+                  ],
+                  "events":
+                  [
+                      {
+                          "event_name": "onPointerLeftButtonHold",
+                          "func_name": "change_obj_pos"
+                      }
                   ]
               },
               {
@@ -1902,6 +1937,13 @@
                       {
                           "main_id": "right",
                           "el_id": "default"
+                      }
+                  ],
+                  "events":
+                  [
+                      {
+                          "event_name": "onPointerLeftButtonHold",
+                          "func_name": "change_obj_pos"
                       }
                   ]
               },

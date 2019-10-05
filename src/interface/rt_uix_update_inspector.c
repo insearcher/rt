@@ -12,7 +12,7 @@
 
 #include "interface.h"
 
-static void	update_transform(t_object *obj, t_ui_win *win)
+static void	update_transform_pos(t_object *obj, t_ui_win *win)
 {
 	t_ui_el	*tmp;
 	char 	*new_val;
@@ -36,6 +36,9 @@ void		rt_uix_update_inspector_values(t_ui_main *m)
 	t_ui_win	*win;
 
 	win = ui_main_find_window_by_id(m, 1);
-	obj = (t_object *)(ui_win_find_el_by_id(win, INSPECTOR_EL_ID)->data);
-	update_transform(obj, win);
+	t_ui_el *el = ui_win_find_el_by_id(win, INSPECTOR_EL_ID);
+	obj = (t_object *)(el->data);
+	if (!obj)
+		return ;
+	update_transform_pos(obj, win);
 }
