@@ -33,8 +33,8 @@ static t_ui_el	*create_tmp_el(t_ui_win *win, t_ui_el *obj_menu, size_t l_id)
 			rt_uix_button_choose);
 	ui_event_add_listener(tmp_el->events->on_pointer_enter,
 			rt_uix_on_button_enter);
-//	ui_event_add_listener(tmp_el->events->on_pointer_left_button_pressed,
-//						  rt_uix_on_button_exit);
+	ui_event_add_listener(tmp_el->events->on_pointer_left_button_pressed,
+			rt_uix_choose_obj_from_scene);
 	ui_event_add_listener(tmp_el->events->on_pointer_exit,
 			rt_uix_on_button_exit);
 	return (tmp_el);

@@ -126,7 +126,7 @@ int main()
 //	ui_main_fill_default_fonts(ui);
 //	ui_jtoc_main_from_json(ui, "json/interface/main.json");
 
-	rt = rt_setup(rt_screen_size, "json/textures.json", "json/scenes/mandelbulb_scene/mandelbulb.json");
+	rt = rt_setup(rt_screen_size, "json/textures.json", "json/scenes/test1_scene/test1.json");
 	ui->data = (void *)rt;
 
 	rt_uix_scene_setup(ui);

@@ -11,4 +11,6 @@ target_sources(rt PUBLIC
         uix_init.c
         uix_fill_scene.c
         uix_fill_default_images.c
+        uix_choose_obj_from_scene.c
+        rt_uix_update_inspector.c
         )
