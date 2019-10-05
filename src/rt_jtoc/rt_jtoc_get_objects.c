@@ -210,8 +210,10 @@ int rt_jtoc_get_object_name(t_object *obj, t_jnode *n)
 	}
 	ft_strcpy(tmp_str[i], str);
 	rt_jtoc_compare_name(obj, i, tmp_str, name);
+
 	obj->local_name = tmp_str[i];
 	i++;
+	free(str);
 	return (FUNCTION_SUCCESS);
 }
 
