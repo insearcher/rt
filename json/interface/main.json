@@ -2414,13 +2414,68 @@
                       }
                   ]
               },
+
+
+
               {
                   "id": 44,
                   "parent": 4,
+                  "type":
+                  [
+                      "SCROLL_MENU_ELEM"
+                  ],
                   "pos":
                   {
                       "x": 0.0,
                       "y": 0.28
+                  },
+                  "size":
+                  {
+                      "x": 1.0,
+                      "y": 0.039
+                  },
+                  "textures":
+                  [
+                      {
+                          "type": "color",
+                          "color": "454545",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+              {
+                  "id": 440,
+                  "parent": 44,
+                  "params":
+                  [
+                      "EL_IGNOR_RAYCAST"
+                  ],
+                  "pos":
+                  {
+                      "x": 0.01,
+                      "y": 0.3
+                  },
+                  "size":
+                  {
+                      "x": 0.55,
+                      "y": 0.7
+                  },
+                  "text_area":
+                  {
+                      "text": "OBJECT SETTINGS",
+                      "color": "FFFFFF",
+                      "render_param": "TEXT_IS_BLENDED",
+                      "string_len": 0,
+                      "font": "Diablo"
+                  }
+              },
+              {
+                  "id": 45,
+                  "parent": 4,
+                  "pos":
+                  {
+                      "x": 0.0,
+                      "y": 0.32
                   },
                   "type":
                   [
@@ -2429,7 +2484,754 @@
                   "size":
                   {
                       "x": 1.0,
-                      "y": 0.72
+                      "y": 0.001
+                  },
+                  "textures":
+                  [
+                      {
+                          "type": "color",
+                          "color": "FFFFFF",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+              {
+                  "id": 46,
+                  "parent": 4,
+                  "pos":
+                  {
+                      "x": 0.0,
+                      "y": 0.33
+                  },
+                  "type":
+                  [
+                      "SCROLL_MENU_ELEM"
+                  ],
+                  "size":
+                  {
+                      "x": 1.0,
+                      "y": 0.67
+                  },
+                  "textures":
+                  [
+                      {
+                          "type": "color",
+                          "color": "454545",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+              {
+                  "id": 460,
+                  "parent": 46,
+                  "params":
+                  [
+                      "EL_IS_HIDDEN"
+                  ],
+                  "pos":
+                  {
+                      "x": 0.0,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 1.0,
+                      "y": 0.18
+                  },
+                  "textures":
+                  [
+                      {
+                          "type": "color",
+                          "color": "454545",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+              {
+                  "id": 4600,
+                  "parent": 460,
+                  "params":
+                  [
+                      "EL_IGNOR_RAYCAST"
+                  ],
+                  "pos":
+                  {
+                      "x": 0.01,
+                      "y": 0.01
+                  },
+                  "size":
+                  {
+                      "x": 0.19,
+                      "y": 0.3
+                  },
+                  "text_area":
+                  {
+                      "text": "RADIUS:",
+                      "color": "FFFFFF",
+                      "render_param": "TEXT_IS_BLENDED",
+                      "string_len": 0,
+                      "font": "Diablo"
+                  }
+              },
+              {
+                  "id": 4601,
+                  "parent": 460,
+                  "pos":
+                  {
+                      "x": 0.31,
+                      "y": 0.01
+                  },
+                  "size":
+                  {
+                      "x": 0.69,
+                      "y": 0.3
+                  },
+                  "textures":
+                  [
+                      {
+                          "type": "color",
+                          "color": "454545",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+              {
+                  "id": 46010,
+                  "parent": 4601,
+                  "pos":
+                  {
+                      "x": 0.15,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.1,
+                      "y": 1.0
+                  },
+                  "textures":
+                  [
+                      {
+                          "main_id": "left",
+                          "el_id": "default"
+                      }
+                  ],
+                  "events":
+                  [
+                      {
+                          "event_name": "onPointerLeftButtonHold",
+                          "func_name": "change_obj_pos"
+                      }
+                  ]
+              },
+              {
+                  "id": 46011,
+                  "parent": 4601,
+                  "pos":
+                  {
+                      "x": 0.25,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.55,
+                      "y": 1.0
+                  },
+                  "textures":
+                  [
+                      {
+                          "type": "color",
+                          "color": "656565",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+              {
+                  "id": 460110,
+                  "parent": 46011,
+                  "params":
+                  [
+                      "EL_IGNOR_RAYCAST"
+                  ],
+                  "pos":
+                  {
+                      "x": 0.1,
+                      "y": 0.01
+                  },
+                  "size":
+                  {
+                      "x": 0.8,
+                      "y": 0.98
+                  },
+                  "text_area":
+                  {
+                      "text": "nun.nun",
+                      "color": "FFFFFF",
+                      "render_param": "TEXT_IS_BLENDED",
+                      "string_len": 0,
+                      "font": "Diablo"
+                  }
+              },
+              {
+                  "id": 46012,
+                  "parent": 4601,
+                  "pos":
+                  {
+                      "x": 0.8,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.1,
+                      "y": 1.0
+                  },
+                  "textures":
+                  [
+                      {
+                          "main_id": "right",
+                          "el_id": "default"
+                      }
+                  ],
+                  "events":
+                  [
+                      {
+                          "event_name": "onPointerLeftButtonHold",
+                          "func_name": "change_obj_pos"
+                      }
+                  ]
+              },
+
+
+
+
+              {
+                  "id": 461,
+                  "parent": 46,
+                  "params":
+                  [
+                      "EL_IS_HIDDEN"
+                  ],
+                  "pos":
+                  {
+                      "x": 0.0,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 1.0,
+                      "y": 0.18
+                  },
+                  "textures":
+                  [
+                      {
+                          "type": "color",
+                          "color": "454545",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+              {
+                  "id": 4610,
+                  "parent": 461,
+                  "params":
+                  [
+                      "EL_IGNOR_RAYCAST"
+                  ],
+                  "pos":
+                  {
+                      "x": 0.01,
+                      "y": 0.01
+                  },
+                  "size":
+                  {
+                      "x": 0.19,
+                      "y": 0.3
+                  },
+                  "text_area":
+                  {
+                      "text": "BOUNDS:",
+                      "color": "FFFFFF",
+                      "render_param": "TEXT_IS_BLENDED",
+                      "string_len": 0,
+                      "font": "Diablo"
+                  }
+              },
+              {
+                  "id": 4611,
+                  "parent": 461,
+                  "pos":
+                  {
+                      "x": 0.31,
+                      "y": 0.01
+                  },
+                  "size":
+                  {
+                      "x": 0.69,
+                      "y": 0.3
+                  },
+                  "textures":
+                  [
+                      {
+                          "type": "color",
+                          "color": "454545",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+              {
+                  "id": 46110,
+                  "parent": 4611,
+                  "params":
+                  [
+                      "EL_IGNOR_RAYCAST"
+                  ],
+                  "pos":
+                  {
+                      "x": 0.0,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.1,
+                      "y": 1.0
+                  },
+                  "text_area":
+                  {
+                      "text": "X:",
+                      "color": "FFFFFF",
+                      "render_param": "TEXT_IS_BLENDED",
+                      "string_len": 0,
+                      "font": "Diablo"
+                  }
+              },
+              {
+                  "id": 46111,
+                  "parent": 4611,
+                  "pos":
+                  {
+                      "x": 0.15,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.1,
+                      "y": 1.0
+                  },
+                  "textures":
+                  [
+                      {
+                          "main_id": "left",
+                          "el_id": "default"
+                      }
+                  ],
+                  "events":
+                  [
+                      {
+                          "event_name": "onPointerLeftButtonHold",
+                          "func_name": "change_obj_pos"
+                      }
+                  ]
+              },
+              {
+                  "id": 46112,
+                  "parent": 4611,
+                  "pos":
+                  {
+                      "x": 0.25,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.55,
+                      "y": 1.0
+                  },
+                  "textures":
+                  [
+                      {
+                          "type": "color",
+                          "color": "656565",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+              {
+                  "id": 461120,
+                  "parent": 46112,
+                  "params":
+                  [
+                      "EL_IGNOR_RAYCAST"
+                  ],
+                  "pos":
+                  {
+                      "x": 0.1,
+                      "y": 0.01
+                  },
+                  "size":
+                  {
+                      "x": 0.8,
+                      "y": 0.98
+                  },
+                  "text_area":
+                  {
+                      "text": "nun.nun",
+                      "color": "FFFFFF",
+                      "render_param": "TEXT_IS_BLENDED",
+                      "string_len": 0,
+                      "font": "Diablo"
+                  }
+              },
+              {
+                  "id": 46113,
+                  "parent": 4611,
+                  "pos":
+                  {
+                      "x": 0.8,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.1,
+                      "y": 1.0
+                  },
+                  "textures":
+                  [
+                      {
+                          "main_id": "right",
+                          "el_id": "default"
+                      }
+                  ],
+                  "events":
+                  [
+                      {
+                          "event_name": "onPointerLeftButtonHold",
+                          "func_name": "change_obj_pos"
+                      }
+                  ]
+              },
+              {
+                  "id": 4612,
+                  "parent": 461,
+                  "pos":
+                  {
+                      "x": 0.31,
+                      "y": 0.34
+                  },
+                  "size":
+                  {
+                      "x": 0.69,
+                      "y": 0.3
+                  },
+                  "textures":
+                  [
+                      {
+                          "type": "color",
+                          "color": "454545",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+              {
+                  "id": 46120,
+                  "parent": 4612,
+                  "params":
+                  [
+                      "EL_IGNOR_RAYCAST"
+                  ],
+                  "pos":
+                  {
+                      "x": 0.0,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.1,
+                      "y": 1.0
+                  },
+                  "text_area":
+                  {
+                      "text": "Y:",
+                      "color": "FFFFFF",
+                      "render_param": "TEXT_IS_BLENDED",
+                      "string_len": 0,
+                      "font": "Diablo"
+                  }
+              },
+              {
+                  "id": 46121,
+                  "parent": 4612,
+                  "pos":
+                  {
+                      "x": 0.15,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.1,
+                      "y": 1.0
+                  },
+                  "textures":
+                  [
+                      {
+                          "main_id": "left",
+                          "el_id": "default"
+                      }
+                  ],
+                  "events":
+                  [
+                      {
+                          "event_name": "onPointerLeftButtonHold",
+                          "func_name": "change_obj_pos"
+                      }
+                  ]
+              },
+              {
+                  "id": 46122,
+                  "parent": 4612,
+                  "pos":
+                  {
+                      "x": 0.25,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.55,
+                      "y": 1.0
+                  },
+                  "textures":
+                  [
+                      {
+                          "type": "color",
+                          "color": "656565",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+              {
+                  "id": 461220,
+                  "parent": 46122,
+                  "params":
+                  [
+                      "EL_IGNOR_RAYCAST"
+                  ],
+                  "pos":
+                  {
+                      "x": 0.1,
+                      "y": 0.01
+                  },
+                  "size":
+                  {
+                      "x": 0.8,
+                      "y": 0.98
+                  },
+                  "text_area":
+                  {
+                      "text": "nun.nun",
+                      "color": "FFFFFF",
+                      "render_param": "TEXT_IS_BLENDED",
+                      "string_len": 0,
+                      "font": "Diablo"
+                  }
+              },
+              {
+                  "id": 46123,
+                  "parent": 4612,
+                  "pos":
+                  {
+                      "x": 0.8,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.1,
+                      "y": 1.0
+                  },
+                  "textures":
+                  [
+                      {
+                          "main_id": "right",
+                          "el_id": "default"
+                      }
+                  ],
+                  "events":
+                  [
+                      {
+                          "event_name": "onPointerLeftButtonHold",
+                          "func_name": "change_obj_pos"
+                      }
+                  ]
+              },
+              {
+                  "id": 4613,
+                  "parent": 461,
+                  "pos":
+                  {
+                      "x": 0.31,
+                      "y": 0.67
+                  },
+                  "size":
+                  {
+                      "x": 0.69,
+                      "y": 0.3
+                  },
+                  "textures":
+                  [
+                      {
+                          "type": "color",
+                          "color": "454545",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+              {
+                  "id": 46130,
+                  "parent": 4613,
+                  "params":
+                  [
+                      "EL_IGNOR_RAYCAST"
+                  ],
+                  "pos":
+                  {
+                      "x": 0.0,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.1,
+                      "y": 1.0
+                  },
+                  "text_area":
+                  {
+                      "text": "Z:",
+                      "color": "FFFFFF",
+                      "render_param": "TEXT_IS_BLENDED",
+                      "string_len": 0,
+                      "font": "Diablo"
+                  }
+              },
+              {
+                  "id": 46131,
+                  "parent": 4613,
+                  "pos":
+                  {
+                      "x": 0.15,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.1,
+                      "y": 1.0
+                  },
+                  "textures":
+                  [
+                      {
+                          "main_id": "left",
+                          "el_id": "default"
+                      }
+                  ],
+                  "events":
+                  [
+                      {
+                          "event_name": "onPointerLeftButtonHold",
+                          "func_name": "change_obj_pos"
+                      }
+                  ]
+              },
+              {
+                  "id": 46132,
+                  "parent": 4613,
+                  "pos":
+                  {
+                      "x": 0.25,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.55,
+                      "y": 1.0
+                  },
+                  "textures":
+                  [
+                      {
+                          "type": "color",
+                          "color": "656565",
+                          "el_id": "default"
+                      }
+                  ]
+              },
+
+              {
+                  "id": 461320,
+                  "parent": 46132,
+                  "params":
+                  [
+                      "EL_IGNOR_RAYCAST"
+                  ],
+                  "pos":
+                  {
+                      "x": 0.1,
+                      "y": 0.01
+                  },
+                  "size":
+                  {
+                      "x": 0.8,
+                      "y": 0.98
+                  },
+                  "text_area":
+                  {
+                      "text": "nun.nun",
+                      "color": "FFFFFF",
+                      "render_param": "TEXT_IS_BLENDED",
+                      "string_len": 0,
+                      "font": "Diablo"
+                  }
+              },
+              {
+                  "id": 46133,
+                  "parent": 4613,
+                  "pos":
+                  {
+                      "x": 0.8,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 0.1,
+                      "y": 1.0
+                  },
+                  "textures":
+                  [
+                      {
+                          "main_id": "right",
+                          "el_id": "default"
+                      }
+                  ],
+                  "events":
+                  [
+                      {
+                          "event_name": "onPointerLeftButtonHold",
+                          "func_name": "change_obj_pos"
+                      }
+                  ]
+              },
+
+
+
+
+              {
+                  "id": 462,
+                  "parent": 46,
+                  "params":
+                  [
+                      "EL_IS_HIDDEN)))))"
+                  ],
+                  "pos":
+                  {
+                      "x": 0.0,
+                      "y": 0.0
+                  },
+                  "size":
+                  {
+                      "x": 1.0,
+                      "y": 0.18
                   },
                   "textures":
                   [
