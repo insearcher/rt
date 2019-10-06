@@ -2413,6 +2413,32 @@
                           "el_id": "default"
                       }
                   ]
+              },
+              {
+                  "id": 44,
+                  "parent": 4,
+                  "pos":
+                  {
+                      "x": 0.0,
+                      "y": 0.28
+                  },
+                  "type":
+                  [
+                      "SCROLL_MENU_ELEM"
+                  ],
+                  "size":
+                  {
+                      "x": 1.0,
+                      "y": 0.72
+                  },
+                  "textures":
+                  [
+                      {
+                          "type": "color",
+                          "color": "4545",
+                          "el_id": "default"
+                      }
+                  ]
               }
           ]
       }
