@@ -1,0 +1,102 @@
+{
+  "quality": 100,
+  "camera":
+  {
+	"id": 1,
+	"fov": 90.0,
+	"clipping_planes":
+	{
+	  "near": 0.01,
+	  "far": 500.0
+	},
+	"transform":
+	{
+	  "pos":
+	  {
+		"x": 5.0,
+		"y": 5.0,
+		"z": 50.0
+	  },
+	  "eulers":
+	  {
+		"x": 0.0,
+		"y": -180.0,
+		"z": 0.0
+	  }
+	}
+  },
+  "lights":
+  {
+	"ambient":
+	{
+	  "x": 0.1,
+	  "y": 0.1,
+	  "z": 0.1
+	},
+	"directional_lights":
+	[
+	  {
+		"color":
+		{
+		  "x": 1.0,
+		  "y": 1.0,
+		  "z": 1.0
+		},
+		"transform":
+		{
+		  "pos":
+		  {
+			"x": 0.0,
+			"y": 0.0,
+			"z": 0.0
+		  },
+		  "eulers":
+		  {
+			"x": 30.0,
+			"y": 30.0,
+			"z": 30.0
+		  }
+		}
+	  }
+	]
+  },
+  "objects":
+  [
+	{
+	  "id": 2,
+	  "type": "menger_sponge",
+	  "layer": "ignore_raycast_layer",
+	  "texture": "none",
+	  "scale": 2.3,
+	  "iteration": 10,
+	  "offset":
+	  {
+		"x": 0.785,
+		"y": 1.1,
+		"z": 0.46
+	  },
+	  "color":
+	  {
+		"x": 0.0,
+		"y": 0.0,
+		"z": 1.0,
+		"w": 1.0
+	  },
+	  "transform":
+	  {
+		"pos":
+		{
+		  "x": 5.0,
+		  "y": 5.0,
+		  "z": 5.0
+		},
+		"eulers":
+		{
+		  "x": 0.0,
+		  "y": 0.0,
+		  "z": 0.0
+		}
+	  }
+	}
+  ]
+}

@@ -146,6 +146,18 @@ typedef struct			s_mandelbox
 # endif
 }						t_mandelbox;
 
+typedef struct			s_menger_sponge
+{
+# ifndef OPENCL___
+    cl_float3			offset;
+    float				scale;
+    int					iteration;
+# else
+    float3				offset;
+	float				scale;
+	int					iteration;
+# endif
+}						t_menger_sponge;
 
 union					u_oparams
 {
@@ -160,6 +172,7 @@ union					u_oparams
 	t_plane				plane;
 	t_mandelbulb		mandelbulb;
 	t_mandelbox			mandelbox;
+	t_menger_sponge     menger_sponge;
 };
 
 enum					e_object_type
@@ -174,7 +187,8 @@ enum					e_object_type
 	o_cone,
 	o_plane,
 	o_mandelbulb,
-	o_mandelbox
+	o_mandelbox,
+	o_menger_sponge
 };
 
 typedef struct			s_omaterial

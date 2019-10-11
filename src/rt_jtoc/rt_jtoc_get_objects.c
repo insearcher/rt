@@ -54,6 +54,7 @@ int	rt_jtoc_get_object_type(t_object *obj, t_jnode *n)
 	obj->type = ft_strcmp(str, "plane") ? obj->type : o_plane;
 	obj->type = ft_strcmp(str, "mandelbulb") ? obj->type : o_mandelbulb;
 	obj->type = ft_strcmp(str, "mandelbox") ? obj->type : o_mandelbox;
+	obj->type = ft_strcmp(str, "menger_sponge") ? obj->type : o_menger_sponge;
 	if (obj->type == 0)
 		return (FUNCTION_FAILURE);
 	return (FUNCTION_SUCCESS);
@@ -125,6 +126,8 @@ int rt_jtoc_get_type_name(int type, int id, char *str)
 		ft_strcat(ft_strcat(str,"Mandelbulb"), tmp_id);
 	else if (type == o_mandelbox)
 		ft_strcat(ft_strcat(str,"Mandelbox"), tmp_id);
+	else if (type == o_menger_sponge)
+		ft_strcat(ft_strcat(str,"Menger Sponge"), tmp_id);
 	free(tmp_id);
 	return (FUNCTION_SUCCESS);
 }
@@ -250,6 +253,7 @@ int rt_jtoc_get_object(t_object *obj, t_jnode *n, t_scene *scene, t_obj_texture 
 	err = obj->type == o_link ? rt_jtoc_get_link(obj, n) : err;
 	err = obj->type == o_mandelbulb ? rt_jtoc_get_mandelbulb(obj, n) : err;
 	err = obj->type == o_mandelbox ? rt_jtoc_get_mandelbox(obj, n) : err;
+	err = obj->type == o_menger_sponge ? rt_jtoc_get_menger_sponge(obj, n) : err;
 	if (err != 0)
 		return (FUNCTION_FAILURE);
 

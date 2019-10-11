@@ -137,3 +137,20 @@ int			rt_jtoc_get_mandelbox(t_object *obj, t_jnode *n)
 		return (rt_jtoc_sdl_log_error("CUBE SIZE ERROR", -1));
 	return (FUNCTION_SUCCESS);
 }
+
+int			rt_jtoc_get_menger_sponge(t_object *obj, t_jnode *n)
+{
+    t_jnode	*tmp;
+
+    if (!(tmp = jtoc_node_get_by_path(n, "scale")) || tmp->type != fractional)
+        return (rt_jtoc_sdl_log_error("POWER SCALE ERROR OR SCALE IS MISSING", -1));
+    obj->params.menger_sponge.scale = jtoc_get_float(tmp);
+    if (!(tmp = jtoc_node_get_by_path(n, "iteration")) || tmp->type != integer)
+        return (rt_jtoc_sdl_log_error("ITERTATION TYPE ERROR OR ITERTATION IS MISSING", -1));
+    obj->params.menger_sponge.iteration = jtoc_get_int(tmp);
+    if (!(tmp = jtoc_node_get_by_path(n, "offset")) || tmp->type != object)
+        return (rt_jtoc_sdl_log_error("OFFSET TYPE ERROR OR OFFSET IS MISSING", -1));
+    if (rt_jtoc_get_float3(&obj->params.menger_sponge.offset, tmp))
+        return (rt_jtoc_sdl_log_error("OFFSET ERROR", -1));
+    return (FUNCTION_SUCCESS);
+}

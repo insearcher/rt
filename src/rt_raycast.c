@@ -98,6 +98,8 @@ static float sdf(cl_float3 origin, t_object *obj)
 		case o_mandelbox:
 			distance = 0;
 			break;
+	    case o_menger_sponge:
+	        distance = 0;
 	}
 	return (distance);
 }

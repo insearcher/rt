@@ -1,7 +1,6 @@
 #include "rt_cl.h"
 
-static float	sdf(float3 origin, float3 direction, __global t_object *obj,
-float3 *lp)
+static float	sdf(float3 origin, float3 direction, __global t_object *obj, float3 *lp)
 {
 	float3	gright = (float3){1, 0, 0};
 	float3	gup = (float3){0, 1, 0};
@@ -81,6 +80,10 @@ float3 *lp)
 									 obj->params.mandelbox.minradius, obj->params.mandelbox.cube_size,
 									 obj->params.mandelbox.iteration);
 			break;
+	    case o_menger_sponge:
+	        distance = sdf_menger_sponge(local_pos, obj->params.menger_sponge.offset,
+	                obj->params.menger_sponge.scale, obj->params.menger_sponge.iteration);
+	        break;
 	}
 	if (lp)
 	{
