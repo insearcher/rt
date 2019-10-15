@@ -159,6 +159,15 @@ typedef struct			s_menger_sponge
 # endif
 }						t_menger_sponge;
 
+typedef struct 			s_octahedron
+{
+# ifndef OPENCL___
+	float 				bounds;
+# else
+	float				bounds;
+# endif
+}						t_octahedron;
+
 union					u_oparams
 {
 	t_sphere			sphere;
@@ -170,6 +179,7 @@ union					u_oparams
 	t_cylinder			cylinder;
 	t_cone				cone;
 	t_plane				plane;
+	t_octahedron		octahedron;
 	t_mandelbulb		mandelbulb;
 	t_mandelbox			mandelbox;
 	t_menger_sponge     menger_sponge;
@@ -186,6 +196,7 @@ enum					e_object_type
 	o_cylinder,
 	o_cone,
 	o_plane,
+	o_octahedron,
 	o_mandelbulb,
 	o_mandelbox,
 	o_menger_sponge

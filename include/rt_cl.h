@@ -24,6 +24,7 @@ float	sdf_plane(float3 pos, float3 n, float d);
 float	sdf_mandelbulb(float3 pos, float power, int iter, int breakout);
 float	sdf_mandelbox(float3 pos, float scale, float fixedradius,
 					   float minradius, float3 cube_size, int iter);
+float 	sdf_octahedron(float3 pos, float s);
 float	sdf_menger_sponge(float3 pos, float3 offset, float scale, int iteration);
 float	sdf_cross_box(float3 pos, float3 b);
 

@@ -99,6 +99,15 @@ int			rt_jtoc_get_link(t_object *obj, t_jnode *n)
 	return (FUNCTION_SUCCESS);
 }
 
+int 		rt_jtoc_get_octahedron(t_object *obj, t_jnode *n)
+{
+	t_jnode *tmp;
+	if (!(tmp = jtoc_node_get_by_path(n, "bounds")) || tmp->type != fractional)
+		return (rt_jtoc_sdl_log_error("BOUNDS ERROR OR MISSING", -1));
+	obj->params.octahedron.bounds = jtoc_get_float(tmp);
+	return (FUNCTION_SUCCESS);
+}
+
 int			rt_jtoc_get_mandelbulb(t_object *obj, t_jnode *n)
 {
 	t_jnode	*tmp;

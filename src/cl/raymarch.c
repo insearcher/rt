@@ -45,7 +45,7 @@ static float	sdf(float3 origin, float3 direction, __global t_object *obj, float3
 	switch (obj->type)
 	{
 		case o_sphere:
-			distance = sdf_sphere(local_pos, obj->params.sphere.radius);
+			distance = sdf_octahedron(local_pos, obj->params.sphere.radius);
 			break;
 		case o_box:
 			distance = sdf_box(local_pos, obj->params.box.bounds);
@@ -84,6 +84,9 @@ static float	sdf(float3 origin, float3 direction, __global t_object *obj, float3
 	        distance = sdf_menger_sponge(local_pos, obj->params.menger_sponge.offset,
 	                obj->params.menger_sponge.scale, obj->params.menger_sponge.iteration);
 	        break;
+		case o_octahedron:
+			distance = sdf_octahedron(local_pos, obj->params.octahedron.bounds);
+			break;
 	}
 	if (lp)
 	{

@@ -218,7 +218,6 @@ float	sdf_cross_box(float3 pos, float3 b)
 //	return (d);
 //}
 
-
 float	sdf_menger_sponge(float3 pos, float3 offset, float scale, int iteration)
 {
    float4 z = (float4)(pos, 2.f);
@@ -239,3 +238,8 @@ float	sdf_menger_sponge(float3 pos, float3 offset, float scale, int iteration)
    return (length(max(fabs(z.xyz) - (float3)(1.f),0.f)) - 0.05f) / z.w;
 }
 
+float 	sdf_octahedron(float3 pos, float s)
+{
+	pos = fabs(pos);
+	return ((pos.x + pos.y + pos.z - s) * 0.57735027f);
+}

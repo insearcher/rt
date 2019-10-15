@@ -100,6 +100,10 @@ static float sdf(cl_float3 origin, t_object *obj)
 			break;
 	    case o_menger_sponge:
 	        distance = 0;
+	        break;
+		case o_octahedron:
+			distance = 0;
+			break;
 	}
 	return (distance);
 }

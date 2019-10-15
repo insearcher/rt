@@ -52,6 +52,7 @@ int	rt_jtoc_get_object_type(t_object *obj, t_jnode *n)
 	obj->type = ft_strcmp(str, "cylinder") ? obj->type : o_cylinder;
 	obj->type = ft_strcmp(str, "cone") ? obj->type : o_cone;
 	obj->type = ft_strcmp(str, "plane") ? obj->type : o_plane;
+	obj->type = ft_strcmp(str, "octahedron") ? obj->type : o_octahedron;
 	obj->type = ft_strcmp(str, "mandelbulb") ? obj->type : o_mandelbulb;
 	obj->type = ft_strcmp(str, "mandelbox") ? obj->type : o_mandelbox;
 	obj->type = ft_strcmp(str, "menger_sponge") ? obj->type : o_menger_sponge;
@@ -122,6 +123,8 @@ int rt_jtoc_get_type_name(int type, int id, char *str)
 		ft_strcat(ft_strcat(str,"Cone"), tmp_id);
 	else if (type == o_plane)
 		ft_strcat(ft_strcat(str,"Plane"), tmp_id);
+	else if (type == o_octahedron)
+		ft_strcat(ft_strcat(str, "Octahedron"), tmp_id);
 	else if (type == o_mandelbulb)
 		ft_strcat(ft_strcat(str,"Mandelbulb"), tmp_id);
 	else if (type == o_mandelbox)
@@ -251,6 +254,7 @@ int rt_jtoc_get_object(t_object *obj, t_jnode *n, t_scene *scene, t_obj_texture 
 	err = obj->type == o_cone ? rt_jtoc_get_cone(obj, n) : err;
 	err = obj->type == o_cylinder ? rt_jtoc_get_cylinder(obj, n) : err;
 	err = obj->type == o_link ? rt_jtoc_get_link(obj, n) : err;
+	err = obj->type == o_octahedron ? rt_jtoc_get_octahedron(obj, n) : err;
 	err = obj->type == o_mandelbulb ? rt_jtoc_get_mandelbulb(obj, n) : err;
 	err = obj->type == o_mandelbox ? rt_jtoc_get_mandelbox(obj, n) : err;
 	err = obj->type == o_menger_sponge ? rt_jtoc_get_menger_sponge(obj, n) : err;

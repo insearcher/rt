@@ -25,6 +25,7 @@ int				rt_jtoc_get_plane(t_object *obj, t_jnode *n);
 int				rt_jtoc_get_cone(t_object *obj, t_jnode *n);
 int				rt_jtoc_get_cylinder(t_object *obj, t_jnode *n);
 int				rt_jtoc_get_link(t_object *obj, t_jnode *n);
+int 			rt_jtoc_get_octahedron(t_object *obj, t_jnode *n);
 int				rt_jtoc_get_mandelbulb(t_object *obj, t_jnode *n);
 int				rt_jtoc_get_mandelbox(t_object *obj, t_jnode *n);
 int             rt_jtoc_get_menger_sponge(t_object *obj, t_jnode *n);
