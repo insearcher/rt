@@ -14,10 +14,13 @@ __kernel void	pp_anaglyph(
 	float3	anaglyph_color;
 	int		sdvig = 8;
 
+	if (tx < sdvig || tx > screen.x - sdvig - 1)
+	{
+		output_data[index] = 0;
+		return ;
+	}
 	int i1 = ty * screen.x + (tx - sdvig);
-//	i1 = max(min(i1, (ty + 1) * screen.x - 1), ty * screen.x - 1);
 	int i2 = ty * screen.x + (tx + sdvig);
-//	i2 = max(min(i2, (ty + 1) * screen.x - 1), ty * screen.x - 1);
 	l_color = int_color(input_data[i1]);
 	r_color = int_color(input_data[i2]);
 	anaglyph_color.x = l_color.x;
