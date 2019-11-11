@@ -222,13 +222,6 @@ static float3	render_color_by_path_trace(__global t_scene *scene, int2 pixel, in
 	return (path_color);
 }
 
-static float	reverse(int n)
-{
-	if (n != 0)
-		return (1.0f / n);
-	return (0);
-}
-
 static float3	get_pixel_color(__global t_scene *scene, int2 pixel, int2 screen, int2 rands, __global int *texture,
 		__global int *texture_w, __global int *texture_h, __global int *prev_texture_size)
 {

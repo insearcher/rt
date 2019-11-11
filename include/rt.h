@@ -82,6 +82,7 @@ typedef struct			s_rt_main
 {
 	t_obj_texture		*texture;
 	t_cl				*cl;
+	t_vec				*pp;
 	t_scene				*scene;
 	size_t				systems_count;
 	void				**systems;
@@ -97,7 +98,7 @@ t_rt_main				*rt_setup(cl_int2 screen_size,
 int						rt_render(t_ui_main *ui, void *a);
 void					render_processing(t_rt_main *rt, size_t *global_size, cl_int path_trace_count);
 int						rt_render_update(t_ui_main *ui, void *el_v);
-void					post_processing(t_rt_main *rt, size_t *global_size);
+void					post_processing(t_rt_main *rt);
 int						*get_texture(t_rt_main *rt);
 
 t_transform	*rt_find_transform_by_id(t_scene *scene, cl_uint id);
