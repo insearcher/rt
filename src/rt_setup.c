@@ -4,6 +4,7 @@
 
 #include "rt.h"
 #include "rt_jtoc.h"
+#include "rt_pp.h"
 
 static void	fill_constant_screen_gpu_mem(t_rt_main *rt, cl_int2 screen_size)
 {
@@ -54,9 +55,71 @@ t_rt_main	*rt_setup(cl_int2 screen_size,
 							  "src/cl/get_cam_ray_direction.c",
 							  "src/cl/uv_mapping.cl",
 							  "src/cl/choose_texture_for_object.cl",
-							  "src/cl/gauss_blur.c",
+							  "src/cl/pp/pp_utilities.c",
+//							  "src/cl/gauss_blur.c",
 							  NULL},
-					  (char *[]){"ray_march_render", "gauss_blur_x", "gauss_blur_y", NULL}, NULL);
+					  (char *[]){"ray_march_render", NULL}, NULL);
+	cl_setup((char *[]){
+			"src/cl/pp/pp_monochrome.c",
+			"src/cl/pp/pp_anaglyph.c",
+			"src/cl/pp/pp_utilities.c",
+			"src/cl/pp/pp_dithering.c",
+			NULL},
+			(char *[]){
+			"pp_anaglyph", "pp_monochrome", "pp_dithering",
+			NULL}, rt->cl);
+	cl_setup((char *[]){
+					 "src/cl/pp/pp_blur_x.c",
+					 "src/cl/pp/pp_blur_y.c",
+					 "src/cl/pp/pp_utilities.c",
+					 NULL},
+			 (char *[]){
+					 "pp_blur_x", "pp_blur_y",
+					 NULL}, rt->cl);
+	rt->pp = vec_init(5, sizeof(t_ppnode));
+//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_"));
+//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_monochrome"));
+//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_monochrome"));
+	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_dithering"));
+	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_anaglyph"));
+	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_x"));
+	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_y"));
+	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_anaglyph"));
+	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_x"));
+	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_y"));
+	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_anaglyph"));
+	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_x"));
+	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_y"));
+	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_x"));
+	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_y"));
+	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_x"));
+	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_y"));
+	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_x"));
+	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_y"));
+	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_x"));
+	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_y"));
+	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_x"));
+	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_y"));
+	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_x"));
+	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_y"));
+	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_x"));
+	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_y"));
+	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_x"));
+	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_y"));
+	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_x"));
+	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_y"));
+	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_x"));
+	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_y"));
+	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_x"));
+	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_y"));
+	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_x"));
+	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_y"));
+//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_anaglyph"));
+//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_anaglyph"));
+//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_anaglyph"));
+//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_anaglyph"));
+//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_anaglyph"));
+//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_anaglyph"));
 	rt_jtoc_textures_setup(rt, textures_path);
 	rt_jtoc_scene_setup(rt, scene_path);
 	fill_constant_screen_gpu_mem(rt, screen_size);
