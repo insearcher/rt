@@ -19,3 +19,4 @@ target_sources(rt PUBLIC
         )
 
 add_subdirectory(rt_jtoc)
+add_subdirectory(interface)

@@ -1,0 +1,1201 @@
+{
+  "quality": 100,
+  "camera":
+  {
+    "id": 1,
+    "fov": 90.0,
+    "clipping_planes":
+    {
+      "near": 0.5,
+      "far": 500.0
+    },
+    "transform":
+    {
+      "pos":
+      {
+        "x": 5.0,
+        "y": 20.0,
+        "z": 10.0
+      },
+      "eulers":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    }
+  },
+  "lights":
+  {
+    "ambient":
+    {
+      "x": 0.5,
+      "y": 0.5,
+      "z": 0.5
+    },
+    "directional_lights":
+    [
+      {
+        "color":
+        {
+          "x": 0.5,
+          "y": 0.5,
+          "z": 0.5
+        },
+        "transform":
+        {
+          "pos":
+          {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "eulers":
+          {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          }
+        }
+      }
+    ]
+  },
+  "objects":
+  [
+    {
+      "id": 2,
+      "type": "sphere",
+      "layer": "default_layer",
+      "texture": "none",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 20.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 3,
+      "type": "sphere",
+      "name": "Sphere3",
+      "layer": "default_layer",
+      "texture": "brick",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 22.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 4,
+      "type": "sphere",
+      "name": "Sphere3",
+      "layer": "default_layer",
+      "texture": "marble",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 24.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 5,
+      "type": "sphere",
+      "layer": "default_layer",
+      "texture": "marble",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 26.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 6,
+      "type": "sphere",
+      "layer": "default_layer",
+      "texture": "marble",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 28.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 7,
+      "type": "sphere",
+      "name": "Sphere3",
+      "layer": "default_layer",
+      "texture": "marble",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 30.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 8,
+      "type": "sphere",
+      "name": "Sphere3",
+      "layer": "default_layer",
+      "texture": "marble",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 30.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 9,
+      "type": "sphere",
+      "name": "Sphere3",
+      "layer": "default_layer",
+      "texture": "marble",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 30.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 10,
+      "type": "sphere",
+      "name": "Sphere3",
+      "layer": "default_layer",
+      "texture": "marble",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 30.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 11,
+      "type": "sphere",
+      "name": "Sphere3",
+      "layer": "default_layer",
+      "texture": "marble",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 30.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 12,
+      "type": "sphere",
+      "name": "Sphere3",
+      "layer": "default_layer",
+      "texture": "marble",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 30.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 13,
+      "type": "sphere",
+      "name": "Sphere3",
+      "layer": "default_layer",
+      "texture": "marble",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 30.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 14,
+      "type": "sphere",
+      "name": "Sphere3",
+      "layer": "default_layer",
+      "texture": "marble",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 30.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 15,
+      "type": "sphere",
+      "name": "Sphere16",
+      "layer": "default_layer",
+      "texture": "marble",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 30.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 16,
+      "type": "sphere",
+      "name": "Sphere3",
+      "layer": "default_layer",
+      "texture": "marble",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 30.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 17,
+      "type": "sphere",
+      "name": "Sphere15",
+      "layer": "default_layer",
+      "texture": "marble",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 30.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 18,
+      "type": "sphere",
+      "layer": "default_layer",
+      "texture": "marble",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 30.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 19,
+      "type": "sphere",
+      "name": "Sphere3",
+      "layer": "default_layer",
+      "texture": "marble",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 30.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 20,
+      "type": "sphere",
+      "name": "Sphere3",
+      "layer": "default_layer",
+      "texture": "marble",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 30.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 21,
+      "type": "sphere",
+      "name": "Sphere3",
+      "layer": "default_layer",
+      "texture": "marble",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 30.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 22,
+      "type": "sphere",
+      "name": "Sphere3",
+      "layer": "default_layer",
+      "texture": "marble",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 30.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 23,
+      "type": "sphere",
+      "name": "Sphere3",
+      "layer": "default_layer",
+      "texture": "marble",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 30.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 24,
+      "type": "sphere",
+      "name": "Sphere3",
+      "layer": "default_layer",
+      "texture": "marble",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 30.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 25,
+      "type": "sphere",
+      "name": "Sphere3",
+      "layer": "default_layer",
+      "texture": "marble",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 30.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 26,
+      "type": "sphere",
+      "name": "Sphere3",
+      "layer": "default_layer",
+      "texture": "marble",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 30.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 27,
+      "type": "sphere",
+      "name": "Sphere3",
+      "layer": "default_layer",
+      "texture": "marble",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 30.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 28,
+      "type": "sphere",
+      "name": "Sphere3",
+      "layer": "default_layer",
+      "texture": "marble",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 30.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 29,
+      "type": "sphere",
+      "name": "Sphere3",
+      "layer": "default_layer",
+      "texture": "marble",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 30.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 30,
+      "type": "sphere",
+      "name": "Sphere3",
+      "layer": "default_layer",
+      "texture": "marble",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 30.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 31,
+      "type": "sphere",
+      "name": "Sphere3",
+      "layer": "default_layer",
+      "texture": "marble",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 30.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 32,
+      "type": "sphere",
+      "name": "Sphere3",
+      "layer": "default_layer",
+      "texture": "marble",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 30.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 33,
+      "type": "sphere",
+      "name": "Sphere3",
+      "layer": "default_layer",
+      "texture": "marble",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 30.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 34,
+      "type": "sphere",
+      "name": "Sphere3",
+      "layer": "default_layer",
+      "texture": "marble",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 30.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 35,
+      "type": "sphere",
+      "name": "Sphere3",
+      "layer": "default_layer",
+      "texture": "marble",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 30.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 36,
+      "type": "sphere",
+      "name": "Sphere3",
+      "layer": "default_layer",
+      "texture": "marble",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 30.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 37,
+      "type": "sphere",
+      "name": "Sphere3",
+      "layer": "default_layer",
+      "texture": "marble",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 30.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 38,
+      "type": "sphere",
+      "name": "Sphere3",
+      "layer": "default_layer",
+      "texture": "marble",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 30.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "id": 41,
+      "type": "sphere",
+      "layer": "default_layer",
+      "texture": "marble",
+      "radius": 1.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 5.0,
+          "y": 30.0,
+          "z": 5.0
+        },
+        "eulers":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    }
+  ]
+}

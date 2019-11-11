@@ -14,23 +14,20 @@
 # define LIBCL_H
 
 # define CL_SILENCE_DEPRECATION
-# ifdef APPLE___
 # include <OpenCL/opencl.h>
-# else
-# include <opencl.h>
-#endif
+# include <stdio.h>
 # include "libft.h"
-# include "libui.h"
 
 typedef struct			s_cl
 {
 	cl_command_queue	*queue;
 	cl_context			*context;
-	cl_program			*program;
+	t_list				*programs;
+	cl_device_id		device_id;
 	t_list				*kernels;
 }						t_cl;
 
-t_cl					*cl_setup(char **files, char **kernels);
+t_cl					*cl_setup(char **files, char **kernels, t_cl *cl);
 cl_kernel				*cl_get_kernel_by_name(t_cl *cl, char *name);
 
 t_cl					*cl_init(void);
@@ -42,6 +39,7 @@ char					*cl_get_file_buf(const char *name,
 		size_t *program_size);
 size_t					cl_get_files_num(char **files);
 void					cl_fill_kernels(t_cl *cl, char **kernels);
-void					cl_exit_error(char *error);
+void					cl_exit_error(char *output_error);
+void					cl_error_handler(char *output_error, int err);
 
 #endif

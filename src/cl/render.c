@@ -85,7 +85,6 @@ static float3	get_skybox_color(float3 direction)
 			mad(direction.y, -0.7f, 0.36f),
 			mad(direction.y, -0.7f, 0.3f)
 	})));
-//	return float3(1.0);
 }
 
 static float get_random(unsigned int *seed0, unsigned int *seed1)
@@ -281,7 +280,7 @@ static float3	get_pixel_color(__global t_scene *scene, int2 pixel, int2 screen, 
 	}
 	else
 	{
-//		#pragma unroll
+		#pragma unroll
 		for (int i = -fsaa / 2; i <= fsaa / 2; i++)
 		{
 			for (int j = -fsaa / 2; j <= fsaa / 2; j++)

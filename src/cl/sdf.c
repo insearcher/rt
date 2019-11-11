@@ -195,3 +195,51 @@ float	sdf_mandelbulb(float3 pos, float power, int iter, int breakout)
 	return ((0.5 * log(r) * r / dr));
 }
 
+float	sdf_cross_box(float3 pos, float3 b)
+{
+	float da = sdf_box(pos.xyz,(float3)(10.0, 1.0, 1.0));
+	float db = sdf_box(pos.yzx,(float3)(1.0, 10.0, 1.0));
+	float dc = sdf_box(pos.zxy,(float3)(1.0, 1.0, 10.0));
+	return min(da,min(db,dc));
+}
+
+//float	sdf_menger(float3 pos, float3 b)
+//{
+//	float3 a;
+//	float3 r;
+//
+//	float d = sdf_box(pos, (float3)(1.0));
+//	float c = sdf_cross_box(pos * 3.f, b) / 3.f;
+//	d = max( d, -c );
+//	a = fmod(pos * 1.f, 2.f ) - 1.f;
+//	r = 1.f - 1.f * fabs(a);
+//	c = sdf_cross_box(r, b) / 9.f;
+//	d = max( d, -c );
+//	return (d);
+//}
+
+float	sdf_menger_sponge(float3 pos, float3 offset, float scale, int iteration)
+{
+   float4 z = (float4)(pos, 2.f);
+   for (int n = 0; n < iteration; n++)
+   {
+       z = fabs(z);
+       if (z.x < z.y)
+           z.xy = z.yx;
+       if (z.x < z.z)
+           z.xz = z.zx;
+       if (z.y < z.z)
+           z.yz = z.zy;
+       z = z * scale;
+       z.xyz -= offset * (scale - 1.f);
+       if (z.z < -0.5f * offset.z * (scale - 1.f))
+           z.z += offset.z * (scale - 1.f);
+   }
+   return (length(max(fabs(z.xyz) - (float3)(1.f),0.f)) - 0.05f) / z.w;
+}
+
+float 	sdf_octahedron(float3 pos, float s)
+{
+	pos = fabs(pos);
+	return ((pos.x + pos.y + pos.z - s) * 0.57735027f);
+}

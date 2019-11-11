@@ -1,12 +1,5 @@
 {
-  "smoothing": 0,
-  "path_trace_number": 1,
-  "path_trace_bounces": 2,
   "quality": 100,
-  "params":
-  [
-    "path_trace"
-  ],
   "camera":
   {
     "id": 1,
@@ -22,12 +15,12 @@
       {
         "x": 5.0,
         "y": 5.0,
-        "z": 100.0
+        "z": 50.0
       },
       "eulers":
       {
         "x": 0.0,
-        "y": 0.0,
+        "y": -180.0,
         "z": 0.0
       }
     }
@@ -45,9 +38,9 @@
       {
         "color":
         {
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
         },
         "transform":
         {
@@ -58,82 +51,31 @@
             "z": 0.0
           },
           "eulers":
-          {
-            "x": 0.0,
-            "y": 0.0,
-            "z": 0.0
-          }
-        }
-      }
-    ],
-    "point_lights":
-    [
-      {
-        "color":
-        {
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0
-        },
-        "transform":
-        {
-          "pos":
-          {
-            "x": 0.0,
-            "y": 0.0,
-            "z": 0.0
-          },
-          "eulers":
-          {
-            "x": 0.0,
-            "y": 0.0,
-            "z": 0.0
-          }
-        },
-        "distance": 100.0
-      },
-      {
-        "color":
-        {
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.5
-        },
-        "transform":
-        {
-          "pos":
           {
             "x": 30.0,
-            "y": 10.0,
-            "z": 0.0
-          },
-          "eulers":
-          {
-            "x": 0.0,
-            "y": 0.0,
-            "z": 0.0
+            "y": 30.0,
+            "z": 30.0
           }
-        },
-        "distance": 100.0
+        }
       }
     ]
   },
   "objects":
   [
     {
-      "id": 3,
+      "id": 2,
       "type": "mandelbox",
       "layer": "ignore_raycast_layer",
       "texture": "none",
       "scale": -1.73,
-      "fixedradius": 10.0,
+      "fixedradius": 2.0,
       "minradius": 0.5,
       "iteration": 10,
       "cube_size":
       {
-        "x": 5.0,
-        "y": 5.0,
-        "z": 5.0
+        "x": 1.0,
+        "y": 1.0,
+        "z": 1.0
       },
       "color":
       {

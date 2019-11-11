@@ -146,6 +146,27 @@ typedef struct			s_mandelbox
 # endif
 }						t_mandelbox;
 
+typedef struct			s_menger_sponge
+{
+# ifndef OPENCL___
+    cl_float3			offset;
+    float				scale;
+    int					iteration;
+# else
+    float3				offset;
+	float				scale;
+	int					iteration;
+# endif
+}						t_menger_sponge;
+
+typedef struct 			s_octahedron
+{
+# ifndef OPENCL___
+	float 				bounds;
+# else
+	float				bounds;
+# endif
+}						t_octahedron;
 
 union					u_oparams
 {
@@ -158,8 +179,10 @@ union					u_oparams
 	t_cylinder			cylinder;
 	t_cone				cone;
 	t_plane				plane;
+	t_octahedron		octahedron;
 	t_mandelbulb		mandelbulb;
 	t_mandelbox			mandelbox;
+	t_menger_sponge     menger_sponge;
 };
 
 enum					e_object_type
@@ -173,8 +196,10 @@ enum					e_object_type
 	o_cylinder,
 	o_cone,
 	o_plane,
+	o_octahedron,
 	o_mandelbulb,
-	o_mandelbox
+	o_mandelbox,
+	o_menger_sponge
 };
 
 typedef struct			s_omaterial
@@ -196,11 +221,21 @@ typedef struct			s_omaterial
 
 typedef struct			s_object
 {
+# ifndef OPENCL___
 	t_transform			transform;
 	union u_oparams		params;
 	enum e_object_type	type;
 	t_omaterial			material;
+	char				*local_name;
 	int					layer;
+# else
+	t_transform			transform;
+	union u_oparams		params;
+	enum e_object_type	type;
+	t_omaterial			material;
+	int2				local_name;
+	int					layer;
+# endif
 }						t_object;
 
 #endif

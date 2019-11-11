@@ -59,7 +59,7 @@ t_rt_main	*rt_setup(cl_int2 screen_size,
 							  "src/cl/choose_texture_for_object.cl",
 							  "src/cl/gauss_blur.c",
 							  NULL},
-					  (char *[]){"ray_march_render", "gauss_blur_x", "gauss_blur_y", NULL});
+					  (char *[]){"ray_march_render", "gauss_blur_x", "gauss_blur_y", NULL}, NULL);
 	rt_jtoc_textures_setup(rt, textures_path);
 	rt_jtoc_scene_setup(rt, scene_path);
 	fill_constant_screen_gpu_mem(rt, screen_size);

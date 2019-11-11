@@ -1,4 +1,7 @@
 {
+  "smoothing": 0,
+  "path_trace_number": 1,
+  "path_trace_bounces": 2,
   "quality": 100,
   "camera":
   {
@@ -130,7 +133,7 @@
       "type": "sphere",
       "texture": "./textures/nice.jpg",
       "layer": "default_layer",
-      "radius": 3.0,
+      "radius": 10.0,
       "color":
       {
         "x": 1.0,
@@ -143,8 +146,8 @@
         "pos":
         {
           "x": -20.0,
-          "y": 10.0,
-          "z": 10.0
+          "y": 5.0,
+          "z": 0.0
         },
         "eulers":
         {

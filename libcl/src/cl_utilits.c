@@ -12,10 +12,16 @@
 
 #include "libcl.h"
 
-void	cl_exit_error(char *error)
+void	cl_exit_error(char *output_error)
 {
-	SDL_Log("ERROR: %s", error);
+	printf("ERROR: %s\n", output_error);
 	exit(-1);
+}
+
+void	cl_error_handler(char *output_error, int err)
+{
+	if (err != 0)
+		cl_exit_error(output_error);
 }
 
 size_t	cl_get_files_num(char **files)
@@ -34,14 +40,10 @@ char	*cl_get_file_buf(const char *name, size_t *program_size)
 	FILE	*fd;
 	char	*buf;
 
-#ifdef APPLE
 	fd = fopen(name, "r");
-#else
-    fd = fopen(name, "rb");
-#endif
 	if (!fd)
 	{
-		SDL_Log("ERROR: Open kernel file '%s'\n", name);
+		printf("ERROR: Open kernel file '%s'\n", name);
 		exit(-1);
 	}
 	fseek(fd, 0, SEEK_END);

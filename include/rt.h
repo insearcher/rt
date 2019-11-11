@@ -96,6 +96,7 @@ t_rt_main				*rt_setup(cl_int2 screen_size,
 
 int						rt_render(t_ui_main *ui, void *a);
 void					render_processing(t_rt_main *rt, size_t *global_size, cl_int path_trace_count);
+int						rt_render_update(t_ui_main *ui, void *el_v);
 void					post_processing(t_rt_main *rt, size_t *global_size);
 int						*get_texture(t_rt_main *rt);
 

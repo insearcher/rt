@@ -15,6 +15,7 @@
 #include "rt.h"
 #include "rt_raycast.h"
 #include "rt_input_system.h"
+#include "interface.h"
 
 int	rt_free_gpu_mem(t_ui_main *m, void *a1)
 {
@@ -52,51 +53,6 @@ cl_int2		modification_rt_elem_and_get_screen_size(t_ui_main *ui)
 	return (rt_screen_size);
 }
 
-//static void	vec_test()
-//{
-//
-//	t_vec v;
-//	vec_setup(&v, 4, sizeof(long));
-//	long a = 2;
-//	vec_push_back(&v, &a);
-//	for (size_t i = 0; i < v.capacity * v.cell_size * sizeof(long); ++i)
-//	{
-//		printf("%d", ((char *)v.storage)[i]);
-//	}
-//	printf("\n");
-//	a = 3;
-//	vec_push_back(&v, &a);
-//	for (size_t i = 0; i < v.capacity * v.cell_size * sizeof(long); ++i)
-//	{
-//		printf("%d", ((char *)v.storage)[i]);
-//	}
-//	printf("\n");
-//	a = 2;
-//	vec_push_back(&v, &a);
-//	for (size_t i = 0; i < v.capacity * v.cell_size * sizeof(long); ++i)
-//	{
-//		printf("%d", ((char *)v.storage)[i]);
-//	}
-//	printf("\n");
-//	a = 3;
-//	vec_push_back(&v, &a);
-//	a = 4;
-//	vec_push_back(&v, &a);
-//	a = 5;
-//	vec_push_back(&v, &a);
-//	for (size_t i = 0; i < v.capacity * v.cell_size * sizeof(long); ++i)
-//	{
-//		printf("%d", ((char *)v.storage)[i]);
-//	}
-//	printf("\n");
-//	SDL_Log("vec size = %zu, capacity = %zu", v.size, v.capacity);
-//	SDL_Log("vec last = %ld", *((long *)vec_last(&v)));
-//	for (size_t i = 0; i < v.size; ++i)
-//	{
-//		SDL_Log("%zu: %ld", i, *(long *)vec_at(&v, i));
-//	}
-//}
-
 int main()
 {
 	t_rt_main	*rt;
@@ -107,17 +63,18 @@ int main()
 	ui_sdl_init();
 	ui_main_add_function_by_id(ui, rt_render, "rt_render");
 	ui_main_add_function_by_id(ui, rt_free_gpu_mem, "rt_free_gpu_mem");
-	ui_main_fill_default_functions(ui);
-	ui_jtoc_main_from_json(ui, "json/interface/main.json");
 
+	rt_uix_interface_setup(ui, "json/interface/main.json");
 	rt_screen_size = modification_rt_elem_and_get_screen_size(ui);
+//	ui_main_fill_default_functions(ui);
+//	rt_uix_add_functions(ui);
+//	ui_main_fill_default_fonts(ui);
+//	ui_jtoc_main_from_json(ui, "json/interface/main.json");
 
-	rt = rt_setup(rt_screen_size, "json/textures.json", "json/scenes/scene2/mandelbulb.json");
+	rt = rt_setup(rt_screen_size, "json/textures.json", "json/scenes/test1_scene/test1.json");
 	ui->data = (void *)rt;
-//	rt->params |= RT_GAUSS_BLUR;
-//	rt->scene->params |= RT_PATH_TRACE;
-//	rt->scene->params |= RT_PHONG;
 
+	rt_uix_scene_setup(ui);
 
 //TODO NEEDED FOR PLANE (NOW PLANE IN JSON DOESN'T WORK CORRECTLY) (MAKSON WHAT IT TAKOE WOBSHE?)
 //	t_transform *temp = &rt->scene[0].objects[4].transform;
@@ -143,8 +100,11 @@ int main()
 //	rt->scenes[0].objects[0].params.mandelbumb.power = 2;
 
 	t_physics_system	*ps = ft_memalloc(sizeof(t_physics_system));
-	if (rt_jtoc_ps_setup(rt->scene, ps, "json/default_ps.json"))
-		exit(0);
+	if (rt_jtoc_ps_setup(rt->scene, ps, "json/scenes/mandelbox_scene/ps.json"))
+	{
+		rt_jtoc_sdl_log_error("PATH PS ERROR OR NOT FOUND", -1);
+		exit (0);
+	}
 //	ps->rbs_count = 1;
 //	ps->rbs = (t_rb *)malloc(sizeof(t_rb) * ps->rbs_count);
 
