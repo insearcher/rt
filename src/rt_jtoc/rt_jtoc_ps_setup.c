@@ -16,12 +16,18 @@ static int	rt_jtoc_get_move_params(t_move_params *p, t_jnode *n)
 	if (!(tmp = jtoc_node_get_by_path(n, "acc")) || tmp->type != fractional)
 		return (rt_jtoc_sdl_log_error("ACC MISSING OR TYPE ERROR", -1));
 	p->acc = jtoc_get_float(tmp);
+	if (p->acc < 0)
+		return (rt_jtoc_sdl_log_error("ACC ERROR", -1));
 	if (!(tmp = jtoc_node_get_by_path(n, "speed")) || tmp->type != fractional)
 		return (rt_jtoc_sdl_log_error("SPEED MISSING OR TYPE ERROR", -1));
 	p->speed = jtoc_get_float(tmp);
+	if (p->speed < 0)
+		return (rt_jtoc_sdl_log_error("SPEED ERROR", -1));
 	if (!(tmp = jtoc_node_get_by_path(n, "speed_mult")) || tmp->type != fractional)
 		return (rt_jtoc_sdl_log_error("SPEED_MULT MISSING OR TYPE ERROR", -1));
 	p->speed_mult = jtoc_get_float(tmp);
+	if (p->speed_mult < 0)
+		return (rt_jtoc_sdl_log_error("SPED MULT ERROR", -1));
 	return (FUNCTION_SUCCESS);
 }
 
@@ -35,7 +41,7 @@ static int	rt_jtoc_get_rb(t_scene *scene, t_physics_system *ps, t_jnode *n)
 	if (!(tmp = jtoc_node_get_by_path(n, "id")) || tmp->type != integer)
 		return (rt_jtoc_sdl_log_error("ID MISSING OR TYPE ERROR", -1));
 	if (!(t = rt_find_transform_by_id(scene, jtoc_get_int(tmp))))
-		return (rt_jtoc_sdl_log_error("THAT ID DOESN'T EXISTS", t->id));
+		return (rt_jtoc_sdl_log_error("THAT ID DOESN'T EXISTS", -1));
 	rb.transform = t;
 	if (!(tmp = jtoc_node_get_by_path(n, "move")) || tmp->type != object)
 		return (rt_jtoc_sdl_log_error("MOVE MISSING OR TYPE ERROR", t->id));

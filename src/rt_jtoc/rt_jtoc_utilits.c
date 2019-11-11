@@ -78,3 +78,33 @@ int				rt_jtoc_get_float4(cl_float4 *vec, t_jnode *n)
 	vec->w = jtoc_get_float(tmp);
 	return (FUNCTION_SUCCESS);
 }
+
+int				rt_jtoc_ispos_float2(cl_float2 *vec)
+{
+	return (vec->x >= 0 && vec->y >= 0
+		? FUNCTION_SUCCESS
+		: FUNCTION_FAILURE);
+}
+
+int				rt_jtoc_ispos_float3(cl_float3 *vec)
+{
+	return (vec->x >= 0 && vec->y >= 0 && vec->z >= 0
+		? FUNCTION_SUCCESS
+		: FUNCTION_FAILURE);
+}
+
+int				rt_jtoc_is01_float3(cl_float3 *vec)
+{
+	return (vec->x >= 0 && vec->x <= 1
+		&& vec->y >= 0 && vec->y <= 1
+		&& vec->z >= 0 && vec->z <= 1
+			? FUNCTION_SUCCESS
+			: FUNCTION_FAILURE);
+}
+
+int				rt_jtoc_ispos_float4(cl_float4 *vec)
+{
+	return (vec->x >= 0 && vec->y >= 0 && vec->z >= 0 && vec->w >= 0
+		? FUNCTION_SUCCESS
+		: FUNCTION_FAILURE);
+}
