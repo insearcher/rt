@@ -27,6 +27,8 @@ float	sdf_mandelbox(float3 pos, float scale, float fixedradius,
 float 	sdf_octahedron(float3 pos, float s);
 float	sdf_menger_sponge(float3 pos, float3 offset, float scale, int iteration);
 float	sdf_cross_box(float3 pos, float3 b);
+float	opsubtraction(float d1, float d2);
+float	opunion( float d1, float d2);
 
 float3	repeatSDF(float3 pos, float3 cen, float rx, float ry, float rz);
 

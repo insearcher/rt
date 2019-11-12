@@ -1,6 +1,79 @@
 #include "rt.h"
 #include "rt_jtoc.h"
 
+int rt_jtoc_get_oper_id(t_jnode *n, t_object *obj, t_vec **objects, int id)
+{
+	t_jnode		*tmp_obj_id;
+	t_jnode		*tmp_oper_name;
+	t_object	*objct;
+	char		*str;
+	int 		object_id;
+
+	if (obj->sub_mult_flag == 3)
+		return (FUNCTION_SUCCESS);
+	if ((tmp_obj_id = jtoc_node_get_by_path(n ,"operation")) && tmp_obj_id->type == object)
+	{
+		tmp_oper_name = tmp_obj_id;
+		if (!(tmp_obj_id = jtoc_node_get_by_path(tmp_obj_id, "object_id")) ||
+			tmp_obj_id->type != integer)
+			return (rt_jtoc_sdl_log_error("OBJECT ID ERROR OR MISSING", -1));
+		object_id = jtoc_get_int(tmp_obj_id);
+		id = rt_find_object_by_id_in_array(*objects, object_id);
+		if (!(rt_find_object_by_id(*objects, object_id)))
+			return (rt_jtoc_sdl_log_error("THERE IS NO SUCH OBJECT!", -1));
+		obj->obj_with_oper_id = id;
+		objct = (t_object *)vec_at(*objects, id);
+		objct->sub_mult_flag = 3;
+		if (!(tmp_oper_name = jtoc_node_get_by_path(tmp_oper_name, "operation_name")) ||
+			tmp_oper_name->type != string)
+			return (rt_jtoc_sdl_log_error("THERE IS NO SUCH OPERATION NAME!",-1));
+		if (!(str = (char *)ft_x_memalloc(sizeof(char) * 16)))
+			return (FUNCTION_FAILURE);
+		ft_strncpy(str, jtoc_get_string(tmp_oper_name), 15);
+		if (!(ft_strcmp(str, "none")))
+		{
+			free(str);
+			return (FUNCTION_SUCCESS);
+		}
+		else if (!(ft_strcmp(str, "sub")))
+			obj->sub_mult_flag = 1;
+		else if (!(ft_strcmp(str, "plus")))
+			obj->sub_mult_flag = 2;
+		else
+		{
+			free(str);
+			return (rt_jtoc_sdl_log_error("OPERATION NAME ERROR", -1));
+		}
+	}
+	return (FUNCTION_SUCCESS);
+}
+
+
+int rt_jtoc_get_objects_operation(t_scene *scene, t_jnode *n)
+{
+	t_jnode		*tmp;
+	int			i;
+
+	tmp = n->down;
+	i = 0;
+	while (tmp)
+	{
+		t_object *obj;
+		if (rt_jtoc_get_oper_id(tmp, (t_object *)vec_at(scene->objects, i), &scene->objects, i))
+			return (rt_jtoc_sdl_log_error("OPER ID ERROR", i));
+		obj = (t_object *)vec_at(scene->objects, i);
+//		SDL_Log("%d", (uint)obj->sub_mult_flag);
+//		SDL_Log("%s", obj->local_name);
+		SDL_Log("object %d: %d", i , obj->transform.id);
+//		SDL_Log("%f\n", obj[obj->obj_with_oper_id].params.sphere.radius);
+//		SDL_Log("operation: %d", obj->sub_mult_flag);
+//		SDL_Log("object with operat: %d", obj->obj_with_oper_id);
+		i++;
+		tmp = tmp->right;
+	}
+	return (FUNCTION_SUCCESS);
+}
+
 static int rt_jtoc_get_scene_params(t_scene *scene, t_jnode *n)
 {
 	t_jnode	*tmp;
@@ -72,7 +145,8 @@ static int	rt_jtoc_get_scene(const char *path, t_scene *scene, t_obj_texture *te
 		return (rt_jtoc_sdl_log_error("OBJECTS TYPE ERROR OR OBJECTS AREN'T SET", -1));
 	if (rt_jtoc_get_objects(scene, tmp, texture))
 		return (rt_jtoc_sdl_log_error("OBJECTS ERROR", -1));
-
+	if (rt_jtoc_get_objects_operation(scene, tmp))
+		return (rt_jtoc_sdl_log_error("OBJECT OPERATION ERROR", -1));
 
 	if (!(tmp = jtoc_node_get_by_path(root, "quality")) || tmp->type != integer)
 		return (rt_jtoc_sdl_log_error("QUALITY ERROR", -1));
