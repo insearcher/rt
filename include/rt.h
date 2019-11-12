@@ -9,6 +9,7 @@
 # include "libjtoc.h"
 # include "rt_camera.h"
 # include "libcl.h"
+# include "rt_utilities.h"
 # endif
 
 # include "rt_numerics.h"

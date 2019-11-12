@@ -2129,6 +2129,13 @@
                           "main_id": "left",
                           "el_id": "default"
                       }
+                  ],
+                  "events":
+                  [
+                      {
+                          "event_name": "onPointerLeftButtonHold",
+                          "func_name": "change_obj_rot"
+                      }
                   ]
               },
               {
@@ -2197,6 +2204,13 @@
                       {
                           "main_id": "right",
                           "el_id": "default"
+                      }
+                  ],
+                  "events":
+                  [
+                      {
+                          "event_name": "onPointerLeftButtonHold",
+                          "func_name": "change_obj_rot"
                       }
                   ]
               },
@@ -2267,6 +2281,13 @@
                           "main_id": "left",
                           "el_id": "default"
                       }
+                  ],
+                  "events":
+                  [
+                      {
+                          "event_name": "onPointerLeftButtonHold",
+                          "func_name": "change_obj_rot"
+                      }
                   ]
               },
               {
@@ -2336,6 +2357,13 @@
                           "main_id": "right",
                           "el_id": "default"
                       }
+                  ],
+                  "events":
+                  [
+                      {
+                          "event_name": "onPointerLeftButtonHold",
+                          "func_name": "change_obj_rot"
+                      }
                   ]
               },
               {
@@ -2404,6 +2432,13 @@
                       {
                           "main_id": "left",
                           "el_id": "default"
+                      }
+                  ],
+                  "events":
+                  [
+                      {
+                          "event_name": "onPointerLeftButtonHold",
+                          "func_name": "change_obj_rot"
                       }
                   ]
               },
@@ -2475,11 +2510,15 @@
                           "main_id": "right",
                           "el_id": "default"
                       }
+                  ],
+                  "events":
+                  [
+                      {
+                          "event_name": "onPointerLeftButtonHold",
+                          "func_name": "change_obj_rot"
+                      }
                   ]
               },
-
-
-
               {
                   "id": 44,
                   "parent": 4,

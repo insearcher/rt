@@ -26,6 +26,7 @@
 # include "transform.h"
 # include "rt_rotations.h"
 # include "rt_numerics.h"
+# include "rt_utilities.h"
 # endif
 
 typedef struct		s_move_params

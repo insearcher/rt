@@ -64,22 +64,24 @@ static int		ps_rot(t_physics_system *ps, const int i)
 				rbs[i].rot.raw_vel.y, 
 				rbs[i].rot.acc);
 
-	float rot_matrix[9];
+//	float rot_matrix[9];
 
 	if (fabs(rbs[i].rot.vel.x) > RM_FLT_EPSILON)
 	{
-		fill_rotation_matrix(&rot_matrix[0], rbs[i].transform->right, rbs[i].rot.vel.x * rbs[i].rot.speed * ps->system.delta_time);
-		mult(&rot_matrix[0], &rbs[i].transform->right);
-		mult(&rot_matrix[0], &rbs[i].transform->up);
-		mult(&rot_matrix[0], &rbs[i].transform->forward);
+		rotate_transform_around_axis(rbs[i].transform, rbs[i].transform->right, rbs[i].rot.vel.x * rbs[i].rot.speed * ps->system.delta_time);
+//		fill_rotation_matrix(&rot_matrix[0], rbs[i].transform->right, rbs[i].rot.vel.x * rbs[i].rot.speed * ps->system.delta_time);
+//		mult(&rot_matrix[0], &rbs[i].transform->right);
+//		mult(&rot_matrix[0], &rbs[i].transform->up);
+//		mult(&rot_matrix[0], &rbs[i].transform->forward);
 	}
 
 	if (fabs(rbs[i].rot.vel.y) > RM_FLT_EPSILON)
 	{
-		fill_rotation_matrix(&rot_matrix[0], (cl_float3){{0, 1, 0}}, rbs[i].rot.vel.y * rbs[i].rot.speed * ps->system.delta_time);
-		mult(&rot_matrix[0], &rbs[i].transform->right);
-		mult(&rot_matrix[0], &rbs[i].transform->up);
-		mult(&rot_matrix[0], &rbs[i].transform->forward);
+		rotate_transform_around_axis(rbs[i].transform, (cl_float3){{0, 1, 0}}, rbs[i].rot.vel.y * rbs[i].rot.speed * ps->system.delta_time);
+//		fill_rotation_matrix(&rot_matrix[0], (cl_float3){{0, 1, 0}}, rbs[i].rot.vel.y * rbs[i].rot.speed * ps->system.delta_time);
+//		mult(&rot_matrix[0], &rbs[i].transform->right);
+//		mult(&rot_matrix[0], &rbs[i].transform->up);
+//		mult(&rot_matrix[0], &rbs[i].transform->forward);
 	}
 
 	return (fabs(rbs[i].rot.vel.x) > RM_FLT_EPSILON ||
