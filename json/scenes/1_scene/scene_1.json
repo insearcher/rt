@@ -1,4 +1,7 @@
 {
+  "smoothing": 0,
+  "path_trace_number": 1,
+  "path_trace_bounces": 2,
   "quality": 100,
   "camera":
   {

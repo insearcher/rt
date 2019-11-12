@@ -66,14 +66,8 @@ int main()
 
 	rt_uix_interface_setup(ui, "json/interface/main.json");
 	rt_screen_size = modification_rt_elem_and_get_screen_size(ui);
-//	ui_main_fill_default_functions(ui);
-//	rt_uix_add_functions(ui);
-//	ui_main_fill_default_fonts(ui);
-//	ui_jtoc_main_from_json(ui, "json/interface/main.json");
-
-	rt = rt_setup(rt_screen_size, "json/textures.json", "json/scenes/test1_scene/test1.json");
+	rt = rt_setup(rt_screen_size, "json/textures.json", "json/scenes/1_scene/scene_1.json");
 	ui->data = (void *)rt;
-
 	rt_uix_scene_setup(ui);
 
 //TODO NEEDED FOR PLANE (NOW PLANE IN JSON DOESN'T WORK CORRECTLY) (MAKSON WHAT IT TAKOE WOBSHE?)
