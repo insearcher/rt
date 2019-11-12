@@ -23,6 +23,7 @@ void	rt_uix_add_functions(t_ui_main *m)
 	ui_main_add_function_by_id(m, rt_uix_choose_pong, "choose_pong");
 	ui_main_add_function_by_id(m, rt_uix_show_menu, "show_menu");
 	ui_main_add_function_by_id(m, rt_uix_inspector_pos_button, "change_obj_pos");
+	ui_main_add_function_by_id(m, rt_uix_inspector_rot_button, "change_obj_rot");
 	ui_main_add_function_by_id(m, rt_uix_switch_blur, "pp_blur");
 	ui_main_add_function_by_id(m, rt_uix_switch_monochrome, "pp_monochrome");
 	ui_main_add_function_by_id(m, rt_uix_switch_anaglyph, "pp_anaglyph");

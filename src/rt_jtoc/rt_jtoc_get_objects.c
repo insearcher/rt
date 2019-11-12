@@ -244,6 +244,8 @@ int rt_jtoc_get_object(t_object *obj, t_jnode *n, t_scene *scene, t_obj_texture 
 	if (rt_jtoc_check_and_get_id_for_object(scene, n, obj))
 		return (rt_jtoc_sdl_log_error("ID ERROR", -1));
 	rt_jtoc_get_object_name(obj, n);
+	obj->sub_mult_flag = 0;
+	obj->obj_with_oper_id = 0;
 
 	err = 0;
 	err = obj->type == o_sphere ? rt_jtoc_get_sphere(obj, n) : err;

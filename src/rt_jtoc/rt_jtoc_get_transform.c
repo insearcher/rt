@@ -8,24 +8,15 @@ static void		rt_jtoc_setup_transform_default(t_transform *t)
 	t->forward = (cl_float3){{0, 0, 1}};
 }
 
-static void		rt_jtoc_mult_basis(t_transform *t, float *m)
-{
-	mult(m, &t->right);
-	mult(m, &t->up);
-	mult(m, &t->forward);
-}
-
 static void		rt_jtoc_rotate_transform(t_transform *t, float x, float y,
 											float z)
 {
-	float	m[9];
-
-	fill_rotation_matrix(m + 0, (cl_float3){{1, 0, 0}}, x);
-	rt_jtoc_mult_basis(t, m + 0);
-	fill_rotation_matrix(m + 0, (cl_float3){{0, 1, 0}}, y);
-	rt_jtoc_mult_basis(t, m + 0);
-	fill_rotation_matrix(m + 0, (cl_float3){{0, 0, 1}}, z);
-	rt_jtoc_mult_basis(t, m + 0);
+	if (fabs(x) >= 0.001f)
+		rotate_transform_around_axis(t, (cl_float3){{1, 0, 0}}, x);
+	if (fabs(y) >= 0.001f)
+		rotate_transform_around_axis(t, (cl_float3){{0, 1, 0}}, y);
+	if (fabs(z) >= 0.001f)
+		rotate_transform_around_axis(t, (cl_float3){{0, 0, 1}}, z);
 }
 
 static int		rt_jtoc_get_eulers(t_transform *t, t_jnode *n)

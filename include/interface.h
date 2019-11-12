@@ -24,6 +24,7 @@
 
 # define INSPECTOR_EL_ID		210
 # define CHANGE_POS_SPEED		0.05f
+# define CHANGE_ROT_SPEED		1
 
 int								rt_uix_on_button_exit(t_ui_main *main, void *el_v);
 int								rt_uix_on_button_enter(t_ui_main *main, void *el_v);
@@ -35,6 +36,8 @@ int								rt_uix_choose_pong(t_ui_main *main, void *el_v);
 int								rt_uix_show_menu(t_ui_main *main, void *el_v);
 int								rt_uix_choose_obj_from_scene(t_ui_main *main, void *el_v);
 int								rt_uix_inspector_pos_button(t_ui_main *main, void *el_v);
+int								rt_uix_inspector_rot_button(t_ui_main *main, void *el_v);
+
 
 
 int								rt_uix_switch_blur(t_ui_main *main, void *el_v);
