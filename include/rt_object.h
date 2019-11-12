@@ -227,6 +227,8 @@ typedef struct			s_object
 	enum e_object_type	type;
 	t_omaterial			material;
 	char				*local_name;
+	int     	        sub_mult_flag;
+	int                 obj_with_oper_id;
 	int					layer;
 # else
 	t_transform			transform;
@@ -234,6 +236,8 @@ typedef struct			s_object
 	enum e_object_type	type;
 	t_omaterial			material;
 	int2				local_name;
+	int                 sub_mult_flag;
+	int                 obj_with_oper_id;
 	int					layer;
 # endif
 }						t_object;

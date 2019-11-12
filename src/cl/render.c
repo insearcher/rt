@@ -231,6 +231,7 @@ static float3	get_pixel_color(__global t_scene *scene, int2 pixel, int2 screen, 
 	unsigned int	seed0, seed1;
 	t_camera		camera = scene->camera;
 
+
 	get_cam_ray_direction(&ray_direction, pixel, screen,
 			camera.fov, camera.transform);
 	if (scene->params & RT_PATH_TRACE)

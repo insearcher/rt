@@ -24,6 +24,21 @@ t_transform	*rt_find_transform_by_id(t_scene *scene, cl_uint id)
 	return (NULL);
 }
 
+int		rt_find_object_by_id_in_array(t_vec *objects, cl_uint id)
+{
+	t_object	*res;
+	cl_uint		i;
+
+	i = -1;
+	while (++i < objects->size)
+	{
+		res = (t_object *)vec_at(objects, i);
+		if (res->transform.id == id)
+			return (i);
+	}
+	return (FUNCTION_FAILURE);
+}
+
 t_object	*rt_find_object_by_id(t_vec *objects, cl_uint id)
 {
 	t_object	*res;

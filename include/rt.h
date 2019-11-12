@@ -105,6 +105,7 @@ int						*get_texture(t_rt_main *rt);
 t_transform	*rt_find_transform_by_id(t_scene *scene, cl_uint id);
 t_object	*rt_find_object_by_id(t_vec *objects, cl_uint id);
 t_light		*rt_find_light_by_id(t_vec *lights, cl_uint id);
+int			rt_find_object_by_id_in_array(t_vec *objects, cl_uint id);
 
 void					get_textures(t_rt_main *rt, char **texture_file, int number_of_texture);
 void

@@ -7,6 +7,7 @@ static float ft_mod2(float a, float b)
 	return (a - ((int)(a / b)) * b);
 }
 
+
 static float3 ft_mod(float3 a, float3 b)
 {
 	return ((float3){ft_mod2(a.x, b.x), ft_mod2(a.y, b.y), ft_mod2(a.z, b.z)});
@@ -242,4 +243,19 @@ float 	sdf_octahedron(float3 pos, float s)
 {
 	pos = fabs(pos);
 	return ((pos.x + pos.y + pos.z - s) * 0.57735027f);
+}
+
+static float dot2(float3 v)
+{
+	return (dot(v, v));
+}
+
+float opsubtraction(float d1, float d2)
+{
+	return (max(-d1, d2));
+}
+
+float opunion( float d1, float d2)
+{
+	return (min(d1, d2));
 }
