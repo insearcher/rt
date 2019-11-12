@@ -32,10 +32,16 @@ int								rt_uix_button_select(t_ui_main *main, void *el_v);
 int								rt_uix_choose_path_trace(t_ui_main *main, void *el_v);
 int								rt_uix_choose_none(t_ui_main *main, void *el_v);
 int								rt_uix_choose_pong(t_ui_main *main, void *el_v);
-int								rt_uix_switch_gauss_blur(t_ui_main *main, void *el_v);
 int								rt_uix_show_menu(t_ui_main *main, void *el_v);
 int								rt_uix_choose_obj_from_scene(t_ui_main *main, void *el_v);
 int								rt_uix_inspector_pos_button(t_ui_main *main, void *el_v);
+
+
+int								rt_uix_switch_blur(t_ui_main *main, void *el_v);
+int								rt_uix_switch_monochrome(t_ui_main *main, void *el_v);
+int								rt_uix_switch_anaglyph(t_ui_main *main, void *el_v);
+int								rt_uix_switch_dithering(t_ui_main *main, void *el_v);
+int								rt_uix_clear_pp(t_ui_main *main, void *el_v);
 
 
 void							rt_uix_add_functions(t_ui_main *m);

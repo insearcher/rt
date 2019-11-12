@@ -21,7 +21,11 @@ void	rt_uix_add_functions(t_ui_main *m)
 	ui_main_add_function_by_id(m, rt_uix_choose_none, "choose_none");
 	ui_main_add_function_by_id(m, rt_uix_choose_path_trace, "choose_path_trace");
 	ui_main_add_function_by_id(m, rt_uix_choose_pong, "choose_pong");
-	ui_main_add_function_by_id(m, rt_uix_switch_gauss_blur, "switch_gauss_blur");
 	ui_main_add_function_by_id(m, rt_uix_show_menu, "show_menu");
 	ui_main_add_function_by_id(m, rt_uix_inspector_pos_button, "change_obj_pos");
+	ui_main_add_function_by_id(m, rt_uix_switch_blur, "pp_blur");
+	ui_main_add_function_by_id(m, rt_uix_switch_monochrome, "pp_monochrome");
+	ui_main_add_function_by_id(m, rt_uix_switch_anaglyph, "pp_anaglyph");
+	ui_main_add_function_by_id(m, rt_uix_switch_dithering, "pp_dithering");
+	ui_main_add_function_by_id(m, rt_uix_clear_pp, "pp_clear");
 }

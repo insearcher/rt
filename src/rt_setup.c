@@ -79,12 +79,11 @@ t_rt_main	*rt_setup(cl_int2 screen_size,
 			 (char *[]){
 					 "pp_blur_x", "pp_blur_y",
 					 NULL}, rt->cl);
-	rt->pp = vec_init(5, sizeof(t_ppnode));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_"));
+	rt->pp = vec_init(10, sizeof(t_ppnode));
 //	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_monochrome"));
 //	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_monochrome"));
 //	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_dithering"));
-	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_anaglyph"));
+//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_anaglyph"));
 //	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_x"));
 //	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_y"));
 //	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_anaglyph"));

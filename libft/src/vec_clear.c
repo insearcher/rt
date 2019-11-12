@@ -15,5 +15,6 @@
 int	vec_clear(t_vec *v)
 {
 	ft_bzero(v->storage, v->cell_size * v->capacity * sizeof(int));
+	v->size = 0;
 	return (0);
 }
