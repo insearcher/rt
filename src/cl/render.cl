@@ -293,7 +293,6 @@ static float3	get_pixel_color(__global t_scene *scene, int2 pixel, int2 screen, 
 		}
 	}
 	color = color / (float)((fsaa + 1) * (fsaa + 1));
-//	color = pow(color, 0.4545f);
 	return (color);
 }
 

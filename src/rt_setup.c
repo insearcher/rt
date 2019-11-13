@@ -1,7 +1,3 @@
-//
-// Created by Slaughterfish Becker on 2019-09-14.
-//
-
 #include "rt.h"
 #include "rt_jtoc.h"
 #include "rt_pp.h"
@@ -72,47 +68,10 @@ t_rt_main	*rt_setup(cl_int2 screen_size,
 			NULL}, rt->cl);
 	rt->pp = vec_init(10, sizeof(t_ppnode));
 //	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_monochrome"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_monochrome"));
 //	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_dithering"));
 //	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_anaglyph"));
 //	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_x"));
 //	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_y"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_anaglyph"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_x"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_y"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_anaglyph"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_x"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_y"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_x"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_y"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_x"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_y"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_x"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_y"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_x"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_y"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_x"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_y"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_x"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_y"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_x"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_y"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_x"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_y"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_x"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_y"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_x"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_y"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_x"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_y"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_x"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_blur_y"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_anaglyph"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_anaglyph"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_anaglyph"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_anaglyph"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_anaglyph"));
-//	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_anaglyph"));
 	rt_jtoc_textures_setup(rt, textures_path);
 	rt_jtoc_scene_setup(rt, scene_path);
 	fill_constant_screen_gpu_mem(rt, screen_size);

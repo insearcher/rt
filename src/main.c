@@ -203,17 +203,9 @@ int main()
 	rt->systems[0] = &(is->system);
 	rt->systems[1] = &(ps->system);
 
-	ui_event_add_listener(((t_ui_win *)(ui->windows->content))->events->on_pointer_left_button_pressed, rt_raycast);
-
-	SDL_Log("%d", rt->scene->params);
-
 	((t_object *)rt->scene->objects->storage)->material.luminosity.x = 0.0f;
 	((t_object *)rt->scene->objects->storage)->material.luminosity.y = 0.0f;
 	((t_object *)rt->scene->objects->storage)->material.luminosity.z = 0.0f;
-
-	SDL_Log("%f", ((t_object *)rt->scene->objects->storage)->material.luminosity.x);
-	SDL_Log("%f", ((t_object *)rt->scene->objects->storage)->material.luminosity.y);
-	SDL_Log("%f", ((t_object *)rt->scene->objects->storage)->material.luminosity.z);
 	ui_main_run_program(ui);
 	return 0;
 }
