@@ -1,5 +1,11 @@
 #include "rt_cl.h"
 
+static float	reverse(int n)
+{
+	if (n != 0)
+		return (1.0f / n);
+	return (0);
+}
 static void		put_pixel(__global char *image, int2 pixel, int2 screen, float3 color, int count,
         __global float3 *color_buf, int params)
 {
@@ -30,7 +36,6 @@ static void		put_pixel(__global char *image, int2 pixel, int2 screen, float3 col
 		image[a + 3] = 0;
 	}
 }
-
 
 static void		put_pixel_with_lowering_quality(__global char *image, int2 pixel, int2 screen,
 		float3 color, int quality, int count, __global float3 *color_buf, int params)
@@ -299,12 +304,10 @@ __kernel void	ray_march_render(__global char *image, __global t_scene *scene,
 		__global int *texture_h, __global int *prev_texture_size,
 		int path_trace_count, __global float3 *color_buf, int2 rands)
 {
-	int				gid;
 	int2			pixel;
 	float3			color;
 
-	gid = get_global_id(0);
-	pixel = (int2)(gid % screen.x, gid / screen.x);
+	pixel = (int2)(get_global_id(0), get_global_id(1));
 	scene->objects = objects;
 	scene->objects_count = objects_count;
 	scene->lights = lights;

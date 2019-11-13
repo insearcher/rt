@@ -38,18 +38,12 @@ void	normalize_coord_for_texture(t_raycast_hit rh, float2 uv, float3 *color,
 int		choose_texture_for_object(t_raycast_hit rh, __global int *texture,
 			float3 *color, __global int *texture_w, __global int *texture_h,
 			__global int *prev_texture_size);
-float2	uv_mapping_for_sphere(t_raycast_hit rh);
-float2	uv_mapping_for_cylinder(t_raycast_hit rh);
-float2	uv_mapping_for_plane(t_raycast_hit rh);
-float2	uv_mapping_for_torus(t_raycast_hit rh);
-float2	uv_mapping_for_cube(t_raycast_hit rh);
 
 int		raymarch(float3 origin, float3 direction, float distance, __global t_scene *scene, t_raycast_hit *rh);
 void	get_cam_ray_direction(float3 *ray_direction, int2 coord, int2 screen, float fov, t_transform transform);
 float3	get_lighting(__global t_scene *scene, float3 color, t_raycast_hit ray_hit);
 
 float	gauss_coeff_x(int x, float sigma);
-float	reverse(int n);
 float3	int_color(int col);
 int		get_light(int start, int end, float percentage);
 int		get_color(float3 v);

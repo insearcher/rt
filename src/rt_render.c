@@ -12,14 +12,13 @@
 
 #include "rt.h"
 
-
 int		rt_render(t_ui_main *ui, void *el_v)
 {
 	t_rt_main	*rt;
 	t_ui_el		*el;
 	void		*pixels;
 	int			pitch;
-	size_t		global_size;
+	size_t		global_size[2];
 	static int	start_flag;
 	static cl_int	path_trace_count = 1;
 
@@ -28,8 +27,8 @@ int		rt_render(t_ui_main *ui, void *el_v)
 	rt = ui->data;
 	if (!(rt->scene->params & RT_PATH_TRACE))
 	{
-		if (!((t_physics_system *) rt->systems[1])->change_indicator && start_flag != 0)
-			return (1);
+//		if (!((t_physics_system *) rt->systems[1])->change_indicator && start_flag != 0)
+//			return (1);
 	}
 	else if (!((t_physics_system *) rt->systems[1])->change_indicator && start_flag != 0)
 		path_trace_count++;
@@ -41,9 +40,10 @@ int		rt_render(t_ui_main *ui, void *el_v)
 
 	rt->screen_size.x = el->rect.w;
 	rt->screen_size.y = el->rect.h;
-	global_size = rt->screen_size.x * rt->screen_size.y;
+	global_size[0] = rt->screen_size.x;
+	global_size[1] = rt->screen_size.y;
 
-	render_processing(rt, &global_size, path_trace_count);
+	render_processing(rt, global_size, path_trace_count);
 	post_processing(rt);
 
 	SDL_LockTexture(el->sdl_textures->content, NULL, &pixels, &pitch);
@@ -66,7 +66,7 @@ int		rt_render_update(t_ui_main *ui, void *el_v)
 	t_ui_el		*el;
 	void		*pixels;
 	int			pitch;
-	size_t		global_size;
+	size_t		global_size[2];
 	static int	start_flag;
 	static cl_int	path_trace_count = 1;
 
@@ -86,9 +86,10 @@ int		rt_render_update(t_ui_main *ui, void *el_v)
 
 	rt->screen_size.x = el->rect.w;
 	rt->screen_size.y = el->rect.h;
-	global_size = rt->screen_size.x * rt->screen_size.y;
+	global_size[0] = rt->screen_size.x;
+	global_size[1] = rt->screen_size.y;
 
-	render_processing(rt, &global_size, path_trace_count);
+	render_processing(rt, global_size, path_trace_count);
 	post_processing(rt);
 
 	SDL_LockTexture(el->sdl_textures->content, NULL, &pixels, &pitch);

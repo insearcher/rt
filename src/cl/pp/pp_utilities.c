@@ -5,13 +5,6 @@ float	gauss_coeff_x(int x, float sigma)
 	return(1000.f / (sqrt(2 * M_PI_F) * sigma) * exp(-(float)(x * x) / (2 * sigma * sigma)));
 }
 
-float	reverse(int n)
-{
-	if (n != 0)
-		return (1.0f / n);
-	return (0);
-}
-
 float3	int_color(int col)
 {
 	float3	v;

@@ -23,7 +23,7 @@ static void	create_buffers_for_render(t_rt_main *rt, cl_mem *cl_scene,
 int time1;
 int time2;
 
-void	render_processing(t_rt_main *rt, size_t *global_size, cl_int path_trace_count)
+void	render_processing(t_rt_main *rt, size_t global_size[2], cl_int path_trace_count)
 {
 	cl_kernel		*kernel;
 	cl_mem			cl_scene;
@@ -60,7 +60,7 @@ void	render_processing(t_rt_main *rt, size_t *global_size, cl_int path_trace_cou
 	clSetKernelArg(*kernel, 12, sizeof(cl_mem), &rt->gpu_mem->cl_pt_color_buf);
 	clSetKernelArg(*kernel, 13, sizeof(cl_int2), &rands);
 
-	clEnqueueNDRangeKernel(*rt->cl->queue, *kernel, 1, NULL, global_size, NULL, 0, NULL, NULL);
+	clEnqueueNDRangeKernel(*rt->cl->queue, *kernel, 2, NULL, global_size, NULL, 0, NULL, NULL);
 
 	clReleaseMemObject(cl_objects);
 	clReleaseMemObject(cl_lights);

@@ -51,34 +51,25 @@ t_rt_main	*rt_setup(cl_int2 screen_size,
 	rt = (t_rt_main *)ft_memalloc(sizeof(t_rt_main));
 	rt->screen_size = screen_size;
 	rt->cl = cl_setup((char *[]){
-							  "src/cl/render.c",
-							  "src/cl/raymarch.c",
-							  "src/cl/sdf.c",
-							  "src/cl/get_lighting.c",
-							  "src/cl/get_cam_ray_direction.c",
+							  "src/cl/render.cl",
+							  "src/cl/raymarch.cl",
+							  "src/cl/sdf.cl",
+							  "src/cl/get_lighting.cl",
+							  "src/cl/get_cam_ray_direction.cl",
 							  "src/cl/uv_mapping.cl",
-							  "src/cl/choose_texture_for_object.cl",
-							  "src/cl/pp/pp_utilities.c",
-//							  "src/cl/gauss_blur.c",
 							  NULL},
 					  (char *[]){"ray_march_render", NULL}, NULL);
 	cl_setup((char *[]){
 			"src/cl/pp/pp_monochrome.c",
 			"src/cl/pp/pp_anaglyph.c",
 			"src/cl/pp/pp_utilities.c",
+			"src/cl/pp/pp_blur_x.c",
+			"src/cl/pp/pp_blur_y.c",
 			"src/cl/pp/pp_dithering.c",
 			NULL},
 			(char *[]){
-			"pp_anaglyph", "pp_monochrome", "pp_dithering",
+			"pp_anaglyph", "pp_monochrome", "pp_dithering", "pp_blur_x", "pp_blur_y",
 			NULL}, rt->cl);
-	cl_setup((char *[]){
-					 "src/cl/pp/pp_blur_x.c",
-					 "src/cl/pp/pp_blur_y.c",
-					 "src/cl/pp/pp_utilities.c",
-					 NULL},
-			 (char *[]){
-					 "pp_blur_x", "pp_blur_y",
-					 NULL}, rt->cl);
 	rt->pp = vec_init(10, sizeof(t_ppnode));
 //	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_monochrome"));
 //	vec_push_back(rt->pp, cl_get_kernel_by_name(rt->cl, "pp_monochrome"));
