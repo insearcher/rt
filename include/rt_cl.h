@@ -9,28 +9,7 @@
 # include "rt.h"
 # include "color.h"
 
-//void  get_cam_ray(int x, int y, int width, int height, float fov, float3 *k);
-//float3	ray_marching(float3 origin, float3 direction, t_scene *scene, float mult, float3 *normal, float *intersect_dist, t_object *intersected);
-
-float	sdf_sphere(float3 pos, float radius);
-float	sdf_box(float3 pos, float3 bounds);
-float	sdf_round_box(float3 pos, float3 bounds, float r);
-float	sdf_torus(float3 pos, float radius, float inner_radius);
-float	sdf_capped_torus(float3 pos, float2 sc, float ra, float rb);
-float	sdf_link(float3 pos, float le, float r1, float r2);
-float	sdf_cylinder(float3 pos, float3 c);
-float	sdf_cone(float3 pos, float2 c);
-float	sdf_plane(float3 pos, float3 n, float d);
-float	sdf_mandelbulb(float3 pos, float power, int iter, int breakout);
-float	sdf_mandelbox(float3 pos, float scale, float fixedradius,
-					   float minradius, float3 cube_size, int iter);
-float 	sdf_octahedron(float3 pos, float s);
-float	sdf_menger_sponge(float3 pos, float3 offset, float scale, int iteration);
-float	sdf_cross_box(float3 pos, float3 b);
-float	opsubtraction(float d1, float d2);
-float	opunion( float d1, float d2);
-
-float3	repeatSDF(float3 pos, float3 cen, float rx, float ry, float rz);
+float	sdf(float3 origin, float3 direction, __global t_object *obj, float3 *lp, int scene_params);
 
 void	normalize_coord_for_texture(t_raycast_hit rh, float2 uv, float3 *color,
 			__global int *texture, __global int *texture_w, __global int *texture_h,
