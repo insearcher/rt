@@ -19,24 +19,30 @@ if (APPLE)
                 COMMAND head -1
                 WORKING_DIRECTORY /Users/$ENV{USER}/.brew/Cellar/sdl2/
                 OUTPUT_VARIABLE SDL_VERSION)
-        message("Found SDL version ${SDL_VERSION}")
+        string(REPLACE "\n" "" SDL_VERSION ${SDL_VERSION})
         set(SDL2_PATH /Users/$ENV{USER}/.brew/Cellar/sdl2/${SDL_VERSION})
+        string(REPLACE "\n" "" SDL2_PATH ${SDL2_PATH})
+        message("Found SDL version ${SDL_VERSION} on path ${SDL2_PATH}")
     endif()
     if (NOT SDL2_IMAGE_FOUND)
         execute_process(COMMAND ls
                 COMMAND head -1
                 WORKING_DIRECTORY /Users/$ENV{USER}/.brew/Cellar/sdl2_image/
                 OUTPUT_VARIABLE SDL_IMAGE_VERSION)
-        message("Found SDL_image version ${SDL_IMAGE_VERSION}")
+        string(REPLACE "\n" "" SDL_IMAGE_VERSION ${SDL_IMAGE_VERSION})
         set(SDL2_IMAGE_PATH /Users/$ENV{USER}/.brew/Cellar/sdl2_image/${SDL_IMAGE_VERSION})
+        string(REPLACE "\n" "" SDL2_IMAGE_PATH ${SDL2_IMAGE_PATH})
+        message("Found SDL_image version ${SDL_IMAGE_VERSION} on path ${SDL2_IMAGE_PATH}")
     endif()
     if (NOT SDL2_TTF_FOUND)
         execute_process(COMMAND ls
                 COMMAND head -1
                 WORKING_DIRECTORY /Users/$ENV{USER}/.brew/Cellar/sdl2_ttf/
                 OUTPUT_VARIABLE SDL_TTF_VERSION)
-        message("Found SDL_image version ${SDL_TTF_VERSION}")
+        string(REPLACE "\n" "" SDL_TTF_VERSION ${SDL_TTF_VERSION})
         set(SDL2_TTF_PATH /Users/$ENV{USER}/.brew/Cellar/sdl2_ttf/${SDL_TTF_VERSION})
+        string(REPLACE "\n" "" SDL2_TTF_PATH ${SDL2_TTF_PATH})
+        message("Found SDL_image version ${SDL_TTF_VERSION} on path ${SDL2_TTF_PATH}")
     endif()
 endif()
 
