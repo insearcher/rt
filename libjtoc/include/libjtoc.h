@@ -111,8 +111,6 @@ char						*jtoc_get_string(t_jnode *n);
 
 size_t						jtoc_get_child_count(t_jnode *n);
 
-void						*jtoc_get_raw_data(t_jnode *n);
-
 int							jtoc_write_children(t_jnode *n, int fd,
 		char arr);
 

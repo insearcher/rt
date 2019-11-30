@@ -61,22 +61,17 @@ int	jtoc_parse_array(t_jnode *p, const char *str, int b, int e)
 	int		i;
 
 	if (e - b == 3 && !ft_strncmp(str + b, "null", 4))
-	{
-		p->data = NULL;
-		return (FUNCTION_SUCCESS);
-	}
+		return ((int)(p->data = NULL));
 	++b;
 	--e;
 	i = -1;
 	while (b < e)
 	{
-		++i;
 		if ((c = jtoc_find_comma(str, b) - 1) < 0 || c > e)
 			c = e;
 		if (!(tmp = ft_itoa(i)))
 			return (FUNCTION_FAILURE);
-		child = jtoc_node_create(jtoc_get_field_type((char *)str + b), tmp,
-				NULL);
+		child = jtoc_node_create(jtoc_get_field_type((char *)str + b), tmp, 0);
 		free(tmp);
 		if (!child)
 			return (FUNCTION_FAILURE);
@@ -90,14 +85,14 @@ int	jtoc_parse_array(t_jnode *p, const char *str, int b, int e)
 int	jtoc_parse_field(t_jnode *p, const char *str, int b, int e)
 {
 	t_jnode	*child;
-	char	*name;
+	char	*n;
 	int		c;
 
 	c = jtoc_find(str, ':', b, F_RIGHT);
-	if (!(name = ft_strsub(str, b + 1, c - b - 2)))
+	if (!(n = ft_strsub(str, b + 1, c - b - 2)))
 		return (FUNCTION_FAILURE);
-	child = jtoc_node_create(jtoc_get_field_type((char *)str + c + 1), name, NULL);
-	free(name);
+	child = jtoc_node_create(jtoc_get_field_type((char *)str + c + 1), n, 0);
+	free(n);
 	if (!child)
 		return (FUNCTION_FAILURE);
 	jtoc_node_add_child(p, child);
