@@ -14,14 +14,14 @@
 # define RT_UTILITIES_H
 
 # ifndef OPENCL___
-# ifdef APPLE___
-# include <OpenCL/opencl.h>
-# else
-# include <opencl.h>
-# endif
-# include "math.h"
-# include "rt_rotations.h"
-# include "transform.h"
+#  ifdef APPLE___
+#   include <OpenCL/opencl.h>
+#  else
+#   include <opencl.h>
+#  endif
+#  include "math.h"
+#  include "rt_rotations.h"
+#  include "transform.h"
 # endif
 
 void	rotate_transform_around_axis(t_transform *t, cl_float3 a, float d);

@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RT_INPUT_H
-# define RT_INPUT_H
+#ifndef RT_INPUT_SYSTEM_H
+# define RT_INPUT_SYSTEM_H
 
 # include "rt.h"
 

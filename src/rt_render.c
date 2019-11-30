@@ -23,13 +23,8 @@ int		rt_render(t_ui_main *ui, void *el_v)
 	static cl_int	path_trace_count = 1;
 
 	el = (t_ui_el *)el_v;
-	SDL_Log("count: %d", path_trace_count);
 	rt = ui->data;
-	if (!(rt->scene->params & RT_PATH_TRACE))
-	{
-//		if (!((t_physics_system *) rt->systems[1])->change_indicator && start_flag != 0)
-//			return (1);
-	}
+	if (!(rt->scene->params & RT_PATH_TRACE));
 	else if (!((t_physics_system *) rt->systems[1])->change_indicator && start_flag != 0)
 		path_trace_count++;
 	else

@@ -10,24 +10,26 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RT_PHYSICS_H
-# define RT_PHYSICS_H
+#ifndef RT_PHYSICS_SYSTEM_H
+# define RT_PHYSICS_SYSTEM_H
 
 # define CL_SILENCE_DEPRECATION
 
 # ifndef OPENCL___
-# ifdef APPLE___
-# include <OpenCL/opencl.h>
-# else
-# include <opencl.h>
+#  ifdef APPLE___
+#   include <OpenCL/opencl.h>
+#  else
+#   include <opencl.h>
+#  endif
+#  include <SDL.h>
+#  include "libft.h"
+#  include "transform.h"
+#  include "rt_rotations.h"
+#  include "rt_numerics.h"
+#  include "rt_utilities.h"
 # endif
-# include <SDL.h>
-# include "libft.h"
-# include "transform.h"
-# include "rt_rotations.h"
-# include "rt_numerics.h"
-# include "rt_utilities.h"
-# endif
+
+# include "rt_system.h"
 
 typedef struct		s_move_params
 {
@@ -44,8 +46,6 @@ typedef struct		s_rb
 	t_move_params	rot;
 	t_transform		*transform;
 }					t_rb;
-
-# include "rt_system.h"
 
 typedef struct		s_physics_system
 {

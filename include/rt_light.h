@@ -14,11 +14,11 @@
 # define RT_LIGHT_H
 
 # ifndef OPENCL___
-# ifdef APPLE___
-# include <OpenCL/opencl.h>
-# else
-# include <opencl.h>
-# endif
+#  ifdef APPLE___
+#   include <OpenCL/opencl.h>
+#  else
+#   include <opencl.h>
+#  endif
 # endif
 
 # include "transform.h"
@@ -26,21 +26,27 @@
 typedef struct			s_directional
 {
 # ifndef OPENCL___
+
 	cl_float3			color;
 # else
+
 	float3				color;
 # endif
+
 }						t_directional;
 
 typedef struct			s_point
 {
 # ifndef OPENCL___
+
 	cl_float3			color;
 	cl_float			distance;
 # else
+
 	float3				color;
 	float				distance;
 # endif
+
 }						t_point;
 
 union					u_lparams

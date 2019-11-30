@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ui_main_add_font_by_path.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edraugr- <edraugr-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbednar  <sbednar @student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 20:17:22 by sbednar           #+#    #+#             */
 /*   Updated: 2019/07/15 11:58:17 by sbecker          ###   ########.fr       */

@@ -58,17 +58,8 @@ int rt_jtoc_get_objects_operation(t_scene *scene, t_jnode *n)
 	i = 0;
 	while (tmp)
 	{
-		t_object *obj;
 		if (rt_jtoc_get_oper_id(tmp, (t_object *)vec_at(scene->objects, i), &scene->objects, i))
 			return (rt_jtoc_sdl_log_error("OPER ID ERROR", i));
-		obj = (t_object *)vec_at(scene->objects, i);
-//		SDL_Log("%d", (uint)obj->sub_mult_flag);
-//		SDL_Log("%s", obj->local_name);
-		SDL_Log("object %d: %d", i , obj->transform.id);
-//		SDL_Log("%f\n", obj[obj->obj_with_oper_id].params.sphere.radius);
-//		SDL_Log("operation: %d", obj->sub_mult_flag);
-//		SDL_Log("object with operat: %d", obj->obj_with_oper_id);
-		i++;
 		tmp = tmp->right;
 	}
 	return (FUNCTION_SUCCESS);

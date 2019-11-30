@@ -14,11 +14,11 @@
 # define RT_SYSTEM_H
 
 # ifndef OPENCL___
-# ifdef APPLE___
-# include <OpenCL/opencl.h>
-# else
-# include <opencl.h>
-# endif
+#  ifdef APPLE___
+#   include <OpenCL/opencl.h>
+#  else
+#   include <opencl.h>
+#  endif
 #  include <SDL.h>
 #  include "libft.h"
 # endif
@@ -35,7 +35,8 @@ typedef struct	s_system
 
 typedef	int		(t_system_func)(void *);
 
-int				system_setup(t_system *s, const char *n, t_system_func *f, const size_t d);
+int				system_setup(t_system *s, const char *n, t_system_func *f,
+		const size_t d);
 int				system_start(t_system *s);
 
 #endif

@@ -7,7 +7,12 @@
 # define PI		3.14159265f
 # define TWO_PI	6.28318530f
 # include "rt.h"
-# include "color.h"
+
+# define COLOR(r, g, b)	((((int)r & 0xFF) << 16) | (((int)g & 0xFF) << 8) | ((int)b & 0xFF))
+
+# define RED(c)			(((int)c >> 16) & 0xFF)
+# define GREEN(c)		(((int)c >> 8) & 0xFF)
+# define BLUE(c)		((int)c & 0xFF)
 
 float	sdf(float3 origin, float3 direction, __global t_object *obj, float3 *lp, int scene_params);
 

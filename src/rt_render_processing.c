@@ -31,7 +31,6 @@ void	render_processing(t_rt_main *rt, size_t global_size[2], cl_int path_trace_c
 	cl_mem			cl_lights;
 
 	time2 = SDL_GetTicks();
-	SDL_Log("TICK: %d", time2 - time1);
 	time1 = time2;
 
 	create_buffers_for_render(rt, &cl_scene, &cl_objects, &cl_lights);
