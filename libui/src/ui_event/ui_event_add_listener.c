@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ui_event_add_listener.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbednar  <sbednar @student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbednar <sbednar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/27 17:16:15 by sbednar           #+#    #+#             */
 /*   Updated: 2019/07/13 05:47:23 by sbecker          ###   ########.fr       */

@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ui_jtoc_el_pref_text.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbednar  <sbednar @student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbednar <sbednar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/12 06:55:50 by sbecker           #+#    #+#             */
 /*   Updated: 2019/07/15 08:23:38 by sbednar          ###   ########.fr       */

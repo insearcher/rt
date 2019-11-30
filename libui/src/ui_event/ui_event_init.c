@@ -12,7 +12,7 @@
 
 #include "libui.h"
 
-t_ui_event		*ui_event_init(void)
+t_ui_event				*ui_event_init(void)
 {
 	t_ui_event	*e;
 
@@ -40,7 +40,7 @@ static inline void		init_el_keyboard_events(t_ui_el_events *e)
 	}
 }
 
-t_ui_el_events	*ui_event_el_events_init(void)
+t_ui_el_events			*ui_event_el_events_init(void)
 {
 	t_ui_el_events *e;
 
@@ -83,7 +83,7 @@ static inline void		init_win_keyboard_events(t_ui_win_events *w)
 	}
 }
 
-t_ui_win_events	*ui_event_win_events_init(void)
+t_ui_win_events			*ui_event_win_events_init(void)
 {
 	t_ui_win_events	*w;
 

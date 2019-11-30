@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ui_draw_windows.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbednar  <sbednar @student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbednar <sbednar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 06:06:48 by sbednar           #+#    #+#             */
 /*   Updated: 2019/07/13 02:57:16 by sbecker          ###   ########.fr       */

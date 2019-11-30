@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   libui.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbednar  <sbednar @student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbednar <sbednar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/10 19:09:04 by sbednar           #+#    #+#             */
 /*   Updated: 2019/07/15 18:53:36 by sbednar          ###   ########.fr       */
@@ -37,9 +37,6 @@
 
 # define SCROLL_SPEED		20
 
-/*
-** el params
-*/
 # define EL_IGNOR_RAYCAST	(1 << 0)
 # define EL_IS_HIDDEN		(1 << 1)
 # define EL_IS_PTR_INSIDE	(1 << 2)
@@ -50,23 +47,14 @@
 # define EL_MODAL_OK_CANCEL	(1 << 7)
 # define EL_IS_ICON			(1 << 8)
 
-/*
-** text params
-*/
 # define TEXT_IS_CENTERED	(1 << 0)
 # define TEXT_IS_INPUTTING	(1 << 1)
 # define TEXT_IS_REGULAR	(1 << 2)
 
-/*
-** text render_params
-*/
 # define TEXT_IS_SOLID		(1 << 0)
 # define TEXT_IS_SHADED		(1 << 1)
 # define TEXT_IS_BLENDED	(1 << 2)
 
-/*
-** main events/params
-*/
 # define MAIN_LMB_PRESSED	(1 << 0)
 # define MAIN_RMB_PRESSED	(1 << 1)
 # define MAIN_SCROLL_UP		(1 << 2)
@@ -77,28 +65,16 @@
 # define MAIN_RMB_HOLD		(1 << 7)
 # define MAIN_ON_QUIT		(1 << 8)
 
-/*
-** win params
-*/
 # define WIN_RESIZABLE		(1 << 0)
 # define WIN_IS_SHOWN		(1 << 1)
 # define WIN_IS_HIDDEN		(1 << 2)
 
-/*
-** img types
-*/
 # define IMG_TYPE_PNG		0
 # define IMG_TYPE_JPG		1
 
-/*
-** for set/chage pos/size
-*/
 # define ABS				(1 << 0)
 # define PIXEL				(1 << 1)
 
-/*
-** choto dlya tekstur
-*/
 # define RGBA8888			373694468
 # define BLEND				1
 # define NONE				0
@@ -520,7 +496,6 @@ int							ui_win_event_focus_gained(t_ui_main *m, void *a);
 int							ui_sdl_init(void);
 void						ui_sdl_deinit(int exit_status);
 
-
 int							ui_jtoc_main_from_json(t_ui_main *m, const char *p);
 
 int							ui_jtoc_win_from_json(t_ui_main *m, t_jnode *n);
@@ -549,9 +524,6 @@ int							ui_jtoc_get_pos_size(const char *str);
 
 int							ui_jtoc_sdl_log_error(const char *p, const int id);
 
-/*
-**TODO NORMAL NAME
-*/
 int							ui_el_from_json_textures(t_ui_main *m, t_ui_el *e,
 								t_jnode *n);
 int							ui_parse_canvas(t_ui_main *m, t_ui_el *e,
@@ -614,9 +586,6 @@ int							ui_file_find_last_slash(const char *str);
 int							ui_file_open_file_dialog(char **res);
 int							ui_file_save_file_dialog(char **res);
 
-/*
-** IT'S HUITA, BUT NOT DEL, COULD BE USEFUL FOR CREATE JSON PREFAB
-*/
 void						ui_prefab_scroll_menu(t_ui_main *m, t_ui_el *canvas,
 		t_ui_el *scroll_menu, t_scroll_m_pref *scroll_data);
 void						ui_prefab_get_pixel_pos(t_ui_el *p, t_ui_el *canvas,
@@ -624,9 +593,6 @@ void						ui_prefab_get_pixel_pos(t_ui_el *p, t_ui_el *canvas,
 void						ui_prefab_get_pixel_size(t_ui_el *p,
 		t_ui_el *canvas, int type, t_fvec2 *size);
 
-/*
-** TODO normal names, pack on groups
-*/
 int							ctid(t_list_texture *lst, int tid);
 void						ui_el_remove_texture_by_id(t_ui_el *el,
 		const char *id);

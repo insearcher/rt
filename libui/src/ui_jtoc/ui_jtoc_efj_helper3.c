@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ui_jtoc_efj_helper3.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbednar  <sbednar @student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbednar <sbednar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/15 07:28:15 by sbednar           #+#    #+#             */
 /*   Updated: 2019/07/15 08:07:30 by sbednar          ###   ########.fr       */

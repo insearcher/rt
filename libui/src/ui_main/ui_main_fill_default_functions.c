@@ -12,7 +12,7 @@
 
 #include "libui.h"
 
-void        ui_main_fill_default_functions(t_ui_main *m)
+void	ui_main_fill_default_functions(t_ui_main *m)
 {
 	ui_main_add_function_by_id(m, ui_win_event_update_size,
 			"ui_win_event_update_size");

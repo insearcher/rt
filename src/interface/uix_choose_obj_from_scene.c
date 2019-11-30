@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   uix_choose_obj_from_scene.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbednar  <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sbednar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/05 15:19:23 by sbednar           #+#    #+#             */
 /*   Updated: 2019/10/05 15:19:27 by sbednar          ###   ########.fr       */

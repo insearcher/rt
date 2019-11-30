@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ui_el_update_text.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbednar  <sbednar @student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbednar <sbednar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/23 05:38:20 by sbednar           #+#    #+#             */
 /*   Updated: 2019/07/15 08:16:24 by sbecker          ###   ########.fr       */

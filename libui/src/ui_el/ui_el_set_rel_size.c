@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ui_el_set_rel_size.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbednar  <sbednar @student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbednar <sbednar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 13:35:05 by sbednar           #+#    #+#             */
 /*   Updated: 2019/05/23 14:37:42 by sbednar          ###   ########.fr       */

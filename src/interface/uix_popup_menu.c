@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   uix_popup_menu.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbednar  <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sbednar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/28 17:15:32 by sbednar           #+#    #+#             */
 /*   Updated: 2019/09/28 17:15:35 by sbednar          ###   ########.fr       */

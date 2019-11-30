@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ui_el_set_new_pos.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbednar  <sbednar @student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbednar <sbednar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 21:13:32 by sbecker           #+#    #+#             */
 /*   Updated: 2019/07/15 04:06:13 by sbednar          ###   ########.fr       */

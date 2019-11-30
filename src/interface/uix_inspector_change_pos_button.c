@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   uix_inspector_change_pos_button.c                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbednar  <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sbednar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/05 16:45:24 by sbednar           #+#    #+#             */
 /*   Updated: 2019/10/05 16:45:26 by sbednar          ###   ########.fr       */

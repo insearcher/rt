@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ui_main_add_surface_by_path.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbednar  <sbednar @student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbednar <sbednar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 19:20:16 by sbednar           #+#    #+#             */
 /*   Updated: 2019/07/15 11:58:52 by sbecker          ###   ########.fr       */

@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ui_main_fill_default_fonts.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbednar  <sbednar @student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbednar <sbednar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 05:34:14 by sbecker           #+#    #+#             */
 /*   Updated: 2019/07/15 11:54:08 by sbecker          ###   ########.fr       */

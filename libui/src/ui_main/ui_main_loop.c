@@ -44,11 +44,6 @@ static int	ui_main_loop_raycast(void *d)
 	return (0);
 }
 
-/*void	ui_main_custom_events(t_ui_main *m)
-{
-
-}*/
-
 void		ui_main_loop(t_ui_main *m)
 {
 	SDL_Thread	*thread;
@@ -64,6 +59,5 @@ void		ui_main_loop(t_ui_main *m)
 	{
 		if (SDL_PollEvent(m->sdl_event))
 			ui_main_handle_event(m);
-//		ui_main_custom_events(m);
 	}
 }

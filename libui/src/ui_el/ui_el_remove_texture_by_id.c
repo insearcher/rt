@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ui_el_remove_texture_by_id.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbednar  <sbednar @student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbednar <sbednar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/23 05:38:20 by sbednar           #+#    #+#             */
 /*   Updated: 2019/07/15 01:17:03 by sbednar          ###   ########.fr       */

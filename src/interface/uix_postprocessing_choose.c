@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   uix_posprocessing_choose.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbednar  <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sbednar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 17:28:21 by sbednar           #+#    #+#             */
 /*   Updated: 2019/09/26 17:28:23 by sbednar          ###   ########.fr       */

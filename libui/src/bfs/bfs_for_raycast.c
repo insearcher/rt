@@ -26,7 +26,8 @@ static void	*bfs(t_ui_main *m, const t_list *root, t_pred_ptr p)
 	{
 		tmp = q_pop(&q);
 		cur_el = (t_ui_el *)tmp;
-		if (!(cur_el->params & EL_IGNOR_RAYCAST) && !(cur_el->params & EL_IS_HIDDEN))
+		if (!(cur_el->params & EL_IGNOR_RAYCAST)
+			&& !(cur_el->params & EL_IS_HIDDEN))
 		{
 			q_push(&q, CAST_X_TO_Y(tmp, t_ui_el *)->children);
 			if (p && p(m, tmp))

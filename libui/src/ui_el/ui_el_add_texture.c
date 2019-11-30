@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ui_el_add_texture.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbednar  <sbednar @student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbednar <sbednar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 04:27:11 by sbednar           #+#    #+#             */
 /*   Updated: 2019/07/15 07:28:58 by sbecker          ###   ########.fr       */

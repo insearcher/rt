@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ui_jtoc_el_from_json.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbednar  <sbednar @student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbednar <sbednar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/12 06:43:29 by sbecker           #+#    #+#             */
 /*   Updated: 2019/07/15 08:06:06 by sbednar          ###   ########.fr       */

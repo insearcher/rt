@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ui_el_event_switch_radio.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbednar  <sbednar @student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbednar <sbednar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/12 07:50:40 by sbecker           #+#    #+#             */
 /*   Updated: 2019/07/15 04:01:35 by sbednar          ###   ########.fr       */

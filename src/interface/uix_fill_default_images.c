@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   uix_fill_default_images.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbednar  <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sbednar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 21:34:58 by sbednar           #+#    #+#             */
 /*   Updated: 2019/09/29 21:35:00 by sbednar          ###   ########.fr       */

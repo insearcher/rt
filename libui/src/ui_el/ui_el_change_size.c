@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ui_el_change_size.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbednar  <sbednar @student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbednar <sbednar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 22:01:02 by sbecker           #+#    #+#             */
 /*   Updated: 2019/06/05 16:42:03 by sbednar          ###   ########.fr       */

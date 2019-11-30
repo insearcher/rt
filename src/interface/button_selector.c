@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   button_selector.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbednar  <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sbednar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 14:15:06 by sbednar           #+#    #+#             */
 /*   Updated: 2019/09/26 14:15:43 by sbednar          ###   ########.fr       */

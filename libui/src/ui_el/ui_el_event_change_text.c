@@ -99,13 +99,13 @@ int			ui_el_event_change_text(t_ui_main *m, void *a)
 	if (m->cur_keycode >= SDL_SCANCODE_A && m->cur_keycode <= SDL_SCANCODE_Z)
 		join_with_letter(el, m->cur_keycode, m->is_upper);
 	else if (m->cur_keycode >= SDL_SCANCODE_1
-			 && m->cur_keycode <= SDL_SCANCODE_9)
+		&& m->cur_keycode <= SDL_SCANCODE_9)
 		join_with_number(el, m->cur_keycode);
 	else if (m->cur_keycode == SDL_SCANCODE_BACKSPACE)
 		circumcision(el);
 	else if (m->cur_keycode == 55 || m->cur_keycode == 56 ||
-			 m->cur_keycode == SDL_SCANCODE_0 ||
-			 m->cur_keycode == SDL_SCANCODE_SPACE || m->cur_keycode == 45)
+		m->cur_keycode == SDL_SCANCODE_0 ||
+		m->cur_keycode == SDL_SCANCODE_SPACE || m->cur_keycode == 45)
 		join_with_other(el, m->cur_keycode);
 	return (1);
 }

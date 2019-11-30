@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   rt_uix_update_inspector.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbednar  <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sbednar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/05 15:28:07 by sbednar           #+#    #+#             */
 /*   Updated: 2019/10/05 15:28:10 by sbednar          ###   ########.fr       */
