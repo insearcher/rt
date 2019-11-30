@@ -167,9 +167,6 @@ int					vec_clear(t_vec *v);
 int					vec_insert(t_vec *v, void *d, size_t i);
 int					vec_push_back(t_vec *v, void *d);
 
-
-
 int					vec_remove_at(t_vec *v, size_t i);
-
 
 #endif
