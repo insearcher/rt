@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rt_sdf.c                                           :+:      :+:    :+:   */
+/*   rt_sdf2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sbecker <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,27 +12,36 @@
 
 #include "rt_raycast.h"
 
-cl_float3	f3abs(cl_float3 v)
+float		f3len(cl_float3 v)
 {
-	return (cl_float3){{fabs(v.x), fabs(v.y), fabs(v.z)}};
+	return (sqrt(v.x * v.x + v.y * v.y + v.z * v.z));
 }
 
-cl_float3	f3max(cl_float3 v1, cl_float3 v2)
+cl_float3	f3cross(cl_float3 v1, cl_float3 v2)
 {
-	return (cl_float3){{fmax(v1.x, v2.x), fmax(v1.y, v2.y), fmax(v1.z, v2.z)}};
+	return ((cl_float3){{v1.z * v2.y
+		- v1.y * v2.z, v1.x * v2.z - v1.z * v2.x, v1.x * v2.y - v1.y * v2.x}});
 }
 
-float		f2dot(cl_float2 v1, cl_float2 v2)
+cl_float2	f2norm(cl_float2 v)
 {
-	return (v1.x * v2.x + v1.y * v2.y);
+	float	n;
+
+	n = f2len(v);
+	return ((cl_float2){{v.x / n, v.y / n}});
 }
 
-float		f3dot(cl_float3 v1, cl_float3 v2)
+cl_float3	f3norm(cl_float3 v)
 {
-	return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z);
+	float	len;
+
+	len = f3len(v);
+	if (len > RM_FLT_EPSILON)
+		v.v4 /= f3len(v);
+	return (v);
 }
 
-float		f2len(cl_float2 v)
+float		sdf_sphere(cl_float3 pos, float radius)
 {
-	return (sqrt(v.x * v.x + v.y * v.y));
+	return (f3len(pos) - radius);
 }

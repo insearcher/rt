@@ -1,6 +1,14 @@
-//
-// Created by Slaughterfish Becker on 2019-09-15.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rt_jtoc_get_lights.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sbednar <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/09/26 14:15:06 by sbednar           #+#    #+#             */
+/*   Updated: 2019/09/26 14:15:43 by sbednar          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "rt.h"
 #include "rt_jtoc.h"
@@ -20,7 +28,8 @@ int		check_lights_and_get_lights_count(unsigned int *lights_num, t_jnode *n)
 	return (FUNCTION_SUCCESS);
 }
 
-int		rt_jtoc_check_and_get_id_for_light(t_scene *scene, t_jnode *n, t_light *light)
+int		rt_jtoc_check_and_get_id_for_light(t_scene *scene,
+		t_jnode *n, t_light *light)
 {
 	t_jnode		*tmp;
 	cl_uint		id;

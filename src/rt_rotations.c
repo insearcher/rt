@@ -14,10 +14,13 @@
 
 void	fill_rotation_matrix(float *m, cl_float3 v, float a)
 {
-	float rads = a / 180 * 3.1416;
-	float c = cosf(rads);
-	float s = sinf(rads);
+	float	rads;
+	float	c;
+	float	s;
 
+	rads = a / 180 * 3.1416;
+	c = cosf(rads);
+	s = sinf(rads);
 	m[0] = c + v.x * v.x * (1 - c);
 	m[1] = v.x * v.y * (1 - c) - v.z * s;
 	m[2] = v.x * v.z * (1 - c) + v.y * s;
@@ -31,8 +34,9 @@ void	fill_rotation_matrix(float *m, cl_float3 v, float a)
 
 void	mult(float *m, cl_float3 *v)
 {
-	cl_float3 temp = *v;
+	cl_float3	temp;
 
+	temp = *v;
 	temp.x = m[0] * v->x + m[1] * v->y + m[2] * v->z;
 	temp.y = m[3] * v->x + m[4] * v->y + m[5] * v->z;
 	temp.z = m[6] * v->x + m[7] * v->y + m[8] * v->z;

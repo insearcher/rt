@@ -22,15 +22,15 @@ static void	add_change_text_events(t_ui_el *el)
 							ui_el_event_change_text);
 }
 
-int			ui_el_set_text(t_ui_el *el, TTF_Font *font, t_text_params tp)
+int			ui_el_set_text(t_ui_el *el, TTF_Font *font, t_text_params text_params)
 {
 	el->text_area = (t_ui_text *)ft_memalloc(sizeof(t_ui_text));
 	el->text_area->font = font;
-	el->text_area->string_len = tp.string_len;
-	el->text_area->text_color = tp.text_color;
-	el->text_area->render_param = tp.render_param;
-	el->text_area->params = tp.params;
-	el->text_area->bg_color = tp.bg_color;
+	el->text_area->string_len = text_params.string_len;
+	el->text_area->text_color = text_params.text_color;
+	el->text_area->render_param = text_params.render_param;
+	el->text_area->params = text_params.params;
+	el->text_area->bg_color = text_params.bg_color;
 	el->params |= EL_IS_TEXT;
 	add_change_text_events(el);
 	ui_el_update_text(el, "");

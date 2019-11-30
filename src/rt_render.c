@@ -44,11 +44,11 @@ int		rt_render(t_ui_main *ui, void *el_v)
 	SDL_LockTexture(el->sdl_textures->content, NULL, &pixels, &pitch);
 	if (rt->pp)
 		clEnqueueReadBuffer(*rt->cl->queue,
-							rt->pp->size % 2 ? rt->gpu_mem->cl_aux : rt->gpu_mem->cl_image,
-							CL_TRUE, 0, el->rect.h * pitch, pixels, 0, NULL, NULL);
+			rt->pp->size % 2 ? rt->gpu_mem->cl_aux : rt->gpu_mem->cl_image,
+			CL_TRUE, 0, el->rect.h * pitch, pixels, 0, NULL, NULL);
 	else
 		clEnqueueReadBuffer(*rt->cl->queue, rt->gpu_mem->cl_image, CL_TRUE, 0,
-							el->rect.h * pitch, pixels, 0, NULL, NULL);
+		el->rect.h * pitch, pixels, 0, NULL, NULL);
 	SDL_UnlockTexture(el->sdl_textures->content);
 	SDL_RenderCopy(el->sdl_renderer, el->sdl_textures->content, NULL, NULL);
 
@@ -90,8 +90,8 @@ int		rt_render_update(t_ui_main *ui, void *el_v)
 	SDL_LockTexture(el->sdl_textures->content, NULL, &pixels, &pitch);
 	if (rt->pp)
 		clEnqueueReadBuffer(*rt->cl->queue,
-			rt->pp->size % 2 ? rt->gpu_mem->cl_aux : rt->gpu_mem->cl_image,
-			CL_TRUE, 0, el->rect.h * pitch, pixels, 0, NULL, NULL);
+		rt->pp->size % 2 ? rt->gpu_mem->cl_aux : rt->gpu_mem->cl_image,
+		CL_TRUE, 0, el->rect.h * pitch, pixels, 0, NULL, NULL);
 	else
 		clEnqueueReadBuffer(*rt->cl->queue, rt->gpu_mem->cl_image, CL_TRUE, 0,
 		el->rect.h * pitch, pixels, 0, NULL, NULL);

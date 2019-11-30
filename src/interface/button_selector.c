@@ -14,13 +14,13 @@
 
 int		rt_uix_on_button_enter(t_ui_main *main, void *el_v)
 {
-    t_ui_el	*el;
+	t_ui_el	*el;
 
 	(void)main;
-    el = (t_ui_el *)el_v;
-    if (el->current_texture != (size_t)ft_strhash(SELECTED_BUT_STATE))
-    	ui_el_set_current_texture_by_id(el, HIGHLIGHTED_BUT_STATE);
-    return (1);
+	el = (t_ui_el *)el_v;
+	if (el->current_texture != (size_t)ft_strhash(SELECTED_BUT_STATE))
+		ui_el_set_current_texture_by_id(el, HIGHLIGHTED_BUT_STATE);
+	return (1);
 }
 
 int		rt_uix_on_button_exit(t_ui_main *main, void *el_v)

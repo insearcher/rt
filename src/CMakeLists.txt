@@ -8,6 +8,8 @@ target_sources(rt PUBLIC
         rt_render_processing.c
         rt_post_processing.c
         rt_sdf.c
+        rt_sdf2.c
+        rt_sdf3.c
         rt_system.c
         rt_input_system.c
         rt_physics_system.c

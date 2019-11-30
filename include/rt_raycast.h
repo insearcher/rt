@@ -40,6 +40,13 @@ float							sdf_plane(cl_float3 pos, cl_float3 n, float d);
 float							sdf_torus(cl_float3 pos, cl_float radius,
 		cl_float inner_radius);
 
+cl_float2						f2norm(cl_float2 v);
+cl_float3						f3abs(cl_float3 v);
+cl_float3						f3max(cl_float3 v1, cl_float3 v2);
+float							f2dot(cl_float2 v1, cl_float2 v2);
+float							f3dot(cl_float3 v1, cl_float3 v2);
+float							f2len(cl_float2 v);
+
 int								rt_raycast(t_ui_main *ui, void *a);
 
 #endif

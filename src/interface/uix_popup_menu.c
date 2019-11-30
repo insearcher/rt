@@ -15,7 +15,7 @@
 static int	rt_uix_hide_local_menu(t_ui_el *el)
 {
 	t_list	*tmp;
-	Uint32 	p_id;
+	Uint32	p_id;
 
 	tmp = el->children;
 	p_id = el->id;
@@ -48,7 +48,7 @@ int			rt_uix_show_menu(t_ui_main *main, void *el_v)
 {
 	t_ui_el	*el;
 	t_list	*tmp;
-	Uint32 	p_id;
+	Uint32	p_id;
 
 	(void)main;
 	el = (t_ui_el *)el_v;

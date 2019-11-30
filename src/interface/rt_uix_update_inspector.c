@@ -15,7 +15,7 @@
 static void	update_transform_pos(t_object *obj, t_ui_win *win)
 {
 	t_ui_el	*tmp;
-	char 	*new_val;
+	char	*new_val;
 
 	new_val = malloc(8);
 	tmp = ui_win_find_el_by_id(win, 42120);
@@ -34,9 +34,10 @@ void		rt_uix_update_inspector_values(t_ui_main *m)
 {
 	t_object	*obj;
 	t_ui_win	*win;
+	t_ui_el		*el;
 
 	win = ui_main_find_window_by_id(m, 1);
-	t_ui_el *el = ui_win_find_el_by_id(win, INSPECTOR_EL_ID);
+	el = ui_win_find_el_by_id(win, INSPECTOR_EL_ID);
 	obj = (t_object *)(el->data);
 	if (!obj)
 		return ;

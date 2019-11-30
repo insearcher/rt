@@ -20,7 +20,7 @@ static void	setup_el_data(t_ui_main *ui)
 	ui_win_find_el_by_id(uix_w, 20)->data = (void *)ACTIVE_MENU;
 }
 
-void	rt_uix_interface_setup(t_ui_main *ui, const char *json_path)
+void		rt_uix_interface_setup(t_ui_main *ui, const char *json_path)
 {
 	ui_main_fill_default_functions(ui);
 	rt_uix_fill_default_images(ui);
@@ -30,7 +30,7 @@ void	rt_uix_interface_setup(t_ui_main *ui, const char *json_path)
 	setup_el_data(ui);
 }
 
-void	rt_uix_scene_setup(t_ui_main *ui)
+void		rt_uix_scene_setup(t_ui_main *ui)
 {
 	t_ui_el	*obj_menu;
 
