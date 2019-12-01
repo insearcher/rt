@@ -6,7 +6,7 @@
 #    By: sbednar <sbednar@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/12/01 16:53:16 by sbednar           #+#    #+#              #
-#    Updated: 2019/12/01 17:09:09 by sbednar          ###   ########.fr        #
+#    Updated: 2019/12/01 18:33:24 by sbednar          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,6 +76,7 @@ SRC_JTOC		=	rt_jtoc_get_camera.c \
 					rt_jtoc_get_textures.c \
 					rt_jtoc_get_transform.c \
 					rt_jtoc_scene_setup.c \
+					rt_jtoc_scene_setup2.c \
 					rt_jtoc_utilits.c \
 					rt_jtoc_utilits2.c \
 					rt_jtoc_get_box.c \

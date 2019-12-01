@@ -85,8 +85,7 @@ typedef struct			s_rt_main
 	t_cl				*cl;
 	t_vec				*pp;
 	t_scene				*scene;
-	size_t				systems_count;
-	void				**systems;
+	t_vec				*systems;
 	t_s_gpu_mem			*gpu_mem;
 	int					params;
 	cl_int2				screen_size;
@@ -113,6 +112,9 @@ void					get_textures(t_rt_main *rt,
 		char **texture_file, int number_of_texture);
 void					find_textures_size(t_rt_main *rt,
 		char **texture_file, int number_of_texture);
+
+int						rt_jtoc_get_scene(const char *path, t_scene *scene,
+		t_obj_texture *texture);
 
 # endif
 

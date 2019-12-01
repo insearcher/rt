@@ -11,6 +11,7 @@ target_sources(rt PUBLIC
         rt_jtoc_get_textures.c
         rt_jtoc_get_transform.c
         rt_jtoc_scene_setup.c
+        rt_jtoc_scene_setup2.c
         rt_jtoc_utilits.c
         rt_jtoc_utilits2.c
         rt_jtoc_get_box.c

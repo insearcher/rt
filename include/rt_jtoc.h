@@ -6,7 +6,7 @@
 /*   By: sbecker <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 05:13:21 by sbecker           #+#    #+#             */
-/*   Updated: 2019/12/01 15:26:18 by sbednar          ###   ########.fr       */
+/*   Updated: 2019/12/01 17:47:01 by sbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,7 @@ int				rt_jtoc_get_object_texture(t_object *obj,
 int 			gpl_helper(t_jnode	*t, t_scene *scene, t_light *light);
 int				gdl_helper(t_jnode	*t, t_scene *scene, t_light	*light);
 
+int				rt_jtoc_get_objects_operation(t_scene *scene, t_jnode *n);
+int				rt_jtoc_get_oper_id(t_jnode *n, t_object *obj, t_vec **objects,
+		int id);
 #endif

@@ -6,7 +6,7 @@
 /*   By: sbecker <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 05:13:21 by sbecker           #+#    #+#             */
-/*   Updated: 2019/12/01 15:10:48 by sbednar          ###   ########.fr       */
+/*   Updated: 2019/12/01 20:01:32 by sbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,10 @@ int			rt_jtoc_get_link(t_object *obj, t_jnode *n)
 	return (FUNCTION_SUCCESS);
 }
 
-int 		rt_jtoc_get_octahedron(t_object *obj, t_jnode *n)
+int			rt_jtoc_get_octahedron(t_object *obj, t_jnode *n)
 {
 	t_jnode *tmp;
+
 	if (!(tmp = jtoc_node_get_by_path(n, "bounds")) || tmp->type != fractional)
 		return (rt_jtoc_sdl_log_error("BOUNDS ERROR OR MISSING", -1));
 	obj->params.octahedron.bounds = jtoc_get_float(tmp);
@@ -71,8 +72,7 @@ int			rt_jtoc_get_mandelbox(t_object *obj, t_jnode *n)
 
 	if (!(t = jtoc_node_get_by_path(n, "scale")) || t->type != fractional)
 		return (rt_jtoc_sdl_log_error("POWER SCALE ERROR", -1));
-	obj->params.mandelbox.scale = jtoc_get_float(t);
-	if (obj->params.mandelbox.scale <= 0)
+	if ((obj->params.mandelbox.scale = jtoc_get_float(t)) <= 0)
 		return (rt_jtoc_sdl_log_error("SCALE ERROR", -1));
 	if (!(t = jtoc_node_get_by_path(n, "fixedradius")) || t->type != fractional)
 		return (rt_jtoc_sdl_log_error("FIXEDRADUIS TYPE ERROR", -1));
