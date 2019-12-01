@@ -6,7 +6,7 @@
 #    By: edraugr- <edraugr-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/07 16:14:32 by sbednar           #+#    #+#              #
-#    Updated: 2019/07/15 13:16:18 by sbecker          ###   ########.fr        #
+#    Updated: 2019/12/01 17:21:10 by sbednar          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -77,7 +77,8 @@ SRC_UI_EL		=	ui_el_add_child.c \
 					ui_el_event_close_window.c \
 					ui_el_event_show_window.c \
 					ui_el_event_drag.c \
-					ui_el_remove_texture_by_id.c
+					ui_el_remove_texture_by_id.c \
+					ui_el_event_change_text.c
 
 SRC_UI_DRAW		=	ui_draw.c \
 					ui_draw_windows.c \
@@ -129,7 +130,6 @@ SRC_UI_MAIN		=	ui_main_run_program.c \
 					ui_main_add_surface_by_path.c \
 					ui_main_get_font_by_id.c \
 					ui_main_get_surface_by_id.c \
-					ui_main_fill_default_surfaces.c \
 					ui_main_fill_default_fonts.c \
 					ui_main_set_font_params.c \
 					ui_main_add_function_by_id.c \
@@ -145,7 +145,8 @@ SRC_UI_MAIN		=	ui_main_run_program.c \
 					ui_main_event_scroll_up.c \
 					ui_main_event_scroll_down.c \
 					ui_main_event_pointer_moved.c \
-					ui_main_event_close_window.c
+					ui_main_event_close_window.c \
+					ui_main_fill_default_functions.c
 
 SRC_UI_SDL		=	ui_sdl_deinit.c \
 					ui_sdl_init.c \
@@ -163,8 +164,7 @@ SRC_UI_WIN		=	ui_win_init.c \
 					ui_win_find_el_by_id.c \
 					ui_win_destroy.c \
 					ui_win_event_update_size.c \
-					ui_win_event_focus.c \
-					ui_win_event_change_text_in_focused_el.c
+					ui_win_event_focus.c
 
 SRC_UI_RAYCAST	=	ui_raycast.c
 

@@ -19,7 +19,7 @@
 #  ifdef APPLE___
 #   include <OpenCL/opencl.h>
 #  else
-#   include <opencl.h>
+#   include <OpenCL/opencl.h>
 #  endif
 #  include <SDL.h>
 #  include "libft.h"

@@ -19,7 +19,7 @@ OBJ_DIR		=	./obj
 INC_DIR		=	./include
 
 FT_DIR		=	../libft
-FT_INC_DIR	=	../libft/includes
+FT_INC_DIR	=	../libft/include
 
 SRC			=	cl_create_program.c	\
 				cl_init.c			\

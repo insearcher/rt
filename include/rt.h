@@ -6,10 +6,10 @@
 # define INPUT_SYSTEM_INDEX	0
 
 # ifndef OPENCL___
-# include "libjtoc.h"
-# include "rt_camera.h"
-# include "libcl.h"
-# include "rt_utilities.h"
+#  include "libjtoc.h"
+#  include "rt_camera.h"
+#  include "libcl.h"
+#  include "rt_utilities.h"
 # endif
 
 # include "rt_numerics.h"
@@ -19,9 +19,9 @@
 # include "rt_raycast_hit.h"
 # include "transform.h"
 
-#define RT_PATH_TRACE	(1 << 0)
-#define RT_PHONG		(1 << 1)
-#define RT_REPETITION	(1 << 2)
+# define RT_PATH_TRACE	(1 << 0)
+# define RT_PHONG		(1 << 1)
+# define RT_REPETITION	(1 << 2)
 
 typedef struct			s_scene
 {
