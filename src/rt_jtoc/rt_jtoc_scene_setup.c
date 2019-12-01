@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rt_jtoc_scene_setup.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sbecker <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/10 05:13:21 by sbecker           #+#    #+#             */
+/*   Updated: 2019/07/03 20:16:18 by sbecker          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "rt.h"
 #include "rt_jtoc.h"
 
@@ -148,7 +160,7 @@ static int	rt_jtoc_get_scene(const char *path, t_scene *scene, t_obj_texture *te
 	return (FUNCTION_SUCCESS);
 }
 
-int rt_jtoc_scene_setup(t_rt_main *rt, const char *json)
+int 		rt_jtoc_scene_setup(t_rt_main *rt, const char *json)
 {
 	int		i;
 	t_scene	*scene;

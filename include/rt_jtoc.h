@@ -29,7 +29,7 @@ int				rt_jtoc_ispos_float4(cl_float4 *vec);
 int				rt_jtoc_sdl_log_error(const char *p, const int id);
 int				rt_jtoc_get_camera(t_camera *camera, t_jnode *n);
 int				rt_jtoc_get_transform(t_transform *transform, t_jnode *n);
-int				rt_jtoc_get_objects_num_in_arr(unsigned int *objects_num,
+int				rt_jtoc_get_objects_num_in_arr(unsigned int *on,
 		t_jnode *n);
 int				rt_jtoc_get_lights(t_scene *scene, t_jnode *n);
 int				rt_jtoc_get_objects(t_scene *scene, t_jnode *n,

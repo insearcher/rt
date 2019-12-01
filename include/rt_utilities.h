@@ -25,5 +25,6 @@
 # endif
 
 void	rotate_transform_around_axis(t_transform *t, cl_float3 a, float d);
+int		rt_jtoc_sdl_log_error(const char *p, const int id);
 
 #endif

@@ -434,7 +434,7 @@ int							ui_el_load_surface_from(t_ui_el *el,
 		const char *path);
 
 int							ui_el_set_text(t_ui_el *el, TTF_Font *font,
-		t_text_params params);
+		t_text_params tp);
 int							ui_el_update_text(t_ui_el *el, const char *text);
 
 void						ui_el_setup_default_draggable(t_ui_el *el);

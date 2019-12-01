@@ -35,8 +35,8 @@ static int	rt_jtoc_get_clipping_planes(t_clipping *clipping_planes, t_jnode *n)
 
 int			rt_jtoc_get_camera(t_camera *camera, t_jnode *n)
 {
-	t_jnode		*tmp;
-	int			i;
+	t_jnode	*tmp;
+	int		i;
 
 	ft_bzero(camera, sizeof(t_camera));
 	if (!(tmp = jtoc_node_get_by_path(n, "fov")) || tmp->type != fractional)
