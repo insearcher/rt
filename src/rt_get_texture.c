@@ -15,7 +15,8 @@ static int				sdl_log_error(const char *p, const int id)
 	return (FUNCTION_FAILURE);
 }
 
-void	find_textures_size(t_rt_main *rt, char **texture_file, int number_of_texture)
+void					find_textures_size(t_rt_main *rt,
+		char **texture_file, int number_of_texture)
 {
 	unsigned char	*tex_data;
 	int 			bpp;
@@ -40,37 +41,38 @@ void	find_textures_size(t_rt_main *rt, char **texture_file, int number_of_textur
 	}
 }
 
-void		get_textures(t_rt_main *rt, char **texture_file, int number_of_texture)
+static void				helper(int i)
+{
+	sdl_log_error("TEXTURE ERROR OR TEXTURE PATH NOT FOUND", i);
+	exit(-1);
+}
+
+void					get_textures(t_rt_main *rt,
+		char **texture_file, int number_of_texture)
 {
 	unsigned char	*tex_data;
-	int 			x;
-	int 			y;
-	int 			total_texture_size;
+	cl_int2 		xy;
+	int 			tts;
 	int 			i;
 
 	i = -1;
-	total_texture_size = 0;
+	tts = 0;
 	rt->texture->prev_texture_size[0] = 0;
 	while (++i < number_of_texture)
 	{
 		if (!(tex_data = stbi_load(texture_file[i], &rt->texture->w,
-								   &rt->texture->h, &rt->texture->bpp, 4)))
+			&rt->texture->h, &rt->texture->bpp, 4)))
+			helper(i);
+		xy.y = -1;
+		while (++xy.y < rt->texture->h)
 		{
-			sdl_log_error("TEXTURE ERROR OR TEXTURE PATH NOT FOUND", i);
-			exit(-1);
+			xy.x = -1;
+			while (++xy.x < rt->texture->w)
+				rt->texture->texture[(xy.x + (xy.y * rt->texture->w)) + tts] =
+						*((int *) tex_data + xy.x + xy.y * rt->texture->w);
 		}
-		y = -1;
-		while (++y < rt->texture->h)
-		{
-			x = -1;
-			while (++x < rt->texture->w)
-			{
-				rt->texture->texture[(x + (y * rt->texture->w)) + total_texture_size] =
-						*((int *) tex_data + x + y * rt->texture->w);
-			}
-		}
-		rt->texture->prev_texture_size[i] = total_texture_size;
-		total_texture_size += rt->texture->w * (rt->texture->h - 1);
+		rt->texture->prev_texture_size[i] = tts;
+		tts += rt->texture->w * (rt->texture->h - 1);
 		free(tex_data);
 	}
 }

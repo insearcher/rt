@@ -18,6 +18,8 @@ target_sources(rt PUBLIC
         rt_get_texture.c
         rt_find_by_id.c
         rt_utilities.c
+        move_active.c
+        rotate_active.c
         )
 
 add_subdirectory(rt_jtoc)

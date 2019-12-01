@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rt_find_by_id.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sbednar <sbednar@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/12/01 18:36:10 by sbednar           #+#    #+#             */
+/*   Updated: 2019/12/01 18:36:10 by sbednar          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "rt.h"
 
 t_transform	*rt_find_transform_by_id(t_scene *scene, cl_uint id)
@@ -24,7 +36,7 @@ t_transform	*rt_find_transform_by_id(t_scene *scene, cl_uint id)
 	return (NULL);
 }
 
-int		rt_find_object_by_id_in_array(t_vec *objects, cl_uint id)
+int			rt_find_object_by_id_in_array(t_vec *objects, cl_uint id)
 {
 	t_object	*res;
 	cl_uint		i;

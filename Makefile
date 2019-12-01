@@ -52,7 +52,9 @@ SRC				=	main.c \
 					rt_setup.c \
 					rt_get_texture.c \
 					rt_find_by_id.c \
-					rt_utilities.c
+					rt_utilities.c \
+					move_active.c \
+					rotate_active.c
 
 SRC_INTERFACE	=	uix_function_list.c \
 					button_selector.c \
