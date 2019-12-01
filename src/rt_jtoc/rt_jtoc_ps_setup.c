@@ -6,7 +6,7 @@
 /*   By: sbecker <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 05:13:21 by sbecker           #+#    #+#             */
-/*   Updated: 2019/07/03 20:16:18 by sbecker          ###   ########.fr       */
+/*   Updated: 2019/12/01 19:58:00 by sbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,28 @@
 
 static int	rt_jtoc_get_move_params(t_move_params *p, t_jnode *n)
 {
-	t_jnode		*tmp;
+	t_jnode		*t;
 
-	if (!(tmp = jtoc_node_get_by_path(n, "vel")) || tmp->type != object)
+	if (!(t = jtoc_node_get_by_path(n, "vel")) || t->type != object)
 		return (rt_jtoc_sdl_log_error("VEL MISSING OR TYPE ERROR", -1));
-	if (rt_jtoc_get_float3(&p->vel, tmp))
+	if (rt_jtoc_get_float3(&p->vel, t))
 		return (rt_jtoc_sdl_log_error("VEL ERROR", -1));
-	if (!(tmp = jtoc_node_get_by_path(n, "raw_vel")) || tmp->type != object)
+	if (!(t = jtoc_node_get_by_path(n, "raw_vel")) || t->type != object)
 		return (rt_jtoc_sdl_log_error("RAW_VEL MISSING OR TYPE ERROR", -1));
-	if (rt_jtoc_get_float3(&p->raw_vel, tmp))
+	if (rt_jtoc_get_float3(&p->raw_vel, t))
 		return (rt_jtoc_sdl_log_error("RAW_VEL ERROR", -1));
-	if (!(tmp = jtoc_node_get_by_path(n, "acc")) || tmp->type != fractional)
+	if (!(t = jtoc_node_get_by_path(n, "acc")) || t->type != fractional)
 		return (rt_jtoc_sdl_log_error("ACC MISSING OR TYPE ERROR", -1));
-	p->acc = jtoc_get_float(tmp);
-	if (p->acc < 0)
+	if ((p->acc = jtoc_get_float(t)) < 0)
 		return (rt_jtoc_sdl_log_error("ACC ERROR", -1));
-	if (!(tmp = jtoc_node_get_by_path(n, "speed")) || tmp->type != fractional)
+	if (!(t = jtoc_node_get_by_path(n, "speed")) || t->type != fractional)
 		return (rt_jtoc_sdl_log_error("SPEED MISSING OR TYPE ERROR", -1));
-	p->speed = jtoc_get_float(tmp);
+	p->speed = jtoc_get_float(t);
 	if (p->speed < 0)
 		return (rt_jtoc_sdl_log_error("SPEED ERROR", -1));
-	if (!(tmp = jtoc_node_get_by_path(n, "speed_mult")) || tmp->type != fractional)
+	if (!(t = jtoc_node_get_by_path(n, "speed_mult")) || t->type != fractional)
 		return (rt_jtoc_sdl_log_error("SPEED_MULT MISSING OR TYPE ERROR", -1));
-	p->speed_mult = jtoc_get_float(tmp);
+	p->speed_mult = jtoc_get_float(t);
 	if (p->speed_mult < 0)
 		return (rt_jtoc_sdl_log_error("SPED MULT ERROR", -1));
 	return (FUNCTION_SUCCESS);
@@ -83,7 +82,8 @@ static int	rt_jtoc_get_rbs(t_scene *scene, t_physics_system *ps, t_jnode *n)
 	return (FUNCTION_SUCCESS);
 }
 
-int			rt_jtoc_ps_setup(t_scene *scene, t_physics_system *ps, const char *path)
+int			rt_jtoc_ps_setup(t_scene *scene,
+		t_physics_system *ps, const char *path)
 {
 	t_jnode	*n;
 	int		res;

@@ -113,6 +113,9 @@ void					get_textures(t_rt_main *rt,
 void					find_textures_size(t_rt_main *rt,
 		char **texture_file, int number_of_texture);
 
+int						rt_jtoc_get_scene(const char *path, t_scene *scene,
+		t_obj_texture *texture);
+
 # endif
 
 #endif
