@@ -25,4 +25,5 @@ target_sources(rt PUBLIC
         rt_jtoc_get_object_layer.c
         rt_jtoc_get_object_type.c
         rt_jtoc_get_object_texture.c
+        rt_jtoc_get_lights_helper.c
         )

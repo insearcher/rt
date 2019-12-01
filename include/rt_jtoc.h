@@ -55,5 +55,7 @@ int				rt_jtoc_get_object_layer(t_object *obj, t_jnode *n);
 int				rt_jtoc_get_object_type(t_object *obj, t_jnode *n);
 int				rt_jtoc_get_object_texture(t_object *obj,
 		t_obj_texture *texture, t_jnode *n);
+int 			gpl_helper(t_jnode	*t, t_scene *scene, t_light *light);
+int				gdl_helper(t_jnode	*t, t_scene *scene, t_light	*light);
 
 #endif

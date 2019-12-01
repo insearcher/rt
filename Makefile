@@ -89,7 +89,8 @@ SRC_JTOC		=	rt_jtoc_get_camera.c \
 					rt_jtoc_get_object_name.c \
 					rt_jtoc_get_object_layer.c \
 					rt_jtoc_get_object_type.c \
-					rt_jtoc_get_object_texture.c
+					rt_jtoc_get_object_texture.c \
+					rt_jtoc_get_lights_helper.c
 
 OBJ				=	$(addprefix $(OBJ_DIR)/,$(SRC:.c=.o)) \
 					$(addprefix $(OBJ_DIR)/,$(SRC_INTERFACE:.c=.o)) \
