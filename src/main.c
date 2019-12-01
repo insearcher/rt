@@ -51,7 +51,6 @@ static void			setup_systems(t_rt_main *rt, t_ui_main *ui)
 	is->active = vec_at(&ps->rbs, 0);
 	system_setup(&is->system, "input", is_func, 3);
 	system_start(&is->system);
-
 	rt->systems_count = 2;
 	rt->systems = ft_memalloc(sizeof(t_system *) * rt->systems_count);
 	rt->systems[0] = &(is->system);

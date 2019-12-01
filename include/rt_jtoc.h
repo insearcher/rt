@@ -6,7 +6,7 @@
 /*   By: sbecker <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 05:13:21 by sbecker           #+#    #+#             */
-/*   Updated: 2019/07/03 20:16:18 by sbecker          ###   ########.fr       */
+/*   Updated: 2019/12/01 15:26:18 by sbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,13 @@ int				rt_jtoc_get_mandelbulb(t_object *obj, t_jnode *n);
 int				rt_jtoc_get_mandelbox(t_object *obj, t_jnode *n);
 int				rt_jtoc_get_menger_sponge(t_object *obj, t_jnode *n);
 int				rt_jtoc_is01_float3(cl_float3 *vec);
+
+int				rt_jtoc_get_object(t_object *obj, t_jnode *n, t_scene *s,
+		t_obj_texture *t);
+int				rt_jtoc_get_object_name(t_object *obj, t_jnode *n);
+int				rt_jtoc_get_object_layer(t_object *obj, t_jnode *n);
+int				rt_jtoc_get_object_type(t_object *obj, t_jnode *n);
+int 			rt_jtoc_get_object_texture(t_object *obj,
+		t_obj_texture *texture, t_jnode *n);
 
 #endif

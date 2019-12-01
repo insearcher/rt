@@ -82,34 +82,34 @@ static int	gdl(t_scene *scene, t_jnode *n)
 static int	gpl(t_scene *scene, t_jnode *n)
 {
 	t_light	light;
-	t_jnode	*tmp;
-	t_jnode	*tmp2;
+	t_jnode	*t;
+	t_jnode	*p;
 
 	if (n == NULL)
 		return (FUNCTION_SUCCESS);
-	tmp = n->down;
-	while (tmp)
+	t = n->down;
+	while (t)
 	{
-		if (tmp->type != object)
+		if (t->type != object)
 			return (rt_jtoc_sdl_log_error("TYPE ERROR", -1));
 		ft_bzero(&light, sizeof(t_light));
 		light.type = point;
-		if (!(tmp2 = jtoc_node_get_by_path(tmp, "color")) || tmp2->type != object)
-			return (rt_jtoc_sdl_log_error("COLOR TYPE ERROR OR COLOR IS MISSING", -1));
-		if (rt_jtoc_get_float3(&light.params.point.color, tmp2) ||
+		if (!(p = jtoc_node_get_by_path(t, "color")) || p->type != object)
+			return (rt_jtoc_sdl_log_error("COLOR ERROR", -1));
+		if (rt_jtoc_get_float3(&light.params.point.color, p) ||
 			rt_jtoc_is01_float3(&light.params.point.color))
 			return (rt_jtoc_sdl_log_error("COLOR ERROR", -1));
-		if (rt_jtoc_get_transform(&light.transform, tmp))
+		if (rt_jtoc_get_transform(&light.transform, t))
 			return (rt_jtoc_sdl_log_error("TRANSFORM ERROR", -1));
-		if (!(tmp2 = jtoc_node_get_by_path(tmp, "distance")) || tmp2->type != fractional)
-			return (rt_jtoc_sdl_log_error("DISTANCE TYPE ERROR OR DISTANCE IS MISSING", -1));
-		light.params.point.distance = jtoc_get_float(tmp2);
+		if (!(p = jtoc_node_get_by_path(t, "distance")) || p->type != fractional)
+			return (rt_jtoc_sdl_log_error("DISTANCE ERROR", -1));
+		light.params.point.distance = jtoc_get_float(p);
 		if (light.params.point.distance <= 0)
 			return (rt_jtoc_sdl_log_error("DISTANCE ERROR", -1));
-		if (cagi(scene, tmp, &light))
+		if (cagi(scene, t, &light))
 			return (rt_jtoc_sdl_log_error("ID ERROR", -1));
 		vec_push_back(scene->lights, &light);
-		tmp = tmp->right;
+		t = t->right;
 	}
 	return (FUNCTION_SUCCESS);
 }

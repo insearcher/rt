@@ -15,9 +15,12 @@
 static void	setup_el_data(t_ui_main *ui)
 {
 	t_ui_win	*uix_w;
+	t_ui_el		*el;
 
 	uix_w = ui_main_find_window_by_id(ui, 1);
-	ui_win_find_el_by_id(uix_w, 20)->data = (void *)ACTIVE_MENU;
+	el = ui_win_find_el_by_id(uix_w, 20);
+	if (el)
+		el->data = (void *)ACTIVE_MENU;
 }
 
 void		rt_uix_interface_setup(t_ui_main *ui, const char *json_path)
