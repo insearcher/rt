@@ -53,7 +53,7 @@ int				rt_jtoc_get_object(t_object *obj, t_jnode *n, t_scene *s,
 int				rt_jtoc_get_object_name(t_object *obj, t_jnode *n);
 int				rt_jtoc_get_object_layer(t_object *obj, t_jnode *n);
 int				rt_jtoc_get_object_type(t_object *obj, t_jnode *n);
-int 			rt_jtoc_get_object_texture(t_object *obj,
+int				rt_jtoc_get_object_texture(t_object *obj,
 		t_obj_texture *texture, t_jnode *n);
 
 #endif
