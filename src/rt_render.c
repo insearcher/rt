@@ -6,7 +6,7 @@
 /*   By: sbecker <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 17:50:06 by sbecker           #+#    #+#             */
-/*   Updated: 2019/12/01 18:50:10 by sbednar          ###   ########.fr       */
+/*   Updated: 2019/12/01 19:02:30 by sbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ int			rt_render(t_ui_main *ui, void *el_v)
 	rt = ui->data;
 	if (!(rt->scene->params & RT_PATH_TRACE))
 		;
-	else if (!((t_physics_system *)rt->systems[1])->change_indicator && sf)
+	else if (!((t_physics_system *)vec_at(rt->systems,
+			1))->change_indicator && sf)
 		path_trace_count++;
 	else
 		path_trace_count = 1;
@@ -68,7 +69,8 @@ int			rt_render_update(t_ui_main *ui, void *el_v)
 	rt = ui->data;
 	if (!(rt->scene->params & RT_PATH_TRACE))
 		;
-	else if (!((t_physics_system *)rt->systems[1])->change_indicator && sf)
+	else if (!((t_physics_system *)vec_at(rt->systems,
+			1))->change_indicator && sf)
 		path_trace_count++;
 	else
 		path_trace_count = 1;

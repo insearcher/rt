@@ -85,8 +85,7 @@ typedef struct			s_rt_main
 	t_cl				*cl;
 	t_vec				*pp;
 	t_scene				*scene;
-	size_t				systems_count;
-	void				**systems;
+	t_vec				*systems;
 	t_s_gpu_mem			*gpu_mem;
 	int					params;
 	cl_int2				screen_size;
